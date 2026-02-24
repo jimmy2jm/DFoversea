@@ -1,0 +1,235 @@
+{
+  "common": {
+    "appName": "Delta Force 工具站",
+    "loading": "加载中...",
+    "viewMore": "查看更多",
+    "more": "更多",
+    "copy": "复制",
+    "close": "关闭",
+    "all": "全部",
+    "view": "view",
+    "cancel": "取消",
+    "confirm": "确定",
+    "share": "分享"
+  },
+  "share": {
+    "wechat": "微信",
+    "moments": "朋友圈",
+    "copyLink": "复制链接",
+    "more": "更多",
+    "posterTitle": "分享日报",
+    "dailyReport": "日报",
+    "posterPlaceholder": "海报内容生成中...",
+    "saveImage": "保存图片"
+  },
+  "nav": {
+    "home": "首页",
+    "tools": "工具",
+    "wiki": "Wiki",
+    "profile": "我的"
+  },
+  "login": {
+    "autoCreateHint": "新邮箱将自动创建账号",
+    "emailPlaceholder": "邮箱地址",
+    "verificationPlaceholder": "验证码",
+    "getCode": "获取验证码",
+    "registerLogin": "注册 / 登录",
+    "passwordLogin": "密码登录",
+    "signInWith": "其他登录方式",
+    "logoutConfirm": "确定要退出登录吗？"
+  },
+  "gameMode": {
+    "fenghuo": "烽火地带",
+    "zhanchang": "全面战场",
+    "fenghuoDaily": "烽火日报",
+    "zhanchangDaily": "战场日报",
+    "subscribedDaily": "已订阅日报"
+  },
+  "home": {
+    "todayPassword": "今日密码",
+    "yesterdayEarnings": "昨日收益",
+    "openGameViewMore": "打开游戏查看更多",
+    "recentData": "近日数据",
+    "history": "HISTORY",
+    "frequentOperator": "常用干员",
+    "highlightMatch": "高光对局",
+    "highlights": "HIGHLIGHTS"
+  },
+  "stats": {
+    "killCount": "击杀数",
+    "winRate": "胜率",
+    "avgScore": "场均得分",
+    "matchCount": "对局数",
+    "totalValue": "带出总价值",
+    "extractionRate": "撤离率",
+    "defeatedOperator": "击败干员",
+    "profitLossRatio": "赚损比",
+    "winCount": "胜场数",
+    "killsPerMin": "分均击杀",
+    "unit": {
+      "times": "次",
+      "percent": "%",
+      "points": "分",
+      "matches": "场"
+    }
+  },
+  "maps": {
+    "dam": "零号大坝",
+    "valley": "长弓溪谷",
+    "bakshi": "巴克什",
+    "space": "航天基地",
+    "prison": "潮汐监狱",
+    "secret": "机密",
+    "aftershock": "余震-攻防"
+  },
+  "match": {
+    "extractionSuccess": "撤离成功",
+    "extractionFailed": "撤离失败",
+    "victory": "胜利",
+    "defeat": "失败"
+  },
+  "gunBuilds": {
+    "title": "改枪推荐",
+    "budgetBuild": "性价比",
+    "premiumBuild": "满改",
+    "recommendedBuild": "推荐改装方案",
+    "shortRange": "中近距离",
+    "longRange": "长距离",
+    "midLongRange": "中远距离",
+    "fullHipfire": "满腰射",
+    "highAccuracy": "高精准",
+    "highStability": "高稳定",
+    "pvpOptimized": "PVP优化"
+  },
+  "craft": {
+    "title": "特勤处制造",
+    "craftRecommendTitle": "特勤处制造推荐",
+    "craftDetail": "制作详情",
+    "craftRecommend": "制作推荐",
+    "techCenter": "技术中心",
+    "workbench": "工作台",
+    "medBench": "制药台",
+    "armorBench": "防具台",
+    "idle": "空闲中",
+    "perHour": "/h",
+    "departmentDetail": "部门详情",
+    "priceTrend": "售价走势",
+    "craftCost": "制造成本",
+    "last24Hours": "近24小时"
+  },
+  "collection": {
+    "title": "大红藏馆",
+    "redRecord": "出红记录",
+    "generatePoster": "生成海报",
+    "allSeasons": "所有赛季",
+    "seasonNum": "S{{num}}赛季",
+    "overview": "大红藏馆总览",
+    "totalTypes": "大红总数",
+    "totalCount": "大红数量",
+    "totalValue": "大红累计价值",
+    "weeklyCount": "本周收集数量",
+    "categories": {
+      "all": "全部",
+      "electronic": "电子物品",
+      "tools": "工具材料",
+      "crafts": "工艺藏品"
+    }
+  },
+  "items": {
+    "powerBattery": "动力电池组",
+    "nutritionPorridge": "营养粥罐头",
+    "pirateGoldCoin": "亮闪闪的海盗金币",
+    "ramModule": "内存条",
+    "claudiusBust": "克劳迪乌斯半身像",
+    "respirator": "呼吸机",
+    "goldenGazelle": "黄金瞪羚",
+    "spinosaurusClaw": "棘龙爪化石",
+    "oliviaChampagne": "奥莉薇娅香槟",
+    "olightFlashlight": "OLIGHT手电",
+    "drumMag": "PMAG D-60弹鼓",
+    "militaryFirstAid": "军用急救包",
+    "level6Plate": "6级防弹插板",
+    "darChestRig": "DAR突击手胸挂"
+  },
+  "profile": {
+    "currentRank": "当前段位",
+    "peakRank": "最高段位",
+    "server": "微信区",
+    "statsData": "战绩数据",
+    "collectionRanking": "典藏外观周榜"
+  },
+  "ranks": {
+    "gold": "黄金"
+  },
+  "tabs": {
+    "recentMatches": "最近战绩",
+    "collection": "大红藏馆"
+  },
+  "battle": {
+    "netProfit": "净收益",
+    "profit": "收益",
+    "kills": "击杀"
+  },
+  "guide": {
+    "guideRecommend": "攻略推荐",
+    "versionOverview": "版本速览",
+    "newWeapon": "新武器",
+    "newOperator": "新干员",
+    "newSeason": "新赛季",
+    "newMap": "新地图",
+    "operatorGuide": "干员攻略",
+    "seasonUpdate": "赛季更新",
+    "mapInfo": "地图爆料",
+    "newOperatorInfo": "新干员爆料",
+    "newSeasonOverview": "新赛季更新速览",
+    "newMapInfo": "新地图爆料",
+    "newOperatorDesc": "支援兵种，具备出色的医学专业素养与极强的责任意识。",
+    "newSeasonDesc": "全面快速了解新赛季玩法",
+    "newMapDesc": "全面战场新地图「余震」高楼倾覆 地动山摇",
+    "tacticsGuide": "战术指南",
+    "newOperatorFile": "新干员档案：代号蝶",
+    "beginnerTutorial": "新手教学",
+    "expertGuide": "大神攻略",
+    "operatorTips": "干员技巧",
+    "itemEncyclopedia": "道具百科"
+  },
+  "wiki": {
+    "usefulEncyclopedia": "实用百科",
+    "weapon": "武器",
+    "armor": "装备",
+    "item": "道具",
+    "accessory": "配件",
+    "quartermaster": "军需处",
+    "specialOps": "特勤处",
+    "weaponEN": "WEAPON",
+    "armorEN": "ARMOR",
+    "itemEN": "ITEM",
+    "accessoryEN": "ACCESSORIES",
+    "quartermasterEN": "QUARTERMASTER",
+    "specialOpsEN": "SPECIAL OPS"
+  },
+  "market": {
+    "marketPrice": "交易物价",
+    "allCategories": "全部分类",
+    "guns": "枪械",
+    "armor": "装备",
+    "parts": "配件",
+    "collectibles": "收集品",
+    "medical": "医疗品",
+    "ammo": "弹药",
+    "itemName": "物品名称",
+    "value": "价值",
+    "priceChange": "涨跌幅",
+    "searchPlaceholder": "搜索物品名称..."
+  },
+  "passwordGuide": {
+    "title": "密码房指引",
+    "todayPassword": "今日密码",
+    "step": "步骤",
+    "stepGuide": "步骤{{num}} 位置示意图"
+  },
+  "operators": {
+    "weilong": "威龙",
+    "haizhua": "骇爪"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "content": "📊 **烽火周报** - 本周战绩已出炉！",
+  "embeds": [
+    {
+      "title": "🏆 第5周 烽火战报",
+      "description": "**干员**: DeltaOperator_2024\n**战区**: 亚太服务器\n**统计周期**: 01月20日 - 01月26日",
+      "color": 2450411,
+      "author": {
+        "name": "三角洲行动 | 烽火模式周报",
+        "icon_url": "https://example.com/delta-force-icon.png"
+      },
+      "fields": [
+        {
+          "name": "💰 本周总收益",
+          "value": "```diff\n+ ₽ 847,230\n```",
+          "inline": false
+        },
+        {
+          "name": "💀 击杀干员",
+          "value": "```yaml\n53 人\n```",
+          "inline": true
+        },
+        {
+          "name": "🚁 撤离率",
+          "value": "```yaml\n72% (21/29)\n```",
+          "inline": true
+        },
+        {
+          "name": "🎮 战局数",
+          "value": "```yaml\n29 场\n```",
+          "inline": true
+        },
+        {
+          "name": "📦 本周高价值带出 TOP5",
+          "value": "🔴 步战车模型 × 3\n🔴 金条 × 8\n🔴 行动支援箱 × 2\n🟡 燃料电池 × 12\n🟡 军用芯片 × 7",
+          "inline": false
+        },
+        {
+          "name": "📈 周环比数据",
+          "value": "```diff\n+ 收益: +12.3% (↑₽92,840)\n+ 撤离率: +5% (67%→72%)\n+ 击杀: +8人\n- 阵亡: +2次\n```",
+          "inline": false
+        },
+        {
+          "name": "🗺️ 地图收益分布",
+          "value": "```yaml\n零号大坝: ₽312,400 (37%)\n长弓溪谷: ₽245,600 (29%)\n巴克什:   ₽178,230 (21%)\n航天基地: ₽111,000 (13%)\n```",
+          "inline": true
+        },
+        {
+          "name": "⏱️ 游戏时长",
+          "value": "```yaml\n本周总时长: 14h 32m\n场均时长: 30分钟\n最长单局: 48分钟\n```",
+          "inline": true
+        }
+      ],
+      "footer": {
+        "text": "数据统计周期 01月20日-26日 • 三角洲行动周报系统",
+        "icon_url": "https://example.com/delta-stats-icon.png"
+      },
+      "timestamp": "2025-01-27T00:00:00.000Z"
+    }
+  ],
+  "attachments": []
+}

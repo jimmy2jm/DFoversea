@@ -1,0 +1,47 @@
+{
+  "content": "🔥 **烽火日报** - 昨日战绩速览",
+  "embeds": [
+    {
+      "title": "📅 01月29日 烽火战报",
+      "description": "**干员**: DeltaOperator_2024\n**战区**: 亚太服务器",
+      "color": 16744448,
+      "author": {
+        "name": "三角洲行动 | 烽火模式日报",
+        "icon_url": "https://example.com/delta-force-icon.png"
+      },
+      "fields": [
+        {
+          "name": "💰 昨日总收益",
+          "value": "```diff\n+ ₽ 94,599\n```",
+          "inline": false
+        },
+        {
+          "name": "💀 击杀干员",
+          "value": "```yaml\n7 人\n```",
+          "inline": true
+        },
+        {
+          "name": "🚁 撤离率",
+          "value": "```yaml\n75% (3/4)\n```",
+          "inline": true
+        },
+        {
+          "name": "🎮 战局数",
+          "value": "```yaml\n4 场\n```",
+          "inline": true
+        },
+        {
+          "name": "📦 高价值带出",
+          "value": "🔴 步战车模型 × 1\n🔴 金条 × 2\n🟡 燃料电池 × 3\n🟣 显卡 × 1\n🔵 军用电池 × 4",
+          "inline": false
+        }
+      ],
+      "footer": {
+        "text": "数据统计截止 01月29日 23:59 • 三角洲行动日报系统",
+        "icon_url": "https://example.com/delta-stats-icon.png"
+      },
+      "timestamp": "2025-01-30T00:00:00.000Z"
+    }
+  ],
+  "attachments": []
+}

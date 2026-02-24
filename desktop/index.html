@@ -1,0 +1,1698 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta Force - Home</title>
+    <link rel="stylesheet" href="main.css?v=44">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <script src="i18n.js" defer></script>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="logo">
+                <span class="logo-icon">△</span>
+                <span class="logo-text">DELTA FORCE</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active" data-i18n="nav.home">Home</a>
+                <!-- V1.0 隐藏以下导航 -->
+                <!-- <a href="gun-builds.html" class="nav-link">改枪推荐</a> -->
+                <a href="my-data.html" class="nav-link" data-i18n="nav.myData">我的数据</a>
+                <!-- <a href="collection.html" class="nav-link">大红藏馆</a> -->
+                <!-- <a href="craft.html" class="nav-link">交易制造</a> -->
+                <!-- <a href="guide.html" class="nav-link">实用攻略</a> -->
+                <!-- <a href="map-tools.html" class="nav-link">地图工具</a> -->
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="user-icon"></div>
+            <span class="user-nickname">Grimlock#8888</span>
+            <button class="logout-btn" data-i18n="common.logOut">log out</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Hero Section: Yesterday Report -->
+        <section class="hero-report">
+            <div class="report-header">
+                <div class="report-tabs">
+                    <div class="report-tabs-inner">
+                        <button class="tab-btn active" data-tab="fenguo" data-i18n="gameMode.fenghuoDaily">烽火日报</button>
+                        <button class="tab-btn" data-tab="zhanchang" data-i18n="gameMode.zhanchangDaily">战场日报</button>
+                    </div>
+                </div>
+                <button class="report-share-btn" id="daily-share-btn">
+                    <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                        <polyline points="16,6 12,2 8,6"/>
+                        <line x1="12" y1="2" x2="12" y2="15"/>
+                    </svg>
+                    <span data-i18n="common.share">分享</span>
+                </button>
+            </div>
+
+            <!-- 烽火日报 Content -->
+            <div class="report-content" id="fenguo-content">
+                <!-- Top Row: Stats + High Value Items -->
+                <div class="report-top-row">
+                    <!-- Left: Core Stats -->
+                    <div class="sub-card stats-card">
+                        <div class="sub-card-header">
+                            <span class="sub-card-title" data-i18n="home.recentStatus">近日战况</span>
+                            <span class="header-date">2026/01/29</span>
+                            <span class="view-link" onclick="window.location.href='my-data.html?mode=fenghuo'" data-i18n="home.viewMoreStats">查看更多战绩 ></span>
+                        </div>
+                        <div class="stats-compact">
+                            <div class="primary-stat">
+                                <span class="stat-label" data-i18n="stats.earnings">收益</span>
+                                <span class="stat-value highlight">13,141,314</span>
+                                <span class="stat-unit">HC</span>
+                            </div>
+                            <div class="secondary-stats-compact">
+                                <div class="stat-item">
+                                    <span class="stat-number">33</span>
+                                    <span class="stat-name" data-i18n="stats.operatorKills">击杀干员数</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">27%</span>
+                                    <span class="stat-name" data-i18n="stats.extractionRate">撤离率</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">20</span>
+                                    <span class="stat-name" data-i18n="stats.matches">场数</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">2.1</span>
+                                    <span class="stat-name" data-i18n="stats.kd">K/D</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: High Value Items -->
+                    <div class="sub-card items-card">
+                        <div class="sub-card-header">
+                            <span class="sub-card-title"><span data-i18n="home.highValueItems">🎁 近日高价值物品</span></span>
+                        </div>
+                        <div class="items-grid-compact">
+                            <div class="item-card">
+                                <div class="item-image red-tier"></div>
+                                <span class="item-name" data-i18n="items.powerBattery">动力电池组</span>
+                            </div>
+                            <div class="item-card">
+                                <div class="item-image red-tier"></div>
+                                <span class="item-name" data-i18n="items.goldBar">金块</span>
+                            </div>
+                            <div class="item-card">
+                                <div class="item-image red-tier"></div>
+                                <span class="item-name" data-i18n="items.encryptedUSB">加密U盘</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Daily Codes (Horizontal) -->
+                <div class="codes-bar">
+                    <span class="codes-bar-title"><span data-i18n="home.dailyPassword">🔐 每日密码</span></span>
+                    <div class="codes-inline">
+                        <div class="code-inline-item">
+                            <span class="code-map" data-i18n="maps.dam">零号大坝</span>
+                            <span class="code-value">2119</span>
+                        </div>
+                        <span class="code-divider">|</span>
+                        <div class="code-inline-item">
+                            <span class="code-map" data-i18n="maps.valley">长弓溪谷</span>
+                            <span class="code-value">0750</span>
+                        </div>
+                        <span class="code-divider">|</span>
+                        <div class="code-inline-item">
+                            <span class="code-map" data-i18n="maps.bakshi">巴克什</span>
+                            <span class="code-value">1605</span>
+                        </div>
+                        <span class="code-divider">|</span>
+                        <div class="code-inline-item">
+                            <span class="code-map" data-i18n="maps.space">航天基地</span>
+                            <span class="code-value">6009</span>
+                        </div>
+                        <span class="code-divider">|</span>
+                        <div class="code-inline-item">
+                            <span class="code-map" data-i18n="maps.prison">潮汐监狱</span>
+                            <span class="code-value">1029</span>
+                        </div>
+                    </div>
+                    <button class="password-guide-btn" id="password-guide-btn" data-i18n="home.passwordGuide">密码房指引</button>
+                </div>
+            </div>
+
+            <!-- 密码房指引弹窗 -->
+            <div class="password-guide-modal" id="password-guide-modal">
+                <div class="password-guide-overlay" id="password-guide-overlay"></div>
+                <div class="password-guide-content">
+                    <div class="password-guide-header">
+                        <span class="password-guide-title">🔐 密码房指引</span>
+                        <button class="password-guide-close" id="password-guide-close">×</button>
+                    </div>
+                    
+                    <!-- Tab 导航栏 -->
+                    <div class="guide-tabs-nav">
+                        <button class="guide-tab-btn active" data-tab="daba">
+                            <span class="tab-icon">🏔️</span>
+                            <span class="tab-name">零号大坝</span>
+                            <span class="tab-code">2119</span>
+                        </button>
+                        <button class="guide-tab-btn" data-tab="xigu">
+                            <span class="tab-icon">🌲</span>
+                            <span class="tab-name">长弓溪谷</span>
+                            <span class="tab-code">0750</span>
+                        </button>
+                        <button class="guide-tab-btn" data-tab="bakeshi">
+                            <span class="tab-icon">🏜️</span>
+                            <span class="tab-name">巴克什</span>
+                            <span class="tab-code">1605</span>
+                        </button>
+                        <button class="guide-tab-btn" data-tab="hangtian">
+                            <span class="tab-icon">🚀</span>
+                            <span class="tab-name">航天基地</span>
+                            <span class="tab-code">6009</span>
+                        </button>
+                        <button class="guide-tab-btn" data-tab="jianyu">
+                            <span class="tab-icon">⛓️</span>
+                            <span class="tab-name">潮汐监狱</span>
+                            <span class="tab-code">1029</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Tab 内容区域 -->
+                    <div class="password-guide-body">
+                        <!-- 地图1 - 零号大坝 -->
+                        <div class="guide-tab-content active" id="tab-daba">
+                            <div class="guide-map-detail">
+                                <div class="guide-map-title-bar">
+                                    <span class="guide-map-name-large">🏔️ 零号大坝</span>
+                                    <span class="guide-map-code-large">今日密码: <strong>2119</strong></span>
+                                </div>
+                                <!-- 图片轮播区域 -->
+                                <div class="guide-carousel">
+                                    <button class="carousel-btn carousel-prev" data-carousel="daba">‹</button>
+                                    <div class="carousel-container" id="carousel-daba">
+                                        <div class="carousel-slides">
+                                            <div class="carousel-slide active">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤1 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">1</span>
+                                                    <span class="step-text">步骤1指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤2 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">2</span>
+                                                    <span class="step-text">步骤2指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤3 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">3</span>
+                                                    <span class="step-text">步骤3指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤4 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">4</span>
+                                                    <span class="step-text">步骤4指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤5 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">5</span>
+                                                    <span class="step-text">步骤5指引文本占位</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="carousel-btn carousel-next" data-carousel="daba">›</button>
+                                </div>
+                                <!-- 轮播指示器 -->
+                                <div class="carousel-indicators" data-carousel="daba">
+                                    <span class="indicator active" data-index="0"></span>
+                                    <span class="indicator" data-index="1"></span>
+                                    <span class="indicator" data-index="2"></span>
+                                    <span class="indicator" data-index="3"></span>
+                                    <span class="indicator" data-index="4"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 地图2 - 长弓溪谷 -->
+                        <div class="guide-tab-content" id="tab-xigu">
+                            <div class="guide-map-detail">
+                                <div class="guide-map-title-bar">
+                                    <span class="guide-map-name-large">🌲 长弓溪谷</span>
+                                    <span class="guide-map-code-large">今日密码: <strong>0750</strong></span>
+                                </div>
+                                <!-- 图片轮播区域 -->
+                                <div class="guide-carousel">
+                                    <button class="carousel-btn carousel-prev" data-carousel="xigu">‹</button>
+                                    <div class="carousel-container" id="carousel-xigu">
+                                        <div class="carousel-slides">
+                                            <div class="carousel-slide active">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤1 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">1</span>
+                                                    <span class="step-text">步骤1指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤2 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">2</span>
+                                                    <span class="step-text">步骤2指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤3 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">3</span>
+                                                    <span class="step-text">步骤3指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤4 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">4</span>
+                                                    <span class="step-text">步骤4指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤5 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">5</span>
+                                                    <span class="step-text">步骤5指引文本占位</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="carousel-btn carousel-next" data-carousel="xigu">›</button>
+                                </div>
+                                <!-- 轮播指示器 -->
+                                <div class="carousel-indicators" data-carousel="xigu">
+                                    <span class="indicator active" data-index="0"></span>
+                                    <span class="indicator" data-index="1"></span>
+                                    <span class="indicator" data-index="2"></span>
+                                    <span class="indicator" data-index="3"></span>
+                                    <span class="indicator" data-index="4"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 地图3 - 巴克什 -->
+                        <div class="guide-tab-content" id="tab-bakeshi">
+                            <div class="guide-map-detail">
+                                <div class="guide-map-title-bar">
+                                    <span class="guide-map-name-large">🏜️ 巴克什</span>
+                                    <span class="guide-map-code-large">今日密码: <strong>1605</strong></span>
+                                </div>
+                                <!-- 图片轮播区域 -->
+                                <div class="guide-carousel">
+                                    <button class="carousel-btn carousel-prev" data-carousel="bakeshi">‹</button>
+                                    <div class="carousel-container" id="carousel-bakeshi">
+                                        <div class="carousel-slides">
+                                            <div class="carousel-slide active">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤1 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">1</span>
+                                                    <span class="step-text">步骤1指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤2 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">2</span>
+                                                    <span class="step-text">步骤2指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤3 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">3</span>
+                                                    <span class="step-text">步骤3指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤4 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">4</span>
+                                                    <span class="step-text">步骤4指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤5 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">5</span>
+                                                    <span class="step-text">步骤5指引文本占位</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="carousel-btn carousel-next" data-carousel="bakeshi">›</button>
+                                </div>
+                                <!-- 轮播指示器 -->
+                                <div class="carousel-indicators" data-carousel="bakeshi">
+                                    <span class="indicator active" data-index="0"></span>
+                                    <span class="indicator" data-index="1"></span>
+                                    <span class="indicator" data-index="2"></span>
+                                    <span class="indicator" data-index="3"></span>
+                                    <span class="indicator" data-index="4"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 地图4 - 航天基地 -->
+                        <div class="guide-tab-content" id="tab-hangtian">
+                            <div class="guide-map-detail">
+                                <div class="guide-map-title-bar">
+                                    <span class="guide-map-name-large">🚀 航天基地</span>
+                                    <span class="guide-map-code-large">今日密码: <strong>6009</strong></span>
+                                </div>
+                                <!-- 图片轮播区域 -->
+                                <div class="guide-carousel">
+                                    <button class="carousel-btn carousel-prev" data-carousel="hangtian">‹</button>
+                                    <div class="carousel-container" id="carousel-hangtian">
+                                        <div class="carousel-slides">
+                                            <div class="carousel-slide active">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤1 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">1</span>
+                                                    <span class="step-text">步骤1指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤2 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">2</span>
+                                                    <span class="step-text">步骤2指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤3 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">3</span>
+                                                    <span class="step-text">步骤3指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤4 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">4</span>
+                                                    <span class="step-text">步骤4指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤5 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">5</span>
+                                                    <span class="step-text">步骤5指引文本占位</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="carousel-btn carousel-next" data-carousel="hangtian">›</button>
+                                </div>
+                                <!-- 轮播指示器 -->
+                                <div class="carousel-indicators" data-carousel="hangtian">
+                                    <span class="indicator active" data-index="0"></span>
+                                    <span class="indicator" data-index="1"></span>
+                                    <span class="indicator" data-index="2"></span>
+                                    <span class="indicator" data-index="3"></span>
+                                    <span class="indicator" data-index="4"></span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 地图5 - 潮汐监狱 -->
+                        <div class="guide-tab-content" id="tab-jianyu">
+                            <div class="guide-map-detail">
+                                <div class="guide-map-title-bar">
+                                    <span class="guide-map-name-large">⛓️ 潮汐监狱</span>
+                                    <span class="guide-map-code-large">今日密码: <strong>1029</strong></span>
+                                </div>
+                                <!-- 图片轮播区域 -->
+                                <div class="guide-carousel">
+                                    <button class="carousel-btn carousel-prev" data-carousel="jianyu">‹</button>
+                                    <div class="carousel-container" id="carousel-jianyu">
+                                        <div class="carousel-slides">
+                                            <div class="carousel-slide active">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤1 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">1</span>
+                                                    <span class="step-text">步骤1指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤2 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">2</span>
+                                                    <span class="step-text">步骤2指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤3 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">3</span>
+                                                    <span class="step-text">步骤3指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤4 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">4</span>
+                                                    <span class="step-text">步骤4指引文本占位</span>
+                                                </div>
+                                            </div>
+                                            <div class="carousel-slide">
+                                                <div class="guide-map-image-wide">
+                                                    <div class="map-placeholder-wide">步骤5 位置示意图</div>
+                                                </div>
+                                                <div class="carousel-step-info">
+                                                    <span class="step-number">5</span>
+                                                    <span class="step-text">步骤5指引文本占位</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="carousel-btn carousel-next" data-carousel="jianyu">›</button>
+                                </div>
+                                <!-- 轮播指示器 -->
+                                <div class="carousel-indicators" data-carousel="jianyu">
+                                    <span class="indicator active" data-index="0"></span>
+                                    <span class="indicator" data-index="1"></span>
+                                    <span class="indicator" data-index="2"></span>
+                                    <span class="indicator" data-index="3"></span>
+                                    <span class="indicator" data-index="4"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 战场日报 Content -->
+            <div class="report-content hidden" id="zhanchang-content">
+                <!-- Top Row: Stats + Support -->
+                <div class="report-top-row">
+                    <!-- Left: Core Stats -->
+                    <div class="sub-card stats-card">
+                        <div class="sub-card-header">
+                            <span class="sub-card-title">近日战况</span>
+                            <span class="header-date">2026/01/29</span>
+                            <span class="view-link" onclick="window.location.href='my-data.html?mode=zhanchang'">查看更多战绩 ></span>
+                        </div>
+                        <div class="stats-compact">
+                            <div class="primary-stat">
+                                <span class="stat-label">最高得分</span>
+                                <span class="stat-value highlight">38,888</span>
+                                <span class="stat-unit">分</span>
+                            </div>
+                            <div class="secondary-stats-compact warfare">
+                                <div class="stat-item">
+                                    <span class="stat-number">200</span>
+                                    <span class="stat-name">击杀次数</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">42%</span>
+                                    <span class="stat-name">胜率</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-number">6</span>
+                                    <span class="stat-name">场数</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Support Equipment -->
+                    <div class="sub-card support-card">
+                        <div class="sub-card-header">
+                            <span class="sub-card-title">🎯 阵地支援</span>
+                        </div>
+                        <div class="support-grid">
+                            <div class="support-item">
+                                <div class="support-icon mortar"></div>
+                                <span class="support-count">×1</span>
+                                <span class="support-name">制导导弹</span>
+                            </div>
+                            <div class="support-item">
+                                <div class="support-icon turret"></div>
+                                <span class="support-count">×1</span>
+                                <span class="support-name">信标</span>
+                            </div>
+                            <div class="support-item">
+                                <div class="support-icon drone"></div>
+                                <span class="support-count">×1</span>
+                                <span class="support-name">炮兵齐射</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Vehicles (Horizontal) -->
+                <div class="vehicle-bar">
+                    <span class="vehicle-bar-title">🚁 载具数据</span>
+                    <div class="vehicles-inline">
+                        <div class="vehicle-inline-item">
+                            <div class="vehicle-icon-inline helicopter"></div>
+                            <span class="vehicle-name">侦查直升机</span>
+                            <span class="vehicle-stat">击败 <em>123</em></span>
+                            <span class="vehicle-stat">驾驶 <em>10min</em></span>
+                        </div>
+                        <span class="vehicle-divider">|</span>
+                        <div class="vehicle-inline-item">
+                            <div class="vehicle-icon-inline tank"></div>
+                            <span class="vehicle-name">主战坦克</span>
+                            <span class="vehicle-stat">击败 <em>45</em></span>
+                            <span class="vehicle-stat">驾驶 <em>8min</em></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gun Builds Section -->
+        <section class="gun-builds-section">
+            <div class="section-header">
+                <span class="section-title"><span data-i18n="gunBuilds.title">🔧 改枪码推荐</span></span>
+                <!-- V1.0 隐藏查看更多 -->
+                <!-- <a href="gun-builds.html" class="view-link">查看更多 ></a> -->
+            </div>
+            
+            <!-- 烽火地带改枪推荐 -->
+            <div id="gun-builds-fenguo">
+                <!-- 枪械选择栏 - 烽火 -->
+                <div class="gun-selector" id="gun-selector-fh">
+                    <div class="gun-tab active" data-gun="mp5">
+                        <div class="gun-tab-image"></div>
+                        <span class="gun-tab-name">MP5</span>
+                    </div>
+                    <div class="gun-tab" data-gun="ak74">
+                        <div class="gun-tab-image"></div>
+                        <span class="gun-tab-name">AK-74M</span>
+                    </div>
+                    <div class="gun-tab" data-gun="m4a1">
+                        <div class="gun-tab-image"></div>
+                        <span class="gun-tab-name">M4A1</span>
+                    </div>
+                    <div class="gun-tab" data-gun="scar">
+                        <div class="gun-tab-image"></div>
+                        <span class="gun-tab-name">SCAR-H</span>
+                    </div>
+                    <div class="gun-tab" data-gun="vss">
+                        <div class="gun-tab-image"></div>
+                        <span class="gun-tab-name">VSS</span>
+                    </div>
+                </div>
+                
+                <!-- 改装方案区 - 烽火（两个方案） -->
+                <div class="gun-builds-content" id="gun-builds-content-fh-home">
+                    <!-- 性价比改法 -->
+                    <div class="build-card budget">
+                        <button class="copy-code-btn-float" data-i18n="common.copy">复制</button>
+                        <div class="build-header">
+                            <span class="build-type budget-type">💰 85K <span data-i18n="gunBuilds.budgetBuild">性价比改法</span></span>
+                            <div class="build-tags">
+                                <span class="build-tag" data-i18n="gunBuilds.shortRange">中近距离</span>
+                                <span class="build-tag" data-i18n="gunBuilds.fullHipfire">满腰射</span>
+                            </div>
+                        </div>
+                        <div class="build-gun-image"></div>
+                        <div class="build-details">
+                            <div class="build-radar">
+                                <canvas class="radar-chart" id="radar-budget-home"></canvas>
+                                <div class="radar-labels">
+                                    <span class="radar-label label-top" data-i18n="gunBuilds.recoilControl">后坐力控制</span>
+                                    <span class="radar-label label-right-top" data-i18n="gunBuilds.handlingSpeed">操控速度</span>
+                                    <span class="radar-label label-right-bottom" data-i18n="gunBuilds.rangeAdvantage">射程优势</span>
+                                    <span class="radar-label label-left-bottom" data-i18n="gunBuilds.gunStability">持枪稳定性</span>
+                                    <span class="radar-label label-left-top" data-i18n="gunBuilds.fireRate">射速</span>
+                                </div>
+                            </div>
+                            <div class="build-attachments">
+                                <div class="attachment-icon" title="枪口" data-i18n-attr="title" data-i18n="attachments.muzzle"></div>
+                                <div class="attachment-icon" title="瞄具" data-i18n-attr="title" data-i18n="attachments.optic"></div>
+                                <div class="attachment-icon" title="握把" data-i18n-attr="title" data-i18n="attachments.grip"></div>
+                                <div class="attachment-icon" title="弹匣" data-i18n-attr="title" data-i18n="attachments.magazine"></div>
+                                <div class="attachment-icon" title="枪托" data-i18n-attr="title" data-i18n="attachments.stock"></div>
+                                <div class="attachment-icon" title="护木" data-i18n-attr="title" data-i18n="attachments.handguard"></div>
+                                <div class="attachment-icon" title="激光" data-i18n-attr="title" data-i18n="attachments.laser"></div>
+                                <div class="attachment-icon" title="战术" data-i18n-attr="title" data-i18n="attachments.tactical"></div>
+                            </div>
+                        </div>
+                        <div class="build-footer">
+                            <button class="view-detail-btn" data-i18n="gunBuilds.viewDetail">查看改装详情</button>
+                        </div>
+                    </div>
+                    
+                    <!-- 满改方案 -->
+                    <div class="build-card premium">
+                        <button class="copy-code-btn-float" data-i18n="common.copy">复制</button>
+                        <div class="build-header">
+                            <span class="build-type premium-type">💎 157K <span data-i18n="gunBuilds.premiumBuild">满改方案</span></span>
+                            <div class="build-tags">
+                                <span class="build-tag" data-i18n="gunBuilds.longRange">长距离</span>
+                                <span class="build-tag" data-i18n="gunBuilds.highAccuracy">高精准</span>
+                            </div>
+                        </div>
+                        <div class="build-gun-image"></div>
+                        <div class="build-details">
+                            <div class="build-radar">
+                                <canvas class="radar-chart" id="radar-premium-home"></canvas>
+                                <div class="radar-labels">
+                                    <span class="radar-label label-top" data-i18n="gunBuilds.recoilControl">后坐力控制</span>
+                                    <span class="radar-label label-right-top" data-i18n="gunBuilds.handlingSpeed">操控速度</span>
+                                    <span class="radar-label label-right-bottom" data-i18n="gunBuilds.rangeAdvantage">射程优势</span>
+                                    <span class="radar-label label-left-bottom" data-i18n="gunBuilds.gunStability">持枪稳定性</span>
+                                    <span class="radar-label label-left-top" data-i18n="gunBuilds.fireRate">射速</span>
+                                </div>
+                            </div>
+                            <div class="build-attachments">
+                                <div class="attachment-icon" title="枪口"></div>
+                                <div class="attachment-icon" title="瞄具"></div>
+                                <div class="attachment-icon" title="握把"></div>
+                                <div class="attachment-icon" title="弹匣"></div>
+                                <div class="attachment-icon" title="枪托"></div>
+                                <div class="attachment-icon" title="护木"></div>
+                                <div class="attachment-icon" title="激光"></div>
+                                <div class="attachment-icon" title="战术"></div>
+                            </div>
+                        </div>
+                        <div class="build-footer">
+                            <button class="view-detail-btn" data-i18n="gunBuilds.viewDetail">查看改装详情</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 全面战场改枪推荐（默认隐藏） -->
+            <div id="gun-builds-zhanchang" style="display: none;">
+                <!-- 枪械选择栏 - 战场 -->
+                <div class="gun-selector" id="gun-selector-zc">
+                    <div class="gun-tab active" data-gun="m4a1">
+                        <div class="gun-tab-image"></div>
+                        <span class="gun-tab-name">M4A1</span>
+                    </div>
+                    <div class="gun-tab" data-gun="ak74">
+                        <div class="gun-tab-image"></div>
+                        <span class="gun-tab-name">AK-74M</span>
+                    </div>
+                    <div class="gun-tab" data-gun="hk416">
+                        <div class="gun-tab-image"></div>
+                        <span class="gun-tab-name">HK416</span>
+                    </div>
+                    <div class="gun-tab" data-gun="aug">
+                        <div class="gun-tab-image"></div>
+                        <span class="gun-tab-name">AUG</span>
+                    </div>
+                    <div class="gun-tab" data-gun="svd">
+                        <div class="gun-tab-image"></div>
+                        <span class="gun-tab-name">SVD</span>
+                    </div>
+                </div>
+                
+                <!-- 改装方案区 - 战场（单个方案） -->
+                <div class="gun-builds-content single-build" id="gun-builds-content-zc-home">
+                    <div class="build-card single">
+                        <button class="copy-code-btn-float">复制</button>
+                        <div class="build-header">
+                            <span class="build-type single-type">🎯 推荐改装方案</span>
+                            <div class="build-tags">
+                                <span class="build-tag">中远距离</span>
+                                <span class="build-tag">高稳定</span>
+                                <span class="build-tag">PVP优化</span>
+                            </div>
+                        </div>
+                        <div class="build-gun-image"></div>
+                        <div class="build-details">
+                            <div class="build-radar">
+                                <canvas class="radar-chart" id="radar-single-home"></canvas>
+                                <div class="radar-labels">
+                                    <span class="radar-label label-top">后坐力控制</span>
+                                    <span class="radar-label label-right-top">操控速度</span>
+                                    <span class="radar-label label-right-bottom">射程优势</span>
+                                    <span class="radar-label label-left-bottom">持枪稳定性</span>
+                                    <span class="radar-label label-left-top">射速</span>
+                                </div>
+                            </div>
+                            <div class="build-attachments">
+                                <div class="attachment-icon" title="枪口"></div>
+                                <div class="attachment-icon" title="瞄具"></div>
+                                <div class="attachment-icon" title="握把"></div>
+                                <div class="attachment-icon" title="弹匣"></div>
+                                <div class="attachment-icon" title="枪托"></div>
+                                <div class="attachment-icon" title="护木"></div>
+                                <div class="attachment-icon" title="激光"></div>
+                                <div class="attachment-icon" title="战术"></div>
+                            </div>
+                        </div>
+                        <div class="build-footer">
+                            <button class="view-detail-btn">查看改装详情</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Recent Matches Section (Hidden) -->
+        <section class="matches-section" style="display: none;">
+            <div class="section-header">
+                <span class="section-title">⚔️ 最近战绩</span>
+                <a href="#" class="view-link">查看全部 ></a>
+            </div>
+            <div class="matches-list">
+                <!-- Match Item 1 -->
+                <div class="match-item success">
+                    <div class="match-avatar"></div>
+                    <div class="match-result">
+                        <span class="match-status">撤离成功</span>
+                        <span class="match-id">@13141314</span>
+                    </div>
+                    <div class="match-time">12:22</div>
+                    <div class="match-kills">
+                        <div class="kill-block"></div>
+                        <div class="kill-block"></div>
+                        <div class="kill-block"></div>
+                    </div>
+                    <div class="match-map">
+                        <span class="map-name">零号大坝</span>
+                        <span class="map-mode">普通</span>
+                    </div>
+                    <div class="match-earning positive">+520K</div>
+                </div>
+                <!-- Match Item 2 -->
+                <div class="match-item failed">
+                    <div class="match-avatar"></div>
+                    <div class="match-result">
+                        <span class="match-status">撤离失败</span>
+                        <span class="match-id">@13141314</span>
+                    </div>
+                    <div class="match-time">11:45</div>
+                    <div class="match-kills">
+                        <div class="kill-block"></div>
+                    </div>
+                    <div class="match-map">
+                        <span class="map-name">航天基地</span>
+                        <span class="map-mode">困难</span>
+                    </div>
+                    <div class="match-earning negative">-180K</div>
+                </div>
+                <!-- Match Item 3 -->
+                <div class="match-item success">
+                    <div class="match-avatar"></div>
+                    <div class="match-result">
+                        <span class="match-status">撤离成功</span>
+                        <span class="match-id">@13141314</span>
+                    </div>
+                    <div class="match-time">10:30</div>
+                    <div class="match-kills">
+                        <div class="kill-block"></div>
+                        <div class="kill-block"></div>
+                        <div class="kill-block"></div>
+                        <div class="kill-block"></div>
+                        <div class="kill-block"></div>
+                    </div>
+                    <div class="match-map">
+                        <span class="map-name">烬区</span>
+                        <span class="map-mode">普通</span>
+                    </div>
+                    <div class="match-earning positive">+890K</div>
+                </div>
+                <!-- Match Item 4 -->
+                <div class="match-item success">
+                    <div class="match-avatar"></div>
+                    <div class="match-result">
+                        <span class="match-status">撤离成功</span>
+                        <span class="match-id">@13141314</span>
+                    </div>
+                    <div class="match-time">09:15</div>
+                    <div class="match-kills">
+                        <div class="kill-block"></div>
+                        <div class="kill-block"></div>
+                    </div>
+                    <div class="match-map">
+                        <span class="map-name">长弓溪谷</span>
+                        <span class="map-mode">普通</span>
+                    </div>
+                    <div class="match-earning positive">+350K</div>
+                </div>
+                <!-- Match Item 5 -->
+                <div class="match-item failed">
+                    <div class="match-avatar"></div>
+                    <div class="match-result">
+                        <span class="match-status">撤离失败</span>
+                        <span class="match-id">@13141314</span>
+                    </div>
+                    <div class="match-time">08:50</div>
+                    <div class="match-kills">
+                        <div class="kill-block"></div>
+                        <div class="kill-block"></div>
+                    </div>
+                    <div class="match-map">
+                        <span class="map-name">巴克特</span>
+                        <span class="map-mode">困难</span>
+                    </div>
+                    <div class="match-earning negative">-220K</div>
+                </div>
+            </div>
+            <div class="show-more">
+                <button class="show-more-btn">显示更多 (共 20 场)</button>
+            </div>
+        </section>
+
+        <!-- Bottom Modules - V1.0 两栏横排（特勤处制造 + 大红展馆） -->
+        <section class="bottom-modules bottom-modules-v1">
+            <!-- 交易物价 - V1.0 隐藏 -->
+            <!--
+            <div class="module-card market-price">
+                ... 交易物价模块已在V1.0版本中隐藏 ...
+            </div>
+            -->
+
+            <!-- 特勤处制造 -->
+            <div class="module-card craft">
+                <div class="module-header">
+                    <span class="module-title"><span data-i18n="craft.title">🔨 特勤处制造</span></span>
+                    <span class="header-date">2026/01/30</span>
+                    <!-- V1.0 移除查看更多 -->
+                </div>
+                <!-- 主Tab切换栏：制造详情 / 制造推荐 -->
+                <div class="craft-main-tabs">
+                    <button class="craft-main-tab active" data-main-tab="detail" data-i18n="craft.craftDetail">制造详情</button>
+                    <button class="craft-main-tab" data-main-tab="recommend" data-i18n="craft.craftRecommend">制造推荐</button>
+                </div>
+                
+                <!-- 制造详情内容 -->
+                <div class="craft-main-content" id="craft-detail-content-desktop">
+                    <!-- 上半部分：制造动态（四个工作台） -->
+                    <div class="craft-stations-grid">
+                        <div class="craft-station-item" data-station="tech">
+                            <div class="station-header">
+                                <span class="station-icon">🔧</span>
+                                <span class="station-name" data-i18n="craft.techCenter">技术中心</span>
+                            </div>
+                            <div class="station-preview idle">
+                                <div class="station-preview-icon">◇</div>
+                            </div>
+                            <div class="station-status idle">
+                                <span class="status-text" data-i18n="craft.idle">+ 空闲中</span>
+                                <span class="status-indicator"></span>
+                            </div>
+                        </div>
+                        <div class="craft-station-item" data-station="work">
+                            <div class="station-header">
+                                <span class="station-icon">🔨</span>
+                                <span class="station-name" data-i18n="craft.workbench">工作台</span>
+                            </div>
+                            <div class="station-preview idle">
+                                <div class="station-preview-icon">◇</div>
+                            </div>
+                            <div class="station-status idle">
+                                <span class="status-text" data-i18n="craft.idle">+ 空闲中</span>
+                                <span class="status-indicator"></span>
+                            </div>
+                        </div>
+                        <div class="craft-station-item" data-station="med">
+                            <div class="station-header">
+                                <span class="station-icon">💊</span>
+                                <span class="station-name" data-i18n="craft.medBench">制药台</span>
+                            </div>
+                            <div class="station-preview idle">
+                                <div class="station-preview-icon">◇</div>
+                            </div>
+                            <div class="station-status idle">
+                                <span class="status-text" data-i18n="craft.idle">+ 空闲中</span>
+                                <span class="status-indicator"></span>
+                            </div>
+                        </div>
+                        <div class="craft-station-item working" data-station="armor">
+                            <div class="station-header">
+                                <span class="station-icon">🛡️</span>
+                                <span class="station-name" data-i18n="craft.armorBench">防具台</span>
+                                <span class="station-badge">🎒</span>
+                            </div>
+                            <div class="station-preview working">
+                                <div class="station-preview-image"></div>
+                            </div>
+                            <div class="station-item-name" data-i18n="items.darChestRig">DAR突击手胸挂</div>
+                            <div class="station-status working">
+                                <span class="status-time">02:22:45</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 过渡部分：推荐制作 -->
+                    <div class="craft-recommend-divider">
+                        <span class="divider-text" data-i18n="craft.recommendedCraft">推荐制作 ⬇️</span>
+                    </div>
+                    
+                    <!-- 下半部分：最优制作推荐 -->
+                    <div class="craft-best-recommend">
+                        <div class="best-recommend-grid">
+                            <div class="best-recommend-item" data-station="tech">
+                                <div class="recommend-station-header">
+                                    <span class="recommend-station-icon">🔧</span>
+                                    <span class="recommend-station-name" data-i18n="craft.techCenter">技术中心</span>
+                                </div>
+                                <div class="recommend-item-preview green"></div>
+                                <div class="recommend-item-name" data-i18n="items.olightFlashlight">OLIGHT手电</div>
+                                <div class="recommend-item-profit">
+                                    <span class="profit-icon">💰</span>
+                                    <span class="profit-value">1857/h</span>
+                                </div>
+                            </div>
+                            <div class="best-recommend-item" data-station="work">
+                                <div class="recommend-station-header">
+                                    <span class="recommend-station-icon">🔨</span>
+                                    <span class="recommend-station-name" data-i18n="craft.workbench">工作台</span>
+                                </div>
+                                <div class="recommend-item-preview brown"></div>
+                                <div class="recommend-item-name" data-i18n="items.drumMag">PMAG D-60弹鼓</div>
+                                <div class="recommend-item-profit">
+                                    <span class="profit-icon">💰</span>
+                                    <span class="profit-value">1523/h</span>
+                                </div>
+                            </div>
+                            <div class="best-recommend-item" data-station="med">
+                                <div class="recommend-station-header">
+                                    <span class="recommend-station-icon">💊</span>
+                                    <span class="recommend-station-name" data-i18n="craft.medBench">制药台</span>
+                                </div>
+                                <div class="recommend-item-preview purple"></div>
+                                <div class="recommend-item-name" data-i18n="items.militaryFirstAid">军用急救包</div>
+                                <div class="recommend-item-profit">
+                                    <span class="profit-icon">💰</span>
+                                    <span class="profit-value">1245/h</span>
+                                </div>
+                            </div>
+                            <div class="best-recommend-item" data-station="armor">
+                                <div class="recommend-station-header">
+                                    <span class="recommend-station-icon">🛡️</span>
+                                    <span class="recommend-station-name" data-i18n="craft.armorBench">防具台</span>
+                                </div>
+                                <div class="recommend-item-preview gray"></div>
+                                <div class="recommend-item-name" data-i18n="items.level6Plate">6级防弹插板</div>
+                                <div class="recommend-item-profit">
+                                    <span class="profit-icon">💰</span>
+                                    <span class="profit-value">2234/h</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 制造推荐内容（原有内容） -->
+                <div class="craft-main-content hidden" id="craft-recommend-content-desktop">
+                    <!-- Tab 切换栏 -->
+                    <div class="craft-tabs">
+                        <button class="craft-tab active" data-craft="tech">技术中心</button>
+                        <button class="craft-tab" data-craft="work">工作台</button>
+                        <button class="craft-tab" data-craft="med">制药台</button>
+                        <button class="craft-tab" data-craft="armor">防具台</button>
+                    </div>
+                    <!-- 推荐物品卡片 -->
+                    <div class="craft-items">
+                        <div class="craft-item-card">
+                            <div class="craft-item-image"></div>
+                            <div class="craft-item-name">OLIGHT Baldr Pro R多功能手电</div>
+                            <div class="craft-item-stats">
+                                <span class="craft-stat-label">每小时收益</span>
+                                <span class="craft-stat-value">18,578</span>
+                            </div>
+                            <div class="craft-item-change positive">
+                                <span class="change-label">涨幅</span>
+                                <span class="change-value">+12.6%↑</span>
+                            </div>
+                        </div>
+                        <div class="craft-item-card">
+                            <div class="craft-item-image"></div>
+                            <div class="craft-item-name">灵眼3/7测距狙击瞄准镜</div>
+                            <div class="craft-item-stats">
+                                <span class="craft-stat-label">每小时收益</span>
+                                <span class="craft-stat-value">8,083</span>
+                            </div>
+                            <div class="craft-item-change positive">
+                                <span class="change-label">涨幅</span>
+                                <span class="change-value">+7.0%↑</span>
+                            </div>
+                        </div>
+                        <div class="craft-item-card">
+                            <div class="craft-item-image"></div>
+                            <div class="craft-item-name">DBAL-X2紫色激光镭指</div>
+                            <div class="craft-item-stats">
+                                <span class="craft-stat-label">每小时收益</span>
+                                <span class="craft-stat-value">7,487</span>
+                            </div>
+                            <div class="craft-item-change negative">
+                                <span class="change-label">涨幅</span>
+                                <span class="change-value">-1.9%↓</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 展开按钮 -->
+                    <div class="craft-expand">
+                        <span class="expand-arrow">▼</span>
+                    </div>
+                    <!-- 价格走势图 -->
+                    <div class="craft-chart-section">
+                        <div class="chart-legend">
+                            <div class="legend-items">
+                                <span class="legend-item"><i class="legend-dot price"></i>总售价</span>
+                                <span class="legend-item"><i class="legend-dot profit"></i>总收益</span>
+                                <span class="legend-item"><i class="legend-dot cost"></i>总成本</span>
+                            </div>
+                            <span class="chart-update-time">更新于2026-01-30 11:00</span>
+                        </div>
+                        <div class="craft-chart">
+                            <canvas id="craft-price-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 底部说明文字 -->
+                <div class="craft-footer-tip">
+                    <span class="tip-icon">💡</span>
+                    <span class="tip-text" data-i18n="craft.craftTip">前往游戏内特勤处进行物品制作，可以获取收益或低成本获取物品</span>
+                </div>
+            </div>
+
+            <!-- 大红展馆 -->
+            <div class="module-card collection collection-v1">
+                <div class="module-header">
+                    <span class="module-title"><span data-i18n="collection.title">🏆 大红展馆</span></span>
+                    <div class="module-header-actions">
+                        <button class="collection-action-btn"><span data-i18n="collection.redRecord">📋 出红记录</span></button>
+                        <button class="collection-action-btn"><span data-i18n="collection.generatePoster">🖼️ 生成海报</span></button>
+                    </div>
+                </div>
+                <!-- 固定区域：数据统计 -->
+                <div class="collection-stats">
+                    <div class="collection-stat-item">
+                        <span class="stat-value">5</span>
+                        <span class="stat-label" data-i18n="collection.thisWeekCollected">本周收集</span>
+                    </div>
+                    <div class="collection-stat-item">
+                        <span class="stat-value">67</span>
+                        <span class="stat-label" data-i18n="collection.redTypes">大红种类</span>
+                    </div>
+                    <div class="collection-stat-item">
+                        <span class="stat-value">142</span>
+                        <span class="stat-label" data-i18n="collection.redCount">大红数量</span>
+                    </div>
+                </div>
+                <!-- 固定区域：收藏进度 -->
+                <div class="collection-progress-mini">
+                    <div class="progress-text" data-i18n="collection.collectionProgress">收藏进度</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 67%"></div>
+                    </div>
+                    <div class="progress-count">67/100</div>
+                </div>
+                <!-- 固定区域：最近收集高亮 -->
+                <div class="collection-recent-highlight">
+                    <div class="recent-highlight-image"></div>
+                    <div class="recent-highlight-info">
+                        <span class="recent-highlight-tag"><span data-i18n="collection.recentObtained">🆕 最近获得</span></span>
+                        <span class="recent-highlight-name" data-i18n="items.powerBattery">动力电池组</span>
+                        <span class="recent-highlight-time">2小时前 · 零号大坝</span>
+                    </div>
+                </div>
+                <!-- 滚动区域：大红列表 -->
+                <div class="collection-scroll-wrapper">
+                    <div class="collection-grid-mini">
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">炫彩拉小宅</span>
+                        </div>
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">复苏呼吸机</span>
+                        </div>
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">动力电池组</span>
+                        </div>
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">金块</span>
+                        </div>
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">加密U盘</span>
+                        </div>
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">铱星电话</span>
+                        </div>
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">稀有芯片</span>
+                        </div>
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">黄金密匙</span>
+                        </div>
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">核心模块</span>
+                        </div>
+                        <!-- 更多大红物品 -->
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">量子芯片</span>
+                        </div>
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">钛合金框架</span>
+                        </div>
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">军用处理器</span>
+                        </div>
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">加密硬盘</span>
+                        </div>
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">高能电池</span>
+                        </div>
+                        <div class="collection-item-mini">
+                            <div class="collection-image-mini"></div>
+                            <span class="collection-name-mini">精密仪器</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 生成海报弹窗 -->
+    <div class="poster-modal-overlay" id="poster-modal-overlay">
+        <div class="poster-modal">
+            <div class="poster-modal-header">
+                <span class="poster-modal-title">🖼️ 大红藏馆海报</span>
+                <span class="poster-modal-close" id="poster-modal-close">✕</span>
+            </div>
+            
+            <!-- 海报预览区域 -->
+            <div class="poster-preview-area">
+                <div class="poster-placeholder">
+                    <div class="poster-content">
+                        <div class="poster-header-section">
+                            <div class="poster-logo">△ DELTA FORCE</div>
+                            <div class="poster-title-text">大红藏馆</div>
+                        </div>
+                        <div class="poster-stats-section">
+                            <div class="poster-stat">
+                                <span class="poster-stat-value">67</span>
+                                <span class="poster-stat-label">大红种类</span>
+                            </div>
+                            <div class="poster-stat">
+                                <span class="poster-stat-value">142</span>
+                                <span class="poster-stat-label">大红数量</span>
+                            </div>
+                            <div class="poster-stat">
+                                <span class="poster-stat-value">67%</span>
+                                <span class="poster-stat-label">收藏进度</span>
+                            </div>
+                        </div>
+                        <div class="poster-items-section">
+                            <div class="poster-item-row">
+                                <div class="poster-item-img"></div>
+                                <div class="poster-item-img"></div>
+                                <div class="poster-item-img"></div>
+                                <div class="poster-item-img"></div>
+                            </div>
+                        </div>
+                        <div class="poster-footer-section">
+                            <span class="poster-date">2026/01/30</span>
+                            <span class="poster-watermark">Generated by Delta Force Tracker</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分享按钮区域 -->
+            <div class="poster-share-actions">
+                <button class="poster-share-btn save-btn" id="poster-save-btn">
+                    <span class="share-icon">💾</span>
+                    <span class="share-text">保存图片</span>
+                </button>
+                <button class="poster-share-btn x-btn" id="poster-x-btn">
+                    <span class="share-icon">𝕏</span>
+                    <span class="share-text">分享到 X</span>
+                </button>
+                <button class="poster-share-btn facebook-btn" id="poster-facebook-btn">
+                    <span class="share-icon">f</span>
+                    <span class="share-text">Facebook</span>
+                </button>
+                <button class="poster-share-btn reddit-btn" id="poster-reddit-btn">
+                    <span class="share-icon">🔴</span>
+                    <span class="share-text">Reddit</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 出红记录弹窗 -->
+    <div class="record-modal-overlay" id="record-modal-overlay">
+        <div class="record-modal">
+            <div class="record-modal-header">
+                <span class="record-modal-title">📋 大红解锁记录</span>
+                <span class="record-modal-close" id="record-modal-close">✕</span>
+            </div>
+            
+            <!-- 筛选栏 -->
+            <div class="record-filters">
+                <!-- 藏品名称筛选 -->
+                <div class="record-filter-item">
+                    <div class="filter-dropdown" id="filter-name-dropdown">
+                        <button class="filter-btn" id="filter-name-btn">
+                            <span class="filter-label">藏品名称</span>
+                            <span class="filter-arrow">▼</span>
+                        </button>
+                        <div class="filter-dropdown-menu" id="filter-name-menu">
+                            <div class="filter-option" data-value="">全部藏品</div>
+                            <div class="filter-option" data-value="呼吸机">呼吸机</div>
+                            <div class="filter-option" data-value="棘龙爪化石">棘龙爪化石</div>
+                            <div class="filter-option" data-value="赛伊德的怀表">赛伊德的怀表</div>
+                            <div class="filter-option" data-value="动力电池组">动力电池组</div>
+                            <div class="filter-option" data-value="万足金条">万足金条</div>
+                            <div class="filter-option" data-value="名贵机械表">名贵机械表</div>
+                            <div class="filter-option" data-value="量子芯片">量子芯片</div>
+                            <div class="filter-option" data-value="钛合金框架">钛合金框架</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 价值排序 -->
+                <div class="record-filter-item">
+                    <button class="filter-btn sort-btn" id="filter-value-btn" data-sort="none">
+                        <span class="filter-label">价值</span>
+                        <span class="sort-icon">⇅</span>
+                    </button>
+                </div>
+                
+                <!-- 解锁时间排序 -->
+                <div class="record-filter-item">
+                    <button class="filter-btn sort-btn" id="filter-time-btn" data-sort="none">
+                        <span class="filter-label">解锁时间</span>
+                        <span class="sort-icon">⇅</span>
+                    </button>
+                </div>
+                
+                <!-- 解锁地点筛选 -->
+                <div class="record-filter-item">
+                    <div class="filter-dropdown" id="filter-location-dropdown">
+                        <button class="filter-btn" id="filter-location-btn">
+                            <span class="filter-label">解锁地点</span>
+                            <span class="filter-arrow">▼</span>
+                        </button>
+                        <div class="filter-dropdown-menu" id="filter-location-menu">
+                            <div class="filter-option" data-value="">全部地点</div>
+                            <div class="filter-option" data-value="零号大坝-常规">零号大坝-常规</div>
+                            <div class="filter-option" data-value="零号大坝-机密">零号大坝-机密</div>
+                            <div class="filter-option" data-value="长弓溪谷-常规">长弓溪谷-常规</div>
+                            <div class="filter-option" data-value="长弓溪谷-机密">长弓溪谷-机密</div>
+                            <div class="filter-option" data-value="巴克什-常规">巴克什-常规</div>
+                            <div class="filter-option" data-value="巴克什-机密">巴克什-机密</div>
+                            <div class="filter-option" data-value="航天基地-常规">航天基地-常规</div>
+                            <div class="filter-option" data-value="航天基地-机密">航天基地-机密</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 记录列表 -->
+            <div class="record-list" id="record-list">
+                <!-- 记录项 -->
+                <div class="record-item">
+                    <div class="record-item-image">
+                        <div class="record-image-placeholder">🐱</div>
+                    </div>
+                    <div class="record-item-name">呼吸机</div>
+                    <div class="record-item-value">
+                        <span class="value-icon">💰</span>
+                        <span class="value-num">439,468</span>
+                    </div>
+                    <div class="record-item-time">2025-10-16</div>
+                    <div class="record-item-location">零号大坝-常规</div>
+                </div>
+                <div class="record-item">
+                    <div class="record-item-image">
+                        <div class="record-image-placeholder">🦴</div>
+                    </div>
+                    <div class="record-item-name">棘龙爪化石</div>
+                    <div class="record-item-value">
+                        <span class="value-icon">💰</span>
+                        <span class="value-num">341,618</span>
+                    </div>
+                    <div class="record-item-time">2025-12-16</div>
+                    <div class="record-item-location">零号大坝-常规</div>
+                </div>
+                <div class="record-item">
+                    <div class="record-item-image">
+                        <div class="record-image-placeholder">⌚</div>
+                    </div>
+                    <div class="record-item-name">赛伊德的怀表</div>
+                    <div class="record-item-value">
+                        <span class="value-icon">💰</span>
+                        <span class="value-num">211,760</span>
+                    </div>
+                    <div class="record-item-time">2025-12-16</div>
+                    <div class="record-item-location">零号大坝-机密</div>
+                </div>
+                <div class="record-item">
+                    <div class="record-item-image">
+                        <div class="record-image-placeholder">🔋</div>
+                    </div>
+                    <div class="record-item-name">动力电池组</div>
+                    <div class="record-item-value">
+                        <span class="value-icon">💰</span>
+                        <span class="value-num">3,242,918</span>
+                    </div>
+                    <div class="record-item-time">2025-12-18</div>
+                    <div class="record-item-location">零号大坝-机密</div>
+                </div>
+                <div class="record-item">
+                    <div class="record-item-image">
+                        <div class="record-image-placeholder">🥇</div>
+                    </div>
+                    <div class="record-item-name">万足金条</div>
+                    <div class="record-item-value">
+                        <span class="value-icon">💰</span>
+                        <span class="value-num">326,040</span>
+                    </div>
+                    <div class="record-item-time">2025-12-21</div>
+                    <div class="record-item-location">零号大坝-机密</div>
+                </div>
+                <div class="record-item">
+                    <div class="record-item-image">
+                        <div class="record-image-placeholder">⌚</div>
+                    </div>
+                    <div class="record-item-name">名贵机械表</div>
+                    <div class="record-item-value">
+                        <span class="value-icon">💰</span>
+                        <span class="value-num">207,181</span>
+                    </div>
+                    <div class="record-item-time">2025-12-21</div>
+                    <div class="record-item-location">零号大坝-机密</div>
+                </div>
+                <div class="record-item">
+                    <div class="record-item-image">
+                        <div class="record-image-placeholder">💎</div>
+                    </div>
+                    <div class="record-item-name">量子芯片</div>
+                    <div class="record-item-value">
+                        <span class="value-icon">💰</span>
+                        <span class="value-num">512,300</span>
+                    </div>
+                    <div class="record-item-time">2025-12-25</div>
+                    <div class="record-item-location">长弓溪谷-机密</div>
+                </div>
+                <div class="record-item">
+                    <div class="record-item-image">
+                        <div class="record-image-placeholder">🔩</div>
+                    </div>
+                    <div class="record-item-name">钛合金框架</div>
+                    <div class="record-item-value">
+                        <span class="value-icon">💰</span>
+                        <span class="value-num">189,500</span>
+                    </div>
+                    <div class="record-item-time">2026-01-05</div>
+                    <div class="record-item-location">巴克什-常规</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 日报分享海报弹窗 -->
+    <div class="daily-poster-modal-overlay" id="daily-poster-modal-overlay">
+        <div class="daily-poster-modal">
+            <div class="daily-poster-modal-header">
+                <span class="daily-poster-modal-title">📤 <span data-i18n="share.dailyPosterTitle">分享日报</span></span>
+                <span class="daily-poster-modal-close" id="daily-poster-modal-close">✕</span>
+            </div>
+            
+            <!-- 海报预览区域 -->
+            <div class="daily-poster-preview-area">
+                <div class="daily-poster-placeholder" id="daily-poster-content">
+                    <div class="daily-poster-inner">
+                        <!-- 顶部区域：左侧用户信息 + 右侧关键词 -->
+                        <div class="daily-poster-header-row">
+                            <!-- 左上：头像 + ID -->
+                            <div class="daily-poster-user-info">
+                                <div class="daily-poster-avatar"></div>
+                                <div class="daily-poster-user-detail">
+                                    <span class="daily-poster-username">Grimlock#8888</span>
+                                    <span class="daily-poster-mode-label" id="poster-mode-label">烽火地带</span>
+                                </div>
+                            </div>
+                            <!-- 右上：每日关键词 + 描述 -->
+                            <div class="daily-poster-keyword-area">
+                                <h2 class="daily-poster-keyword">大红扫荡者</h2>
+                                <p class="daily-poster-keyword-desc">昨日带出5件以上红色品质物品</p>
+                            </div>
+                        </div>
+                        
+                        <!-- 主内容区：左右布局 -->
+                        <div class="daily-poster-content-row">
+                            <!-- 左侧：干员KV图（竖版） -->
+                            <div class="daily-poster-kv-area">
+                                <div class="daily-poster-kv-placeholder">
+                                    <span class="kv-text">干员KV</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 右侧：数据区 -->
+                            <div class="daily-poster-data-area">
+                                <!-- ===== 烽火地带内容 ===== -->
+                                <div class="poster-mode-content" id="poster-fenguo-data">
+                                    <!-- 近日战况 -->
+                                    <div class="daily-poster-stats-section">
+                                        <div class="daily-poster-section-header">
+                                            <span class="section-title" data-i18n="home.recentStatus">近日战况</span>
+                                            <span class="section-date">2026/01/29</span>
+                                        </div>
+                                        <div class="daily-poster-primary-stat">
+                                            <span class="stat-label" data-i18n="stats.earnings">收益</span>
+                                            <span class="stat-value">13,141,314</span>
+                                            <span class="stat-unit">HC</span>
+                                        </div>
+                                        <div class="daily-poster-secondary-stats">
+                                            <div class="poster-stat-item">
+                                                <span class="poster-stat-number">33</span>
+                                                <span class="poster-stat-name" data-i18n="stats.operatorKills">击杀干员数</span>
+                                            </div>
+                                            <div class="poster-stat-item">
+                                                <span class="poster-stat-number">27%</span>
+                                                <span class="poster-stat-name" data-i18n="stats.extractionRate">撤离率</span>
+                                            </div>
+                                            <div class="poster-stat-item">
+                                                <span class="poster-stat-number">20</span>
+                                                <span class="poster-stat-name" data-i18n="stats.matches">场数</span>
+                                            </div>
+                                            <div class="poster-stat-item">
+                                                <span class="poster-stat-number">2.1</span>
+                                                <span class="poster-stat-name" data-i18n="stats.kd">K/D</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 近日高价值物品 -->
+                                    <div class="daily-poster-items-section">
+                                        <div class="daily-poster-section-header">
+                                            <span class="section-title" data-i18n="home.highValueItems">近日高价值物品</span>
+                                        </div>
+                                        <div class="daily-poster-items-grid">
+                                            <div class="daily-poster-item">
+                                                <div class="daily-poster-item-img"></div>
+                                                <span class="daily-poster-item-name">动力电池组</span>
+                                            </div>
+                                            <div class="daily-poster-item">
+                                                <div class="daily-poster-item-img"></div>
+                                                <span class="daily-poster-item-name">金块</span>
+                                            </div>
+                                            <div class="daily-poster-item">
+                                                <div class="daily-poster-item-img"></div>
+                                                <span class="daily-poster-item-name">加密U盘</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ===== 全面战场内容 ===== -->
+                                <div class="poster-mode-content" id="poster-zhanchang-data" style="display: none;">
+                                    <!-- 近日战况 -->
+                                    <div class="daily-poster-stats-section">
+                                        <div class="daily-poster-section-header">
+                                            <span class="section-title">近日战况</span>
+                                            <span class="section-date">2026/01/29</span>
+                                        </div>
+                                        <div class="daily-poster-primary-stat">
+                                            <span class="stat-label">最高得分</span>
+                                            <span class="stat-value">38,888</span>
+                                            <span class="stat-unit">分</span>
+                                        </div>
+                                        <div class="daily-poster-secondary-stats">
+                                            <div class="poster-stat-item">
+                                                <span class="poster-stat-number">200</span>
+                                                <span class="poster-stat-name">击杀次数</span>
+                                            </div>
+                                            <div class="poster-stat-item">
+                                                <span class="poster-stat-number">42%</span>
+                                                <span class="poster-stat-name">胜率</span>
+                                            </div>
+                                            <div class="poster-stat-item">
+                                                <span class="poster-stat-number">6</span>
+                                                <span class="poster-stat-name">场数</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 阵地支援 + 载具数据（并排） -->
+                                    <div class="daily-poster-bottom-row">
+                                        <!-- 阵地支援 -->
+                                        <div class="daily-poster-support-section">
+                                            <div class="daily-poster-section-header">
+                                                <span class="section-title">🎯 阵地支援</span>
+                                            </div>
+                                            <div class="poster-support-grid">
+                                                <div class="poster-support-item">
+                                                    <div class="poster-support-icon mortar"></div>
+                                                    <span class="poster-support-name">制导导弹</span>
+                                                    <span class="poster-support-count">×1</span>
+                                                </div>
+                                                <div class="poster-support-item">
+                                                    <div class="poster-support-icon turret"></div>
+                                                    <span class="poster-support-name">信标</span>
+                                                    <span class="poster-support-count">×1</span>
+                                                </div>
+                                                <div class="poster-support-item">
+                                                    <div class="poster-support-icon drone"></div>
+                                                    <span class="poster-support-name">炮兵齐射</span>
+                                                    <span class="poster-support-count">×1</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- 载具数据 -->
+                                        <div class="daily-poster-vehicle-section">
+                                            <div class="daily-poster-section-header">
+                                                <span class="section-title">🚁 载具数据</span>
+                                            </div>
+                                            <div class="poster-vehicle-list">
+                                                <div class="poster-vehicle-item">
+                                                    <span class="poster-vehicle-name">侦查直升机</span>
+                                                    <span class="poster-vehicle-stat">击败 <em>123</em></span>
+                                                    <span class="poster-vehicle-stat">驾驶 <em>10min</em></span>
+                                                </div>
+                                                <div class="poster-vehicle-item">
+                                                    <span class="poster-vehicle-name">主战坦克</span>
+                                                    <span class="poster-vehicle-stat">击败 <em>45</em></span>
+                                                    <span class="poster-vehicle-stat">驾驶 <em>8min</em></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 海报底部 -->
+                        <div class="daily-poster-footer">
+                            <span class="daily-poster-watermark">Delta Force Tracker</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分享按钮区域 -->
+            <div class="daily-poster-share-actions">
+                <button class="daily-poster-share-btn save-btn" id="daily-poster-save-btn">
+                    <span class="share-icon">💾</span>
+                    <span class="share-text" data-i18n="share.saveImage">保存图片</span>
+                </button>
+                <button class="daily-poster-share-btn x-btn" id="daily-poster-x-btn">
+                    <span class="share-icon">𝕏</span>
+                    <span class="share-text">X</span>
+                </button>
+                <button class="daily-poster-share-btn discord-btn" id="daily-poster-discord-btn">
+                    <svg class="share-icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                    <span class="share-text">Discord</span>
+                </button>
+                <button class="daily-poster-share-btn facebook-btn" id="daily-poster-facebook-btn">
+                    <span class="share-icon">f</span>
+                    <span class="share-text">Facebook</span>
+                </button>
+                <button class="daily-poster-share-btn reddit-btn" id="daily-poster-reddit-btn">
+                    <span class="share-icon">🔴</span>
+                    <span class="share-text">Reddit</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../shared/mock-data.js?v=1"></script>
+    <script src="main.js?v=20"></script>
+</body>
+</html>

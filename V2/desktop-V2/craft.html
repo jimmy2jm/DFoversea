@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta Force - 交易制造</title>
+    <link rel="stylesheet" href="main.css?v=38">
+    <link rel="stylesheet" href="craft-page.css?v=1">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="logo">
+                <span class="logo-icon">△</span>
+                <span class="logo-text">DELTA FORCE</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="gun-builds.html" class="nav-link">改枪推荐</a>
+                <a href="my-data.html" class="nav-link">我的数据</a>
+                <a href="collection.html" class="nav-link">大红藏馆</a>
+                <a href="craft.html" class="nav-link active">交易制造</a>
+                <a href="guide.html" class="nav-link">实用攻略</a>
+                <a href="map-tools.html" class="nav-link">地图工具</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="user-icon"></div>
+            <button class="logout-btn">log out</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container craft-page-container">
+        <!-- 页面标题 -->
+        <div class="page-header">
+            <h1 class="page-title">🏭 交易制造</h1>
+            <p class="page-subtitle">制造推荐与物价实时行情</p>
+        </div>
+
+        <!-- ============================================
+             制造推荐模块（横屏适配）
+             ============================================ -->
+        <section class="craft-recommend-section">
+            <div class="section-header">
+                <span class="section-title">🔨 制造推荐</span>
+                <span class="header-date" id="craft-date">2026/02/05</span>
+            </div>
+            
+            <!-- Tab 切换栏 -->
+            <div class="craft-tabs-row">
+                <button class="craft-tab-btn active" data-craft="tech">技术中心</button>
+                <button class="craft-tab-btn" data-craft="work">工作台</button>
+                <button class="craft-tab-btn" data-craft="med">制药台</button>
+                <button class="craft-tab-btn" data-craft="armor">防具台</button>
+            </div>
+            
+            <!-- 推荐物品横向列表 -->
+            <div class="craft-items-row" id="craft-items-row">
+                <!-- JS动态填充 -->
+            </div>
+            
+            <!-- 价格走势图区域 -->
+            <div class="craft-chart-area">
+                <div class="chart-legend-row">
+                    <div class="legend-items">
+                        <span class="legend-item"><i class="legend-dot price"></i>总售价</span>
+                        <span class="legend-item"><i class="legend-dot profit"></i>总收益</span>
+                        <span class="legend-item"><i class="legend-dot cost"></i>总成本</span>
+                    </div>
+                    <span class="chart-update-time" id="chart-update-time">更新于 2026-02-05 11:00</span>
+                </div>
+                <div class="craft-chart-container">
+                    <canvas id="craft-page-chart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================
+             交易物价列表模块
+             ============================================ -->
+        <section class="market-price-section">
+            <div class="section-header">
+                <span class="section-title">💹 交易物价</span>
+            </div>
+            
+            <!-- 搜索框 -->
+            <div class="market-search-container">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="market-search-input" id="market-search-input" placeholder="搜索物品名称...">
+                <span class="search-clear" id="market-search-clear">✕</span>
+            </div>
+            
+            <!-- 筛选项 -->
+            <div class="market-filter-row">
+                <select class="market-category-select" id="market-page-category">
+                    <option value="all">全部分类</option>
+                    <option value="guns">枪械</option>
+                    <option value="armor">装备</option>
+                    <option value="parts">配件</option>
+                    <option value="collect">收集品</option>
+                    <option value="medical">医疗品</option>
+                    <option value="ammo">弹药</option>
+                </select>
+            </div>
+            
+            <!-- 表头 -->
+            <div class="market-list-header">
+                <span class="header-col name-col">物品名称</span>
+                <span class="header-col price-col sortable" data-sort="price" id="sort-price-desktop">
+                    价值 <span class="sort-arrow">↕</span>
+                </span>
+                <span class="header-col change-col sortable" data-sort="change" id="sort-change-desktop">
+                    涨跌幅 <span class="sort-arrow">↕</span>
+                </span>
+            </div>
+            
+            <!-- 物品列表 -->
+            <div class="market-items-list" id="market-items-list">
+                <!-- JS动态填充 -->
+            </div>
+        </section>
+    </main>
+
+    <script src="../shared/mock-data.js?v=2"></script>
+    <script src="craft-page.js?v=1"></script>
+</body>
+</html>

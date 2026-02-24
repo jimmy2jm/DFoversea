@@ -1,0 +1,4304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta Force - 我的数据</title>
+    <link rel="stylesheet" href="main.css?v=42">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <script src="i18n.js" defer></script>
+    <style>
+        /* ============================================
+           MY DATA PAGE - Game Mode Tabs (Top Level)
+           ============================================ */
+        .game-mode-tabs {
+            display: flex;
+            gap: 0;
+            background: var(--bg-dark);
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+        
+        .game-mode-tab {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: transparent;
+            color: var(--text-secondary);
+        }
+        
+        .game-mode-tab:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+        
+        .game-mode-tab.active {
+            background: linear-gradient(135deg, var(--accent-orange) 0%, #e67e22 100%);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(251, 146, 60, 0.4);
+        }
+        
+        .game-mode-tab .mode-icon {
+            font-size: 1.25rem;
+        }
+        
+        .game-mode-tab .mode-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        /* 全面战场Tab样式 - 蓝紫色主题 */
+        .game-mode-tab[data-mode="zhanchang"].active {
+            background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4);
+        }
+        
+        /* ============================================
+           MY DATA PAGE - Profile Section
+           ============================================ */
+        
+        /* Profile Banner */
+        .profile-section {
+            position: relative;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .profile-banner {
+            position: relative;
+            height: 200px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            overflow: hidden;
+        }
+        
+        /* 动态背景效果 */
+        .profile-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(239, 68, 68, 0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 30%, rgba(0, 255, 204, 0.2) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 80%, rgba(74, 222, 128, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        /* 几何装饰元素 */
+        .banner-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .banner-decoration::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(45deg, transparent 40%, rgba(0, 255, 204, 0.1) 50%, transparent 60%);
+            transform: rotate(-15deg);
+        }
+        
+        .banner-decoration::after {
+            content: '△';
+            position: absolute;
+            top: 30px;
+            right: 50px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 120px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.05);
+            transform: rotate(15deg);
+        }
+        
+        /* 角色剪影 */
+        .character-silhouette {
+            position: absolute;
+            right: 80px;
+            bottom: -20px;
+            width: 280px;
+            height: 320px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 100%, 0% 100%, 0% 30%);
+            opacity: 0.6;
+        }
+        
+        /* 统计数据悬浮 */
+        .banner-stats {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+        
+        .banner-stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .banner-stat-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+        
+        .banner-stat-label {
+            font-size: 0.625rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Profile Info Area */
+        .profile-info {
+            position: relative;
+            padding: 0 2rem 1.5rem;
+            margin-top: -50px;
+            z-index: 10;
+        }
+        
+        .profile-main {
+            display: flex;
+            align-items: flex-end;
+            gap: 1.5rem;
+        }
+        
+        /* Avatar */
+        .profile-avatar {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-dark) 100%);
+            border: 4px solid var(--bg-card);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+        
+        .profile-avatar::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70%;
+            height: 70%;
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+        
+        .profile-avatar::after {
+            content: '🎮';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2.5rem;
+        }
+        
+        /* Avatar Ring */
+        .avatar-ring {
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: var(--accent-cyan);
+            border-right-color: var(--accent-green);
+            animation: avatarSpin 3s linear infinite;
+        }
+        
+        @keyframes avatarSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* User Details */
+        .profile-details {
+            flex: 1;
+            padding-bottom: 0.5rem;
+        }
+        
+        .profile-username {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .username-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+        
+        .username-badges {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .user-badge {
+            padding: 0.25rem 0.5rem;
+            background: rgba(0, 255, 204, 0.2);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 4px;
+            font-size: 0.625rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .user-badge.verified {
+            background: rgba(74, 222, 128, 0.2);
+            border-color: var(--accent-green);
+            color: var(--accent-green);
+        }
+        
+        .profile-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+        
+        .meta-icon {
+            font-size: 1rem;
+        }
+        
+        /* Social Links */
+        .profile-social {
+            display: flex;
+            gap: 0.75rem;
+            margin-left: auto;
+            padding-bottom: 0.5rem;
+        }
+        
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .social-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+        
+        .social-btn.share {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            color: var(--bg-dark);
+        }
+        
+        .social-btn.share:hover {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+        
+        /* Profile Tabs */
+        .profile-tabs {
+            display: flex;
+            gap: 0;
+            padding: 0 2rem;
+            border-top: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .profile-tab {
+            position: relative;
+            padding: 1rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .profile-tab:hover {
+            color: var(--text-primary);
+        }
+        
+        .profile-tab.active {
+            color: var(--accent-cyan);
+        }
+        
+        .profile-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-cyan);
+            border-radius: 3px 3px 0 0;
+        }
+        
+        .profile-tab .tab-badge {
+            display: inline-block;
+            margin-left: 0.5rem;
+            padding: 0.125rem 0.375rem;
+            background: rgba(251, 146, 60, 0.2);
+            border-radius: 4px;
+            font-size: 0.625rem;
+            color: var(--accent-orange);
+            font-weight: 600;
+        }
+        
+        /* ============================================
+           Tab Content Areas
+           ============================================ */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        /* Overview Tab - 总览 双列布局 */
+        .overview-layout,
+        .zhanchang-overview-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 1.5rem;
+        }
+        
+        /* 左侧栏 - 段位信息 */
+        .overview-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .rank-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .rank-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+        
+        .rank-card-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .rank-card-badge {
+            font-size: 0.625rem;
+            padding: 0.25rem 0.5rem;
+            background: rgba(0, 255, 204, 0.15);
+            border-radius: 4px;
+            color: var(--accent-cyan);
+        }
+        
+        /* 当前段位展示 */
+        .current-rank {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .rank-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+        
+        .rank-info {
+            flex: 1;
+        }
+        
+        .rank-tier {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 0.25rem;
+        }
+        
+        .rank-points {
+            display: flex;
+            align-items: baseline;
+            gap: 0.25rem;
+        }
+        
+        .rank-points-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .rank-points-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        /* 段位进度条 */
+        .rank-progress {
+            margin-bottom: 1rem;
+        }
+        
+        .rank-progress-bar {
+            height: 8px;
+            background: var(--bg-dark);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+        
+        .rank-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .rank-progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        
+        /* 历史最高段位 */
+        .peak-rank {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: var(--bg-dark);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .peak-rank-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #a78bfa 0%, #8b5cf6 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        
+        .peak-rank-info {
+            flex: 1;
+        }
+        
+        .peak-rank-label {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .peak-rank-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #a78bfa;
+        }
+        
+        .peak-rank-season {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+        }
+        
+        /* 数据总览雷达图卡片 */
+        .radar-overview-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .radar-overview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .radar-overview-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .radar-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .radar-svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .radar-grid {
+            stroke: var(--border-color);
+            stroke-width: 1;
+            fill: none;
+        }
+        
+        .radar-grid-line {
+            stroke: var(--border-color);
+            stroke-width: 1;
+            opacity: 0.5;
+        }
+        
+        .radar-data {
+            fill: rgba(0, 255, 204, 0.2);
+            stroke: var(--accent-cyan);
+            stroke-width: 2;
+        }
+        
+        .radar-point {
+            fill: var(--accent-cyan);
+            stroke: var(--bg-card);
+            stroke-width: 2;
+        }
+        
+        .radar-label {
+            font-size: 0.7rem;
+            fill: var(--text-secondary);
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+        
+        .radar-value {
+            font-size: 0.6rem;
+            fill: var(--accent-cyan);
+            text-anchor: middle;
+            dominant-baseline: middle;
+            font-weight: 600;
+        }
+        
+        /* 战绩页内部Tab */
+        .matches-mode-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .matches-mode-tab {
+            padding: 0.75rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .matches-mode-tab:hover {
+            border-color: var(--text-muted);
+            color: var(--text-primary);
+        }
+        
+        .matches-mode-tab.active {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            color: var(--bg-dark);
+        }
+        
+        .matches-mode-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .matches-mode-content.active {
+            display: block;
+        }
+        
+        /* 战绩列表样式 */
+        .matches-list-container {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .match-row {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.2s ease;
+        }
+        
+        .match-row:last-child {
+            border-bottom: none;
+        }
+        
+        .match-row:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .match-result-badge {
+            width: 80px;
+            padding: 0.375rem 0;
+            text-align: center;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 1rem;
+        }
+        
+        .match-result-badge.success {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--accent-green);
+        }
+        
+        .match-result-badge.failed {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+        }
+        
+        .match-result-badge.victory {
+            background: rgba(251, 191, 36, 0.15);
+            color: #fbbf24;
+        }
+        
+        .match-map-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .match-map-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .match-time {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        
+        .match-stats {
+            display: flex;
+            gap: 2rem;
+            margin-right: 2rem;
+        }
+        
+        .match-stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+        
+        .match-stat-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .match-stat-value.positive {
+            color: var(--accent-green);
+        }
+        
+        .match-stat-value.negative {
+            color: var(--accent-red);
+        }
+        
+        .match-stat-label {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+        }
+        
+        .match-earning {
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            min-width: 100px;
+            text-align: right;
+        }
+        
+        .match-earning.positive {
+            color: var(--accent-green);
+        }
+        
+        .match-earning.negative {
+            color: var(--accent-red);
+        }
+        
+        /* 战场模式特有样式 */
+        .match-score {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            min-width: 80px;
+            text-align: right;
+        }
+        
+        /* 右侧栏 - 聚合数据 */
+        .overview-main {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .stats-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .stats-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.25rem;
+        }
+        
+        .stats-card-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .stats-card-meta {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        /* 核心数据网格 - 第一行突出 */
+        .stats-highlight-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            padding-bottom: 1.25rem;
+            margin-bottom: 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .stat-highlight-item {
+            text-align: center;
+            padding: 1rem 0.5rem;
+            background: var(--bg-dark);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: border-color 0.2s ease;
+        }
+        
+        .stat-highlight-item:hover {
+            border-color: var(--accent-cyan);
+        }
+        
+        .stat-highlight-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+        
+        .stat-highlight-value.cyan {
+            color: var(--accent-cyan);
+        }
+        
+        .stat-highlight-value.green {
+            color: var(--accent-green);
+        }
+        
+        .stat-highlight-value.orange {
+            color: var(--accent-orange);
+        }
+        
+        .stat-highlight-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-highlight-sub {
+            font-size: 0.625rem;
+            color: var(--accent-green);
+            margin-top: 0.25rem;
+        }
+        
+        .stat-highlight-sub.negative {
+            color: var(--accent-red);
+        }
+        
+        /* 三列数据布局 */
+        .stats-three-columns {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
+        }
+        
+        .stats-column {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1rem;
+            position: relative;
+        }
+        
+        /* 列之间的分隔线 */
+        .stats-column:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 0.5rem;
+            bottom: 0.5rem;
+            width: 1px;
+            background: linear-gradient(180deg, transparent 0%, var(--border-color) 20%, var(--border-color) 80%, transparent 100%);
+        }
+        
+        /* 每列的标题区域 */
+        .stats-column-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .stats-column-header .column-icon {
+            font-size: 1rem;
+        }
+        
+        .stats-column-header .column-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* 第一列 - 经济主题（橙色） */
+        .stats-column.economy .stats-column-header {
+            border-bottom-color: rgba(251, 146, 60, 0.3);
+        }
+        .stats-column.economy .column-title {
+            color: var(--accent-orange);
+        }
+        
+        /* 第二列 - 战斗主题（青色） */
+        .stats-column.combat .stats-column-header {
+            border-bottom-color: rgba(0, 255, 204, 0.3);
+        }
+        .stats-column.combat .column-title {
+            color: var(--accent-cyan);
+        }
+        
+        /* 第三列 - 团队主题（绿色） */
+        .stats-column.team .stats-column-header {
+            border-bottom-color: rgba(74, 222, 128, 0.3);
+        }
+        .stats-column.team .column-title {
+            color: var(--accent-green);
+        }
+        
+        .stat-column-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.6rem 0.5rem;
+            background: var(--bg-dark);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s ease;
+        }
+        
+        .stat-column-item:hover {
+            border-color: var(--accent-cyan);
+        }
+        
+        /* 每列第一条数据 - 更突出 */
+        .stat-column-item.primary {
+            padding: 1rem 0.5rem;
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(0, 255, 204, 0.05) 100%);
+            border-color: rgba(0, 255, 204, 0.3);
+        }
+        
+        /* 经济列的主数据 */
+        .stats-column.economy .stat-column-item.primary {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(251, 146, 60, 0.08) 100%);
+            border-color: rgba(251, 146, 60, 0.4);
+        }
+        
+        /* 战斗列的主数据 */
+        .stats-column.combat .stat-column-item.primary {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(0, 255, 204, 0.08) 100%);
+            border-color: rgba(0, 255, 204, 0.4);
+        }
+        
+        /* 团队列的主数据 */
+        .stats-column.team .stat-column-item.primary {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(74, 222, 128, 0.08) 100%);
+            border-color: rgba(74, 222, 128, 0.4);
+        }
+        
+        .stat-column-item.primary .stat-column-value {
+            font-size: 1.75rem;
+        }
+        
+        .stat-column-item.primary .stat-column-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .stat-column-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.15rem;
+        }
+        
+        .stat-column-value.cyan {
+            color: var(--accent-cyan);
+        }
+        
+        .stat-column-value.green {
+            color: var(--accent-green);
+        }
+        
+        .stat-column-value.orange {
+            color: var(--accent-orange);
+        }
+        
+        .stat-column-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* 次要数据网格 */
+        .stats-secondary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        .stat-secondary-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.75rem;
+        }
+        
+        .stat-secondary-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.125rem;
+        }
+        
+        .stat-secondary-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+        
+        /* 附加信息行 */
+        .stats-extra-row {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 1rem;
+            margin-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .stat-extra-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .stat-extra-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-dark);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        
+        .stat-extra-info {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .stat-extra-value {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .stat-extra-label {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+        }
+        
+        /* 最近战绩卡片 - 参考移动端布局 */
+        .recent-matches-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .recent-matches-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+        
+        .recent-matches-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .recent-matches-link {
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+        
+        .recent-matches-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* 战绩列表项 - 移动端风格 */
+        .battle-record-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .battle-record-item {
+            display: flex;
+            align-items: center;
+            background: var(--bg-dark);
+            border-radius: 8px;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            transition: border-color 0.2s ease;
+        }
+        
+        .battle-record-item:hover {
+            border-color: var(--accent-cyan);
+        }
+        
+        .battle-record-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #2a3a4a 0%, #1a2a3a 100%);
+            margin-right: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .battle-record-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .battle-record-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .battle-status-tag {
+            font-size: 0.625rem;
+            font-weight: 600;
+            padding: 0.125rem 0.375rem;
+            border-radius: 3px;
+        }
+        
+        .battle-status-tag.success {
+            background: rgba(74, 222, 128, 0.2);
+            color: var(--accent-green);
+        }
+        
+        .battle-status-tag.fail {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+        }
+        
+        .battle-status-tag.victory {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+        
+        .battle-operator-name {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .battle-record-map {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .battle-record-time {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+        }
+        
+        .battle-record-result {
+            text-align: right;
+            margin-right: 0.5rem;
+        }
+        
+        .battle-result-profit {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .battle-result-profit.positive {
+            color: var(--accent-green);
+        }
+        
+        .battle-result-profit.negative {
+            color: var(--accent-red);
+        }
+        
+        .battle-result-kills {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+        
+        .battle-record-arrow {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+        
+        /* 全面战场对局记录样式 */
+        .battle-record-item.win,
+        .battle-record-item.lose {
+            display: flex;
+            align-items: center;
+            background: var(--bg-dark);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border-color);
+            gap: 1rem;
+        }
+        
+        .battle-record-item.win {
+            border-left: 3px solid var(--accent-green);
+        }
+        
+        .battle-record-item.lose {
+            border-left: 3px solid var(--accent-red);
+        }
+        
+        .record-result {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            min-width: 80px;
+        }
+        
+        .result-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+        
+        .result-tag.win {
+            background: rgba(74, 222, 128, 0.2);
+            color: var(--accent-green);
+        }
+        
+        .result-tag.lose {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+        }
+        
+        .result-mode {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+        
+        .record-stats {
+            display: flex;
+            gap: 1.5rem;
+            flex: 1;
+        }
+        
+        .record-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.15rem;
+        }
+        
+        .record-stat .stat-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .record-stat .stat-label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+        
+        .record-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.25rem;
+            min-width: 100px;
+        }
+        
+        .record-map {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+        
+        .record-time {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+        
+        /* Placeholder Content */
+        .placeholder-content {
+            padding: 4rem 2rem;
+            text-align: center;
+            color: var(--text-muted);
+        }
+        
+        .placeholder-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .placeholder-text {
+            font-size: 1rem;
+        }
+        
+        /* ============================================
+           战绩页样式
+           ============================================ */
+        .matches-filter-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .filter-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .filter-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+        
+        .filter-select {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            min-width: 160px;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+        
+        .filter-select:hover,
+        .filter-select:focus {
+            border-color: var(--accent-cyan);
+            outline: none;
+        }
+        
+        .filter-select option {
+            background: var(--bg-dark);
+            color: var(--text-primary);
+        }
+        
+        .filter-right {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .filter-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-checkbox:hover {
+            border-color: var(--accent-cyan);
+        }
+        
+        .filter-checkbox.active {
+            border-color: var(--accent-green);
+            background: rgba(74, 222, 128, 0.1);
+        }
+        
+        .filter-checkbox input {
+            display: none;
+        }
+        
+        .checkbox-indicator {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+        
+        .filter-checkbox.active .checkbox-indicator {
+            background: var(--accent-green);
+            border-color: var(--accent-green);
+        }
+        
+        .checkbox-indicator::after {
+            content: '✓';
+            font-size: 0.7rem;
+            color: var(--bg-dark);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+        
+        .filter-checkbox.active .checkbox-indicator::after {
+            opacity: 1;
+        }
+        
+        .checkbox-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+        
+        .filter-checkbox.active .checkbox-label {
+            color: var(--accent-green);
+        }
+        
+        /* 战绩列表容器 */
+        .matches-list-wrapper {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        
+        .matches-list-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .matches-list-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        
+        .matches-count {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .matches-full-list {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 战绩列表项 - 全宽版 */
+        .match-record-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            transition: background 0.2s ease;
+        }
+        
+        .match-record-item:last-child {
+            border-bottom: none;
+        }
+        
+        .match-record-item:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .match-record-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #2a3a4a 0%, #1a2a3a 100%);
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .match-record-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .match-record-status {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .match-status-tag {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+        
+        .match-status-tag.success {
+            background: rgba(74, 222, 128, 0.2);
+            color: var(--accent-green);
+        }
+        
+        .match-status-tag.fail {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--accent-red);
+        }
+        
+        .match-status-tag.victory {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+        }
+        
+        .match-operator-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .match-record-map {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .match-record-time {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.15rem;
+        }
+        
+        .match-record-result {
+            text-align: right;
+            margin-right: 1rem;
+            min-width: 120px;
+        }
+        
+        .match-result-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .match-result-value.positive {
+            color: var(--accent-green);
+        }
+        
+        .match-result-value.negative {
+            color: var(--accent-red);
+        }
+        
+        .match-result-value.neutral {
+            color: var(--text-primary);
+        }
+        
+        .match-result-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+        
+        .match-record-kills {
+            text-align: center;
+            min-width: 60px;
+            margin-right: 1rem;
+        }
+        
+        .match-kills-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .match-kills-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+        
+        .match-record-arrow {
+            color: var(--text-muted);
+            font-size: 1.25rem;
+        }
+        
+        /* 全面战场战绩得分样式 */
+        .match-record-score {
+            text-align: right;
+            margin-right: 1rem;
+            min-width: 100px;
+        }
+        
+        .match-score-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+        }
+        
+        .match-score-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================
+           战绩详情弹窗样式
+           ============================================ */
+        /* 战绩列表可点击样式 */
+        .battle-record-item,
+        .match-record-item {
+            cursor: pointer;
+        }
+        
+        .battle-record-item:hover,
+        .match-record-item:hover {
+            background: rgba(0, 255, 204, 0.05);
+            border-color: var(--accent-cyan);
+        }
+
+        /* 弹窗遮罩层 */
+        .match-detail-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 9998;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .match-detail-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* 弹窗容器 */
+        .match-detail-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 90%;
+            max-width: 680px;
+            max-height: 90vh;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .match-detail-modal.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* 弹窗头部 */
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .modal-close-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .modal-close-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        /* 地图区域 */
+        .match-map-area {
+            position: relative;
+            height: 180px;
+            background: linear-gradient(135deg, #1a2a3a 0%, #0f1a2a 50%, #1a2a3a 100%);
+            overflow: hidden;
+        }
+        
+        .match-map-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 30% 40%, rgba(0, 255, 204, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 60%, rgba(251, 146, 60, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        /* 底部渐变遮罩 */
+        .match-map-area::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to top, var(--bg-card) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        /* 地图信息覆盖层 */
+        .map-info-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 2;
+        }
+
+        /* 对局结果标签 */
+        .match-result-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            width: fit-content;
+        }
+        
+        .match-result-tag.success {
+            background: rgba(74, 222, 128, 0.2);
+            border: 1px solid rgba(74, 222, 128, 0.5);
+            color: var(--accent-green);
+        }
+        
+        .match-result-tag.fail {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            color: var(--accent-red);
+        }
+
+        /* 地图详情 */
+        .map-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .map-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .map-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* 分享按钮区域 - 平铺显示 */
+        .share-button-area {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .share-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-right: 0.25rem;
+        }
+        
+        /* 分享按钮组 */
+        .share-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .share-btn {
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .share-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* Discord 紫蓝色 */
+        .share-btn.discord {
+            background: #5865F2;
+            border-color: #5865F2;
+        }
+        
+        .share-btn.discord:hover {
+            background: #4752c4;
+            border-color: #4752c4;
+        }
+        
+        /* X/Twitter 黑色 */
+        .share-btn.twitter {
+            background: #000;
+            border-color: #333;
+        }
+        
+        .share-btn.twitter:hover {
+            background: #1a1a1a;
+            border-color: #444;
+        }
+        
+        /* Facebook 蓝色 */
+        .share-btn.facebook {
+            background: #1877F2;
+            border-color: #1877F2;
+        }
+        
+        .share-btn.facebook:hover {
+            background: #0d65d9;
+            border-color: #0d65d9;
+        }
+        
+        /* Reddit 橙红色 */
+        .share-btn.reddit {
+            background: #FF4500;
+            border-color: #FF4500;
+        }
+        
+        .share-btn.reddit:hover {
+            background: #e03d00;
+            border-color: #e03d00;
+        }
+        
+        /* 复制链接 */
+        .share-btn.copy {
+            background: rgba(0, 0, 0, 0.6);
+            border-color: var(--border-color);
+        }
+        
+        .share-btn.copy:hover {
+            background: rgba(0, 255, 204, 0.2);
+            border-color: var(--accent-cyan);
+        }
+
+        /* 弹窗内容区 */
+        .modal-body {
+            padding: 1.25rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        /* 玩家列表区域 */
+        .players-section {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        
+        .players-section-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        /* 玩家卡片 - 新布局 */
+        .player-card {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        
+        .player-card:hover {
+            border-color: rgba(0, 255, 204, 0.3);
+        }
+        
+        /* 当前玩家高亮 */
+        .player-card.current-player {
+            border-color: var(--accent-cyan);
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(0, 255, 204, 0.08) 100%);
+        }
+
+        /* 玩家卡片上半部分 */
+        .player-card-top {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            gap: 0.75rem;
+        }
+
+        /* 玩家头像 */
+        .player-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #2a3a4a 0%, #1a2a3a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        
+        .player-card.current-player .player-avatar {
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+        }
+
+        /* 玩家信息 */
+        .player-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .player-name-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* 撤离状态 */
+        .player-status {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+        
+        .player-status.fail {
+            color: var(--accent-red);
+        }
+        
+        .player-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .player-tag {
+            font-size: 0.6rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            background: rgba(0, 255, 204, 0.2);
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+        
+        .player-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+        
+        .player-map {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .player-time {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* 右侧收益区域 */
+        .player-earnings {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-left: auto;
+        }
+        
+        .earning-item {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .earning-icon {
+            font-size: 0.9rem;
+        }
+        
+        .earning-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .earning-value.profit {
+            color: var(--accent-cyan);
+        }
+        
+        .earning-value.kills {
+            color: var(--accent-green);
+        }
+
+        /* 玩家卡片下半部分 - 数据统计 */
+        .player-card-bottom {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-top: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .player-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 0.5rem;
+            border-right: 1px solid var(--border-color);
+        }
+        
+        .player-stat:last-child {
+            border-right: none;
+        }
+        
+        .player-stat-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+            text-align: center;
+        }
+        
+        .player-stat-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* ============================================
+           全面战场 - 战绩详情弹窗专用样式
+           ============================================ */
+        
+        /* 全面战场弹窗 - 顶部区域 */
+        .zc-modal .match-map-area {
+            height: 200px;
+            background: linear-gradient(135deg, #1a2a3a 0%, #0f1a2a 50%, #1a2a3a 100%);
+            position: relative;
+        }
+        
+        /* 角色图片区域 */
+        .zc-hero-image {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 45%;
+            background: linear-gradient(to left, rgba(0,0,0,0.3) 0%, transparent 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .zc-hero-image::before {
+            content: '🎖️';
+            font-size: 5rem;
+            opacity: 0.6;
+        }
+        
+        /* 全面战场 - 地图信息覆盖层 */
+        .zc-modal .map-info-overlay {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 100%;
+        }
+        
+        /* 胜利/失败结果区域 */
+        .zc-result-area {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        
+        .zc-rank-icon {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+        
+        .zc-result-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-green);
+        }
+        
+        .zc-result-text.fail {
+            color: var(--accent-red);
+        }
+        
+        .zc-result-menu {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+        
+        /* 全面战场 - 地图详情 */
+        .zc-map-details {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .zc-map-info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+        
+        .zc-map-info-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .zc-map-info-value {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        /* 全面战场 - 玩家卡片样式 */
+        .zc-player-card {
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+        
+        .zc-player-card:hover {
+            border-color: rgba(0, 255, 204, 0.3);
+        }
+        
+        .zc-player-card.current-player {
+            border-color: var(--accent-cyan);
+            background: linear-gradient(135deg, var(--bg-dark) 0%, rgba(0, 255, 204, 0.08) 100%);
+        }
+        
+        /* 全面战场 - 玩家卡片上半部分 */
+        .zc-player-card-top {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            gap: 0.75rem;
+            position: relative;
+        }
+        
+        /* 左侧头像 */
+        .zc-player-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #2a3a4a 0%, #1a2a3a 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            flex-shrink: 0;
+        }
+        
+        .zc-player-card.current-player .zc-player-avatar {
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 100%);
+        }
+        
+        /* 玩家信息 */
+        .zc-player-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .zc-player-name-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        .zc-player-status {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-green);
+        }
+        
+        .zc-player-status.fail {
+            color: var(--accent-red);
+        }
+        
+        .zc-player-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .zc-player-tag {
+            font-size: 0.6rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            background: rgba(0, 255, 204, 0.2);
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+        
+        .zc-player-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+        
+        .zc-player-map {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+        
+        .zc-player-score {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+        
+        .zc-player-score span {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+        
+        /* 右侧 KDA 和武器图 */
+        .zc-player-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-left: auto;
+        }
+        
+        .zc-kda {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        
+        .zc-weapon-icon {
+            width: 80px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+        
+        /* 全面战场 - 玩家卡片下半部分 */
+        .zc-player-card-bottom {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 1px solid var(--border-color);
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .zc-player-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 0.5rem;
+            border-right: 1px solid var(--border-color);
+        }
+        
+        .zc-player-stat:last-child {
+            border-right: none;
+        }
+        
+        .zc-player-stat-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+            text-align: center;
+        }
+        
+        .zc-player-stat-value {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 640px) {
+            .match-detail-modal {
+                width: 95%;
+                max-height: 95vh;
+            }
+            
+            .match-map-area {
+                height: 150px;
+            }
+            
+            .player-card-top {
+                padding: 0.75rem;
+            }
+            
+            .player-avatar {
+                width: 48px;
+                height: 48px;
+                font-size: 1.5rem;
+            }
+            
+            .earning-value {
+                font-size: 0.85rem;
+            }
+            
+            .player-stat-value {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="logo">
+                <span class="logo-icon">△</span>
+                <span class="logo-text" data-i18n="common.appName">DELTA FORCE</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link" data-i18n="nav.home">Home</a>
+                <!-- V1.0 隐藏以下导航 -->
+                <!-- <a href="gun-builds.html" class="nav-link">改枪推荐</a> -->
+                <a href="my-data.html" class="nav-link active" data-i18n="nav.myData">我的数据</a>
+                <!-- <a href="collection.html" class="nav-link">大红藏馆</a> -->
+                <!-- <a href="craft.html" class="nav-link">制造推荐</a> -->
+                <!-- <a href="guide.html" class="nav-link">实用攻略</a> -->
+                <!-- <a href="map-tools.html" class="nav-link">地图工具</a> -->
+            </div>
+        </div>
+        <div class="nav-right">
+            <div class="user-icon"></div>
+            <span class="user-nickname">Grimlock#8888</span>
+            <button class="logout-btn" data-i18n="common.logOut">log out</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- 模式切换 Tab - 页面顶级 -->
+        <div class="game-mode-tabs">
+            <div class="game-mode-tab active" data-mode="fenghuo">
+                <span class="mode-icon">🔥</span>
+                <span class="mode-name" data-i18n="gameMode.fenghuo">烽火地带</span>
+            </div>
+            <div class="game-mode-tab" data-mode="zhanchang">
+                <span class="mode-icon">⚔️</span>
+                <span class="mode-name" data-i18n="gameMode.zhanchang">全面战场</span>
+            </div>
+        </div>
+        
+        <!-- ============================================
+             烽火地带 模式内容
+             ============================================ -->
+        <div id="fenghuo-mode-content">
+            <!-- Profile Section -->
+            <section class="profile-section">
+            <!-- Banner -->
+            <div class="profile-banner">
+                <div class="banner-decoration"></div>
+                <div class="character-silhouette"></div>
+                
+                <!-- Banner Stats - 暂时隐藏 -->
+                <!--
+                <div class="banner-stats">
+                    <div class="banner-stat-item">
+                        <span class="banner-stat-value">52,670</span>
+                        <span class="banner-stat-label">Views</span>
+                    </div>
+                </div>
+                -->
+            </div>
+            
+            <!-- Profile Info -->
+            <div class="profile-info">
+                <div class="profile-main">
+                    <!-- Avatar -->
+                    <div class="profile-avatar">
+                        <div class="avatar-ring"></div>
+                    </div>
+                    
+                    <!-- User Details -->
+                    <div class="profile-details">
+                        <div class="profile-username">
+                            <span class="username-text">DeltaOperator</span>
+                        </div>
+                        <div class="profile-meta">
+                            <div class="meta-item">
+                                <span class="meta-icon">🎯</span>
+                                <span><span data-i18n="profile.level">等级</span> 56</span>
+                            </div>
+                            <div class="meta-item">
+                                <span class="meta-icon">⏱️</span>
+                                <span><span data-i18n="profile.totalPlayTime">总游戏时长</span> 328h</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Social Links - 暂时隐藏 -->
+                    <!--
+                    <div class="profile-social">
+                        <button class="social-btn" title="Twitter">𝕏</button>
+                        <button class="social-btn" title="Twitch">📺</button>
+                        <button class="social-btn share" title="分享">↗</button>
+                    </div>
+                    -->
+                </div>
+            </div>
+            
+            <!-- Profile Tabs -->
+            <div class="profile-tabs">
+                <button class="profile-tab active" data-tab="overview" data-i18n="tabs.overview">总览</button>
+                <button class="profile-tab" data-tab="matches" data-i18n="tabs.matches">战绩</button>
+                <button class="profile-tab" data-tab="weapons" data-i18n="tabs.weapons">枪械数据</button>
+                <button class="profile-tab" data-tab="operators" data-i18n="tabs.operators">干员数据</button>
+                <button class="profile-tab" data-tab="maps" data-i18n="tabs.maps">地图数据</button>
+            </div>
+        </section>
+        
+        <!-- Tab Contents -->
+        <!-- 总览 Tab -->
+        <div class="tab-content active" id="tab-overview">
+            <div class="overview-layout">
+                <!-- 左侧栏 - 段位信息 -->
+                <div class="overview-sidebar">
+                    <div class="rank-card">
+                        <div class="rank-card-header">
+                            <span class="rank-card-title" data-i18n="profile.currentRank">当前段位</span>
+                            <span class="rank-card-badge">S8<span data-i18n="profile.season">赛季</span></span>
+                        </div>
+                        
+                        <!-- 当前段位 -->
+                        <div class="current-rank">
+                            <div class="rank-icon">🏆</div>
+                            <div class="rank-info">
+                                <div class="rank-tier"><span data-i18n="ranks.gold">黄金</span> III</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 历史最高 -->
+                        <div class="peak-rank">
+                            <div class="peak-rank-icon">⭐</div>
+                            <div class="peak-rank-info">
+                                <div class="peak-rank-label" data-i18n="profile.peakRank">历史最高</div>
+                                <div class="peak-rank-value"><span data-i18n="ranks.platinum">铂金</span> I</div>
+                            </div>
+                            <div class="peak-rank-season">S1</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 数据总览雷达图 -->
+                    <div class="radar-overview-card">
+                        <div class="radar-overview-header">
+                            <span class="radar-overview-title" data-i18n="profile.abilityOverview">能力总览</span>
+                        </div>
+                        <div class="radar-container">
+                            <svg class="radar-svg" viewBox="0 0 200 200" id="ability-radar">
+                                <!-- 由JS动态生成 -->
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 右侧栏 - 聚合数据 -->
+                <div class="overview-main">
+                    <div class="stats-card">
+                        <div class="stats-card-header">
+                            <span class="stats-card-title">📊 <span data-i18n="gameMode.fenghuo">烽火地带</span> · <span data-i18n="myData.comprehensiveData">综合数据</span></span>
+                            <span class="stats-card-meta" data-i18n="match.totalMatches" data-i18n-options='{"count": "1,932"}'>总计 1,932 场对局</span>
+                        </div>
+                        
+                        <!-- 三列数据布局 -->
+                        <div class="stats-three-columns">
+                            <!-- 第一列：经济数据 -->
+                            <div class="stats-column economy">
+                                <div class="stats-column-header">
+                                    <span class="column-icon">💰</span>
+                                    <span class="column-title" data-i18n="statsDetail.economyData">经济数据</span>
+                                </div>
+                                <div class="stat-column-item primary">
+                                    <div class="stat-column-value orange">1.35</div>
+                                    <div class="stat-column-label" data-i18n="statsDetail.profitLossRatio">赚损比</div>
+                                </div>
+                                <div class="stat-column-item">
+                                    <div class="stat-column-value">152.3M</div>
+                                    <div class="stat-column-label" data-i18n="statsDetail.extractValue">带出价值</div>
+                                </div>
+                                <div class="stat-column-item">
+                                    <div class="stat-column-value">89.7M</div>
+                                    <div class="stat-column-label" data-i18n="statsDetail.totalRewards">累计行动报酬</div>
+                                </div>
+                                <div class="stat-column-item">
+                                    <div class="stat-column-value">2,847</div>
+                                    <div class="stat-column-label" data-i18n="statsDetail.totalBricks">累计破译曼德尔砖</div>
+                                </div>
+                            </div>
+                            
+                            <!-- 第二列：战斗数据 -->
+                            <div class="stats-column combat">
+                                <div class="stats-column-header">
+                                    <span class="column-icon">⚔️</span>
+                                    <span class="column-title" data-i18n="statsDetail.combatData">战斗数据</span>
+                                </div>
+                                <div class="stat-column-item primary">
+                                    <div class="stat-column-value cyan">2.34</div>
+                                    <div class="stat-column-label" data-i18n="statsDetail.kdRatio">战损比</div>
+                                </div>
+                                <div class="stat-column-item">
+                                    <div class="stat-column-value">4,521</div>
+                                    <div class="stat-column-label" data-i18n="statsDetail.operatorDefeats">击败干员数</div>
+                                </div>
+                                <div class="stat-column-item">
+                                    <div class="stat-column-value">32.5%</div>
+                                    <div class="stat-column-label" data-i18n="statsDetail.hitRate">命中率</div>
+                                </div>
+                                <div class="stat-column-item">
+                                    <div class="stat-column-value">28.5%</div>
+                                    <div class="stat-column-label" data-i18n="statsDetail.headshotRate">精准击败率</div>
+                                </div>
+                            </div>
+                            
+                            <!-- 第三列：团队数据 -->
+                            <div class="stats-column team">
+                                <div class="stats-column-header">
+                                    <span class="column-icon">🤝</span>
+                                    <span class="column-title" data-i18n="statsDetail.teamData">团队数据</span>
+                                </div>
+                                <div class="stat-column-item primary">
+                                    <div class="stat-column-value green">42%</div>
+                                    <div class="stat-column-label" data-i18n="stats.extractionRate">撤离率</div>
+                                </div>
+                                <div class="stat-column-item">
+                                    <div class="stat-column-value">45.8M</div>
+                                    <div class="stat-column-label" data-i18n="statsDetail.teammateValue">带出队友价值</div>
+                                </div>
+                                <div class="stat-column-item">
+                                    <div class="stat-column-value">156</div>
+                                    <div class="stat-column-label" data-i18n="statsDetail.rescueTeammate">救助队友</div>
+                                </div>
+                                <div class="stat-column-item">
+                                    <div class="stat-column-value">89</div>
+                                    <div class="stat-column-label" data-i18n="statsDetail.reviveTeammate">复活队友</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 最近战绩模块 -->
+                    <div class="recent-matches-card">
+                        <div class="recent-matches-header">
+                            <span class="recent-matches-title">⚔️ <span data-i18n="match.recentMatches">最近对局</span></span>
+                            <a href="#" class="recent-matches-link" data-i18n="common.viewAll">查看全部 ›</a>
+                        </div>
+                        
+                        <div class="battle-record-list">
+                            <div class="battle-record-item">
+                                <div class="battle-record-avatar">🎖️</div>
+                                <div class="battle-record-info">
+                                    <div class="battle-record-status">
+                                        <span class="battle-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
+                                        <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                                    </div>
+                                    <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.dam">零号大坝</span>-<span data-i18n="maps.secret">机密</span></div>
+                                    <div class="battle-record-time">02-03 10:52</div>
+                                </div>
+                                <div class="battle-record-result">
+                                    <div class="battle-result-profit">💰 68,304</div>
+                                    <div class="battle-result-kills">💀 4</div>
+                                </div>
+                                <span class="battle-record-arrow">›</span>
+                            </div>
+                            
+                            <div class="battle-record-item">
+                                <div class="battle-record-avatar">⚔️</div>
+                                <div class="battle-record-info">
+                                    <div class="battle-record-status">
+                                        <span class="battle-status-tag success" data-i18n="match.extractionSuccess">撤离成功</span>
+                                        <span class="battle-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                                    </div>
+                                    <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.valley">长弓溪谷</span>-<span data-i18n="maps.normal">普通</span></div>
+                                    <div class="battle-record-time">02-03 10:30</div>
+                                </div>
+                                <div class="battle-record-result">
+                                    <div class="battle-result-profit positive">💰 520,000</div>
+                                    <div class="battle-result-kills">💀 7</div>
+                                </div>
+                                <span class="battle-record-arrow">›</span>
+                            </div>
+                            
+                            <div class="battle-record-item">
+                                <div class="battle-record-avatar">🛡️</div>
+                                <div class="battle-record-info">
+                                    <div class="battle-record-status">
+                                        <span class="battle-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
+                                        <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                                    </div>
+                                    <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.space">航天基地</span>-<span data-i18n="maps.secret">机密</span></div>
+                                    <div class="battle-record-time">02-03 09:45</div>
+                                </div>
+                                <div class="battle-record-result">
+                                    <div class="battle-result-profit negative">💰 -180,000</div>
+                                    <div class="battle-result-kills">💀 2</div>
+                                </div>
+                                <span class="battle-record-arrow">›</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 战绩 Tab -->
+        <div class="tab-content" id="tab-matches">
+            <!-- 筛选器 -->
+            <div class="matches-filter-bar">
+                <div class="filter-left">
+                    <span class="filter-label">🗺️ <span data-i18n="match.mapFilter">地图筛选</span></span>
+                    <select class="filter-select" id="fenghuo-map-filter">
+                        <option value="all" data-i18n="maps.allMaps">全部地图</option>
+                        <option value="dam" data-i18n="maps.dam">零号大坝</option>
+                        <option value="valley" data-i18n="maps.valley">长弓溪谷</option>
+                        <option value="bakshi" data-i18n="maps.bakshi">巴克什</option>
+                        <option value="space" data-i18n="maps.space">航天基地</option>
+                        <option value="prison" data-i18n="maps.prison">潮汐监狱</option>
+                    </select>
+                </div>
+                <div class="filter-right">
+                    <label class="filter-checkbox" id="net-profit-toggle">
+                        <input type="checkbox">
+                        <span class="checkbox-indicator"></span>
+                        <span class="checkbox-label" data-i18n="match.showNetProfit">显示净收益</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- 战绩列表 -->
+            <div class="matches-list-wrapper">
+                <div class="matches-list-header">
+                    <span class="matches-list-title">📋 <span data-i18n="match.matchRecord">对局记录</span></span>
+                    <span class="matches-count"><span data-i18n="myData.total">共</span> 1,932 <span data-i18n="myData.matches">场</span></span>
+                </div>
+                
+                <div class="matches-full-list" id="fenghuo-matches-list">
+                    <!-- 对局1 - 撤离失败 -->
+                    <div class="match-record-item" data-map="dam" data-profit="68304" data-loss="245000" data-net="-176696">
+                        <div class="match-record-avatar">🎖️</div>
+                        <div class="match-record-info">
+                            <div class="match-record-status">
+                                <span class="match-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
+                                <span class="match-operator-name" data-i18n="operators.weilong">威龙</span>
+                            </div>
+                            <div class="match-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.dam">零号大坝</span>-<span data-i18n="maps.secret">机密</span></div>
+                            <div class="match-record-time">02-03 10:52</div>
+                        </div>
+                        <div class="match-record-result">
+                            <div class="match-result-value profit-value neutral">💰 68,304</div>
+                            <div class="match-result-label profit-label" data-i18n="statsDetail.extractedValue">带出价值</div>
+                        </div>
+                        <div class="match-record-kills">
+                            <div class="match-kills-value">4</div>
+                            <div class="match-kills-label">💀 <span data-i18n="statsDetail.defeated">击败</span></div>
+                        </div>
+                        <span class="match-record-arrow">›</span>
+                    </div>
+                    
+                    <!-- 对局2 - 撤离成功 -->
+                    <div class="match-record-item" data-map="valley" data-profit="520000" data-loss="85000" data-net="435000">
+                        <div class="match-record-avatar">⚔️</div>
+                        <div class="match-record-info">
+                            <div class="match-record-status">
+                                <span class="match-status-tag success" data-i18n="match.extractionSuccess">撤离成功</span>
+                                <span class="match-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                            </div>
+                            <div class="match-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.valley">长弓溪谷</span>-<span data-i18n="maps.normal">普通</span></div>
+                            <div class="match-record-time">02-03 10:30</div>
+                        </div>
+                        <div class="match-record-result">
+                            <div class="match-result-value profit-value positive">💰 520,000</div>
+                            <div class="match-result-label profit-label" data-i18n="statsDetail.extractedValue">带出价值</div>
+                        </div>
+                        <div class="match-record-kills">
+                            <div class="match-kills-value">7</div>
+                            <div class="match-kills-label">💀 <span data-i18n="statsDetail.defeated">击败</span></div>
+                        </div>
+                        <span class="match-record-arrow">›</span>
+                    </div>
+                    
+                    <!-- 对局3 - 撤离失败 -->
+                    <div class="match-record-item" data-map="space" data-profit="32000" data-loss="380000" data-net="-348000">
+                        <div class="match-record-avatar">🛡️</div>
+                        <div class="match-record-info">
+                            <div class="match-record-status">
+                                <span class="match-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
+                                <span class="match-operator-name" data-i18n="operators.weilong">威龙</span>
+                            </div>
+                            <div class="match-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.space">航天基地</span>-<span data-i18n="maps.secret">机密</span></div>
+                            <div class="match-record-time">02-03 09:45</div>
+                        </div>
+                        <div class="match-record-result">
+                            <div class="match-result-value profit-value neutral">💰 32,000</div>
+                            <div class="match-result-label profit-label" data-i18n="statsDetail.extractedValue">带出价值</div>
+                        </div>
+                        <div class="match-record-kills">
+                            <div class="match-kills-value">2</div>
+                            <div class="match-kills-label">💀 <span data-i18n="statsDetail.defeated">击败</span></div>
+                        </div>
+                        <span class="match-record-arrow">›</span>
+                    </div>
+                    
+                    <!-- 对局4 - 撤离成功 -->
+                    <div class="match-record-item" data-map="bakshi" data-profit="890000" data-loss="120000" data-net="770000">
+                        <div class="match-record-avatar">🎯</div>
+                        <div class="match-record-info">
+                            <div class="match-record-status">
+                                <span class="match-status-tag success" data-i18n="match.extractionSuccess">撤离成功</span>
+                                <span class="match-operator-name" data-i18n="operators.anren">暗刃</span>
+                            </div>
+                            <div class="match-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.bakshi">巴克什</span>-<span data-i18n="maps.normal">普通</span></div>
+                            <div class="match-record-time">02-03 09:15</div>
+                        </div>
+                        <div class="match-record-result">
+                            <div class="match-result-value profit-value positive">💰 890,000</div>
+                            <div class="match-result-label profit-label" data-i18n="statsDetail.extractedValue">带出价值</div>
+                        </div>
+                        <div class="match-record-kills">
+                            <div class="match-kills-value">5</div>
+                            <div class="match-kills-label">💀 <span data-i18n="statsDetail.defeated">击败</span></div>
+                        </div>
+                        <span class="match-record-arrow">›</span>
+                    </div>
+                    
+                    <!-- 对局5 - 撤离失败 -->
+                    <div class="match-record-item" data-map="prison" data-profit="156000" data-loss="290000" data-net="-134000">
+                        <div class="match-record-avatar">⚔️</div>
+                        <div class="match-record-info">
+                            <div class="match-record-status">
+                                <span class="match-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
+                                <span class="match-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                            </div>
+                            <div class="match-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.prison">潮汐监狱</span>-<span data-i18n="maps.secret">机密</span></div>
+                            <div class="match-record-time">02-03 08:40</div>
+                        </div>
+                        <div class="match-record-result">
+                            <div class="match-result-value profit-value neutral">💰 156,000</div>
+                            <div class="match-result-label profit-label" data-i18n="statsDetail.extractedValue">带出价值</div>
+                        </div>
+                        <div class="match-record-kills">
+                            <div class="match-kills-value">3</div>
+                            <div class="match-kills-label">💀 <span data-i18n="statsDetail.defeated">击败</span></div>
+                        </div>
+                        <span class="match-record-arrow">›</span>
+                    </div>
+                    
+                    <!-- 对局6 - 撤离成功 -->
+                    <div class="match-record-item" data-map="dam" data-profit="1250000" data-loss="95000" data-net="1155000">
+                        <div class="match-record-avatar">🏆</div>
+                        <div class="match-record-info">
+                            <div class="match-record-status">
+                                <span class="match-status-tag success" data-i18n="match.extractionSuccess">撤离成功</span>
+                                <span class="match-operator-name" data-i18n="operators.weilong">威龙</span>
+                            </div>
+                            <div class="match-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.dam">零号大坝</span>-<span data-i18n="maps.normal">普通</span></div>
+                            <div class="match-record-time">02-03 08:05</div>
+                        </div>
+                        <div class="match-record-result">
+                            <div class="match-result-value profit-value positive">💰 1,250,000</div>
+                            <div class="match-result-label profit-label" data-i18n="statsDetail.extractedValue">带出价值</div>
+                        </div>
+                        <div class="match-record-kills">
+                            <div class="match-kills-value">9</div>
+                            <div class="match-kills-label">💀 <span data-i18n="statsDetail.defeated">击败</span></div>
+                        </div>
+                        <span class="match-record-arrow">›</span>
+                    </div>
+                    
+                    <!-- 对局7 - 撤离失败 (小额正收益) -->
+                    <div class="match-record-item" data-map="valley" data-profit="185000" data-loss="150000" data-net="35000">
+                        <div class="match-record-avatar">🎖️</div>
+                        <div class="match-record-info">
+                            <div class="match-record-status">
+                                <span class="match-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
+                                <span class="match-operator-name" data-i18n="operators.anren">暗刃</span>
+                            </div>
+                            <div class="match-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.valley">长弓溪谷</span>-<span data-i18n="maps.secret">机密</span></div>
+                            <div class="match-record-time">02-02 23:30</div>
+                        </div>
+                        <div class="match-record-result">
+                            <div class="match-result-value profit-value neutral">💰 185,000</div>
+                            <div class="match-result-label profit-label" data-i18n="statsDetail.extractedValue">带出价值</div>
+                        </div>
+                        <div class="match-record-kills">
+                            <div class="match-kills-value">6</div>
+                            <div class="match-kills-label">💀 <span data-i18n="statsDetail.defeated">击败</span></div>
+                        </div>
+                        <span class="match-record-arrow">›</span>
+                    </div>
+                    
+                    <!-- 对局8 - 撤离成功 -->
+                    <div class="match-record-item" data-map="space" data-profit="680000" data-loss="200000" data-net="480000">
+                        <div class="match-record-avatar">⚔️</div>
+                        <div class="match-record-info">
+                            <div class="match-record-status">
+                                <span class="match-status-tag success" data-i18n="match.extractionSuccess">撤离成功</span>
+                                <span class="match-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                            </div>
+                            <div class="match-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.space">航天基地</span>-<span data-i18n="maps.normal">普通</span></div>
+                            <div class="match-record-time">02-02 22:50</div>
+                        </div>
+                        <div class="match-record-result">
+                            <div class="match-result-value profit-value positive">💰 680,000</div>
+                            <div class="match-result-label profit-label" data-i18n="statsDetail.extractedValue">带出价值</div>
+                        </div>
+                        <div class="match-record-kills">
+                            <div class="match-kills-value">4</div>
+                            <div class="match-kills-label">💀 <span data-i18n="statsDetail.defeated">击败</span></div>
+                        </div>
+                        <span class="match-record-arrow">›</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 枪械数据 Tab -->
+        <div class="tab-content" id="tab-weapons">
+            <div class="placeholder-content">
+                <div class="placeholder-icon">🔫</div>
+                <div class="placeholder-text" data-i18n="placeholder.weaponsLoading">枪械数据加载中...</div>
+            </div>
+        </div>
+        
+        <!-- 干员数据 Tab -->
+        <div class="tab-content" id="tab-operators">
+            <div class="placeholder-content">
+                <div class="placeholder-icon">👤</div>
+                <div class="placeholder-text" data-i18n="placeholder.operatorsLoading">干员数据加载中...</div>
+            </div>
+        </div>
+        
+        <!-- 地图数据 Tab -->
+        <div class="tab-content" id="tab-maps">
+            <div class="placeholder-content">
+                <div class="placeholder-icon">🗺️</div>
+                <div class="placeholder-text" data-i18n="placeholder.mapsLoading">地图数据加载中...</div>
+            </div>
+        </div>
+        </div><!-- 结束烽火地带模式内容 -->
+        
+        <!-- ============================================
+             全面战场 模式内容
+             ============================================ -->
+        <div id="zhanchang-mode-content" style="display: none;">
+            <!-- Profile Section - 全面战场 -->
+            <section class="profile-section">
+                <!-- Banner -->
+                <div class="profile-banner">
+                    <div class="banner-decoration"></div>
+                    <div class="character-silhouette"></div>
+                    
+                    <!-- Banner Stats - 暂时隐藏 -->
+                    <!--
+                    <div class="banner-stats">
+                        <div class="banner-stat-item">
+                            <span class="banner-stat-value">15,230</span>
+                            <span class="banner-stat-label">Views</span>
+                        </div>
+                    </div>
+                    -->
+                </div>
+                
+                <!-- Profile Info -->
+                <div class="profile-info">
+                    <div class="profile-main">
+                        <!-- Avatar -->
+                        <div class="profile-avatar">
+                            <div class="avatar-ring"></div>
+                        </div>
+                        
+                        <!-- User Details -->
+                        <div class="profile-details">
+                            <div class="profile-username">
+                                <span class="username-text">ShadowStrike_CN</span>
+                            </div>
+                            <div class="profile-meta">
+                                <div class="meta-item">
+                                    <span class="meta-icon">🎯</span>
+                                    <span>LV 58</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">⏱️</span>
+                                    <span><span data-i18n="profile.totalPlayTime">总游戏时长</span> 328h</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Social Links - 暂时隐藏 -->
+                        <!--
+                        <div class="profile-social">
+                            <button class="social-btn" title="Twitter">𝕏</button>
+                            <button class="social-btn" title="Twitch">📺</button>
+                            <button class="social-btn share" title="分享">↗</button>
+                        </div>
+                        -->
+                    </div>
+                </div>
+                
+                <!-- Profile Tabs - 全面战场 -->
+                <div class="profile-tabs zhanchang-tabs">
+                    <button class="profile-tab zc-tab active" data-tab="zc-overview" data-i18n="tabs.overview">总览</button>
+                    <button class="profile-tab zc-tab" data-tab="zc-matches" data-i18n="tabs.matches">战绩</button>
+                    <button class="profile-tab zc-tab" data-tab="zc-weapons" data-i18n="tabs.weapons">枪械数据</button>
+                    <button class="profile-tab zc-tab" data-tab="zc-operators" data-i18n="tabs.operators">干员数据</button>
+                    <button class="profile-tab zc-tab" data-tab="zc-maps" data-i18n="tabs.maps">地图数据</button>
+                </div>
+            </section>
+            
+            <!-- 全面战场 Tab Contents -->
+            <!-- 总览 Tab - 全面战场 -->
+            <div class="tab-content zc-content active" id="tab-zc-overview">
+                <div class="zhanchang-overview-layout">
+                    <!-- 全面战场总览 - 双列布局 -->
+                    <div class="overview-sidebar">
+                        <!-- 段位卡片 -->
+                        <div class="rank-card">
+                            <div class="rank-card-header">
+                                <span class="rank-card-title" data-i18n="profile.currentRank">当前段位</span>
+                                <span class="rank-card-badge">S8<span data-i18n="profile.season">赛季</span></span>
+                            </div>
+                            
+                            <!-- 当前段位 -->
+                            <div class="current-rank">
+                                <div class="rank-icon">🎖️</div>
+                                <div class="rank-info">
+                                    <div class="rank-tier"><span data-i18n="ranks.silver">白银</span> II</div>
+                                </div>
+                            </div>
+                            
+                            <!-- 历史最高 -->
+                            <div class="peak-rank">
+                                <div class="peak-rank-icon">⭐</div>
+                                <div class="peak-rank-info">
+                                    <div class="peak-rank-label" data-i18n="profile.peakRank">历史最高</div>
+                                    <div class="peak-rank-value"><span data-i18n="ranks.gold">黄金</span> III</div>
+                                </div>
+                                <div class="peak-rank-season">S1</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 能力雷达图 -->
+                        <div class="radar-overview-card">
+                            <div class="radar-overview-header">
+                                <span class="radar-overview-title" data-i18n="profile.abilityOverview">能力总览</span>
+                            </div>
+                            <div class="radar-container">
+                                <svg class="radar-svg" viewBox="0 0 200 200" id="ability-radar-zc">
+                                    <!-- 由JS动态生成 -->
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 右侧主内容区 -->
+                    <div class="overview-main">
+                        <!-- 全面战场综合数据卡片 -->
+                        <div class="stats-card">
+                            <div class="stats-card-header">
+                                <span class="stats-card-title">⚔️ <span data-i18n="gameMode.zhanchang">全面战场</span> · <span data-i18n="myData.comprehensiveData">综合数据</span></span>
+                                <span class="stats-card-meta" data-i18n="match.totalMatches" data-i18n-options='{"count": "526"}'>总计 526 场对局</span>
+                            </div>
+                            
+                            <!-- 三列数据布局 -->
+                            <div class="stats-three-columns">
+                                <!-- 第一列：战场表现 -->
+                                <div class="stats-column economy">
+                                    <div class="stats-column-header">
+                                        <span class="column-icon">🏆</span>
+                                        <span class="column-title" data-i18n="statsDetail.battlePerformance">战场表现</span>
+                                    </div>
+                                    <div class="stat-column-item primary">
+                                        <div class="stat-column-value orange">285</div>
+                                        <div class="stat-column-label" data-i18n="statsDetail.scorePerMin">每分钟得分</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value">68.5%</div>
+                                        <div class="stat-column-label" data-i18n="stats.winRate">胜率</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value">1,247</div>
+                                        <div class="stat-column-label" data-i18n="statsDetail.capturePoints">占点数</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value">356</div>
+                                        <div class="stat-column-label" data-i18n="statsDetail.rescueCount">救援数</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 第二列：战斗数据 -->
+                                <div class="stats-column combat">
+                                    <div class="stats-column-header">
+                                        <span class="column-icon">⚔️</span>
+                                        <span class="column-title" data-i18n="statsDetail.combatData">战斗数据</span>
+                                    </div>
+                                    <div class="stat-column-item primary">
+                                        <div class="stat-column-value cyan">0.85</div>
+                                        <div class="stat-column-label" data-i18n="statsDetail.killsPerMin">每分钟击败</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value">847</div>
+                                        <div class="stat-column-label" data-i18n="playerCard.operatorKills">击败干员</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value">32.5%</div>
+                                        <div class="stat-column-label" data-i18n="statsDetail.hitRate">命中率</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value">28.3%</div>
+                                        <div class="stat-column-label" data-i18n="statsDetail.headshotRate">精确击败率</div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 第三列：载具数据 -->
+                                <div class="stats-column team">
+                                    <div class="stats-column-header">
+                                        <span class="column-icon">🚗</span>
+                                        <span class="column-title" data-i18n="statsDetail.vehicleData">载具数据</span>
+                                    </div>
+                                    <div class="stat-column-item primary">
+                                        <div class="stat-column-value green">18.5h</div>
+                                        <div class="stat-column-label" data-i18n="statsDetail.vehicleDriveTime">驾驶载具时长</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value">127</div>
+                                        <div class="stat-column-label" data-i18n="statsDetail.vehicleKills">使用载具击败</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value">458K</div>
+                                        <div class="stat-column-label" data-i18n="statsDetail.vehicleDamage">对载具造成伤害</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value">89</div>
+                                        <div class="stat-column-label" data-i18n="statsDetail.vehicleDestroyed">摧毁载具</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 最近对局 - 全面战场 -->
+                        <div class="recent-matches-card">
+                            <div class="recent-matches-header">
+                                <span class="recent-matches-title">⚔️ <span data-i18n="match.recentMatches">最近对局</span></span>
+                                <a href="#" class="recent-matches-link" data-i18n="common.viewAll">查看全部 ›</a>
+                            </div>
+                            
+                            <div class="battle-record-list">
+                                <div class="battle-record-item">
+                                    <div class="battle-record-avatar">🎖️</div>
+                                    <div class="battle-record-info">
+                                        <div class="battle-record-status">
+                                            <span class="battle-status-tag fail" data-i18n="match.defeat">失败</span>
+                                            <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                                        </div>
+                                        <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.linjiedian">临界点</span>-攻防</div>
+                                        <div class="battle-record-time">02-03 10:52</div>
+                                    </div>
+                                    <div class="battle-record-result">
+                                        <div class="battle-result-profit">🏆 1,850</div>
+                                    </div>
+                                    <span class="battle-record-arrow">›</span>
+                                </div>
+                                
+                                <div class="battle-record-item">
+                                    <div class="battle-record-avatar">⚔️</div>
+                                    <div class="battle-record-info">
+                                        <div class="battle-record-status">
+                                            <span class="battle-status-tag victory" data-i18n="match.victory">胜利</span>
+                                            <span class="battle-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                                        </div>
+                                        <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.fengyanyan">风暴眼</span>-攻防</div>
+                                        <div class="battle-record-time">02-03 10:30</div>
+                                    </div>
+                                    <div class="battle-record-result">
+                                        <div class="battle-result-profit positive">🏆 3,520</div>
+                                    </div>
+                                    <span class="battle-record-arrow">›</span>
+                                </div>
+                                
+                                <div class="battle-record-item">
+                                    <div class="battle-record-avatar">🛡️</div>
+                                    <div class="battle-record-info">
+                                        <div class="battle-record-status">
+                                            <span class="battle-status-tag fail" data-i18n="match.defeat">失败</span>
+                                            <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                                        </div>
+                                        <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.huanyingbaolei">幻影要塞</span>-攻防</div>
+                                        <div class="battle-record-time">02-03 09:45</div>
+                                    </div>
+                                    <div class="battle-record-result">
+                                        <div class="battle-result-profit">🏆 1,280</div>
+                                    </div>
+                                    <span class="battle-record-arrow">›</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 战绩 Tab - 全面战场 -->
+            <div class="tab-content zc-content" id="tab-zc-matches">
+                <!-- 筛选器 -->
+                <div class="matches-filter-bar">
+                    <div class="filter-left">
+                        <span class="filter-label">🗺️ <span data-i18n="match.mapFilter">地图筛选</span></span>
+                        <select class="filter-select" id="zhanchang-map-filter">
+                            <option value="all" data-i18n="maps.allMaps">全部地图</option>
+                            <option value="pansheng" data-i18n="maps.pansheng">攀升</option>
+                            <option value="jinqu" data-i18n="maps.jinqu">烬区</option>
+                            <option value="linjiedian" data-i18n="maps.linjiedian">临界点</option>
+                            <option value="guanchuan" data-i18n="maps.guanchuan">贯穿</option>
+                            <option value="qianhaozhan" data-i18n="maps.qianhaozhan">堑壕战</option>
+                            <option value="duangui" data-i18n="maps.duangui">断轨</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- 战绩列表 -->
+                <div class="matches-list-wrapper">
+                    <div class="matches-list-header">
+                        <span class="matches-list-title">📋 <span data-i18n="match.matchRecord">对局记录</span></span>
+                        <span class="matches-count"><span data-i18n="myData.total">共</span> 526 <span data-i18n="myData.matches">场</span></span>
+                    </div>
+                    
+                    <div class="matches-full-list" id="zhanchang-matches-list">
+                        <!-- 对局1 - 失败 -->
+                        <div class="match-record-item" data-map="linjiedian">
+                            <div class="match-record-avatar">🎖️</div>
+                            <div class="match-record-info">
+                                <div class="match-record-status">
+                                    <span class="match-status-tag fail" data-i18n="match.defeat">失败</span>
+                                    <span class="match-operator-name" data-i18n="operators.weilong">威龙</span>
+                                </div>
+                                <div class="match-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.linjiedian">临界点</span>-攻防</div>
+                                <div class="match-record-time">02-03 10:52</div>
+                            </div>
+                            <div class="match-record-score">
+                                <div class="match-score-value">🏆 1,850</div>
+                                <div class="match-score-label" data-i18n="playerCard.score">得分</div>
+                            </div>
+                            <span class="match-record-arrow">›</span>
+                        </div>
+                        
+                        <!-- 对局2 - 胜利 -->
+                        <div class="match-record-item" data-map="pansheng">
+                            <div class="match-record-avatar">⚔️</div>
+                            <div class="match-record-info">
+                                <div class="match-record-status">
+                                    <span class="match-status-tag victory" data-i18n="match.victory">胜利</span>
+                                    <span class="match-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                                </div>
+                                <div class="match-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.pansheng">攀升</span>-攻防</div>
+                                <div class="match-record-time">02-03 10:30</div>
+                            </div>
+                            <div class="match-record-score">
+                                <div class="match-score-value">🏆 3,520</div>
+                                <div class="match-score-label" data-i18n="playerCard.score">得分</div>
+                            </div>
+                            <span class="match-record-arrow">›</span>
+                        </div>
+                        
+                        <!-- 对局3 - 失败 -->
+                        <div class="match-record-item" data-map="jinqu">
+                            <div class="match-record-avatar">🛡️</div>
+                            <div class="match-record-info">
+                                <div class="match-record-status">
+                                    <span class="match-status-tag fail" data-i18n="match.defeat">失败</span>
+                                    <span class="match-operator-name" data-i18n="operators.weilong">威龙</span>
+                                </div>
+                                <div class="match-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.jinqu">烬区</span>-攻防</div>
+                                <div class="match-record-time">02-03 09:45</div>
+                            </div>
+                            <div class="match-record-score">
+                                <div class="match-score-value">🏆 1,280</div>
+                                <div class="match-score-label" data-i18n="playerCard.score">得分</div>
+                            </div>
+                            <span class="match-record-arrow">›</span>
+                        </div>
+                        
+                        <!-- 对局4 - 胜利 -->
+                        <div class="match-record-item" data-map="guanchuan">
+                            <div class="match-record-avatar">🎯</div>
+                            <div class="match-record-info">
+                                <div class="match-record-status">
+                                    <span class="match-status-tag victory" data-i18n="match.victory">胜利</span>
+                                    <span class="match-operator-name" data-i18n="operators.anren">暗刃</span>
+                                </div>
+                                <div class="match-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.guanchuan">贯穿</span>-攻防</div>
+                                <div class="match-record-time">02-03 09:15</div>
+                            </div>
+                            <div class="match-record-score">
+                                <div class="match-score-value">🏆 4,120</div>
+                                <div class="match-score-label" data-i18n="playerCard.score">得分</div>
+                            </div>
+                            <span class="match-record-arrow">›</span>
+                        </div>
+                        
+                        <!-- 对局5 - 胜利 -->
+                        <div class="match-record-item" data-map="qianhaozhan">
+                            <div class="match-record-avatar">⚔️</div>
+                            <div class="match-record-info">
+                                <div class="match-record-status">
+                                    <span class="match-status-tag victory" data-i18n="match.victory">胜利</span>
+                                    <span class="match-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                                </div>
+                                <div class="match-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.qianhaozhan">堑壕战</span>-攻防</div>
+                                <div class="match-record-time">02-03 08:40</div>
+                            </div>
+                            <div class="match-record-score">
+                                <div class="match-score-value">🏆 2,960</div>
+                                <div class="match-score-label" data-i18n="playerCard.score">得分</div>
+                            </div>
+                            <span class="match-record-arrow">›</span>
+                        </div>
+                        
+                        <!-- 对局6 - 失败 -->
+                        <div class="match-record-item" data-map="duangui">
+                            <div class="match-record-avatar">🏆</div>
+                            <div class="match-record-info">
+                                <div class="match-record-status">
+                                    <span class="match-status-tag fail" data-i18n="match.defeat">失败</span>
+                                    <span class="match-operator-name" data-i18n="operators.weilong">威龙</span>
+                                </div>
+                                <div class="match-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.duangui">断轨</span>-攻防</div>
+                                <div class="match-record-time">02-03 08:05</div>
+                            </div>
+                            <div class="match-record-score">
+                                <div class="match-score-value">🏆 1,540</div>
+                                <div class="match-score-label" data-i18n="playerCard.score">得分</div>
+                            </div>
+                            <span class="match-record-arrow">›</span>
+                        </div>
+                        
+                        <!-- 对局7 - 胜利 -->
+                        <div class="match-record-item" data-map="linjiedian">
+                            <div class="match-record-avatar">🎖️</div>
+                            <div class="match-record-info">
+                                <div class="match-record-status">
+                                    <span class="match-status-tag victory" data-i18n="match.victory">胜利</span>
+                                    <span class="match-operator-name" data-i18n="operators.anren">暗刃</span>
+                                </div>
+                                <div class="match-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.linjiedian">临界点</span>-攻防</div>
+                                <div class="match-record-time">02-02 23:30</div>
+                            </div>
+                            <div class="match-record-score">
+                                <div class="match-score-value">🏆 3,780</div>
+                                <div class="match-score-label" data-i18n="playerCard.score">得分</div>
+                            </div>
+                            <span class="match-record-arrow">›</span>
+                        </div>
+                        
+                        <!-- 对局8 - 失败 -->
+                        <div class="match-record-item" data-map="pansheng">
+                            <div class="match-record-avatar">⚔️</div>
+                            <div class="match-record-info">
+                                <div class="match-record-status">
+                                    <span class="match-status-tag fail" data-i18n="match.defeat">失败</span>
+                                    <span class="match-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                                </div>
+                                <div class="match-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.pansheng">攀升</span>-攻防</div>
+                                <div class="match-record-time">02-02 22:50</div>
+                            </div>
+                            <div class="match-record-score">
+                                <div class="match-score-value">🏆 1,120</div>
+                                <div class="match-score-label" data-i18n="playerCard.score">得分</div>
+                            </div>
+                            <span class="match-record-arrow">›</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 枪械数据 Tab - 全面战场 -->
+            <div class="tab-content zc-content" id="tab-zc-weapons">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">🔫</div>
+                    <div class="placeholder-text" data-i18n="placeholder.warfareWeaponsLoading">战场枪械数据加载中...</div>
+                </div>
+            </div>
+            
+            <!-- 干员数据 Tab - 全面战场 -->
+            <div class="tab-content zc-content" id="tab-zc-operators">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">👤</div>
+                    <div class="placeholder-text" data-i18n="placeholder.warfareOperatorsLoading">战场干员数据加载中...</div>
+                </div>
+            </div>
+            
+            <!-- 地图数据 Tab - 全面战场 -->
+            <div class="tab-content zc-content" id="tab-zc-maps">
+                <div class="placeholder-content">
+                    <div class="placeholder-icon">🗺️</div>
+                    <div class="placeholder-text" data-i18n="placeholder.warfareMapsLoading">战场地图数据加载中...</div>
+                </div>
+            </div>
+        </div><!-- 结束全面战场模式内容 -->
+    </main>
+
+    <!-- 战绩详情弹窗 -->
+    <div class="match-detail-overlay" id="match-detail-overlay"></div>
+    <div class="match-detail-modal" id="match-detail-modal">
+        <!-- 弹窗头部 -->
+        <div class="modal-header">
+            <div class="modal-title">
+                <span>📋</span>
+                <span data-i18n="match.matchDetails">对局详情</span>
+            </div>
+            <button class="modal-close-btn" id="modal-close-btn">×</button>
+        </div>
+        
+        <!-- 地图区域 -->
+        <div class="match-map-area">
+            <div class="map-info-overlay">
+                <!-- 对局结果 -->
+                <div class="match-result-tag success" id="modal-result-tag">
+                    <span>✓</span>
+                    <span id="modal-result-text" data-i18n="match.extractionSuccess">撤离成功</span>
+                </div>
+                
+                <!-- 地图详情 -->
+                <div class="map-details">
+                    <div class="map-name" id="modal-map-name"><span data-i18n="maps.dam">零号大坝</span> - <span data-i18n="maps.secret">机密</span></div>
+                    <div class="map-meta">
+                        <span id="modal-game-mode" data-i18n="gameMode.fenghuo">烽火地带</span>
+                        <span>|</span>
+                        <span id="modal-match-time">02-03 10:52</span>
+                        <span>|</span>
+                        <span id="modal-match-duration"><span data-i18n="match.matchDuration">对局时长</span>: 23<span data-i18n="myData.minutes">分钟</span></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分享按钮 - 平铺显示 -->
+            <div class="share-button-area">
+                <span class="share-label" data-i18n="share.shareTo">分享至</span>
+                <div class="share-buttons">
+                    <button class="share-btn discord" onclick="shareToChannel('discord')" title="Discord">
+                        <span>💬</span>
+                    </button>
+                    <button class="share-btn twitter" onclick="shareToChannel('twitter')" title="X / Twitter">
+                        <span>𝕏</span>
+                    </button>
+                    <button class="share-btn facebook" onclick="shareToChannel('facebook')" title="Facebook">
+                        <span>f</span>
+                    </button>
+                    <button class="share-btn reddit" onclick="shareToChannel('reddit')" title="Reddit">
+                        <span>R</span>
+                    </button>
+                    <button class="share-btn copy" onclick="shareToChannel('copy')" title="复制链接" data-i18n-attr="title" data-i18n="share.copyLink">
+                        <span>📋</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 弹窗内容 -->
+        <div class="modal-body">
+            <div class="players-section">
+                <div class="players-section-title" data-i18n="match.teamMembers">队伍成员</div>
+                
+                <!-- 玩家1 - 当前玩家 -->
+                <div class="player-card current-player">
+                    <div class="player-card-top">
+                        <div class="player-avatar">🎮</div>
+                        <div class="player-info">
+                            <div class="player-name-row">
+                                <span class="player-status" data-i18n="match.extractionSuccess">撤离成功</span>
+                                <span class="player-name" data-i18n="operators.weilong">威龙</span>
+                                <span class="player-tag" data-i18n="playerCard.me">我</span>
+                            </div>
+                            <div class="player-meta">
+                                <span class="player-map">牡丹没那么简单</span>
+                                <span class="player-time">02-10 14:11</span>
+                            </div>
+                        </div>
+                        <div class="player-earnings">
+                            <div class="earning-item">
+                                <span class="earning-icon">💰</span>
+                                <span class="earning-value profit">810,780</span>
+                            </div>
+                            <div class="earning-item">
+                                <span class="earning-icon">💀</span>
+                                <span class="earning-value kills">17</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card-bottom">
+                        <div class="player-stat">
+                            <div class="player-stat-label" data-i18n="playerCard.survivalTime">生存时长</div>
+                            <div class="player-stat-value">16.1<span data-i18n="myData.minutes">分钟</span></div>
+                        </div>
+                        <div class="player-stat">
+                            <div class="player-stat-label" data-i18n="playerCard.operatorKills">击败干员</div>
+                            <div class="player-stat-value">1</div>
+                        </div>
+                        <div class="player-stat">
+                            <div class="player-stat-label" data-i18n="playerCard.otherEnemies">其他敌方</div>
+                            <div class="player-stat-value">16</div>
+                        </div>
+                        <div class="player-stat">
+                            <div class="player-stat-label" data-i18n="playerCard.rescueRevive">救助/复活</div>
+                            <div class="player-stat-value">1/1</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 玩家2 -->
+                <div class="player-card">
+                    <div class="player-card-top">
+                        <div class="player-avatar">⚔️</div>
+                        <div class="player-info">
+                            <div class="player-name-row">
+                                <span class="player-status" data-i18n="match.extractionSuccess">撤离成功</span>
+                                <span class="player-name" data-i18n="operators.haizhua">骇爪</span>
+                            </div>
+                            <div class="player-meta">
+                                <span class="player-map">牡丹没那么简单</span>
+                                <span class="player-time">02-10 14:11</span>
+                            </div>
+                        </div>
+                        <div class="player-earnings">
+                            <div class="earning-item">
+                                <span class="earning-icon">💰</span>
+                                <span class="earning-value profit">520,340</span>
+                            </div>
+                            <div class="earning-item">
+                                <span class="earning-icon">💀</span>
+                                <span class="earning-value kills">8</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card-bottom">
+                        <div class="player-stat">
+                            <div class="player-stat-label" data-i18n="playerCard.survivalTime">生存时长</div>
+                            <div class="player-stat-value">14.3<span data-i18n="myData.minutes">分钟</span></div>
+                        </div>
+                        <div class="player-stat">
+                            <div class="player-stat-label" data-i18n="playerCard.operatorKills">击败干员</div>
+                            <div class="player-stat-value">2</div>
+                        </div>
+                        <div class="player-stat">
+                            <div class="player-stat-label" data-i18n="playerCard.otherEnemies">其他敌方</div>
+                            <div class="player-stat-value">6</div>
+                        </div>
+                        <div class="player-stat">
+                            <div class="player-stat-label" data-i18n="playerCard.rescueRevive">救助/复活</div>
+                            <div class="player-stat-value">0/0</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 玩家3 -->
+                <div class="player-card">
+                    <div class="player-card-top">
+                        <div class="player-avatar">🛡️</div>
+                        <div class="player-info">
+                            <div class="player-name-row">
+                                <span class="player-status fail" data-i18n="myData.killed">阵亡</span>
+                                <span class="player-name" data-i18n="operators.anren">暗刃</span>
+                            </div>
+                            <div class="player-meta">
+                                <span class="player-map">牡丹没那么简单</span>
+                                <span class="player-time">02-10 14:11</span>
+                            </div>
+                        </div>
+                        <div class="player-earnings">
+                            <div class="earning-item">
+                                <span class="earning-icon">💰</span>
+                                <span class="earning-value profit">125,600</span>
+                            </div>
+                            <div class="earning-item">
+                                <span class="earning-icon">💀</span>
+                                <span class="earning-value kills">3</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="player-card-bottom">
+                        <div class="player-stat">
+                            <div class="player-stat-label" data-i18n="playerCard.survivalTime">生存时长</div>
+                            <div class="player-stat-value">8.5<span data-i18n="myData.minutes">分钟</span></div>
+                        </div>
+                        <div class="player-stat">
+                            <div class="player-stat-label" data-i18n="playerCard.operatorKills">击败干员</div>
+                            <div class="player-stat-value">0</div>
+                        </div>
+                        <div class="player-stat">
+                            <div class="player-stat-label" data-i18n="playerCard.otherEnemies">其他敌方</div>
+                            <div class="player-stat-value">3</div>
+                        </div>
+                        <div class="player-stat">
+                            <div class="player-stat-label" data-i18n="playerCard.rescueRevive">救助/复活</div>
+                            <div class="player-stat-value">1/0</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全面战场 - 战绩详情弹窗 -->
+    <div class="match-detail-overlay" id="zc-match-detail-overlay"></div>
+    <div class="match-detail-modal zc-modal" id="zc-match-detail-modal">
+        <!-- 弹窗头部 -->
+        <div class="modal-header">
+            <div class="modal-title">
+                <span>📋</span>
+                <span>战绩详情</span>
+            </div>
+            <button class="modal-close-btn" id="zc-modal-close-btn">×</button>
+        </div>
+        
+        <!-- 地图区域 - 全面战场风格 -->
+        <div class="match-map-area">
+            <div class="map-info-overlay">
+                <!-- 胜利/失败结果 -->
+                <div class="zc-result-area">
+                    <div class="zc-rank-icon">🎖️</div>
+                    <div class="zc-result-text" id="zc-result-text">胜利</div>
+                    <div class="zc-result-menu">☰</div>
+                </div>
+                
+                <!-- 地图详情 -->
+                <div class="zc-map-details">
+                    <div class="zc-map-info-item">
+                        <span class="zc-map-info-label">目标</span>
+                        <span class="zc-map-info-value" id="zc-map-name">全面战场 | 临界点-攻防</span>
+                    </div>
+                    <div class="zc-map-info-item">
+                        <span class="zc-map-info-label">对局时间</span>
+                        <span class="zc-map-info-value" id="zc-match-time">2026/02/07 09:56:01</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 角色图片 -->
+            <div class="zc-hero-image"></div>
+            
+            <!-- 分享按钮 - 平铺显示 -->
+            <div class="share-button-area">
+                <span class="share-label">分享至</span>
+                <div class="share-buttons">
+                    <button class="share-btn discord" onclick="shareToChannel('discord')" title="Discord">
+                        <span>💬</span>
+                    </button>
+                    <button class="share-btn twitter" onclick="shareToChannel('twitter')" title="X / Twitter">
+                        <span>𝕏</span>
+                    </button>
+                    <button class="share-btn facebook" onclick="shareToChannel('facebook')" title="Facebook">
+                        <span>f</span>
+                    </button>
+                    <button class="share-btn reddit" onclick="shareToChannel('reddit')" title="Reddit">
+                        <span>R</span>
+                    </button>
+                    <button class="share-btn copy" onclick="shareToChannel('copy')" title="复制链接">
+                        <span>📋</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 弹窗内容 -->
+        <div class="modal-body">
+            <div class="players-section">
+                <div class="players-section-title">队伍成员</div>
+                
+                <!-- 玩家1 - 当前玩家 -->
+                <div class="zc-player-card current-player">
+                    <div class="zc-player-card-top">
+                        <div class="zc-player-avatar">🎮</div>
+                        <div class="zc-player-info">
+                            <div class="zc-player-name-row">
+                                <span class="zc-player-status">胜利</span>
+                                <span class="zc-player-name">蜂医</span>
+                                <span class="zc-player-tag">我</span>
+                            </div>
+                            <div class="zc-player-meta">
+                                <span class="zc-player-map">牡丹没那么简单</span>
+                                <span class="zc-player-score">得分 <span>24308</span></span>
+                            </div>
+                        </div>
+                        <div class="zc-player-right">
+                            <div class="zc-kda">42/11/42</div>
+                            <div class="zc-weapon-icon">🔫</div>
+                        </div>
+                    </div>
+                    <div class="zc-player-card-bottom">
+                        <div class="zc-player-stat">
+                            <div class="zc-player-stat-label">战斗时长</div>
+                            <div class="zc-player-stat-value">21.63分钟</div>
+                        </div>
+                        <div class="zc-player-stat">
+                            <div class="zc-player-stat-label">救援</div>
+                            <div class="zc-player-stat-value">43</div>
+                        </div>
+                        <div class="zc-player-stat">
+                            <div class="zc-player-stat-label">段位分</div>
+                            <div class="zc-player-stat-value">854</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 玩家2 -->
+                <div class="zc-player-card">
+                    <div class="zc-player-card-top">
+                        <div class="zc-player-avatar">⚔️</div>
+                        <div class="zc-player-info">
+                            <div class="zc-player-name-row">
+                                <span class="zc-player-status">胜利</span>
+                                <span class="zc-player-name">骇爪</span>
+                            </div>
+                            <div class="zc-player-meta">
+                                <span class="zc-player-map">牡丹没那么简单</span>
+                                <span class="zc-player-score">得分 <span>18540</span></span>
+                            </div>
+                        </div>
+                        <div class="zc-player-right">
+                            <div class="zc-kda">28/15/35</div>
+                            <div class="zc-weapon-icon">🔫</div>
+                        </div>
+                    </div>
+                    <div class="zc-player-card-bottom">
+                        <div class="zc-player-stat">
+                            <div class="zc-player-stat-label">战斗时长</div>
+                            <div class="zc-player-stat-value">19.25分钟</div>
+                        </div>
+                        <div class="zc-player-stat">
+                            <div class="zc-player-stat-label">救援</div>
+                            <div class="zc-player-stat-value">28</div>
+                        </div>
+                        <div class="zc-player-stat">
+                            <div class="zc-player-stat-label">段位分</div>
+                            <div class="zc-player-stat-value">620</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 玩家3 -->
+                <div class="zc-player-card">
+                    <div class="zc-player-card-top">
+                        <div class="zc-player-avatar">🛡️</div>
+                        <div class="zc-player-info">
+                            <div class="zc-player-name-row">
+                                <span class="zc-player-status">胜利</span>
+                                <span class="zc-player-name">暗刃</span>
+                            </div>
+                            <div class="zc-player-meta">
+                                <span class="zc-player-map">牡丹没那么简单</span>
+                                <span class="zc-player-score">得分 <span>12680</span></span>
+                            </div>
+                        </div>
+                        <div class="zc-player-right">
+                            <div class="zc-kda">15/18/22</div>
+                            <div class="zc-weapon-icon">🔫</div>
+                        </div>
+                    </div>
+                    <div class="zc-player-card-bottom">
+                        <div class="zc-player-stat">
+                            <div class="zc-player-stat-label">战斗时长</div>
+                            <div class="zc-player-stat-value">17.80分钟</div>
+                        </div>
+                        <div class="zc-player-stat">
+                            <div class="zc-player-stat-label">救援</div>
+                            <div class="zc-player-stat-value">15</div>
+                        </div>
+                        <div class="zc-player-stat">
+                            <div class="zc-player-stat-label">段位分</div>
+                            <div class="zc-player-stat-value">380</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Profile Tabs Functionality - 烽火地带
+        function initProfileTabs() {
+            const tabs = document.querySelectorAll('.profile-tab:not(.zc-tab)');
+            const contents = document.querySelectorAll('.tab-content:not(.zc-content)');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetTab = tab.dataset.tab;
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Update content visibility
+                    contents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `tab-${targetTab}`) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+        }
+        
+        // Profile Tabs Functionality - 全面战场
+        function initZhanchangTabs() {
+            const tabs = document.querySelectorAll('.profile-tab.zc-tab');
+            const contents = document.querySelectorAll('.tab-content.zc-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetTab = tab.dataset.tab;
+                    
+                    // Update active tab
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Update content visibility
+                    contents.forEach(content => {
+                        content.classList.remove('active');
+                        if (content.id === `tab-${targetTab}`) {
+                            content.classList.add('active');
+                        }
+                    });
+                });
+            });
+        }
+        
+        // 生成五维雷达图 - 通用函数
+        function generateRadar(svgId, dimensions) {
+            const svg = document.getElementById(svgId);
+            if (!svg) return;
+            
+            const center = 100;
+            const radius = 70;
+            const levels = 5;
+            
+            const angleStep = (Math.PI * 2) / dimensions.length;
+            const startAngle = -Math.PI / 2; // 从顶部开始
+            
+            let svgContent = '';
+            
+            // 绘制网格圆环
+            for (let i = 1; i <= levels; i++) {
+                const r = (radius / levels) * i;
+                const points = [];
+                for (let j = 0; j < dimensions.length; j++) {
+                    const angle = startAngle + j * angleStep;
+                    const x = center + r * Math.cos(angle);
+                    const y = center + r * Math.sin(angle);
+                    points.push(`${x},${y}`);
+                }
+                svgContent += `<polygon class="radar-grid" points="${points.join(' ')}" />`;
+            }
+            
+            // 绘制轴线
+            for (let i = 0; i < dimensions.length; i++) {
+                const angle = startAngle + i * angleStep;
+                const x = center + radius * Math.cos(angle);
+                const y = center + radius * Math.sin(angle);
+                svgContent += `<line class="radar-grid-line" x1="${center}" y1="${center}" x2="${x}" y2="${y}" />`;
+            }
+            
+            // 绘制数据多边形
+            const dataPoints = [];
+            const pointPositions = [];
+            for (let i = 0; i < dimensions.length; i++) {
+                const angle = startAngle + i * angleStep;
+                const value = dimensions[i].value / 100;
+                const r = radius * value;
+                const x = center + r * Math.cos(angle);
+                const y = center + r * Math.sin(angle);
+                dataPoints.push(`${x},${y}`);
+                pointPositions.push({ x, y });
+            }
+            svgContent += `<polygon class="radar-data" points="${dataPoints.join(' ')}" />`;
+            
+            // 绘制数据点
+            pointPositions.forEach(pos => {
+                svgContent += `<circle class="radar-point" cx="${pos.x}" cy="${pos.y}" r="4" />`;
+            });
+            
+            // 绘制标签
+            for (let i = 0; i < dimensions.length; i++) {
+                const angle = startAngle + i * angleStep;
+                const labelRadius = radius + 22;
+                const x = center + labelRadius * Math.cos(angle);
+                const y = center + labelRadius * Math.sin(angle);
+                svgContent += `<text class="radar-label" x="${x}" y="${y}">${dimensions[i].name}</text>`;
+            }
+            
+            svg.innerHTML = svgContent;
+        }
+        
+        // 生成烽火地带雷达图
+        function generateAbilityRadar() {
+            // 烽火地带维度: 战斗、生存、合作、搜索、财富
+            const fenghuoDimensions = [
+                { name: '战斗', value: 85 },
+                { name: '生存', value: 72 },
+                { name: '合作', value: 58 },
+                { name: '搜索', value: 90 },
+                { name: '财富', value: 78 }
+            ];
+            generateRadar('ability-radar', fenghuoDimensions);
+        }
+        
+        // 生成全面战场雷达图
+        function generateZhanchangRadar() {
+            // 全面战场维度：战斗力、团队配合、目标意识、战术素养、抗压能力
+            const zhanchangDimensions = [
+                { name: '战斗', value: 72 },
+                { name: '配合', value: 85 },
+                { name: '目标', value: 68 },
+                { name: '战术', value: 75 },
+                { name: '抗压', value: 80 }
+            ];
+            generateRadar('ability-radar-zc', zhanchangDimensions);
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initGameModeTabs();
+            initProfileTabs();
+            initZhanchangTabs();
+            generateAbilityRadar();
+            generateZhanchangRadar();
+            initMatchesFilters();
+            initNetProfitToggle();
+            initMatchDetailModal();
+        });
+        
+        // 顶级模式切换 Tab
+        function initGameModeTabs() {
+            const modeTabs = document.querySelectorAll('.game-mode-tab');
+            const fenghuoContent = document.getElementById('fenghuo-mode-content');
+            const zhanchangContent = document.getElementById('zhanchang-mode-content');
+            
+            // 读取URL参数，检查是否需要自动切换tab
+            const urlParams = new URLSearchParams(window.location.search);
+            const modeParam = urlParams.get('mode');
+            
+            if (modeParam === 'zhanchang') {
+                // 切换到全面战场tab
+                modeTabs.forEach(t => t.classList.remove('active'));
+                document.querySelector('.game-mode-tab[data-mode="zhanchang"]').classList.add('active');
+                fenghuoContent.style.display = 'none';
+                zhanchangContent.style.display = 'block';
+            }
+            
+            modeTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetMode = tab.dataset.mode;
+                    
+                    // Update active tab
+                    modeTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    
+                    // Toggle mode content
+                    if (targetMode === 'fenghuo') {
+                        fenghuoContent.style.display = 'block';
+                        zhanchangContent.style.display = 'none';
+                    } else {
+                        fenghuoContent.style.display = 'none';
+                        zhanchangContent.style.display = 'block';
+                    }
+                });
+            });
+        }
+        
+        // 战绩页地图筛选器
+        function initMatchesFilters() {
+            // 烽火地带地图筛选
+            const fenghuoFilter = document.getElementById('fenghuo-map-filter');
+            const fenghuoList = document.getElementById('fenghuo-matches-list');
+            
+            if (fenghuoFilter && fenghuoList) {
+                fenghuoFilter.addEventListener('change', () => {
+                    const selectedMap = fenghuoFilter.value;
+                    const items = fenghuoList.querySelectorAll('.match-record-item');
+                    
+                    items.forEach(item => {
+                        if (selectedMap === 'all' || item.dataset.map === selectedMap) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            }
+            
+            // 全面战场地图筛选
+            const zhanchangFilter = document.getElementById('zhanchang-map-filter');
+            const zhanchangList = document.getElementById('zhanchang-matches-list');
+            
+            if (zhanchangFilter && zhanchangList) {
+                zhanchangFilter.addEventListener('change', () => {
+                    const selectedMap = zhanchangFilter.value;
+                    const items = zhanchangList.querySelectorAll('.match-record-item');
+                    
+                    items.forEach(item => {
+                        if (selectedMap === 'all' || item.dataset.map === selectedMap) {
+                            item.style.display = 'flex';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            }
+        }
+        
+        // 净收益切换功能
+        function initNetProfitToggle() {
+            const toggle = document.getElementById('net-profit-toggle');
+            const matchesList = document.getElementById('fenghuo-matches-list');
+            
+            if (!toggle || !matchesList) return;
+            
+            toggle.addEventListener('click', () => {
+                toggle.classList.toggle('active');
+                const isNetProfit = toggle.classList.contains('active');
+                
+                const items = matchesList.querySelectorAll('.match-record-item');
+                items.forEach(item => {
+                    const profitValue = item.querySelector('.profit-value');
+                    const profitLabel = item.querySelector('.profit-label');
+                    
+                    if (!profitValue || !profitLabel) return;
+                    
+                    if (isNetProfit) {
+                        // 显示净收益
+                        const net = parseInt(item.dataset.net);
+                        const formattedNet = formatNumber(net);
+                        
+                        profitValue.textContent = net >= 0 ? `💰 +${formattedNet}` : `💰 ${formattedNet}`;
+                        profitLabel.textContent = '净收益';
+                        
+                        // 更新颜色
+                        profitValue.classList.remove('positive', 'negative', 'neutral');
+                        if (net > 0) {
+                            profitValue.classList.add('positive');
+                        } else if (net < 0) {
+                            profitValue.classList.add('negative');
+                        } else {
+                            profitValue.classList.add('neutral');
+                        }
+                    } else {
+                        // 显示带出价值
+                        const profit = parseInt(item.dataset.profit);
+                        const formattedProfit = formatNumber(profit);
+                        
+                        profitValue.textContent = `💰 ${formattedProfit}`;
+                        profitLabel.textContent = '带出价值';
+                        
+                        // 更新颜色 - 带出价值根据是否撤离成功显示
+                        profitValue.classList.remove('positive', 'negative', 'neutral');
+                        const statusTag = item.querySelector('.match-status-tag');
+                        if (statusTag && statusTag.classList.contains('success')) {
+                            profitValue.classList.add('positive');
+                        } else {
+                            profitValue.classList.add('neutral');
+                        }
+                    }
+                });
+            });
+        }
+        
+        // 数字格式化函数
+        function formatNumber(num) {
+            if (num >= 0) {
+                return num.toLocaleString();
+            } else {
+                return num.toLocaleString();
+            }
+        }
+
+        // ============================================
+        // 战绩详情弹窗功能
+        // ============================================
+        
+        // 打开弹窗
+        function openMatchDetailModal(data) {
+            const overlay = document.getElementById('match-detail-overlay');
+            const modal = document.getElementById('match-detail-modal');
+            
+            if (overlay && modal) {
+                overlay.classList.add('active');
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // 如果传入了数据，可以动态更新弹窗内容
+                if (data) {
+                    updateModalContent(data);
+                }
+            }
+        }
+        
+        // 关闭弹窗 - 烽火地带
+        function closeMatchDetailModal() {
+            const overlay = document.getElementById('match-detail-overlay');
+            const modal = document.getElementById('match-detail-modal');
+            
+            if (overlay && modal) {
+                overlay.classList.remove('active');
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        // 打开全面战场弹窗
+        function openZCMatchDetailModal(data) {
+            const overlay = document.getElementById('zc-match-detail-overlay');
+            const modal = document.getElementById('zc-match-detail-modal');
+            
+            if (overlay && modal) {
+                overlay.classList.add('active');
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+                
+                // 如果传入了数据，可以动态更新弹窗内容
+                if (data) {
+                    updateZCModalContent(data);
+                }
+            }
+        }
+        
+        // 关闭全面战场弹窗
+        function closeZCMatchDetailModal() {
+            const overlay = document.getElementById('zc-match-detail-overlay');
+            const modal = document.getElementById('zc-match-detail-modal');
+            
+            if (overlay && modal) {
+                overlay.classList.remove('active');
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        // 更新弹窗内容（可根据点击的战绩动态更新）
+        function updateModalContent(data) {
+            // 后续可在此处根据 data 动态更新弹窗内容
+            // 目前使用静态模拟数据
+        }
+        
+        // 更新全面战场弹窗内容
+        function updateZCModalContent(data) {
+            // 后续可在此处根据 data 动态更新弹窗内容
+            // 目前使用静态模拟数据
+        }
+        
+        // 分享功能
+        function shareToChannel(channel) {
+            const shareUrls = {
+                discord: 'https://discord.com/channels/',
+                twitter: 'https://twitter.com/intent/tweet?text=',
+                facebook: 'https://www.facebook.com/sharer/sharer.php?u=',
+                reddit: 'https://www.reddit.com/submit?url='
+            };
+            
+            if (channel === 'copy') {
+                // 复制链接到剪贴板
+                const shareText = '查看我的 Delta Force 战绩！';
+                navigator.clipboard.writeText(shareText).then(() => {
+                    alert('已复制到剪贴板！');
+                }).catch(() => {
+                    alert('复制失败，请手动复制');
+                });
+            } else if (shareUrls[channel]) {
+                // 打开分享链接
+                const shareText = encodeURIComponent('查看我的 Delta Force 战绩！');
+                window.open(shareUrls[channel] + shareText, '_blank');
+            }
+        }
+        
+        // 初始化弹窗点击事件
+        function initMatchDetailModal() {
+            const overlay = document.getElementById('match-detail-overlay');
+            const closeBtn = document.getElementById('modal-close-btn');
+            const zcOverlay = document.getElementById('zc-match-detail-overlay');
+            const zcCloseBtn = document.getElementById('zc-modal-close-btn');
+            
+            // 使用事件委托绑定战绩项点击事件
+            document.addEventListener('click', function(e) {
+                // 检查是否点击了战绩列表项
+                const matchItem = e.target.closest('.match-record-item');
+                const battleItem = e.target.closest('.battle-record-item');
+                
+                if (matchItem || battleItem) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const clickedItem = matchItem || battleItem;
+                    
+                    // 判断是否是全面战场模式的战绩
+                    // 检查是否在全面战场内容区域内
+                    const isZhanchangMode = clickedItem.closest('#zhanchang-mode-content') !== null ||
+                                            clickedItem.closest('.zc-content') !== null;
+                    
+                    // 获取点击的战绩数据
+                    const data = {
+                        map: clickedItem.dataset.map || '',
+                        profit: clickedItem.dataset.profit || '',
+                        net: clickedItem.dataset.net || ''
+                    };
+                    
+                    if (isZhanchangMode) {
+                        // 打开全面战场弹窗
+                        openZCMatchDetailModal(data);
+                    } else {
+                        // 打开烽火地带弹窗
+                        openMatchDetailModal(data);
+                    }
+                }
+            });
+            
+            // 烽火地带弹窗 - 点击遮罩层关闭
+            if (overlay) {
+                overlay.addEventListener('click', closeMatchDetailModal);
+            }
+            
+            // 烽火地带弹窗 - 点击关闭按钮关闭
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeMatchDetailModal);
+            }
+            
+            // 全面战场弹窗 - 点击遮罩层关闭
+            if (zcOverlay) {
+                zcOverlay.addEventListener('click', closeZCMatchDetailModal);
+            }
+            
+            // 全面战场弹窗 - 点击关闭按钮关闭
+            if (zcCloseBtn) {
+                zcCloseBtn.addEventListener('click', closeZCMatchDetailModal);
+            }
+            
+            // ESC 键关闭弹窗（两种都关闭）
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeMatchDetailModal();
+                    closeZCMatchDetailModal();
+                }
+            });
+        }
+    </script>
+</body>
+</html>

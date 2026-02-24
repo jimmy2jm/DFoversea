@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Delta Force - Mobile Prototype</title>
+    <link rel="stylesheet" href="main.css?v=16">
+    <script src="i18n.js" defer></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <!-- 左侧：语言切换 -->
+        <div class="lang-selector">
+            <button class="lang-selector-btn" id="lang-btn">
+                <span class="lang-flag" id="current-lang-flag">🇨🇳</span>
+            </button>
+            <div class="lang-dropdown" id="lang-dropdown">
+                <div class="lang-option active" data-lang="zh-CN">
+                    <span class="lang-option-flag">🇨🇳</span>
+                    <span class="lang-option-name">简体中文</span>
+                </div>
+                <div class="lang-option" data-lang="en">
+                    <span class="lang-option-flag">🇺🇸</span>
+                    <span class="lang-option-name">English</span>
+                </div>
+                <div class="lang-option" data-lang="ja">
+                    <span class="lang-option-flag">🇯🇵</span>
+                    <span class="lang-option-name">日本語</span>
+                </div>
+                <div class="lang-option" data-lang="ko">
+                    <span class="lang-option-flag">🇰🇷</span>
+                    <span class="lang-option-name">한국어</span>
+                </div>
+                <div class="lang-option" data-lang="de">
+                    <span class="lang-option-flag">🇩🇪</span>
+                    <span class="lang-option-name">Deutsch</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 中间：标题 -->
+        <span class="header-title" data-i18n="common.appName">Delta Force 工具站</span>
+        
+        <!-- 右侧：登录按钮 -->
+        <div class="login-btn-wrapper">
+            <button class="login-avatar-btn" id="login-avatar-btn">
+                <svg class="avatar-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+    
+    <!-- 登录弹窗 -->
+    <div class="login-modal-overlay" id="login-modal-overlay">
+        <div class="login-modal">
+            <!-- 弹窗头部 -->
+            <div class="login-modal-header">
+                <div class="login-logo">
+                    <span class="login-logo-icon">◢◣</span>
+                    <span class="login-logo-text">LEVEL INFINITE<br><span class="login-logo-sub">PASS</span></span>
+                </div>
+                <span class="login-modal-close" id="login-modal-close">✕</span>
+            </div>
+            
+            <!-- 弹窗内容 -->
+            <div class="login-modal-content">
+                <p class="login-hint" data-i18n="login.autoCreateHint">Account will be created automatically for new emails.</p>
+                
+                <!-- 邮箱输入 -->
+                <div class="login-input-group">
+                    <input type="email" class="login-input" placeholder="Email address" data-i18n-placeholder="login.emailPlaceholder">
+                </div>
+                
+                <!-- 验证码输入 -->
+                <div class="login-input-group verification-group">
+                    <input type="text" class="login-input verification-input" placeholder="Verification code" data-i18n-placeholder="login.verificationPlaceholder">
+                    <button class="get-code-btn" data-i18n="login.getCode">Get code</button>
+                </div>
+                
+                <!-- 登录/注册按钮 -->
+                <button class="login-submit-btn" id="login-submit-btn" data-i18n="login.registerLogin">Register / Log in</button>
+                
+                <!-- 密码登录链接 -->
+                <a href="#" class="password-login-link" data-i18n="login.passwordLogin">Password login</a>
+                
+                <!-- 分隔线 -->
+                <div class="login-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-text" data-i18n="login.signInWith">Sign in with</span>
+                    <span class="divider-line"></span>
+                </div>
+                
+                <!-- 第三方登录 -->
+                <div class="social-login-btns">
+                    <button class="social-btn facebook" id="social-facebook">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                    </button>
+                    <button class="social-btn twitter" id="social-twitter">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </button>
+                    <button class="social-btn google" id="social-google">
+                        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                    </button>
+                    <button class="social-btn line" id="social-line">
+                        <svg viewBox="0 0 24 24" fill="#06C755"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.349 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+                    </button>
+                    <button class="social-btn discord" id="social-discord">
+                        <svg viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 退出登录确认弹窗 -->
+    <div class="logout-modal-overlay" id="logout-modal-overlay">
+        <div class="logout-modal">
+            <div class="logout-modal-icon">👤</div>
+            <p class="logout-modal-text" data-i18n="login.logoutConfirm">确定要退出登录吗？</p>
+            <div class="logout-modal-btns">
+                <button class="logout-cancel-btn" id="logout-cancel-btn" data-i18n="common.cancel">取消</button>
+                <button class="logout-confirm-btn" id="logout-confirm-btn" data-i18n="common.confirm">确定</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 分享海报弹窗 -->
+    <div class="share-modal-overlay" id="share-modal-overlay">
+        <div class="share-poster-modal">
+            <!-- 弹窗头部 -->
+            <div class="share-poster-header">
+                <span class="share-poster-title" data-i18n="share.posterTitle">📤 分享日报</span>
+                <span class="share-poster-close" onclick="closeShareModal()">✕</span>
+            </div>
+            
+            <!-- 海报预览区域 -->
+            <div class="share-poster-preview">
+                <div class="share-poster-content">
+                    <!-- 海报头部 -->
+                    <div class="poster-head">
+                        <div class="poster-logo-text">△ DELTA FORCE</div>
+                        <div class="poster-report-title" data-i18n="share.dailyReport">日报</div>
+                    </div>
+                    
+                    <!-- 海报主体内容占位 -->
+                    <div class="poster-body-placeholder">
+                        <div class="poster-placeholder-icon">📊</div>
+                        <div class="poster-placeholder-text" data-i18n="share.posterPlaceholder">海报内容生成中...</div>
+                    </div>
+                    
+                    <!-- 海报底部 -->
+                    <div class="poster-foot">
+                        <span class="poster-date-text">2026/02/13</span>
+                        <span class="poster-watermark-text">Delta Force Tracker</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 分享平台按钮 -->
+            <div class="share-platform-btns">
+                <button class="share-platform-btn" onclick="closeShareModal()">
+                    <div class="platform-icon save">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17,21 17,13 7,13 7,21"/><polyline points="7,3 7,8 15,8"/></svg>
+                    </div>
+                    <span class="platform-name" data-i18n="share.saveImage">保存图片</span>
+                </button>
+                <button class="share-platform-btn" onclick="closeShareModal()">
+                    <div class="platform-icon discord">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                    </div>
+                    <span class="platform-name">Discord</span>
+                </button>
+                <button class="share-platform-btn" onclick="closeShareModal()">
+                    <div class="platform-icon x">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </div>
+                    <span class="platform-name">X</span>
+                </button>
+                <button class="share-platform-btn share-option-copy" onclick="copyShareLink()">
+                    <div class="platform-icon copy">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    </div>
+                    <span class="platform-name" data-i18n="share.copyLink">复制链接</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ============================================
+         首页内容
+         ============================================ -->
+    <div class="page-content" id="page-home">
+    
+    <!-- 日报卡片 -->
+    <section class="daily-report-card">
+        <!-- Tab切换 -->
+        <div class="report-tabs">
+            <button class="report-tab active" data-report="fh">🔥 <span data-i18n="gameMode.fenghuoDaily">烽火日报</span></button>
+            <button class="report-tab" data-report="zc">⚔️ <span data-i18n="gameMode.zhanchangDaily">战场日报</span></button>
+            <button class="share-btn" id="share-daily-btn">
+                <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                    <polyline points="16,6 12,2 8,6"/>
+                    <line x1="12" y1="2" x2="12" y2="15"/>
+                </svg>
+                <span data-i18n="common.share">分享</span>
+            </button>
+        </div>
+        
+        <!-- ===== 烽火日报内容 ===== -->
+        <div class="report-content-fh active" id="report-fh">
+            <!-- 今日密码 -->
+            <div class="password-section">
+                <div class="password-section-header">
+                    <span class="password-section-icon">🔐</span>
+                    <span class="password-section-title" data-i18n="home.todayPassword">今日密码</span>
+                </div>
+                <div class="password-grid">
+                    <div class="password-item">
+                        <div class="password-map" data-i18n="maps.dam">零号大坝</div>
+                        <div class="password-code-box">
+                            <span class="password-code">0740</span>
+                            <div class="password-view-hint">view ›</div>
+                        </div>
+                    </div>
+                    <div class="password-item">
+                        <div class="password-map" data-i18n="maps.valley">长弓溪谷</div>
+                        <div class="password-code-box">
+                            <span class="password-code">0968</span>
+                            <div class="password-view-hint">view ›</div>
+                        </div>
+                    </div>
+                    <div class="password-item">
+                        <div class="password-map" data-i18n="maps.bakshi">巴克什</div>
+                        <div class="password-code-box">
+                            <span class="password-code">0610</span>
+                            <div class="password-view-hint">view ›</div>
+                        </div>
+                    </div>
+                    <div class="password-item">
+                        <div class="password-map" data-i18n="maps.space">航天基地</div>
+                        <div class="password-code-box">
+                            <span class="password-code">0710</span>
+                            <div class="password-view-hint">view ›</div>
+                        </div>
+                    </div>
+                    <div class="password-item">
+                        <div class="password-map" data-i18n="maps.prison">潮汐监狱</div>
+                        <div class="password-code-box">
+                            <span class="password-code">0654</span>
+                            <div class="password-view-hint">view ›</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 昨日收益 -->
+            <div class="earnings-section">
+                <div class="earnings-section-header">
+                    <span class="earnings-section-icon">💰</span>
+                    <span class="earnings-section-title" data-i18n="home.yesterdayEarnings">昨日收益</span>
+                </div>
+                <div class="earnings-content">
+                    <div class="item-list">
+                        <div class="item-card">
+                            <span class="item-count">×1</span>
+                            <div class="item-image"></div>
+                            <div class="item-name" data-i18n="items.nutritionPorridge">营养粥罐头</div>
+                        </div>
+                        <div class="item-card">
+                            <span class="item-count">×1</span>
+                            <div class="item-image"></div>
+                            <div class="item-name" data-i18n="items.pirateGoldCoin">亮闪闪的海盗金币</div>
+                        </div>
+                        <div class="item-card">
+                            <span class="item-count">×2</span>
+                            <div class="item-image"></div>
+                            <div class="item-name" data-i18n="items.ramModule">内存条</div>
+                        </div>
+                    </div>
+                    <div class="earnings-summary">
+                        <div class="earnings-title">◎ <span data-i18n="home.yesterdayEarnings">昨日收益</span></div>
+                        <div class="earnings-value">94,599</div>
+                        <div class="earnings-date">📅 01月29日</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 操作按钮 -->
+            <div class="action-buttons">
+                <button class="action-btn primary" style="flex: 1;" data-i18n="home.openGameViewMore">打开游戏查看更多</button>
+            </div>
+        </div>
+        
+        <!-- ===== 战场日报内容 ===== -->
+        <div class="report-content-zc" id="report-zc">
+            <!-- 近日数据 - 横版布局 -->
+            <div class="battlefield-section">
+                <div class="battlefield-left">
+                    <div class="battlefield-stats-section">
+                        <div class="battlefield-label">
+                            <span class="battlefield-label-text" data-i18n="home.recentData">近日数据</span>
+                            <span class="battlefield-label-sub" data-i18n="home.history">HISTORY</span>
+                            <span class="battlefield-date">📅 02/01</span>
+                        </div>
+                        <div class="battlefield-stats-grid">
+                            <div class="battlefield-stat-item">
+                                <div class="battlefield-stat-label" data-i18n="stats.killCount">击杀数</div>
+                                <div class="battlefield-stat-value">80<span class="battlefield-stat-unit" data-i18n="stats.unit.times">次</span></div>
+                            </div>
+                            <div class="battlefield-stat-item">
+                                <div class="battlefield-stat-label" data-i18n="stats.winRate">胜率</div>
+                                <div class="battlefield-stat-value">0<span class="battlefield-stat-unit" data-i18n="stats.unit.percent">%</span></div>
+                            </div>
+                            <div class="battlefield-stat-item">
+                                <div class="battlefield-stat-label" data-i18n="stats.avgScore">场均得分</div>
+                                <div class="battlefield-stat-value">12162<span class="battlefield-stat-unit" data-i18n="stats.unit.points">分</span></div>
+                            </div>
+                            <div class="battlefield-stat-item">
+                                <div class="battlefield-stat-label" data-i18n="stats.matchCount">对局数</div>
+                                <div class="battlefield-stat-value">2<span class="battlefield-stat-unit" data-i18n="stats.unit.matches">场</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="battlefield-right">
+                    <div class="battlefield-operator-image"></div>
+                    <div class="battlefield-operator-label" data-i18n="home.frequentOperator">常用干员</div>
+                    <div class="battlefield-operator-name" data-i18n="operators.weilong">威龙</div>
+                </div>
+            </div>
+            
+            <!-- 高光对局 -->
+            <div class="highlight-section">
+                <div class="highlight-label">
+                    <span class="highlight-label-text" data-i18n="home.highlightMatch">高光对局</span>
+                    <span class="highlight-label-sub" data-i18n="home.highlights">HIGHLIGHTS</span>
+                </div>
+                <div class="highlight-card">
+                    <div>
+                        <div class="highlight-result" data-i18n="match.defeat">失败</div>
+                        <div class="highlight-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.aftershock">余震-攻防</span></div>
+                    </div>
+                    <div class="highlight-stats">
+                        <span class="highlight-kda">39/18/20</span>
+                        <span class="highlight-score">12607</span>
+                    </div>
+                    <div class="highlight-time">2026-02-01 10:55:47</div>
+                </div>
+            </div>
+            
+            <!-- 操作按钮 -->
+            <div class="action-buttons">
+                <button class="action-btn primary" style="flex: 1;" data-i18n="home.openGameViewMore">打开游戏查看更多</button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 特勤处制造 - 首页版 -->
+    <section class="craft-section-home">
+        <div class="craft-card-mobile">
+            <div class="craft-header-mobile">
+                <span class="craft-title-mobile">🔧 <span data-i18n="craft.title">特勤处制造</span></span>
+                <!-- 主Tab切换：制造详情/制造推荐 -->
+                <div class="craft-main-tabs-mobile craft-home-tabs">
+                    <div class="craft-main-tab-mobile active" data-main-tab="detail" data-for="home" data-i18n="craft.craftDetail">制作详情</div>
+                    <div class="craft-main-tab-mobile" data-main-tab="recommend" data-for="home" data-i18n="craft.craftRecommend">制作推荐</div>
+                </div>
+                <span class="craft-more-mobile" data-i18n="common.more">更多 ⊞</span>
+            </div>
+            
+            <!-- ===== 制造详情内容 ===== -->
+            <div class="craft-detail-content active" id="craft-detail-content-home">
+                <div class="craft-stations-grid">
+                    <!-- 技术中心 -->
+                    <div class="craft-station-card" data-station="技术中心" data-status="idle">
+                        <div class="craft-station-header">
+                            <span class="craft-station-icon">🔬</span>
+                            <span class="craft-station-name" data-i18n="craft.techCenter">技术中心</span>
+                        </div>
+                        <div class="craft-station-preview">
+                            <span class="placeholder-icon">◇</span>
+                        </div>
+                        <div class="craft-station-status idle">
+                            <span class="status-icon">+</span>
+                            <span data-i18n="craft.idle">空闲中</span>
+                            <span style="color: #4ade80;">▌</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 工作台 -->
+                    <div class="craft-station-card" data-station="工作台" data-status="idle">
+                        <div class="craft-station-header">
+                            <span class="craft-station-icon">🔧</span>
+                            <span class="craft-station-name" data-i18n="craft.workbench">工作台</span>
+                        </div>
+                        <div class="craft-station-preview">
+                            <span class="placeholder-icon">◇</span>
+                        </div>
+                        <div class="craft-station-status idle">
+                            <span class="status-icon">+</span>
+                            <span data-i18n="craft.idle">空闲中</span>
+                            <span style="color: #4ade80;">▌</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 制药台 -->
+                    <div class="craft-station-card" data-station="制药台" data-status="idle">
+                        <div class="craft-station-header">
+                            <span class="craft-station-icon">💊</span>
+                            <span class="craft-station-name" data-i18n="craft.medBench">制药台</span>
+                        </div>
+                        <div class="craft-station-preview">
+                            <span class="placeholder-icon">◇</span>
+                        </div>
+                        <div class="craft-station-status idle">
+                            <span class="status-icon">+</span>
+                            <span data-i18n="craft.idle">空闲中</span>
+                            <span style="color: #4ade80;">▌</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 防具台 -->
+                    <div class="craft-station-card" data-station="防具台" data-status="working" data-item="DAR突击手胸挂" data-time="02:22:45">
+                        <div class="craft-station-header">
+                            <span class="craft-station-icon">🛡️</span>
+                            <span class="craft-station-name" data-i18n="craft.armorBench">防具台</span>
+                            <span class="craft-station-badge">📋</span>
+                        </div>
+                        <div class="craft-station-preview has-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #5a6a7a 0%, #4a5a6a 100%);"></div>
+                        </div>
+                        <div class="craft-station-item-name" data-i18n="items.darChestRig">DAR突击手胸挂</div>
+                        <div class="craft-station-status working">
+                            <span class="status-icon">🔧</span>
+                            <span>02:22:45</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ===== 制造推荐内容 ===== -->
+            <div class="craft-recommend-content" id="craft-recommend-content-home">
+                <div class="craft-stations-grid">
+                    <!-- 技术中心 -->
+                    <div class="craft-station-card">
+                        <div class="craft-station-header">
+                            <span class="craft-station-icon">🔬</span>
+                            <span class="craft-station-name">技术中心</span>
+                        </div>
+                        <div class="craft-station-preview has-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #3a7a5a 0%, #2a6a4a 100%);"></div>
+                        </div>
+                        <div class="craft-station-item-name">OLIGHT手电</div>
+                        <div class="craft-station-status profit">
+                            <span class="status-icon">💰</span>
+                            <span class="profit-value">1857/h</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 工作台 -->
+                    <div class="craft-station-card">
+                        <div class="craft-station-header">
+                            <span class="craft-station-icon">🔧</span>
+                            <span class="craft-station-name">工作台</span>
+                        </div>
+                        <div class="craft-station-preview has-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #6a5a3a 0%, #5a4a2a 100%);"></div>
+                        </div>
+                        <div class="craft-station-item-name">PMAG D-60弹鼓</div>
+                        <div class="craft-station-status profit">
+                            <span class="status-icon">💰</span>
+                            <span class="profit-value">1523/h</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 制药台 -->
+                    <div class="craft-station-card">
+                        <div class="craft-station-header">
+                            <span class="craft-station-icon">💊</span>
+                            <span class="craft-station-name">制药台</span>
+                        </div>
+                        <div class="craft-station-preview has-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #5a3a6a 0%, #4a2a5a 100%);"></div>
+                        </div>
+                        <div class="craft-station-item-name">军用急救包</div>
+                        <div class="craft-station-status profit">
+                            <span class="status-icon">💰</span>
+                            <span class="profit-value">1245/h</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 防具台 -->
+                    <div class="craft-station-card">
+                        <div class="craft-station-header">
+                            <span class="craft-station-icon">🛡️</span>
+                            <span class="craft-station-name">防具台</span>
+                        </div>
+                        <div class="craft-station-preview has-item">
+                            <div class="item-image" style="background: linear-gradient(135deg, #5a6a7a 0%, #4a5a6a 100%);"></div>
+                        </div>
+                        <div class="craft-station-item-name">6级防弹插板</div>
+                        <div class="craft-station-status profit">
+                            <span class="status-icon">💰</span>
+                            <span class="profit-value">2234/h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 改枪推荐 -->
+    <section class="gun-section">
+        <div class="section-header">
+            <span class="section-title">🔧 <span data-i18n="gunBuilds.title">改枪推荐</span></span>
+            <!-- V1.0 隐藏更多 -->
+            <!-- <span class="section-more">更多 ▸</span> -->
+        </div>
+        
+        <!-- 烽火地带改枪推荐 -->
+        <div id="gun-builds-fenguo-mobile">
+            <!-- 枪械选择器 - 烽火 -->
+            <div class="gun-selector" id="gun-selector-fh-mobile">
+                <div class="gun-tab active" data-gun="mp5">
+                    <div class="gun-tab-image"></div>
+                    <span class="gun-tab-name">MP5</span>
+                </div>
+                <div class="gun-tab" data-gun="ak74">
+                    <div class="gun-tab-image"></div>
+                    <span class="gun-tab-name">AK-74M</span>
+                </div>
+                <div class="gun-tab" data-gun="m4a1">
+                    <div class="gun-tab-image"></div>
+                    <span class="gun-tab-name">M4A1</span>
+                </div>
+                <div class="gun-tab" data-gun="scar">
+                    <div class="gun-tab-image"></div>
+                    <span class="gun-tab-name">SCAR-H</span>
+                </div>
+                <div class="gun-tab" data-gun="vss">
+                    <div class="gun-tab-image"></div>
+                    <span class="gun-tab-name">VSS</span>
+                </div>
+            </div>
+            
+            <!-- 横版并列方案 - 烽火（两个方案） -->
+            <div class="build-cards-container" id="gun-builds-content-fh-mobile">
+                <!-- 性价比改法 -->
+                <div class="build-card budget">
+                    <button class="copy-btn" data-i18n="common.copy">复制</button>
+                    <div class="build-header">
+                        <div class="build-title-row">
+                            <span class="build-type budget-type">💰 85K <span data-i18n="gunBuilds.budgetBuild">性价比</span></span>
+                            <span class="build-value"><span class="value-icon">💎</span><span class="value-num">102,350</span></span>
+                        </div>
+                        <div class="build-tags">
+                            <span class="build-tag" data-i18n="gunBuilds.shortRange">中近距离</span>
+                            <span class="build-tag" data-i18n="gunBuilds.fullHipfire">满腰射</span>
+                        </div>
+                    </div>
+                    <div class="build-gun-preview"></div>
+                    <div class="radar-chart-container">
+                        <canvas id="radar-budget"></canvas>
+                    </div>
+                </div>
+                
+                <!-- 满改方案 -->
+                <div class="build-card premium">
+                    <button class="copy-btn" data-i18n="common.copy">复制</button>
+                    <div class="build-header">
+                        <span class="build-type premium-type">💎 157K <span data-i18n="gunBuilds.premiumBuild">满改</span></span>
+                        <div class="build-tags">
+                            <span class="build-tag" data-i18n="gunBuilds.longRange">长距离</span>
+                            <span class="build-tag" data-i18n="gunBuilds.highAccuracy">高精准</span>
+                        </div>
+                    </div>
+                    <div class="build-gun-preview"></div>
+                    <div class="radar-chart-container">
+                        <canvas id="radar-premium"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 全面战场改枪推荐（默认隐藏） -->
+        <div id="gun-builds-zhanchang-mobile" style="display: none;">
+            <!-- 枪械选择器 - 战场 -->
+            <div class="gun-selector" id="gun-selector-zc-mobile">
+                <div class="gun-tab active" data-gun="m4a1">
+                    <div class="gun-tab-image"></div>
+                    <span class="gun-tab-name">M4A1</span>
+                </div>
+                <div class="gun-tab" data-gun="ak74">
+                    <div class="gun-tab-image"></div>
+                    <span class="gun-tab-name">AK-74M</span>
+                </div>
+                <div class="gun-tab" data-gun="hk416">
+                    <div class="gun-tab-image"></div>
+                    <span class="gun-tab-name">HK416</span>
+                </div>
+                <div class="gun-tab" data-gun="aug">
+                    <div class="gun-tab-image"></div>
+                    <span class="gun-tab-name">AUG</span>
+                </div>
+                <div class="gun-tab" data-gun="svd">
+                    <div class="gun-tab-image"></div>
+                    <span class="gun-tab-name">SVD</span>
+                </div>
+            </div>
+            
+            <!-- 单方案 - 战场（无价格，单个方案） -->
+            <div class="build-cards-container single-build" id="gun-builds-content-zc-mobile">
+                <div class="build-card single">
+                    <button class="copy-btn" data-i18n="common.copy">复制</button>
+                    <div class="build-header">
+                        <span class="build-type single-type">🎯 <span data-i18n="gunBuilds.recommendedBuild">推荐改装方案</span></span>
+                        <div class="build-tags" id="build-tags-zc-mobile">
+                            <span class="build-tag" data-i18n="gunBuilds.midLongRange">中远距离</span>
+                            <span class="build-tag" data-i18n="gunBuilds.highStability">高稳定</span>
+                            <span class="build-tag" data-i18n="gunBuilds.pvpOptimized">PVP优化</span>
+                        </div>
+                    </div>
+                    <div class="build-gun-preview"></div>
+                    <div class="radar-chart-container">
+                        <canvas id="radar-single"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    </div><!-- 首页内容结束 -->
+    
+    <!-- ============================================
+         工具页面
+         ============================================ -->
+    <div class="page-content" id="page-tools">
+        <section class="tools-section">
+            <!-- 制造推荐卡片 -->
+            <div class="craft-card-mobile">
+                <div class="craft-header-mobile">
+                    <span class="craft-title-mobile">🔧 <span data-i18n="craft.craftRecommendTitle">特勤处制造推荐</span></span>
+                    <span class="craft-more-mobile" data-i18n="common.more">更多 ⊞</span>
+                </div>
+                
+                <!-- ===== 制造推荐内容 ===== -->
+                <div class="craft-recommend-content active" id="craft-recommend-content">
+                    <!-- 制造分类Tab -->
+                    <div class="craft-tabs-mobile">
+                        <div class="craft-tab-mobile active" data-craft="tech" data-i18n="craft.techCenter">技术中心</div>
+                        <div class="craft-tab-mobile" data-craft="work" data-i18n="craft.workbench">工作台</div>
+                        <div class="craft-tab-mobile" data-craft="med" data-i18n="craft.medBench">制药台</div>
+                        <div class="craft-tab-mobile" data-craft="armor" data-i18n="craft.armorBench">防具台</div>
+                    </div>
+                    
+                    <!-- 物品列表 -->
+                    <div class="craft-items-mobile" id="craft-items-mobile">
+                        <!-- JS动态生成 -->
+                    </div>
+                    
+                    <!-- 价格走势图 -->
+                    <div class="craft-chart-section-mobile">
+                        <div class="chart-legend-mobile">
+                            <div class="legend-items-mobile">
+                                <div class="legend-item-mobile">
+                                    <span class="legend-dot-mobile price"></span>
+                                    <span data-i18n="craft.priceTrend">售价走势</span>
+                                </div>
+                                <div class="legend-item-mobile">
+                                    <span class="legend-dot-mobile cost"></span>
+                                    <span data-i18n="craft.craftCost">制造成本</span>
+                                </div>
+                            </div>
+                            <span class="chart-time-mobile" data-i18n="craft.last24Hours">近24小时</span>
+                        </div>
+                        <div class="craft-chart-mobile">
+                            <canvas id="craft-chart-mobile"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 交易物价模块 - V1.0 隐藏 -->
+            <!--
+            <div class="market-card-mobile">
+                ... 交易物价模块已在V1.0版本中隐藏 ...
+            </div>
+            -->
+            
+            <!-- 地图工具模块 - V1.0 隐藏 -->
+            <!--
+            <div class="map-card-mobile">
+                ... 地图工具已在V1.0版本中隐藏 ...
+            </div>
+            -->
+        </section>
+    </div><!-- 工具页面结束 -->
+    
+    <!-- ============================================
+         攻略页面 (Wiki)
+         ============================================ -->
+    <div class="page-content" id="page-guides">
+        <section class="wiki-section">
+            <!-- 攻略推荐模块 -->
+            <div class="guide-recommend-card">
+                <div class="guide-recommend-header">
+                    <span class="guide-recommend-title">攻略推荐</span>
+                </div>
+                
+                <!-- 攻略Tab切换 -->
+                <div class="guide-tabs">
+                    <button class="guide-tab active">版本速览</button>
+                    <button class="guide-tab">新武器</button>
+                </div>
+                
+                <!-- 攻略卡片列表 -->
+                <div class="guide-card-list">
+                    <!-- 新干员 -->
+                    <div class="guide-card-item">
+                        <div class="guide-card-image">
+                            <span class="guide-card-badge new-operator">新干员</span>
+                        </div>
+                        <div class="guide-card-content">
+                            <span class="guide-card-tag">干员攻略</span>
+                            <div class="guide-card-name">新干员爆料</div>
+                            <div class="guide-card-desc">支援兵种，具备出色的医学专业素养与极强的责任意识。</div>
+                        </div>
+                        <span class="guide-card-arrow">›</span>
+                    </div>
+                    
+                    <!-- 新赛季 -->
+                    <div class="guide-card-item">
+                        <div class="guide-card-image">
+                            <span class="guide-card-badge new-season">新赛季</span>
+                        </div>
+                        <div class="guide-card-content">
+                            <span class="guide-card-tag">赛季更新</span>
+                            <div class="guide-card-name">新赛季更新速览</div>
+                            <div class="guide-card-desc">全面快速了解新赛季玩法</div>
+                        </div>
+                        <span class="guide-card-arrow">›</span>
+                    </div>
+                    
+                    <!-- 新地图 -->
+                    <div class="guide-card-item">
+                        <div class="guide-card-image">
+                            <span class="guide-card-badge new-map">新地图</span>
+                        </div>
+                        <div class="guide-card-content">
+                            <span class="guide-card-tag">地图爆料</span>
+                            <div class="guide-card-name">新地图爆料</div>
+                            <div class="guide-card-desc">全面战场新地图「余震」高楼倾覆 地动山摇</div>
+                        </div>
+                        <span class="guide-card-arrow">›</span>
+                    </div>
+                </div>
+                
+                <!-- 战术指南 -->
+                <div class="tactics-header">
+                    <span class="tactics-title">战术指南</span>
+                    <span class="tactics-more">更多 ›</span>
+                </div>
+                
+                <div class="tactics-grid">
+                    <!-- 热门大图 -->
+                    <div class="tactics-item featured">
+                        <div class="tactics-image">
+                            <span class="tactics-hot-badge">HOT</span>
+                        </div>
+                        <div class="tactics-label">新干员档案：代号蝶</div>
+                    </div>
+                    
+                    <!-- 小图标 -->
+                    <div class="tactics-item">
+                        <div class="tactics-image"></div>
+                        <div class="tactics-label">烽火地带</div>
+                    </div>
+                    <div class="tactics-item">
+                        <div class="tactics-image"></div>
+                        <div class="tactics-label">新手教学</div>
+                    </div>
+                    <div class="tactics-item">
+                        <div class="tactics-image"></div>
+                        <div class="tactics-label">大神攻略</div>
+                    </div>
+                    <div class="tactics-item">
+                        <div class="tactics-image"></div>
+                        <div class="tactics-label">干员技巧</div>
+                    </div>
+                    <div class="tactics-item">
+                        <div class="tactics-image"></div>
+                        <div class="tactics-label">全面战场</div>
+                    </div>
+                    <div class="tactics-item">
+                        <div class="tactics-image"></div>
+                        <div class="tactics-label">道具百科</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 实用百科模块 -->
+            <div class="wiki-encyclopedia-card">
+                <div class="wiki-encyclopedia-title">实用百科</div>
+                <div class="wiki-encyclopedia-grid">
+                    <div class="wiki-entry-item">
+                        <span class="wiki-entry-icon">🔫</span>
+                        <div class="wiki-entry-name">武器</div>
+                        <div class="wiki-entry-name-en">WEAPON</div>
+                    </div>
+                    <div class="wiki-entry-item">
+                        <span class="wiki-entry-icon">🛡️</span>
+                        <div class="wiki-entry-name">装备</div>
+                        <div class="wiki-entry-name-en">ARMOR</div>
+                    </div>
+                    <div class="wiki-entry-item">
+                        <span class="wiki-entry-icon">💊</span>
+                        <div class="wiki-entry-name">道具</div>
+                        <div class="wiki-entry-name-en">ITEM</div>
+                    </div>
+                    <div class="wiki-entry-item">
+                        <span class="wiki-entry-icon">🔧</span>
+                        <div class="wiki-entry-name">配件</div>
+                        <div class="wiki-entry-name-en">ACCESSORIES</div>
+                    </div>
+                    <div class="wiki-entry-item">
+                        <span class="wiki-entry-icon">📦</span>
+                        <div class="wiki-entry-name">军需处</div>
+                        <div class="wiki-entry-name-en">QUARTERMASTER</div>
+                    </div>
+                    <div class="wiki-entry-item">
+                        <span class="wiki-entry-icon">🎖️</span>
+                        <div class="wiki-entry-name">特勤处</div>
+                        <div class="wiki-entry-name-en">SPECIAL OPS</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div><!-- 攻略页面结束 -->
+    
+    <!-- ============================================
+         我的页面
+         ============================================ -->
+    <div class="page-content" id="page-profile">
+        <section class="profile-section">
+            <!-- 用户头部背景 -->
+            <div class="profile-header-bg">
+                <!-- 用户信息 -->
+                <div class="profile-user-info">
+                    <div class="profile-avatar">🐱</div>
+                    <div class="profile-user-detail">
+                        <span class="profile-username">牡丹没那么简单</span>
+                        <span class="profile-server" data-i18n="profile.server">微信区</span>
+                    </div>
+                </div>
+                
+                <!-- 段位信息 -->
+                <div class="profile-rank-info">
+                    <div class="rank-item">
+                        <div class="rank-label" data-i18n="profile.currentRank">当前段位</div>
+                        <div class="rank-icon">III</div>
+                        <div class="rank-name"><span data-i18n="ranks.gold">黄金</span>III</div>
+                    </div>
+                    <div class="rank-item">
+                        <div class="rank-label" data-i18n="profile.peakRank">最高段位</div>
+                        <div class="rank-icon">I</div>
+                        <div class="rank-name" data-i18n="ranks.gold">黄金</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 数据统计卡片 -->
+            <div class="profile-stats-card" id="profile-stats-card">
+                <!-- 模式切换Tab - 仅战绩页显示 -->
+                <div class="profile-mode-tabs" id="profile-mode-tabs">
+                    <div class="profile-mode-tab active" data-mode="fenghuodiDai">🔥 <span data-i18n="gameMode.fenghuo">烽火地带</span></div>
+                    <div class="profile-mode-tab" data-mode="quanmianzhanchang">⚔️ <span data-i18n="gameMode.zhanchang">全面战场</span></div>
+                </div>
+                <div class="profile-stats-header">
+                    <span class="profile-stats-title" id="stats-title" style="display: none;" data-i18n="profile.statsData">战绩数据</span>
+                    <span class="profile-stats-link" id="stats-link" style="display: none;" data-i18n="profile.collectionRanking">典藏外观周榜</span>
+                </div>
+                <div class="profile-stats-grid" id="stats-grid">
+                    <div class="profile-stat-item">
+                        <div class="profile-stat-value">55.1M</div>
+                        <div class="profile-stat-label" data-i18n="stats.totalValue">带出总价值</div>
+                    </div>
+                    <div class="profile-stat-item">
+                        <div class="profile-stat-value">37.6%</div>
+                        <div class="profile-stat-label" data-i18n="stats.extractionRate">撤离率</div>
+                    </div>
+                    <div class="profile-stat-item">
+                        <div class="profile-stat-value">333</div>
+                        <div class="profile-stat-label" data-i18n="stats.defeatedOperator">击败干员</div>
+                    </div>
+                    <div class="profile-stat-item">
+                        <div class="profile-stat-value">535.0K</div>
+                        <div class="profile-stat-label" data-i18n="stats.profitLossRatio">赚损比</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 内容Tab切换 -->
+            <div class="profile-content-tabs">
+                <div class="profile-content-tab active" data-tab="battle" data-i18n="tabs.recentMatches">最近战绩</div>
+                <div class="profile-content-tab" data-tab="collection" data-i18n="tabs.collection">大红藏馆</div>
+                <!-- V1.0 隐藏资产Tab -->
+                <!-- <div class="profile-content-tab" data-tab="asset">资产</div> -->
+            </div>
+            
+            <!-- 内容区域 -->
+            <div class="profile-content-area">
+                <!-- ===== 战绩页内容 ===== -->
+                <div class="profile-tab-content" id="tab-battle">
+                    <!-- V1.0 隐藏战绩子Tab -->
+                    <!--
+                    <div class="battle-sub-tabs">
+                        <button class="battle-sub-tab active">👥 最近对局</button>
+                        <button class="battle-sub-tab">📊 作战统计</button>
+                        <button class="battle-sub-tab">📋 更多记录</button>
+                    </div>
+                    -->
+                    
+                    <div class="battle-filter-row">
+                        <select class="battle-filter-select">
+                            <option data-i18n="common.all">全部</option>
+                            <option data-i18n="gameMode.fenghuo">烽火地带</option>
+                            <option data-i18n="gameMode.zhanchang">全面战场</option>
+                        </select>
+                        <span class="battle-profit-label"><span data-i18n="battle.netProfit">净收益</span>: <input type="checkbox" style="vertical-align: middle;"></span>
+                    </div>
+                    
+                    <div class="battle-record-list">
+                        <div class="battle-record-item">
+                            <div class="battle-record-avatar">🎖️</div>
+                            <div class="battle-record-info">
+                                <div class="battle-record-status">
+                                    <span class="battle-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
+                                    <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                                </div>
+                                <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.dam">零号大坝</span>-<span data-i18n="maps.secret">机密</span></div>
+                                <div class="battle-record-time">02-01 10:52</div>
+                            </div>
+                            <div class="battle-record-result">
+                                <div class="battle-result-profit">💰 68,304</div>
+                                <div class="battle-result-kills">💀 4</div>
+                            </div>
+                            <span class="battle-record-arrow">›</span>
+                        </div>
+                        
+                        <div class="battle-record-item">
+                            <div class="battle-record-avatar">⚔️</div>
+                            <div class="battle-record-info">
+                                <div class="battle-record-status">
+                                    <span class="battle-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
+                                    <span class="battle-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                                </div>
+                                <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.dam">零号大坝</span>-<span data-i18n="maps.secret">机密</span></div>
+                                <div class="battle-record-time">02-01 10:45</div>
+                            </div>
+                            <div class="battle-record-result">
+                                <div class="battle-result-profit">💰 95,960</div>
+                                <div class="battle-result-kills">💀 7</div>
+                            </div>
+                            <span class="battle-record-arrow">›</span>
+                        </div>
+                        
+                        <div class="battle-record-item">
+                            <div class="battle-record-avatar">🛡️</div>
+                            <div class="battle-record-info">
+                                <div class="battle-record-status">
+                                    <span class="battle-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
+                                    <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                                </div>
+                                <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.space">航天基地</span>-<span data-i18n="maps.secret">机密</span></div>
+                                <div class="battle-record-time">02-01 10:30</div>
+                            </div>
+                            <div class="battle-record-result">
+                                <div class="battle-result-profit">💰 0</div>
+                                <div class="battle-result-kills">💀 2</div>
+                            </div>
+                            <span class="battle-record-arrow">›</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ===== 大红藏馆内容 ===== -->
+                <div class="profile-tab-content" id="tab-collection" style="display: none;">
+                    <div class="collection-filter-row">
+                        <select class="collection-season-select">
+                            <option data-i18n="collection.allSeasons">所有赛季</option>
+                            <option>S1</option>
+                            <option>S2</option>
+                        </select>
+                        <div class="collection-action-btns">
+                            <button class="collection-action-btn outline" data-i18n="collection.redRecord">出红记录</button>
+                            <button class="collection-action-btn filled" data-i18n="collection.generatePoster">生成海报</button>
+                        </div>
+                    </div>
+                    
+                    <div class="collection-category-tabs">
+                        <button class="collection-category-tab active"><span data-i18n="collection.categories.all">全部</span>12/86</button>
+                        <button class="collection-category-tab"><span data-i18n="collection.categories.electronic">电子物品</span>0/16</button>
+                        <button class="collection-category-tab"><span data-i18n="collection.categories.tools">工具材料</span>0/4</button>
+                        <button class="collection-category-tab"><span data-i18n="collection.categories.crafts">工艺藏品</span>7/38</button>
+                    </div>
+                    
+                    <div class="collection-grid">
+                        <div class="collection-item">
+                            <span class="collection-item-tag" data-i18n="items.powerBattery">动力电池组</span>
+                            <div class="collection-item-image">
+                                <span class="collection-item-count">1</span>
+                            </div>
+                        </div>
+                        <div class="collection-item">
+                            <span class="collection-item-tag" data-i18n="items.claudiusBust">克劳迪乌斯半身像</span>
+                            <div class="collection-item-image">
+                                <span class="collection-item-count">1</span>
+                            </div>
+                        </div>
+                        <div class="collection-item">
+                            <span class="collection-item-tag" data-i18n="items.respirator">呼吸机</span>
+                            <div class="collection-item-image">
+                                <span class="collection-item-count">1</span>
+                            </div>
+                        </div>
+                        <div class="collection-item">
+                            <span class="collection-item-tag" data-i18n="items.goldenGazelle">黄金瞪羚</span>
+                            <div class="collection-item-image">
+                                <span class="collection-item-count">1</span>
+                            </div>
+                        </div>
+                        <div class="collection-item">
+                            <span class="collection-item-tag" data-i18n="items.spinosaurusClaw">棘龙爪化石</span>
+                            <div class="collection-item-image">
+                                <span class="collection-item-count">1</span>
+                            </div>
+                        </div>
+                        <div class="collection-item">
+                            <span class="collection-item-tag" data-i18n="items.oliviaChampagne">奥莉薇娅香槟</span>
+                            <div class="collection-item-image">
+                                <span class="collection-item-count">1</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ===== 资产页内容 - V1.0 隐藏 ===== -->
+                <!--
+                <div class="profile-tab-content" id="tab-asset" style="display: none;">
+                    ... 资产页内容已在V1.0版本中隐藏 ...
+                </div>
+                -->
+            </div>
+        </section>
+    </div><!-- 我的页面结束 -->
+    
+    <!-- 底部导航 -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" data-page="首页">
+            <div class="nav-icon">◇</div>
+            <span class="nav-label" data-i18n="nav.home">首页</span>
+        </div>
+        <div class="nav-item" data-page="工具">
+            <div class="nav-icon">⚙</div>
+            <span class="nav-label" data-i18n="nav.tools">工具</span>
+        </div>
+        <!-- Wiki暂时隐藏
+        <div class="nav-item" data-page="Wiki">
+            <div class="nav-icon">△</div>
+            <span class="nav-label">Wiki</span>
+        </div>
+        -->
+        <div class="nav-item" data-page="我的">
+            <div class="nav-icon">👤</div>
+            <span class="nav-label" data-i18n="nav.profile">我的</span>
+        </div>
+    </nav>
+    
+    <!-- ============================================
+         物价详情子页面
+         ============================================ -->
+    <div class="subpage" id="page-market-detail">
+        <!-- 子页面Header -->
+        <header class="subpage-header">
+            <span class="subpage-back" id="market-detail-back">‹</span>
+            <span class="subpage-title">交易物价</span>
+            <span class="subpage-action"></span>
+        </header>
+        
+        <!-- 搜索框 -->
+        <div class="market-search-bar">
+            <span class="search-icon">🔍</span>
+            <input type="text" class="market-search-input" id="market-search-input" placeholder="搜索物品名称...">
+            <span class="search-clear" id="market-search-clear">✕</span>
+        </div>
+        
+        <!-- 筛选器 -->
+        <div class="market-detail-filters">
+            <select class="market-detail-select" id="market-detail-category">
+                <option value="all">全部分类</option>
+                <option value="guns">枪械</option>
+                <option value="armor">装备</option>
+                <option value="parts">配件</option>
+                <option value="collect">收集品</option>
+                <option value="medical">医疗品</option>
+                <option value="ammo">弹药</option>
+            </select>
+        </div>
+        
+        <!-- 物品列表表头 - 支持排序 -->
+        <div class="market-detail-list-header">
+            <span class="market-detail-header-name">物品名称</span>
+            <span class="market-detail-header-price sortable" data-sort="price" id="sort-price">
+                价值 <span class="sort-arrow">↕</span>
+            </span>
+            <span class="market-detail-header-change sortable" data-sort="change" id="sort-change">
+                涨跌幅 <span class="sort-arrow">↕</span>
+            </span>
+        </div>
+        
+        <!-- 全量物品列表 -->
+        <div class="market-detail-list" id="market-detail-list">
+            <!-- JS动态填充 -->
+        </div>
+    </div>
+    
+    <!-- 密码指引弹窗 -->
+    <div class="password-modal-overlay" id="password-modal-overlay">
+        <div class="password-modal">
+            <div class="password-modal-header">
+                <span class="password-modal-title">🔐 密码房指引</span>
+                <span class="password-modal-close" id="password-modal-close">✕</span>
+            </div>
+            
+            <!-- 地图Tab导航 -->
+            <div class="password-guide-tabs" id="password-guide-tabs">
+                <div class="password-guide-tab active" data-map="daba">
+                    <span class="tab-icon">🏔️</span>
+                    <span class="tab-name">零号大坝</span>
+                    <span class="tab-code">0740</span>
+                </div>
+                <div class="password-guide-tab" data-map="xigu">
+                    <span class="tab-icon">🌲</span>
+                    <span class="tab-name">长弓溪谷</span>
+                    <span class="tab-code">0968</span>
+                </div>
+                <div class="password-guide-tab" data-map="bakeshi">
+                    <span class="tab-icon">🏜️</span>
+                    <span class="tab-name">巴克什</span>
+                    <span class="tab-code">0610</span>
+                </div>
+                <div class="password-guide-tab" data-map="hangtian">
+                    <span class="tab-icon">🚀</span>
+                    <span class="tab-name">航天基地</span>
+                    <span class="tab-code">0710</span>
+                </div>
+                <div class="password-guide-tab" data-map="jianyu">
+                    <span class="tab-icon">⛓️</span>
+                    <span class="tab-name">潮汐监狱</span>
+                    <span class="tab-code">0654</span>
+                </div>
+            </div>
+            
+            <!-- 弹窗内容区域 -->
+            <div class="password-modal-content" id="password-modal-content">
+                <!-- 地图名称+密码 -->
+                <div class="password-guide-title-bar">
+                    <span class="guide-map-name" id="guide-map-name">🏔️ 零号大坝</span>
+                    <span class="guide-map-code">今日密码: <strong id="guide-map-code">0740</strong></span>
+                </div>
+                
+                <!-- 图片轮播区域 -->
+                <div class="password-guide-carousel">
+                    <button class="carousel-btn carousel-prev" id="carousel-prev">‹</button>
+                    <div class="carousel-container" id="carousel-container">
+                        <div class="carousel-slide active">
+                            <div class="carousel-image">
+                                <div class="carousel-image-placeholder">步骤1 位置示意图</div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <div class="carousel-image">
+                                <div class="carousel-image-placeholder">步骤2 位置示意图</div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <div class="carousel-image">
+                                <div class="carousel-image-placeholder">步骤3 位置示意图</div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <div class="carousel-image">
+                                <div class="carousel-image-placeholder">步骤4 位置示意图</div>
+                            </div>
+                        </div>
+                        <div class="carousel-slide">
+                            <div class="carousel-image">
+                                <div class="carousel-image-placeholder">步骤5 位置示意图</div>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-btn carousel-next" id="carousel-next">›</button>
+                </div>
+                
+                <!-- 轮播指示器 -->
+                <div class="carousel-indicators" id="carousel-indicators">
+                    <span class="indicator active" data-index="0"></span>
+                    <span class="indicator" data-index="1"></span>
+                    <span class="indicator" data-index="2"></span>
+                    <span class="indicator" data-index="3"></span>
+                    <span class="indicator" data-index="4"></span>
+                </div>
+                
+                <!-- 文字指引 -->
+                <div class="password-guide-text" id="password-guide-text">
+                    <div class="guide-step-number">步骤 <span id="guide-step-num">1</span></div>
+                    <div class="guide-step-content" id="guide-step-content">从主出生点出发，向东北方向前进约200米，找到一座废弃的仓库建筑。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 制造部门弹窗 -->
+    <div class="craft-modal-overlay" id="craft-modal-overlay">
+        <div class="craft-modal">
+            <div class="craft-modal-header">
+                <span class="craft-modal-title" id="craft-modal-title">部门详情</span>
+                <span class="craft-modal-close" id="craft-modal-close">✕</span>
+            </div>
+            <div class="craft-modal-content" id="craft-modal-content">
+                <!-- 弹窗内容区域 -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- 引入数据文件 -->
+    <script src="../shared/mock-data.js"></script>
+    
+    <!-- 引入主JS文件 -->
+    <script src="main.js"></script>
+</body>
+</html>

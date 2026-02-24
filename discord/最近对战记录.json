@@ -1,0 +1,52 @@
+{
+  "content": "⚔️ **最近对战记录**",
+  "embeds": [
+    {
+      "title": "📋 近期战局【共5局】",
+      "description": "**干员**: DeltaOperator_2024 · **战区**: 亚太服务器",
+      "color": 5793266,
+      "author": {
+        "name": "三角洲行动 | 对战记录",
+        "icon_url": "https://example.com/delta-force-icon.png"
+      },
+      "fields": [
+        {
+          "name": "🟢 第1局 · 零号大坝 · 撤离成功",
+          "value": "🎖️ 威龙 · 💰 ₽48,200 · 💀 3人",
+          "inline": false
+        },
+        {
+          "name": "🟢 第2局 · 长弓溪谷 · 撤离成功",
+          "value": "🎖️ 乌鲁鲁 · 💰 ₽31,500 · 💀 1人",
+          "inline": false
+        },
+        {
+          "name": "🔴 第3局 · 巴克什 · 阵亡",
+          "value": "🎖️ 威龙 · 💰 ₽0 · 💀 2人",
+          "inline": false
+        },
+        {
+          "name": "🟢 第4局 · 航天基地 · 撤离成功",
+          "value": "🎖️ 猎手 · 💰 ₽14,899 · 💀 1人",
+          "inline": false
+        },
+        {
+          "name": "🔴 第5局 · 零号大坝 · 阵亡",
+          "value": "🎖️ 乌鲁鲁 · 💰 ₽0 · 💀 0人",
+          "inline": false
+        },
+        {
+          "name": "📊 汇总",
+          "value": "撤离率 **60%** (3/5) · 总收益 **₽94,599** · 总击杀 **7人**",
+          "inline": false
+        }
+      ],
+      "footer": {
+        "text": "数据更新于 01月29日 23:59 • 三角洲行动战绩系统",
+        "icon_url": "https://example.com/delta-stats-icon.png"
+      },
+      "timestamp": "2025-01-30T00:00:00.000Z"
+    }
+  ],
+  "attachments": []
+}

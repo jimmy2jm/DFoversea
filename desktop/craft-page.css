@@ -1,0 +1,739 @@
+/* ============================================
+   交易制造页面专用样式
+   ============================================ */
+
+/* 页面容器 */
+.craft-page-container {
+    max-width: 1400px;
+}
+
+/* 页面标题 */
+.page-header {
+    margin-bottom: 1.5rem;
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.page-subtitle {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* ============================================
+   制造推荐模块
+   ============================================ */
+.craft-recommend-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+/* Tab 切换栏 - 横向铺满 */
+.craft-tabs-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.craft-tab-btn {
+    flex: 1;
+    padding: 0.625rem 1.25rem;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.craft-tab-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--text-muted);
+}
+
+.craft-tab-btn.active {
+    background: rgba(74, 222, 128, 0.15);
+    border-color: var(--accent-green);
+    color: var(--accent-green);
+    font-weight: 600;
+}
+
+/* 推荐物品横向列表 */
+.craft-items-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: var(--accent-cyan) var(--bg-dark);
+}
+
+.craft-items-row::-webkit-scrollbar {
+    height: 6px;
+}
+
+.craft-items-row::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+    border-radius: 3px;
+}
+
+.craft-items-row::-webkit-scrollbar-thumb {
+    background: var(--accent-cyan);
+    border-radius: 3px;
+}
+
+/* 单个制造物品卡片 */
+.craft-item-card-lg {
+    flex: 0 0 220px;
+    min-width: 220px;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.craft-item-card-lg:hover {
+    border-color: var(--accent-cyan);
+}
+
+.craft-item-card-lg.selected {
+    border-color: var(--accent-green);
+    background: rgba(74, 222, 128, 0.08);
+    box-shadow: 0 0 15px rgba(74, 222, 128, 0.15);
+}
+
+.craft-item-image-lg {
+    width: 100%;
+    height: 80px;
+    background: linear-gradient(135deg, #3a3a3a, #2a2a2a);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+}
+
+.craft-item-name-lg {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.craft-item-stats-lg {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.craft-stat-label-lg {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.craft-stat-value-lg {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    font-family: 'Orbitron', monospace;
+}
+
+.craft-item-change-lg {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.craft-change-label-lg {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.craft-change-value-lg {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.craft-change-value-lg.positive {
+    color: var(--accent-green);
+}
+
+.craft-change-value-lg.negative {
+    color: var(--accent-red);
+}
+
+/* 价格走势图区域 */
+.craft-chart-area {
+    background: var(--bg-dark);
+    border-radius: 8px;
+    padding: 1rem;
+}
+
+.chart-legend-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.chart-legend-row .legend-items {
+    display: flex;
+    gap: 1rem;
+}
+
+.chart-legend-row .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.chart-legend-row .legend-dot {
+    width: 8px;
+    height: 8px;
+    transform: rotate(45deg);
+}
+
+.chart-legend-row .legend-dot.price {
+    background: var(--accent-cyan);
+}
+
+.chart-legend-row .legend-dot.profit {
+    background: var(--accent-green);
+}
+
+.chart-legend-row .legend-dot.cost {
+    background: var(--accent-red);
+}
+
+.chart-legend-row .chart-update-time {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.craft-chart-container {
+    height: 200px;
+    position: relative;
+}
+
+.craft-chart-container canvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* ============================================
+   交易物价列表模块
+   ============================================ */
+.market-price-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1.5rem;
+}
+
+/* 搜索框 */
+.market-search-container {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.market-search-container:focus-within {
+    border-color: var(--accent-cyan);
+}
+
+.market-search-container .search-icon {
+    font-size: 1rem;
+    margin-right: 0.75rem;
+    opacity: 0.6;
+}
+
+.market-search-container .market-search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.market-search-container .market-search-input::placeholder {
+    color: var(--text-muted);
+}
+
+.market-search-container .search-clear {
+    font-size: 1rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 0.25rem;
+    display: none;
+    transition: color 0.2s ease;
+}
+
+.market-search-container .search-clear:hover {
+    color: var(--text-primary);
+}
+
+.market-search-container .search-clear.visible {
+    display: block;
+}
+
+/* 筛选项 */
+.market-filter-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.market-filter-row .market-category-select {
+    padding: 0.5rem 1rem;
+    padding-right: 2rem;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    outline: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%238a9bb0"><path d="M7 10l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 0.5rem center;
+    background-size: 16px;
+    transition: border-color 0.2s ease;
+}
+
+.market-filter-row .market-category-select:hover {
+    border-color: var(--text-muted);
+}
+
+.market-filter-row .market-category-select:focus {
+    border-color: var(--accent-cyan);
+}
+
+.market-rank-tabs {
+    display: flex;
+    gap: 0.375rem;
+    background: var(--bg-dark);
+    padding: 4px;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.rank-tab-btn {
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: none;
+    border-radius: 6px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.rank-tab-btn:hover {
+    color: var(--text-primary);
+}
+
+.rank-tab-btn.active {
+    background: var(--bg-card);
+    color: var(--accent-cyan);
+    font-weight: 600;
+}
+
+/* 表头 */
+.market-list-header {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: var(--bg-dark);
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.header-col {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.header-col.name-col {
+    flex: 1;
+    padding-left: 1rem;
+}
+
+.header-col.price-col {
+    width: 120px;
+    text-align: right;
+}
+
+.header-col.change-col {
+    width: 100px;
+    text-align: right;
+}
+
+.header-col.sortable {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.375rem;
+    padding: 0.375rem 0.75rem;
+    margin: -0.375rem -0.75rem;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.header-col.sortable:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}
+
+.header-col.sortable .sort-arrow {
+    font-size: 0.75rem;
+    opacity: 0.5;
+    transition: all 0.2s ease;
+}
+
+.header-col.sortable.sort-asc .sort-arrow,
+.header-col.sortable.sort-desc .sort-arrow {
+    opacity: 1;
+    color: var(--accent-cyan);
+}
+
+.header-col.sortable.sort-asc .sort-arrow::after {
+    content: '↑';
+}
+
+.header-col.sortable.sort-desc .sort-arrow::after {
+    content: '↓';
+}
+
+.header-col.sortable.sort-asc .sort-arrow,
+.header-col.sortable.sort-desc .sort-arrow {
+    font-size: 0;
+}
+
+.header-col.sortable.sort-asc .sort-arrow::after,
+.header-col.sortable.sort-desc .sort-arrow::after {
+    font-size: 0.875rem;
+}
+
+.header-col.sortable.active {
+    color: var(--accent-cyan);
+}
+
+/* 物品列表 */
+.market-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.market-items-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.market-items-list::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+    border-radius: 3px;
+}
+
+.market-items-list::-webkit-scrollbar-thumb {
+    background: var(--accent-cyan);
+    border-radius: 3px;
+}
+
+/* 单个物品行 */
+.market-item-row {
+    display: flex;
+    align-items: center;
+    padding: 0.875rem 1rem;
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.market-item-row:hover {
+    border-color: var(--accent-cyan);
+    background: rgba(0, 255, 204, 0.03);
+}
+
+.market-item-rarity {
+    width: 6px;
+    height: 40px;
+    border-radius: 3px;
+    margin-right: 1rem;
+    flex-shrink: 0;
+}
+
+.market-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.market-item-name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0.125rem;
+}
+
+.market-item-category {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.market-item-price {
+    width: 120px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: right;
+    font-family: 'Orbitron', monospace;
+}
+
+.market-item-change {
+    width: 100px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-align: right;
+}
+
+.market-item-change.positive {
+    color: var(--accent-green);
+}
+
+.market-item-change.negative {
+    color: var(--accent-red);
+}
+
+/* 空状态 */
+.market-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem;
+    color: var(--text-secondary);
+}
+
+.market-empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.3;
+}
+
+.market-empty-text {
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   横屏 / 宽屏适配
+   ============================================ */
+@media (min-width: 1200px) {
+    .craft-items-row {
+        flex-wrap: nowrap;
+        overflow-x: visible;
+    }
+    
+    .craft-item-card-lg {
+        flex: 1;
+        min-width: auto;
+    }
+    
+    .craft-chart-container {
+        height: 250px;
+    }
+}
+
+/* 制造推荐模块 - 横向平铺布局（宽屏） */
+@media (min-width: 1600px) {
+    .craft-recommend-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto auto;
+        gap: 1rem;
+    }
+    
+    .craft-recommend-section .section-header {
+        grid-column: 1 / -1;
+    }
+    
+    .craft-tabs-row {
+        grid-column: 1 / -1;
+    }
+    
+    .craft-items-row {
+        grid-column: 1;
+        flex-direction: column;
+        gap: 0.75rem;
+        overflow: visible;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    
+    .craft-item-card-lg {
+        flex: 0 0 auto;
+        min-width: 100%;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        padding: 0.875rem 1rem;
+    }
+    
+    .craft-item-image-lg {
+        width: 80px;
+        height: 60px;
+    }
+    
+    .craft-item-card-lg .craft-item-info-wrap {
+        flex: 1;
+    }
+    
+    .craft-item-stats-lg {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.25rem;
+    }
+    
+    .craft-item-change-lg {
+        border: none;
+        padding: 0;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    
+    .craft-chart-area {
+        grid-column: 2;
+        grid-row: 3;
+    }
+    
+    .craft-chart-container {
+        height: 350px;
+    }
+}
+
+/* 中等屏幕 */
+@media (max-width: 1024px) {
+    .craft-page-container {
+        padding: 1.5rem;
+    }
+    
+    .craft-items-row {
+        gap: 0.75rem;
+    }
+    
+    .craft-item-card-lg {
+        flex: 0 0 180px;
+        min-width: 180px;
+    }
+    
+    .market-filter-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .market-filter-row .market-category-select {
+        width: 100%;
+    }
+    
+    .market-rank-tabs {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* 小屏幕 */
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 1.25rem;
+    }
+    
+    .craft-tab-btn {
+        flex: 1;
+        padding: 0.5rem 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    .craft-item-card-lg {
+        flex: 0 0 160px;
+        min-width: 160px;
+        padding: 0.75rem;
+    }
+    
+    .craft-item-image-lg {
+        height: 60px;
+    }
+    
+    .craft-item-name-lg {
+        font-size: 0.8rem;
+    }
+    
+    .craft-stat-value-lg {
+        font-size: 0.875rem;
+    }
+    
+    .market-list-header {
+        display: none;
+    }
+    
+    .market-item-row {
+        flex-wrap: wrap;
+    }
+    
+    .market-item-info {
+        flex-basis: calc(100% - 30px);
+    }
+    
+    .market-item-price,
+    .market-item-change {
+        width: auto;
+        margin-top: 0.5rem;
+    }
+    
+    .market-item-price {
+        flex: 1;
+        text-align: left;
+        padding-left: 22px;
+    }
+    
+    .market-item-change {
+        text-align: right;
+    }
+}

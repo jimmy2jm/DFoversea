@@ -1,0 +1,225 @@
+{
+  "common": {
+    "appName": "Delta Force Werkzeugstation",
+    "loading": "Wird geladen...",
+    "viewMore": "Mehr anzeigen",
+    "more": "Mehr",
+    "copy": "Kopieren",
+    "close": "Schließen",
+    "all": "Alle",
+    "view": "Ansehen",
+    "share": "Teilen",
+    "cancel": "Abbrechen",
+    "confirm": "Bestätigen"
+  },
+  "share": {
+    "wechat": "WeChat",
+    "moments": "Moments",
+    "copyLink": "Link kopieren",
+    "more": "Mehr",
+    "posterTitle": "Bericht teilen",
+    "dailyReport": "Tagesbericht",
+    "posterPlaceholder": "Poster wird erstellt...",
+    "saveImage": "Bild speichern"
+  },
+  "nav": {
+    "home": "Startseite",
+    "tools": "Werkzeuge",
+    "wiki": "Wiki",
+    "profile": "Mein Profil"
+  },
+  "gameMode": {
+    "fenghuo": "Einsätze",
+    "zhanchang": "Krieg",
+    "fenghuoDaily": "Einsätze-Tagesbericht",
+    "zhanchangDaily": "Krieg-Tagesbericht",
+    "subscribedDaily": "Tagesbericht abonniert 🔔"
+  },
+  "home": {
+    "todayPassword": "Heutiges Passwort",
+    "yesterdayEarnings": "Gestrige Einnahmen",
+    "openGameViewMore": "Spiel öffnen für mehr Details",
+    "recentData": "Aktuelle Daten",
+    "history": "VERLAUF",
+    "frequentOperator": "Häufiger Operator",
+    "highlightMatch": "Highlight-Spiel",
+    "highlights": "HIGHLIGHTS"
+  },
+  "stats": {
+    "killCount": "Eliminierungen",
+    "winRate": "Siegesrate",
+    "avgScore": "Ø Punkte",
+    "matchCount": "Spielanzahl",
+    "totalValue": "Extrahierter Wert",
+    "extractionRate": "Extraktionsrate",
+    "defeatedOperator": "Besiegte Ops",
+    "profitLossRatio": "Gewinn/Verlust",
+    "winCount": "Siege",
+    "killsPerMin": "Kills/Min",
+    "unit": {
+      "times": "mal",
+      "percent": "%",
+      "points": "Pkt",
+      "matches": "Spiele"
+    }
+  },
+  "maps": {
+    "dam": "Zero-Damm",
+    "valley": "Layali-Hain",
+    "bakshi": "Brakkesh",
+    "space": "Space City",
+    "prison": "Gezeitengefängnis",
+    "secret": "Geheim",
+    "aftershock": "Nachbeben-Angriff/Verteidigung"
+  },
+  "match": {
+    "extractionSuccess": "Extraktion erfolgreich",
+    "extractionFailed": "Extraktion fehlgeschlagen",
+    "victory": "Sieg",
+    "defeat": "Niederlage"
+  },
+  "gunBuilds": {
+    "title": "Waffenmodifikationen",
+    "budgetBuild": "Preis-Leistung",
+    "premiumBuild": "Vollausstattung",
+    "recommendedBuild": "Empfohlene Modifikation",
+    "shortRange": "Kurz-/Mitteldistanz",
+    "longRange": "Langstrecke",
+    "midLongRange": "Mittel-/Langstrecke",
+    "fullHipfire": "Maximale Hüftfeuer",
+    "highAccuracy": "Hohe Präzision",
+    "highStability": "Hohe Stabilität",
+    "pvpOptimized": "PVP-optimiert"
+  },
+  "craft": {
+    "title": "BLACK SITE",
+    "craftRecommendTitle": "BLACK SITE Empfehlung",
+    "craftDetail": "Details",
+    "craftRecommend": "Empfehlung",
+    "techCenter": "Tech-Center",
+    "workbench": "Werkbank",
+    "medBench": "Med-Bank",
+    "armorBench": "Rüstung",
+    "idle": "Inaktiv",
+    "perHour": "/Std",
+    "departmentDetail": "Abteilungsdetails",
+    "priceTrend": "Preisentwicklung",
+    "craftCost": "Herstellungskosten",
+    "last24Hours": "Letzte 24 Stunden"
+  },
+  "collection": {
+    "title": "Sammlergalerie",
+    "redRecord": "Fundprotokoll",
+    "generatePoster": "Poster erstellen",
+    "allSeasons": "Alle Saisons",
+    "seasonNum": "S{{num}} Saison",
+    "overview": "Sammlung-Übersicht",
+    "totalTypes": "Seltene Typen",
+    "totalCount": "Seltene Anzahl",
+    "totalValue": "Gesamtwert",
+    "weeklyCount": "Diese Woche",
+    "categories": {
+      "all": "Alle",
+      "electronic": "Elektronik",
+      "tools": "Werkzeuge",
+      "crafts": "Kunsthandwerk"
+    }
+  },
+  "items": {
+    "powerBattery": "Leistungsbatteriepaket",
+    "nutritionPorridge": "Nahrhafte Brei-Konserve",
+    "pirateGoldCoin": "Glänzende Piratengoldmünze",
+    "ramModule": "RAM",
+    "claudiusBust": "Claudius-Büste",
+    "respirator": "Beatmungsgerät",
+    "goldenGazelle": "Goldene Gazelle",
+    "spinosaurusClaw": "Spinosaurus-Klauenfossil",
+    "oliviaChampagne": "Olivia-Champagner",
+    "olightFlashlight": "OLIGHT-Taschenlampe",
+    "drumMag": "PMAG D-60 Trommelmagazin",
+    "militaryFirstAid": "Militärischer Erste-Hilfe-Kasten",
+    "level6Plate": "Stufe-6-Schutzplatte",
+    "darChestRig": "DAR Sturmschützen-Brustpanzer"
+  },
+  "profile": {
+    "currentRank": "Aktueller Rang",
+    "peakRank": "Höchster Rang",
+    "server": "Server",
+    "statsData": "Spielstatistiken",
+    "collectionRanking": "Sammler-Wochenrangliste"
+  },
+  "ranks": {
+    "gold": "Gold"
+  },
+  "tabs": {
+    "recentMatches": "Aktuelle Spielergebnisse",
+    "collection": "Sammlergalerie"
+  },
+  "battle": {
+    "netProfit": "Nettogewinn",
+    "profit": "Einnahmen",
+    "kills": "Eliminierungen"
+  },
+  "guide": {
+    "guideRecommend": "Anleitungsempfehlungen",
+    "versionOverview": "Versionsübersicht",
+    "newWeapon": "Neue Waffe",
+    "newOperator": "Neuer Operator",
+    "newSeason": "Neue Saison",
+    "newMap": "Neue Karte",
+    "operatorGuide": "Operator-Anleitung",
+    "seasonUpdate": "Saison-Update",
+    "mapInfo": "Karteninformationen",
+    "newOperatorInfo": "Neuer Operator-Enthüllung",
+    "newSeasonOverview": "Neue Saison Schnellübersicht",
+    "newMapInfo": "Neue Karten-Enthüllung",
+    "newOperatorDesc": "Unterstützungsklasse mit hervorragender medizinischer Expertise und starkem Verantwortungsbewusstsein.",
+    "newSeasonDesc": "Schneller Überblick über neue Saison-Spielmodi",
+    "newMapDesc": "Schlachtfeld neue Karte 'Nachbeben' - Hochhauseinsturz, Erderschütterung",
+    "tacticsGuide": "Taktikanleitung",
+    "newOperatorFile": "Neue Operator-Akte: Codename Schmetterling",
+    "beginnerTutorial": "Anfänger-Tutorial",
+    "expertGuide": "Experten-Anleitung",
+    "operatorTips": "Operator-Tipps",
+    "itemEncyclopedia": "Gegenstands-Enzyklopädie"
+  },
+  "wiki": {
+    "usefulEncyclopedia": "Nützliche Enzyklopädie",
+    "weapon": "Waffen",
+    "armor": "Rüstung",
+    "item": "Gegenstände",
+    "accessory": "Zubehör",
+    "quartermaster": "Quartiermeister",
+    "specialOps": "Spezialeinheit",
+    "weaponEN": "WEAPON",
+    "armorEN": "ARMOR",
+    "itemEN": "ITEM",
+    "accessoryEN": "ACCESSORIES",
+    "quartermasterEN": "QUARTERMASTER",
+    "specialOpsEN": "SPECIAL OPS"
+  },
+  "market": {
+    "marketPrice": "Handelspreise",
+    "allCategories": "Alle Kategorien",
+    "guns": "Waffen",
+    "armor": "Rüstung",
+    "parts": "Teile",
+    "collectibles": "Sammlerstücke",
+    "medical": "Medizinische Artikel",
+    "ammo": "Munition",
+    "itemName": "Gegenstandsname",
+    "value": "Wert",
+    "priceChange": "Preisänderung",
+    "searchPlaceholder": "Gegenstandsname suchen..."
+  },
+  "passwordGuide": {
+    "title": "Passwortraum-Anleitung",
+    "todayPassword": "Heutiges Passwort",
+    "step": "Schritt",
+    "stepGuide": "Schritt {{num}} Positionsdiagramm"
+  },
+  "operators": {
+    "weilong": "Weilong",
+    "haizhua": "Haizhua"
+  }
+}
