@@ -1,7 +1,7 @@
 {
   "common": {
     "appName": "DELTA FORCE",
-    "logOut": "log out",
+    "logOut": "退出登录",
     "loading": "加载中...",
     "viewAll": "查看全部 >",
     "viewMore": "查看更多",
@@ -20,6 +20,29 @@
     "craft": "交易制造",
     "guide": "实用攻略",
     "mapTools": "地图工具"
+  },
+  "login": {
+    "selectMethod": "选择登录方式：",
+    "loginRegister": "登录 / 注册",
+    "autoCreateHint": "新邮箱将自动创建账号",
+    "emailPlaceholder": "邮箱地址",
+    "verificationPlaceholder": "验证码",
+    "getCode": "获取验证码",
+    "registerLogin": "注册 / 登录",
+    "passwordLogin": "密码登录",
+    "signInWith": "其他登录方式",
+    "logoutConfirm": "确定要退出登录吗？",
+    "logout": "退出登录"
+  },
+  "noAccount": {
+    "title": "未找到游戏角色",
+    "desc": "账号登录成功，但未找到关联的 Delta Force 游戏角色",
+    "solution1": "下载游戏并创建角色",
+    "solution1Desc": "请前往官网下载游戏，并使用当前登录的相同账号登录游戏、创建角色，完成后返回本工具重新登录即可正常使用",
+    "downloadBtn": "📥 前往官网下载游戏",
+    "orText": "或者",
+    "switchAccount": "使用其他账号登录",
+    "guestMode": "以游客模式浏览"
   },
   "gameMode": {
     "fenghuo": "烽火地带",
@@ -275,5 +298,20 @@
     "matches": "场",
     "minutes": "分钟",
     "killed": "阵亡"
+  },
+  "feedback": {
+    "title": "意见反馈",
+    "typeLabel": "反馈类型",
+    "typeTool": "工具相关",
+    "typeGame": "游戏相关",
+    "bug": "Bug",
+    "suggestion": "建议",
+    "other": "其他",
+    "placeholder": "请描述您的问题或建议...",
+    "uploadImage": "上传截图（最多9张）",
+    "addImage": "添加图片",
+    "imageHint": "最多9张图片",
+    "contactPlaceholder": "联系方式（选填）",
+    "submit": "提交反馈"
   }
 }

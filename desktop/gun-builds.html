@@ -26,9 +26,22 @@
             </div>
         </div>
         <div class="nav-right">
-            <div class="user-icon"></div>
-            <span class="user-nickname">Grimlock#8888</span>
-            <button class="logout-btn">log out</button>
+            <button class="desktop-login-btn" id="desktop-login-btn" data-i18n="login.loginRegister">登录 / 注册</button>
+            <div class="desktop-user-info" id="desktop-user-info" style="display: none;">
+                <img class="desktop-user-avatar" id="desktop-user-avatar" src="" alt="" style="display: none;">
+                <span class="desktop-user-email" id="desktop-user-email"></span>
+                <span class="desktop-user-dropdown-arrow">▾</span>
+                <div class="desktop-user-dropdown" id="desktop-user-dropdown">
+                    <div class="desktop-dropdown-item" id="desktop-dropdown-feedback">
+                        <span class="desktop-dropdown-icon">💬</span>
+                        <span data-i18n="feedback.title">意见反馈</span>
+                    </div>
+                    <div class="desktop-dropdown-item logout" id="desktop-dropdown-logout">
+                        <span class="desktop-dropdown-icon">🚪</span>
+                        <span data-i18n="common.logOut">退出登录</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -328,6 +341,30 @@
             </section>
         </div>
     </main>
+
+
+    <!-- 桌面端反馈弹窗 -->
+    <div class="desktop-feedback-overlay" id="desktop-feedback-overlay">
+        <div class="desktop-feedback-modal">
+            <div class="desktop-feedback-header">
+                <span class="desktop-feedback-title" data-i18n="feedback.title">User Feedback</span>
+                <span class="desktop-feedback-close" id="desktop-feedback-close">&times;</span>
+            </div>
+            <div class="desktop-feedback-body">
+                <textarea class="feedback-textarea" id="desktop-feedback-textarea" placeholder="Please describe your feedback in detail..." data-i18n-placeholder="feedback.placeholder" rows="5"></textarea>
+                <div class="feedback-images-section">
+                    <div class="feedback-images-grid" id="desktop-feedback-images-grid"></div>
+                    <label class="feedback-upload-btn" id="desktop-feedback-upload-label">
+                        <input type="file" accept="image/*" multiple id="desktop-feedback-image-input" style="display:none;">
+                        <span class="upload-icon">+</span>
+                        <span class="upload-text" data-i18n="feedback.addImage">Add Image</span>
+                    </label>
+                    <div class="feedback-image-hint" data-i18n="feedback.imageHint">Up to 3 images, max 5MB each</div>
+                </div>
+                <button class="feedback-submit-btn" id="desktop-feedback-submit" data-i18n="feedback.submit">Submit Feedback</button>
+            </div>
+        </div>
+    </div>
 
     <script src="../shared/mock-data.js?v=1"></script>
     <script src="main.js?v=17"></script>

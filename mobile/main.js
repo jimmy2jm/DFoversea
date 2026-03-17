@@ -266,8 +266,8 @@ const craftWorkingData = {
         itemIcon: '🎽',
         sellPrice: 125000,
         craftCost: 78500,
-        fee: 6250,      // 手续费 5%
-        deposit: 12500, // 保证金 10%
+        fee: 6250,      // 手续费 
+        deposit: 12500, // 保证金 
         totalTime: '08:45:00',
         remainTime: '02:22:45',
         totalProfit: 27750,
@@ -324,11 +324,11 @@ function openCraftModal(stationName, status, itemName, time) {
                                 <span class="profit-row-value"><span class="coin-icon">💰</span>-${workingItem.craftCost.toLocaleString()}</span>
                             </div>
                             <div class="profit-row">
-                                <span class="profit-row-label">手续费(5%)</span>
+                                <span class="profit-row-label">手续费</span>
                                 <span class="profit-row-value"><span class="coin-icon">💰</span>-${workingItem.fee.toLocaleString()}</span>
                             </div>
                             <div class="profit-row">
-                                <span class="profit-row-label">保证金(10%)</span>
+                                <span class="profit-row-label">保证金</span>
                                 <span class="profit-row-value"><span class="coin-icon">💰</span>-${workingItem.deposit.toLocaleString()}</span>
                             </div>
                             <div class="profit-row">
@@ -760,23 +760,63 @@ function drawRadarCharts() {
 const gunStatsDataZC = {
     m4a1: {
         stats: { recoil: 75, handling: 68, range: 65, stability: 62, fireRate: 58 },
-        tags: ['中远距离', '高稳定', 'PVP优化']
+        tags: ['中远距离', '高稳定', 'PVP优化'],
+        attachments: [
+            { slot: '瞄准镜', name: '全息瞄准镜', icon: '🔭' },
+            { slot: '枪口', name: '消焰器', icon: '🔫' },
+            { slot: '握把', name: '垂直握把', icon: '✊' },
+            { slot: '枪托', name: '战术枪托', icon: '📐' },
+            { slot: '弹匣', name: '扩容弹匣', icon: '🎯' },
+            { slot: '战术', name: '激光指示器', icon: '⚙️' }
+        ]
     },
     ak74: {
         stats: { recoil: 58, handling: 52, range: 70, stability: 48, fireRate: 62 },
-        tags: ['中距离', '高伤害', '压枪要求高']
+        tags: ['中距离', '高伤害', '压枪要求高'],
+        attachments: [
+            { slot: '瞄准镜', name: '红点瞄准镜', icon: '🔭' },
+            { slot: '枪口', name: '补偿器', icon: '🔫' },
+            { slot: '握把', name: '拇指握把', icon: '✊' },
+            { slot: '枪托', name: '重型枪托', icon: '📐' },
+            { slot: '弹匣', name: '快速弹匣', icon: '🎯' },
+            { slot: '战术', name: '战术手电', icon: '⚙️' }
+        ]
     },
     hk416: {
         stats: { recoil: 72, handling: 65, range: 68, stability: 58, fireRate: 55 },
-        tags: ['全能型', '均衡', '新手友好']
+        tags: ['全能型', '均衡', '新手友好'],
+        attachments: [
+            { slot: '瞄准镜', name: '反射瞄准镜', icon: '🔭' },
+            { slot: '枪口', name: '消音器', icon: '🔫' },
+            { slot: '握把', name: '直角握把', icon: '✊' },
+            { slot: '枪托', name: '折叠枪托', icon: '📐' },
+            { slot: '弹匣', name: '扩容弹匣', icon: '🎯' },
+            { slot: '战术', name: '激光指示器', icon: '⚙️' }
+        ]
     },
     aug: {
         stats: { recoil: 80, handling: 60, range: 78, stability: 72, fireRate: 48 },
-        tags: ['远距离', '高精准', '自带瞄具']
+        tags: ['远距离', '高精准', '自带瞄具'],
+        attachments: [
+            { slot: '瞄准镜', name: '3倍镜', icon: '🔭' },
+            { slot: '枪口', name: '重型枪管', icon: '🔫' },
+            { slot: '握把', name: '垂直握把', icon: '✊' },
+            { slot: '枪托', name: '原厂枪托', icon: '📐' },
+            { slot: '弹匣', name: '42发弹匣', icon: '🎯' },
+            { slot: '战术', name: '战术手电', icon: '⚙️' }
+        ]
     },
     svd: {
         stats: { recoil: 65, handling: 45, range: 92, stability: 55, fireRate: 25 },
-        tags: ['狙击', '一击必杀', '远距离']
+        tags: ['狙击', '一击必杀', '远距离'],
+        attachments: [
+            { slot: '瞄准镜', name: '8倍镜', icon: '🔭' },
+            { slot: '枪口', name: '消音器', icon: '🔫' },
+            { slot: '握把', name: '人体工学握把', icon: '✊' },
+            { slot: '枪托', name: '骨架枪托', icon: '📐' },
+            { slot: '弹匣', name: '20发弹匣', icon: '🎯' },
+            { slot: '战术', name: '弹道计算器', icon: '⚙️' }
+        ]
     }
 };
 
@@ -795,6 +835,7 @@ function initZhanchangGunSelectorMobile() {
     if (firstGun && gunStatsDataZC[firstGun]) {
         drawRadarChart('radar-single', gunStatsDataZC[firstGun].stats, '#f39c12', 'rgba(243, 156, 18, 0.2)');
         updateZhanchangTagsMobile(gunStatsDataZC[firstGun].tags);
+        updateZhanchangAttachmentsMobile(gunStatsDataZC[firstGun].attachments);
     }
     
     // 绑定枪械切换事件
@@ -809,6 +850,7 @@ function initZhanchangGunSelectorMobile() {
             if (gunData) {
                 drawRadarChart('radar-single', gunData.stats, '#f39c12', 'rgba(243, 156, 18, 0.2)');
                 updateZhanchangTagsMobile(gunData.tags);
+                updateZhanchangAttachmentsMobile(gunData.attachments);
             }
         });
     });
@@ -821,6 +863,19 @@ function updateZhanchangTagsMobile(tags) {
     const tagsContainer = document.getElementById('build-tags-zc-mobile');
     if (tagsContainer && tags) {
         tagsContainer.innerHTML = tags.map(tag => `<span class="build-tag">${tag}</span>`).join('');
+    }
+}
+
+// 更新战场模式的配件展示
+function updateZhanchangAttachmentsMobile(attachments) {
+    const grid = document.getElementById('attachments-zc-mobile');
+    if (grid && attachments) {
+        grid.innerHTML = attachments.map(att => 
+            `<div class="attachment-item">
+                <div class="attachment-icon">${att.icon}</div>
+                <div class="attachment-name">${att.name}</div>
+            </div>`
+        ).join('');
     }
 }
 
@@ -1905,16 +1960,49 @@ function initLoginSystem() {
     // 社交登录按钮
     const socialBtns = document.querySelectorAll('.social-btn');
     
+    // 登录方式选择弹窗
+    const loginMethodOverlay = document.getElementById('login-method-overlay');
+    const loginMethodClose = document.getElementById('login-method-close');
+    const loginMethodLI = document.getElementById('login-method-li');
+    const loginMethodGarena = document.getElementById('login-method-garena');
+
     // 点击登录头像按钮
     if (loginAvatarBtn) {
         loginAvatarBtn.addEventListener('click', function() {
             if (isLoggedIn) {
-                // 已登录，显示退出确认弹窗
                 openLogoutModal();
             } else {
-                // 未登录，显示登录弹窗
-                openLoginModal();
+                // 先打开方式选择弹窗
+                if (loginMethodOverlay) loginMethodOverlay.classList.add('active');
             }
+        });
+    }
+
+    // 关闭登录方式选择弹窗
+    if (loginMethodClose) {
+        loginMethodClose.addEventListener('click', function() {
+            if (loginMethodOverlay) loginMethodOverlay.classList.remove('active');
+        });
+    }
+    if (loginMethodOverlay) {
+        loginMethodOverlay.addEventListener('click', function(e) {
+            if (e.target === this) this.classList.remove('active');
+        });
+    }
+
+    // 选择 Level Infinite → 关闭方式弹窗，打开原登录弹窗
+    if (loginMethodLI) {
+        loginMethodLI.addEventListener('click', function() {
+            if (loginMethodOverlay) loginMethodOverlay.classList.remove('active');
+            openLoginModal();
+        });
+    }
+
+    // 选择 Garena → 直接完成登录
+    if (loginMethodGarena) {
+        loginMethodGarena.addEventListener('click', function() {
+            if (loginMethodOverlay) loginMethodOverlay.classList.remove('active');
+            performLogin('garena');
         });
     }
     
@@ -1932,34 +2020,35 @@ function initLoginSystem() {
         });
     }
     
-    // 登录/注册按钮 - 直接登录（原型版本）
+    // 登录/注册按钮 - 邮箱登录
     if (loginSubmitBtn) {
         loginSubmitBtn.addEventListener('click', function() {
-            performLogin();
+            performLogin('email');
         });
     }
     
-    // 社交登录按钮 - 直接登录（原型版本）
+    // 社交登录按钮 - 传入来源
     socialBtns.forEach(btn => {
         btn.addEventListener('click', function() {
-            performLogin();
+            const source = this.id.replace('social-', ''); // 'google', 'facebook', etc.
+            performLogin(source);
         });
     });
     
-    // 密码登录链接 - 直接登录（原型版本）
+    // 密码登录链接
     const passwordLoginLink = document.querySelector('.password-login-link');
     if (passwordLoginLink) {
         passwordLoginLink.addEventListener('click', function(e) {
             e.preventDefault();
-            performLogin();
+            performLogin('email');
         });
     }
     
-    // 获取验证码按钮 - 直接登录（原型版本）
+    // 获取验证码按钮
     const getCodeBtn = document.querySelector('.get-code-btn');
     if (getCodeBtn) {
         getCodeBtn.addEventListener('click', function() {
-            performLogin();
+            performLogin('email');
         });
     }
     
@@ -1983,6 +2072,50 @@ function initLoginSystem() {
             }
         });
     }
+    
+    // 点击已登录区域切换下拉菜单
+    const userLoggedArea = document.getElementById('mobile-user-logged');
+    const dropdownMenu = document.getElementById('user-dropdown-menu');
+    if (userLoggedArea && dropdownMenu) {
+        userLoggedArea.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (isLoggedIn) {
+                dropdownMenu.classList.toggle('active');
+            }
+        });
+
+        // 点击页面其他区域关闭下拉菜单
+        document.addEventListener('click', function() {
+            dropdownMenu.classList.remove('active');
+        });
+
+        // 防止点击菜单本身关闭
+        dropdownMenu.addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+    }
+
+    // 下拉菜单 - 意见反馈
+    const dropdownFeedback = document.getElementById('dropdown-feedback');
+    if (dropdownFeedback) {
+        dropdownFeedback.addEventListener('click', function() {
+            dropdownMenu.classList.remove('active');
+            var overlay = document.getElementById('feedback-modal-overlay');
+            if (overlay) overlay.classList.add('active');
+        });
+    }
+
+    // 下拉菜单 - 退出登录
+    const dropdownLogout = document.getElementById('dropdown-logout');
+    if (dropdownLogout) {
+        dropdownLogout.addEventListener('click', function() {
+            dropdownMenu.classList.remove('active');
+            openLogoutModal();
+        });
+    }
+    
+    // 页面加载时检查登录状态
+    checkMobileLoginState();
 }
 
 // 打开登录弹窗
@@ -2018,37 +2151,152 @@ function closeLogoutModal() {
 }
 
 // 执行登录
-function performLogin() {
+function performLogin(source) {
+    // 获取邮箱输入
+    const emailInput = document.querySelector('.login-modal .login-input[type="email"]');
+    let email = emailInput ? emailInput.value.trim() : '';
+    if (!email) email = 'user@example.com';
+    
+    // 判断是否Google登录（有头像）
+    const isGoogle = (source === 'google');
+    const hasAvatar = isGoogle;
+    const avatarUrl = isGoogle ? 'https://lh3.googleusercontent.com/a/default-user=s96-c' : '';
+    
+    // Facebook 登录必定无游戏账号（方便测试），其他渠道正常登录
+    const hasGameAccount = (source === 'facebook') ? false : true;
+    
+    if (!hasGameAccount) {
+        // 关闭登录弹窗，弹出引导（传入登录信息供游客模式使用）
+        closeLoginModal();
+        showMobileNoAccountModal(email, hasAvatar, avatarUrl);
+        return;
+    }
+    
     isLoggedIn = true;
     
-    // 更新登录按钮状态
-    const loginAvatarBtn = document.getElementById('login-avatar-btn');
-    if (loginAvatarBtn) {
-        loginAvatarBtn.classList.add('logged-in');
-    }
+    // 保存到 localStorage
+    const loginData = { email, hasAvatar, avatarUrl, loggedIn: true };
+    localStorage.setItem('df_login', JSON.stringify(loginData));
+    
+    // 更新UI
+    updateLoginUI(loginData);
     
     // 关闭登录弹窗
     closeLoginModal();
+}
+
+function showMobileNoAccountModal(email, hasAvatar, avatarUrl) {
+    const overlay = document.getElementById('mobile-no-account-overlay');
+    if (!overlay) return;
+    overlay.classList.add('active');
     
-    // 显示登录成功提示（可选）
-    console.log('登录成功');
+    // 游客模式登录：保存登录状态并更新UI
+    function guestLogin() {
+        overlay.classList.remove('active');
+        isLoggedIn = true;
+        const loginData = { email, hasAvatar, avatarUrl, loggedIn: true };
+        localStorage.setItem('df_login', JSON.stringify(loginData));
+        updateLoginUI(loginData);
+    }
+    
+    // 点击遮罩 → 游客模式登录
+    overlay.onclick = function(e) {
+        if (e.target === overlay) guestLogin();
+    };
+    
+    // 切换账号
+    const switchBtn = document.getElementById('mobile-no-account-switch');
+    if (switchBtn) {
+        switchBtn.onclick = function(e) {
+            e.preventDefault();
+            overlay.classList.remove('active');
+            localStorage.removeItem('df_login');
+            isLoggedIn = false;
+            updateLoginUI(null);
+            const methodOverlay = document.getElementById('login-method-overlay');
+            if (methodOverlay) methodOverlay.classList.add('active');
+        };
+    }
+    
+    // 游客模式按钮
+    const guestBtn = document.getElementById('mobile-no-account-guest');
+    if (guestBtn) {
+        guestBtn.onclick = function(e) {
+            e.preventDefault();
+            guestLogin();
+        };
+    }
+}
+
+// 更新登录UI
+function updateLoginUI(data) {
+    const loginAvatarBtn = document.getElementById('login-avatar-btn');
+    const userLogged = document.getElementById('mobile-user-logged');
+    const userAvatar = document.getElementById('mobile-user-avatar');
+    const userEmail = document.getElementById('mobile-user-email');
+    
+    if (data && data.loggedIn) {
+        // 隐藏默认登录按钮，显示已登录信息
+        if (loginAvatarBtn) loginAvatarBtn.style.display = 'none';
+        if (userLogged) userLogged.style.display = 'flex';
+        
+        // 设置邮箱
+        if (userEmail) userEmail.textContent = data.email || '';
+        
+        // 设置头像
+        if (data.hasAvatar && data.avatarUrl) {
+            if (userAvatar) {
+                userAvatar.src = data.avatarUrl;
+                userAvatar.style.display = 'block';
+            }
+        } else {
+            if (userAvatar) userAvatar.style.display = 'none';
+        }
+    } else {
+        // 显示默认登录按钮，隐藏已登录信息
+        if (loginAvatarBtn) {
+            loginAvatarBtn.style.display = 'flex';
+            loginAvatarBtn.classList.remove('logged-in');
+        }
+        if (userLogged) userLogged.style.display = 'none';
+    }
+}
+
+// 检查登录状态（页面加载时调用）
+function checkMobileLoginState() {
+    try {
+        const stored = localStorage.getItem('df_login');
+        if (stored) {
+            const data = JSON.parse(stored);
+            if (data && data.loggedIn) {
+                isLoggedIn = true;
+                updateLoginUI(data);
+                return;
+            }
+        }
+    } catch (e) {
+        console.warn('读取登录状态失败', e);
+    }
+    isLoggedIn = false;
+    updateLoginUI(null);
 }
 
 // 执行退出登录
 function performLogout() {
     isLoggedIn = false;
     
-    // 更新登录按钮状态
-    const loginAvatarBtn = document.getElementById('login-avatar-btn');
-    if (loginAvatarBtn) {
-        loginAvatarBtn.classList.remove('logged-in');
-    }
+    // 清除 localStorage
+    localStorage.removeItem('df_login');
+    
+    // 更新UI
+    updateLoginUI(null);
+    
+    // 关闭下拉菜单
+    var dm = document.getElementById('user-dropdown-menu');
+    if (dm) dm.classList.remove('active');
     
     // 关闭退出确认弹窗
     closeLogoutModal();
-    
-    // 显示退出成功提示（可选）
-    console.log('已退出登录');
 }
 
 /* ============================================
@@ -2071,22 +2319,53 @@ function initShareFeature() {
 
 // 显示分享选项
 function showShareOptions() {
-    // 检查是否支持原生分享 API
-    if (navigator.share) {
-        navigator.share({
-            title: 'Delta Force 日报',
-            text: '查看今日游戏数据和密码！',
-            url: window.location.href
-        }).then(() => {
-            console.log('分享成功');
-        }).catch((error) => {
-            console.log('分享取消或失败:', error);
-            // 如果原生分享失败，显示自定义分享弹窗
-            showCustomShareModal();
-        });
+    // 先根据当前日报 Tab 更新海报内容
+    updatePosterByMode();
+    showCustomShareModal();
+}
+
+// 根据当前日报模式更新海报内容
+function updatePosterByMode() {
+    const activeTab = document.querySelector('.report-tab.active');
+    const mode = activeTab ? activeTab.getAttribute('data-report') : 'fh';
+    
+    const posterModeLabel = document.getElementById('poster-mode-label');
+    const posterReportTitle = document.getElementById('poster-report-title');
+    const posterFhData = document.getElementById('poster-fh-data');
+    const posterZcData = document.getElementById('poster-zc-data');
+    const posterKeywordTag = document.getElementById('poster-keyword-tag');
+    const posterKeywordDesc = document.getElementById('poster-keyword-desc');
+
+    // 使用 I18n.t() 获取翻译文本（如果 I18n 可用）
+    const t = (key, fallback) => {
+        if (window.I18n && typeof I18n.t === 'function') {
+            const val = I18n.t(key);
+            return val !== key ? val : fallback;
+        }
+        return fallback;
+    };
+    
+    if (mode === 'fh') {
+        // 烽火地带
+        if (posterModeLabel) posterModeLabel.textContent = t('gameMode.fenghuo', '烽火地带');
+        if (posterReportTitle) posterReportTitle.textContent = t('gameMode.fenghuoDaily', '烽火日报');
+        if (posterFhData) posterFhData.style.display = '';
+        if (posterZcData) posterZcData.style.display = 'none';
+        if (posterKeywordTag) posterKeywordTag.textContent = '大红扫荡者';
+        if (posterKeywordDesc) posterKeywordDesc.textContent = '昨日带出5件以上红色品质物品';
     } else {
-        // 不支持原生分享，显示自定义分享弹窗
-        showCustomShareModal();
+        // 全面战场
+        if (posterModeLabel) posterModeLabel.textContent = t('gameMode.zhanchang', '全面战场');
+        if (posterReportTitle) posterReportTitle.textContent = t('gameMode.zhanchangDaily', '战场日报');
+        if (posterFhData) posterFhData.style.display = 'none';
+        if (posterZcData) posterZcData.style.display = '';
+        if (posterKeywordTag) posterKeywordTag.textContent = '战场霸主';
+        if (posterKeywordDesc) posterKeywordDesc.textContent = '单场最高得分超过30,000分';
+    }
+
+    // 重新应用 i18n 翻译（确保带 data-i18n 属性的元素被正确翻译）
+    if (window.I18n && typeof I18n.applyTranslations === 'function') {
+        I18n.applyTranslations();
     }
 }
 
@@ -2111,15 +2390,196 @@ function copyShareLink() {
     const url = window.location.href;
     navigator.clipboard.writeText(url).then(() => {
         // 显示复制成功提示
-        const copyBtn = document.querySelector('.share-option-copy');
+        const copyBtn = document.querySelector('.share-option-copy .platform-name');
         if (copyBtn) {
-            const originalText = copyBtn.querySelector('.share-option-name').textContent;
-            copyBtn.querySelector('.share-option-name').textContent = '已复制!';
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = '已复制!';
             setTimeout(() => {
-                copyBtn.querySelector('.share-option-name').textContent = originalText;
+                copyBtn.textContent = originalText;
             }, 1500);
         }
     }).catch(err => {
         console.error('复制失败:', err);
     });
 }
+
+/* ============================================
+   意见反馈功能
+   ============================================ */
+(function() {
+    let feedbackImages = []; // 存储已上传的图片 base64
+
+    document.addEventListener('DOMContentLoaded', function() {
+        initFeedbackSystem();
+    });
+
+    function initFeedbackSystem() {
+        const closeBtn = document.getElementById('feedback-modal-close');
+        const overlay = document.getElementById('feedback-modal-overlay');
+        const submitBtn = document.getElementById('feedback-submit-btn');
+        const textarea = document.getElementById('feedback-textarea');
+        const charCount = document.getElementById('feedback-char-count');
+        const imageAddBtn = document.getElementById('feedback-image-add');
+        const imageInput = document.getElementById('feedback-image-input');
+        // 关闭反馈弹窗
+        if (closeBtn) {
+            closeBtn.addEventListener('click', closeFeedbackModal);
+        }
+
+        // 点击遮罩关闭
+        if (overlay) {
+            overlay.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeFeedbackModal();
+                }
+            });
+        }
+
+        // 字数统计
+        if (textarea && charCount) {
+            textarea.addEventListener('input', function() {
+                charCount.textContent = this.value.length;
+            });
+        }
+
+        // 图片上传按钮
+        if (imageAddBtn && imageInput) {
+            imageAddBtn.addEventListener('click', function() {
+                if (feedbackImages.length >= 3) return;
+                imageInput.click();
+            });
+
+            imageInput.addEventListener('change', function() {
+                handleFeedbackImageUpload(this.files);
+                this.value = ''; // 重置以允许再次选择同文件
+            });
+        }
+
+        // textarea 粘贴图片支持
+        if (textarea) {
+            textarea.addEventListener('paste', function(e) {
+                var items = e.clipboardData && e.clipboardData.items;
+                if (!items) return;
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].type.indexOf('image') !== -1) {
+                        e.preventDefault();
+                        if (feedbackImages.length >= 3) return;
+                        var file = items[i].getAsFile();
+                        if (!file || file.size > 5 * 1024 * 1024) return;
+                        var reader = new FileReader();
+                        reader.onload = function(ev) {
+                            feedbackImages.push(ev.target.result);
+                            renderFeedbackImages();
+                        };
+                        reader.readAsDataURL(file);
+                        break;
+                    }
+                }
+            });
+        }
+
+        // 提交反馈
+        if (submitBtn) {
+            submitBtn.addEventListener('click', submitFeedback);
+        }
+    }
+
+    function openFeedbackModal() {
+        const overlay = document.getElementById('feedback-modal-overlay');
+        if (overlay) overlay.classList.add('active');
+    }
+
+    function closeFeedbackModal() {
+        const overlay = document.getElementById('feedback-modal-overlay');
+        if (overlay) overlay.classList.remove('active');
+    }
+
+    function handleFeedbackImageUpload(files) {
+        if (!files || files.length === 0) return;
+
+        var remaining = 3 - feedbackImages.length;
+        var toProcess = Math.min(files.length, remaining);
+
+        for (var i = 0; i < toProcess; i++) {
+            (function(file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('图片大小不能超过5MB');
+                    return;
+                }
+                if (!file.type.startsWith('image/')) return;
+
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    feedbackImages.push(e.target.result);
+                    renderFeedbackImages();
+                };
+                reader.readAsDataURL(file);
+            })(files[i]);
+        }
+    }
+
+    function renderFeedbackImages() {
+        var grid = document.getElementById('feedback-image-grid');
+        var addBtn = document.getElementById('feedback-image-add');
+        if (!grid || !addBtn) return;
+
+        // 清除已有预览（保留添加按钮）
+        var previews = grid.querySelectorAll('.feedback-image-preview');
+        previews.forEach(function(p) { p.remove(); });
+
+        // 重新渲染
+        feedbackImages.forEach(function(src, idx) {
+            var div = document.createElement('div');
+            div.className = 'feedback-image-preview';
+            div.innerHTML = '<img src="' + src + '" alt="">' +
+                '<button class="feedback-image-remove" data-idx="' + idx + '">✕</button>';
+            grid.insertBefore(div, addBtn);
+        });
+
+        // 隐藏/显示添加按钮
+        addBtn.style.display = feedbackImages.length >= 3 ? 'none' : 'flex';
+
+        // 绑定删除事件
+        grid.querySelectorAll('.feedback-image-remove').forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                var idx = parseInt(this.dataset.idx);
+                feedbackImages.splice(idx, 1);
+                renderFeedbackImages();
+            });
+        });
+    }
+
+    function submitFeedback() {
+        var textarea = document.getElementById('feedback-textarea');
+        var content = textarea ? textarea.value.trim() : '';
+
+        if (!content) {
+            alert('请输入反馈内容');
+            return;
+        }
+
+        var selectedType = document.querySelector('input[name="feedback-type"]:checked');
+        var feedbackType = selectedType ? selectedType.value : 'tool';
+        var feedbackData = {
+            type: feedbackType,
+            content: content,
+            images: feedbackImages,
+            timestamp: new Date().toISOString()
+        };
+
+        console.log('反馈数据:', feedbackData);
+
+        // 模拟提交成功
+        alert('感谢您的反馈！');
+
+        // 重置表单
+        if (textarea) textarea.value = '';
+        var charCount = document.getElementById('feedback-char-count');
+        if (charCount) charCount.textContent = '0';
+        feedbackImages = [];
+        renderFeedbackImages();
+
+        closeFeedbackModal();
+    }
+})();

@@ -10,8 +10,8 @@ const I18n = {
     
     // 支持的语言列表（目前只启用中德两种）
     languages: [
-        { code: 'zh-CN', name: '简体中文', nativeName: '简体中文', flag: '🇨🇳' },
-        { code: 'de', name: 'Deutsch', nativeName: 'Deutsch', flag: '🇩🇪' }
+        { code: 'zh-CN', name: '简体中文', nativeName: '简体中文' },
+        { code: 'de', name: 'Deutsch', nativeName: 'Deutsch' }
     ],
     
     // 语言包缓存
@@ -153,8 +153,12 @@ const I18n = {
         
         selector.innerHTML = `
             <button class="lang-selector-btn" title="切换语言 / Switch Language">
-                <span class="lang-flag">${currentLangInfo.flag}</span>
-                <span class="lang-code">${currentLangInfo.code.split('-')[0].toUpperCase()}</span>
+                <svg class="lang-globe-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M2 12h20"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/>
+                </svg>
+                <span class="lang-name">${currentLangInfo.nativeName}</span>
                 <svg class="lang-arrow" width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
                     <path d="M2.5 4.5L6 8L9.5 4.5" stroke="currentColor" stroke-width="1.5" fill="none"/>
                 </svg>
@@ -162,7 +166,6 @@ const I18n = {
             <div class="lang-dropdown">
                 ${this.languages.map(lang => `
                     <div class="lang-option ${lang.code === this.currentLang ? 'active' : ''}" data-lang="${lang.code}">
-                        <span class="lang-option-flag">${lang.flag}</span>
                         <span class="lang-option-name">${lang.nativeName}</span>
                     </div>
                 `).join('')}
@@ -216,8 +219,14 @@ const I18n = {
         if (!btn) return;
         
         const currentLangInfo = this.languages.find(l => l.code === this.currentLang) || this.languages[0];
-        btn.querySelector('.lang-flag').textContent = currentLangInfo.flag;
-        btn.querySelector('.lang-code').textContent = currentLangInfo.code.split('-')[0].toUpperCase();
+        const langName = btn.querySelector('.lang-name');
+        if (langName) langName.textContent = currentLangInfo.nativeName;
+        
+        // 更新下拉选项 active 状态
+        const options = document.querySelectorAll('.lang-option');
+        options.forEach(opt => {
+            opt.classList.toggle('active', opt.getAttribute('data-lang') === this.currentLang);
+        });
     }
 };
 

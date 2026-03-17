@@ -275,5 +275,29 @@
     "matches": "Spiele",
     "minutes": "Min.",
     "killed": "Gefallen"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "typeLabel": "Feedback-Typ",
+    "typeTool": "Tool-bezogen",
+    "typeGame": "Spiel-bezogen",
+    "bug": "Bug",
+    "suggestion": "Vorschlag",
+    "other": "Sonstiges",
+    "placeholder": "Bitte beschreiben Sie Ihr Feedback ausführlich...",
+    "addImage": "Bild hinzufügen",
+    "imageHint": "Max. 3 Bilder, je max. 5 MB",
+    "contactPlaceholder": "Kontakt (optional, z.B. E-Mail/Discord)",
+    "submit": "Feedback senden"
+  },
+  "noAccount": {
+    "title": "Kein Spielcharakter gefunden",
+    "desc": "Anmeldung erfolgreich, aber es wurde kein verknüpfter Delta Force Spielcharakter gefunden",
+    "solution1": "Spiel herunterladen und Charakter erstellen",
+    "solution1Desc": "Bitte laden Sie das Spiel von der offiziellen Website herunter, melden Sie sich mit demselben Konto an, erstellen Sie einen Charakter und kehren Sie dann hierher zurück",
+    "downloadBtn": "📥 Zur offiziellen Website",
+    "orText": "oder",
+    "switchAccount": "Mit anderem Konto anmelden",
+    "guestMode": "Als Gast fortfahren"
   }
 }

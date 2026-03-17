@@ -40,12 +40,18 @@
     "yesterdayEarnings": "Gestrige Einnahmen",
     "openGameViewMore": "Spiel öffnen für mehr Details",
     "recentData": "Aktuelle Daten",
+    "recentStatus": "Aktuelle Kampfsituation",
+    "highValueItems": "Wertvolle Gegenstände",
     "history": "VERLAUF",
     "frequentOperator": "Häufiger Operator",
     "highlightMatch": "Highlight-Spiel",
     "highlights": "HIGHLIGHTS"
   },
   "stats": {
+    "earnings": "Einnahmen",
+    "operatorKills": "Operator-Kills",
+    "matches": "Spiele",
+    "kd": "K/D",
     "killCount": "Eliminierungen",
     "winRate": "Siegesrate",
     "avgScore": "Ø Punkte",
@@ -146,7 +152,8 @@
     "peakRank": "Höchster Rang",
     "server": "Server",
     "statsData": "Spielstatistiken",
-    "collectionRanking": "Sammler-Wochenrangliste"
+    "collectionRanking": "Sammler-Wochenrangliste",
+    "feedback": "Feedback"
   },
   "ranks": {
     "gold": "Gold"
@@ -221,5 +228,30 @@
   "operators": {
     "weilong": "Weilong",
     "haizhua": "Haizhua"
+  },
+  "feedback": {
+    "title": "Feedback",
+    "typeLabel": "Feedback-Typ",
+    "typeTool": "Tool-bezogen",
+    "typeGame": "Spiel-bezogen",
+    "bug": "Bug",
+    "suggestion": "Vorschlag",
+    "other": "Sonstiges",
+    "placeholder": "Bitte beschreiben Sie Ihr Problem oder Ihren Vorschlag...",
+    "uploadImage": "Screenshot hochladen (max. 3)",
+    "addImage": "Bild hinzufügen",
+    "imageHint": "Max. 3 Bilder, je max. 5 MB",
+    "contactPlaceholder": "Kontakt (optional)",
+    "submit": "Feedback senden"
+  },
+  "noAccount": {
+    "title": "Kein Spielcharakter gefunden",
+    "desc": "Anmeldung erfolgreich, aber es wurde kein verknüpfter Delta Force Spielcharakter gefunden",
+    "solution1": "Spiel herunterladen und Charakter erstellen",
+    "solution1Desc": "Bitte laden Sie das Spiel von der offiziellen Website herunter, melden Sie sich mit demselben Konto an, erstellen Sie einen Charakter und kehren Sie dann hierher zurück",
+    "downloadBtn": "📥 Spiel herunterladen",
+    "orText": "oder",
+    "switchAccount": "Mit anderem Konto anmelden",
+    "guestMode": "Als Gast fortfahren"
   }
 }

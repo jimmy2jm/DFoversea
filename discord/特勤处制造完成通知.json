@@ -1,0 +1,52 @@
+{
+  "content": "📢 **制造完成提醒** - 你有部门完成了制造！",
+  "embeds": [
+    {
+      "title": "✅ 制造完成通知",
+      "description": "以下部门已完成制造，请及时领取！\n```diff\n+ 🛡️ 防具台 — 4级防弹衣 已完成\n+ 💊 制药台 — 急救包 已完成\n```",
+      "color": 5763719,
+      "author": {
+        "name": "三角洲行动 | 特勤处制造",
+        "icon_url": "https://example.com/delta-force-icon.png"
+      },
+      "fields": [
+        {
+          "name": "🔬 技术中心",
+          "value": "```yaml\n状态: 制造中\n物品: 军用芯片\n进度: ██████▒▒▒▒ 63%\n剩余: 2h 14m\n```",
+          "inline": true
+        },
+        {
+          "name": "🔧 工作台",
+          "value": "```yaml\n状态: 空闲\n物品: -\n进度: ░░░░░░░░░░ 0%\n剩余: -\n```",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        },
+        {
+          "name": "💊 制药台",
+          "value": "```yaml\n状态: 已完成 ✅\n物品: 急救包\n进度: ██████████ 100%\n剩余: 已就绪\n```",
+          "inline": true
+        },
+        {
+          "name": "🛡️ 防具台",
+          "value": "```yaml\n状态: 已完成 ✅\n物品: 4级防弹衣\n进度: ██████████ 100%\n剩余: 已就绪\n```",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        }
+      ],
+      "footer": {
+        "text": "制造完成自动推送 · 更新于 02月26日 10:28 UTC • 三角洲行动制造系统",
+        "icon_url": "https://example.com/delta-stats-icon.png"
+      },
+      "timestamp": "2026-02-26T10:28:00.000Z"
+    }
+  ],
+  "attachments": []
+}

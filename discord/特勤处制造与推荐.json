@@ -1,0 +1,87 @@
+{
+  "content": "🏭 **特勤处制造动态** - 制造状态与推荐一览",
+  "embeds": [
+    {
+      "title": "⚙️ 特勤处制造总览",
+      "description": "**干员**: DeltaOperator_2024 · **赛季**: S2 · 烽火地带",
+      "color": 3447003,
+      "author": {
+        "name": "三角洲行动 | 特勤处制造",
+        "icon_url": "https://example.com/delta-force-icon.png"
+      },
+      "fields": [
+        {
+          "name": "🔬 技术中心",
+          "value": "```yaml\n状态: 制造中\n物品: 军用芯片\n进度: ██████▒▒▒▒ 63%\n剩余: 2h 14m\n```",
+          "inline": true
+        },
+        {
+          "name": "🔧 工作台",
+          "value": "```yaml\n状态: 空闲\n物品: -\n进度: ░░░░░░░░░░ 0%\n剩余: -\n```",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        },
+        {
+          "name": "💊 制药台",
+          "value": "```yaml\n状态: 制造中\n物品: 急救包\n进度: █████████▒ 92%\n剩余: 0h 28m\n```",
+          "inline": true
+        },
+        {
+          "name": "🛡️ 防具台",
+          "value": "```yaml\n状态: 已完成\n物品: 4级防弹衣\n进度: ██████████ 100%\n剩余: 已就绪\n```",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n📌 **今日制造推荐**\n> 根据市场价值与实用性综合推荐",
+          "inline": false
+        },
+        {
+          "name": "🔬 技术中心推荐",
+          "value": "```diff\n+ 燃料电池\n  售价:       ₽38,500\n  总成本:     ₽12,200\n  制造时长:   3h 20m\n  总收益:     ₽26,300\n  每小时收益: ₽7,890\n```",
+          "inline": true
+        },
+        {
+          "name": "🔧 工作台推荐",
+          "value": "```diff\n+ 步战车模型\n  售价:       ₽125,000\n  总成本:     ₽47,800\n  制造时长:   6h 00m\n  总收益:     ₽77,200\n  每小时收益: ₽12,867\n```",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        },
+        {
+          "name": "💊 制药台推荐",
+          "value": "```diff\n+ 军用急救包\n  售价:       ₽22,400\n  总成本:     ₽8,600\n  制造时长:   1h 45m\n  总收益:     ₽13,800\n  每小时收益: ₽7,886\n```",
+          "inline": true
+        },
+        {
+          "name": "🛡️ 防具台推荐",
+          "value": "```diff\n+ 4级防弹衣\n  售价:       ₽86,000\n  总成本:     ₽35,200\n  制造时长:   5h 30m\n  总收益:     ₽50,800\n  每小时收益: ₽9,236\n```",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        }
+      ],
+      "footer": {
+        "text": "推荐数据基于当日市场行情 · 更新于 02月26日 08:00 UTC • 三角洲行动制造系统",
+        "icon_url": "https://example.com/delta-stats-icon.png"
+      },
+      "timestamp": "2026-02-26T08:00:00.000Z"
+    }
+  ],
+  "attachments": []
+}

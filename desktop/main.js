@@ -17,9 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
  * Navigation - 多页面跳转模式
  */
 function initNavigation() {
-    // 导航链接现在是直接跳转到对应HTML文件
-    // 不需要额外的JS处理
-    
     // Logout button
     const logoutBtn = document.querySelector('.logout-btn');
     if (logoutBtn) {
@@ -27,6 +24,9 @@ function initNavigation() {
             // 登出操作
         });
     }
+    
+    // 初始化桌面端登录系统
+    initDesktopLoginSystem();
 }
 
 /**
@@ -1803,6 +1803,176 @@ function drawCraftPriceChart(tabType = 'tech', itemIndex = 0) {
     });
 }
 
+// ============================================
+// 特勤处制造 - 忙碌工作台 Hover 浮窗
+// ============================================
+const stationWorkingData = {
+    armor: {
+        itemName: 'DAR突击手胸挂',
+        itemIcon: '🎽',
+        stationIcon: '🛡️',
+        stationName: '防具台',
+        sellPrice: 125000,
+        craftCost: 78500,
+        fee: 6250,
+        deposit: 12500,
+        totalTime: '08:45:00',
+        totalProfit: 27750,
+        hourlyProfit: 3171,
+        materials: [
+            { name: '凯夫拉纤维', icon: '📦', unitPrice: 32000, totalPrice: 64000, count: 2 },
+            { name: '钛合金板', icon: '🔩', unitPrice: 18500, totalPrice: 18500, count: 1 },
+            { name: '尼龙织带', icon: '🧵', unitPrice: 8500, totalPrice: 25500, count: 3 },
+            { name: '防弹陶瓷片', icon: '🧱', unitPrice: 19500, totalPrice: 19500, count: 1 }
+        ]
+    }
+};
+
+function initStationTooltip() {
+    document.querySelectorAll('.craft-station-item.working').forEach(station => {
+        station.addEventListener('mouseenter', function() {
+            const stationType = this.dataset.station;
+            showStationTooltip(this, stationType);
+        });
+        station.addEventListener('mouseleave', function() {
+            hideStationTooltip();
+        });
+    });
+}
+
+function showStationTooltip(el, stationType) {
+    const tooltip = document.getElementById('craft-station-tooltip');
+    if (!tooltip) return;
+    const data = stationWorkingData[stationType];
+    if (!data) return;
+
+    tooltip.innerHTML = `
+        <div class="station-tooltip-header">
+            <span class="station-tooltip-icon">${data.stationIcon}</span>
+            <span class="station-tooltip-title">${data.stationName} - 制造中</span>
+        </div>
+        <div class="station-tooltip-body">
+            <div class="station-tooltip-item-section">
+                <div class="station-tooltip-item-image">${data.itemIcon}</div>
+                <div class="station-tooltip-item-info">
+                    <div class="station-tooltip-profit-formula">
+                        <div class="station-tooltip-profit-row">
+                            <span class="station-tooltip-row-label">出售总价</span>
+                            <span class="station-tooltip-row-value"><span class="station-tooltip-coin">💰</span>${data.sellPrice.toLocaleString()}</span>
+                        </div>
+                        <div class="station-tooltip-profit-row">
+                            <span class="station-tooltip-row-label">制造成本</span>
+                            <span class="station-tooltip-row-value"><span class="station-tooltip-coin">💰</span>${data.craftCost.toLocaleString()}</span>
+                        </div>
+                        <div class="station-tooltip-profit-row">
+                            <span class="station-tooltip-row-label">手续费</span>
+                            <span class="station-tooltip-row-value"><span class="station-tooltip-coin">💰</span>${data.fee.toLocaleString()}</span>
+                        </div>
+                        <div class="station-tooltip-profit-row">
+                            <span class="station-tooltip-row-label">保证金</span>
+                            <span class="station-tooltip-row-value"><span class="station-tooltip-coin">💰</span>${data.deposit.toLocaleString()}</span>
+                        </div>
+                        <div class="station-tooltip-profit-row">
+                            <span class="station-tooltip-row-label">总耗时</span>
+                            <span class="station-tooltip-row-value">🕐 ${data.totalTime}</span>
+                        </div>
+                        <div class="station-tooltip-profit-row total">
+                            <span class="station-tooltip-row-label">总收益</span>
+                            <span class="station-tooltip-row-value"><span class="station-tooltip-coin">💰</span>+${data.totalProfit.toLocaleString()}</span>
+                        </div>
+                        <div class="station-tooltip-profit-row hourly">
+                            <span class="station-tooltip-row-label">每小时收益</span>
+                            <span class="station-tooltip-row-value"><span class="station-tooltip-coin">💰</span>${data.hourlyProfit.toLocaleString()}/h</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="station-tooltip-item-name">${data.itemName}</div>
+
+            <div class="station-tooltip-materials-section">
+                <div class="station-tooltip-materials-title">制造所需材料</div>
+                <div class="station-tooltip-material-list">
+                    ${data.materials.map(m => `
+                        <div class="station-tooltip-material-item">
+                            <div class="station-tooltip-material-icon">${m.icon}</div>
+                            <div class="station-tooltip-material-info">
+                                <div class="station-tooltip-material-name">${m.name} ×${m.count}</div>
+                                <div class="station-tooltip-material-prices">
+                                    <span>单价：<span class="station-tooltip-coin">💰</span>${m.unitPrice.toLocaleString()}</span>
+                                    <span>总价：<span class="station-tooltip-coin">💰</span>${m.totalPrice.toLocaleString()}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+
+    positionStationTooltip(el, tooltip);
+    tooltip.classList.add('active');
+
+}
+
+function hideStationTooltip() {
+    const tooltip = document.getElementById('craft-station-tooltip');
+    if (tooltip) tooltip.classList.remove('active');
+}
+
+function positionStationTooltip(el, tooltip) {
+    const rect = el.getBoundingClientRect();
+    const tw = 360;
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const margin = 20;
+
+    // 水平定位
+    let left = rect.right + 12;
+    if (left + tw > vw - margin) {
+        left = rect.left - tw - 12;
+    }
+    if (left < margin) {
+        left = Math.max(margin, rect.left + rect.width / 2 - tw / 2);
+    }
+
+    // 先临时显示以测量实际高度
+    tooltip.style.left = left + 'px';
+    tooltip.style.top = '0px';
+    tooltip.style.maxHeight = (vh - margin * 2) + 'px';
+    tooltip.style.visibility = 'hidden';
+    tooltip.classList.add('active');
+    const th = tooltip.offsetHeight;
+    tooltip.classList.remove('active');
+    tooltip.style.visibility = '';
+
+    // 垂直定位：优先顶部对齐，空间不足则底部对齐
+    let top = rect.top;
+    const spaceBelow = vh - rect.top - margin;
+    const spaceAbove = rect.bottom - margin;
+
+    if (th <= spaceBelow) {
+        // 向下空间足够，顶部对齐
+        top = rect.top;
+    } else if (th <= spaceAbove) {
+        // 向上空间足够，底部对齐
+        top = rect.bottom - th;
+    } else {
+        // 两边都不够，取空间大的一侧并限制高度
+        if (spaceBelow >= spaceAbove) {
+            top = rect.top;
+        } else {
+            top = margin;
+        }
+    }
+
+    // 确保不超出视口
+    if (top < margin) top = margin;
+    const maxH = vh - top - margin;
+
+    tooltip.style.top = top + 'px';
+    tooltip.style.maxHeight = maxH + 'px';
+}
+
 // 页面加载后绘制图表
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
@@ -1810,6 +1980,8 @@ document.addEventListener('DOMContentLoaded', function() {
         drawCraftPriceChart('tech', 0);
         // 初始化交易物价模块
         initMarketPrice();
+        // 初始化特勤处工作台hover浮窗
+        initStationTooltip();
     }, 100);
 });
 
@@ -2460,4 +2632,398 @@ function showToast(message) {
     setTimeout(() => {
         toast.classList.remove('show');
     }, 2000);
+}
+
+/* ============================================
+   桌面端登录系统
+   ============================================ */
+function initDesktopLoginSystem() {
+    const loginBtn = document.getElementById('desktop-login-btn');
+    const overlay = document.getElementById('desktop-login-overlay');
+    const closeBtn = document.getElementById('desktop-login-close');
+    const submitBtn = document.getElementById('desktop-submit-btn');
+    const socialBtns = document.querySelectorAll('.desktop-login-body .social-btn');
+    const passwordLink = document.querySelector('.desktop-password-link');
+    const getCodeBtn = document.querySelector('.desktop-get-code-btn');
+    
+    // 检查 localStorage 登录状态
+    checkDesktopLoginState();
+    
+    // 用户下拉菜单
+    const userInfo = document.getElementById('desktop-user-info');
+    const userDropdown = document.getElementById('desktop-user-dropdown');
+    const dropdownFeedback = document.getElementById('desktop-dropdown-feedback');
+    const dropdownLogout = document.getElementById('desktop-dropdown-logout');
+    
+    if (userInfo && userDropdown) {
+        userInfo.addEventListener('click', (e) => {
+            // 防止点击下拉菜单内部时冒泡关闭
+            if (e.target.closest('.desktop-user-dropdown')) return;
+            userInfo.classList.toggle('dropdown-open');
+            userDropdown.classList.toggle('active');
+        });
+        
+        // 点击页面其他区域关闭下拉菜单
+        document.addEventListener('click', (e) => {
+            if (!userInfo.contains(e.target)) {
+                userInfo.classList.remove('dropdown-open');
+                userDropdown.classList.remove('active');
+            }
+        });
+    }
+    
+    // 下拉菜单 - 意见反馈
+    if (dropdownFeedback) {
+        dropdownFeedback.addEventListener('click', () => {
+            if (userInfo) userInfo.classList.remove('dropdown-open');
+            if (userDropdown) userDropdown.classList.remove('active');
+            const feedbackOverlay = document.getElementById('desktop-feedback-overlay');
+            if (feedbackOverlay) feedbackOverlay.classList.add('active');
+        });
+    }
+    
+    // 下拉菜单 - 退出登录
+    if (dropdownLogout) {
+        dropdownLogout.addEventListener('click', () => {
+            if (userInfo) userInfo.classList.remove('dropdown-open');
+            if (userDropdown) userDropdown.classList.remove('active');
+            desktopPerformLogout();
+        });
+    }
+    
+    // 登录方式选择弹窗
+    const loginMethodOverlay = document.getElementById('desktop-login-method-overlay');
+    const loginMethodClose = document.getElementById('desktop-login-method-close');
+    const loginMethodLI = document.getElementById('desktop-login-method-li');
+    const loginMethodGarena = document.getElementById('desktop-login-method-garena');
+
+    // 打开登录弹窗 → 先打开方式选择弹窗
+    if (loginBtn) {
+        loginBtn.addEventListener('click', () => {
+            if (loginMethodOverlay) {
+                loginMethodOverlay.classList.add('active');
+            }
+        });
+    }
+
+    // 关闭方式选择弹窗
+    if (loginMethodClose) {
+        loginMethodClose.addEventListener('click', () => {
+            if (loginMethodOverlay) loginMethodOverlay.classList.remove('active');
+        });
+    }
+    if (loginMethodOverlay) {
+        loginMethodOverlay.addEventListener('click', (e) => {
+            if (e.target === loginMethodOverlay) loginMethodOverlay.classList.remove('active');
+        });
+    }
+
+    // 选择 Level Infinite → 关闭方式弹窗，打开原登录弹窗
+    if (loginMethodLI) {
+        loginMethodLI.addEventListener('click', () => {
+            if (loginMethodOverlay) loginMethodOverlay.classList.remove('active');
+            if (overlay) overlay.classList.add('active');
+        });
+    }
+
+    // 选择 Garena → 直接完成登录
+    if (loginMethodGarena) {
+        loginMethodGarena.addEventListener('click', () => {
+            if (loginMethodOverlay) loginMethodOverlay.classList.remove('active');
+            desktopPerformLogin('player@garena.com', null, false);
+        });
+    }
+    
+    // 关闭登录弹窗
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            if (overlay) overlay.classList.remove('active');
+        });
+    }
+    
+    // 点击遮罩关闭
+    if (overlay) {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.classList.remove('active');
+        });
+    }
+    
+    // 邮箱+验证码登录（无头像）
+    if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+            const emailInput = document.getElementById('desktop-email-input');
+            const email = emailInput ? emailInput.value.trim() : '';
+            desktopPerformLogin(email || 'user@example.com', null, false, 'email');
+        });
+    }
+    
+    // 获取验证码 - 同上
+    if (getCodeBtn) {
+        getCodeBtn.addEventListener('click', () => {
+            const emailInput = document.getElementById('desktop-email-input');
+            const email = emailInput ? emailInput.value.trim() : '';
+            desktopPerformLogin(email || 'user@example.com', null, false, 'email');
+        });
+    }
+    
+    // 密码登录 - 无头像
+    if (passwordLink) {
+        passwordLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const emailInput = document.getElementById('desktop-email-input');
+            const email = emailInput ? emailInput.value.trim() : '';
+            desktopPerformLogin(email || 'user@example.com', null, false, 'email');
+        });
+    }
+    
+    // 社交登录
+    socialBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const provider = btn.dataset.provider;
+            if (provider === 'google') {
+                // Google 登录 - 模拟有头像
+                desktopPerformLogin('player@gmail.com', 'https://lh3.googleusercontent.com/a/default-user=s96-c', true, provider);
+            } else {
+                // 其他渠道 - 无头像
+                const emails = {
+                    facebook: 'player@facebook.com',
+                    twitter: 'player@x.com',
+                    line: 'player@line.me',
+                    discord: 'player@discord.com'
+                };
+                desktopPerformLogin(emails[provider] || 'user@example.com', null, false, provider);
+            }
+        });
+    });
+}
+
+function desktopPerformLogin(email, avatarUrl, hasAvatar, provider) {
+    // Facebook 登录必定无游戏账号（方便测试），其他渠道正常登录
+    const hasGameAccount = (provider === 'facebook') ? false : true;
+    
+    if (!hasGameAccount) {
+        // 无游戏账号 → 弹出引导弹窗
+        const overlay = document.getElementById('desktop-login-overlay');
+        if (overlay) overlay.classList.remove('active');
+        showDesktopNoAccountModal(email, avatarUrl, hasAvatar);
+        return;
+    }
+    
+    localStorage.setItem('df_login', JSON.stringify({
+        email: email,
+        avatar: avatarUrl,
+        hasAvatar: hasAvatar,
+        loggedIn: true
+    }));
+    updateDesktopLoginUI(email, avatarUrl, hasAvatar);
+    
+    // 关闭弹窗
+    const overlay = document.getElementById('desktop-login-overlay');
+    if (overlay) overlay.classList.remove('active');
+}
+
+function showDesktopNoAccountModal(email, avatarUrl, hasAvatar) {
+    const overlay = document.getElementById('desktop-no-account-overlay');
+    if (!overlay) return;
+    overlay.classList.add('active');
+    
+    // 游客模式登录：保存登录状态并更新UI
+    function guestLogin() {
+        overlay.classList.remove('active');
+        localStorage.setItem('df_login', JSON.stringify({
+            email: email,
+            avatar: avatarUrl,
+            hasAvatar: hasAvatar,
+            loggedIn: true
+        }));
+        updateDesktopLoginUI(email, avatarUrl, hasAvatar);
+    }
+    
+    // 关闭按钮 → 游客模式登录
+    const closeBtn = document.getElementById('desktop-no-account-close');
+    if (closeBtn) {
+        closeBtn.onclick = function() {
+            guestLogin();
+        };
+    }
+    
+    // 点击遮罩 → 游客模式登录
+    overlay.onclick = function(e) {
+        if (e.target === overlay) guestLogin();
+    };
+    
+    // 切换账号
+    const switchBtn = document.getElementById('desktop-no-account-switch');
+    if (switchBtn) {
+        switchBtn.onclick = function(e) {
+            e.preventDefault();
+            overlay.classList.remove('active');
+            localStorage.removeItem('df_login');
+            const methodOverlay = document.getElementById('desktop-login-method-overlay');
+            if (methodOverlay) methodOverlay.classList.add('active');
+        };
+    }
+    
+    // 游客模式按钮
+    const guestBtn = document.getElementById('desktop-no-account-guest');
+    if (guestBtn) {
+        guestBtn.onclick = function(e) {
+            e.preventDefault();
+            guestLogin();
+        };
+    }
+}
+
+function desktopPerformLogout() {
+    localStorage.removeItem('df_login');
+    const loginBtn = document.getElementById('desktop-login-btn');
+    const userInfo = document.getElementById('desktop-user-info');
+    if (loginBtn) loginBtn.style.display = '';
+    if (userInfo) userInfo.style.display = 'none';
+}
+
+function checkDesktopLoginState() {
+    const data = localStorage.getItem('df_login');
+    if (data) {
+        try {
+            const info = JSON.parse(data);
+            if (info.loggedIn) {
+                updateDesktopLoginUI(info.email, info.avatar, info.hasAvatar);
+            }
+        } catch(e) {}
+    }
+}
+
+function updateDesktopLoginUI(email, avatarUrl, hasAvatar) {
+    const loginBtn = document.getElementById('desktop-login-btn');
+    const userInfo = document.getElementById('desktop-user-info');
+    const avatarImg = document.getElementById('desktop-user-avatar');
+    const emailSpan = document.getElementById('desktop-user-email');
+    
+    if (loginBtn) loginBtn.style.display = 'none';
+    if (userInfo) userInfo.style.display = 'flex';
+    
+    if (avatarImg) {
+        if (hasAvatar && avatarUrl) {
+            avatarImg.src = avatarUrl;
+            avatarImg.style.display = '';
+        } else {
+            avatarImg.style.display = 'none';
+        }
+    }
+    
+    if (emailSpan) {
+        emailSpan.textContent = email || '';
+    }
+}
+
+/* ============================================
+   桌面端用户反馈系统
+   ============================================ */
+let desktopFeedbackImages = [];
+
+document.addEventListener('DOMContentLoaded', function() {
+    initDesktopFeedback();
+});
+
+function initDesktopFeedback() {
+    const overlay = document.getElementById('desktop-feedback-overlay');
+    const closeBtn = document.getElementById('desktop-feedback-close');
+    const submitBtn = document.getElementById('desktop-feedback-submit');
+    const imageInput = document.getElementById('desktop-feedback-image-input');
+    
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+            if (overlay) overlay.classList.remove('active');
+        });
+    }
+    
+    if (overlay) {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.classList.remove('active');
+        });
+    }
+    
+    if (imageInput) {
+        imageInput.addEventListener('change', (e) => {
+            Array.from(e.target.files).forEach(file => {
+                if (desktopFeedbackImages.length >= 3) return;
+                if (file.size > 5 * 1024 * 1024) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    desktopFeedbackImages.push(ev.target.result);
+                    renderDesktopFeedbackImages();
+                };
+                reader.readAsDataURL(file);
+            });
+            imageInput.value = '';
+        });
+    }
+    
+    // textarea 粘贴图片支持
+    const textarea = document.getElementById('desktop-feedback-textarea');
+    if (textarea) {
+        textarea.addEventListener('paste', (e) => {
+            const items = e.clipboardData && e.clipboardData.items;
+            if (!items) return;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    e.preventDefault();
+                    if (desktopFeedbackImages.length >= 3) return;
+                    const file = items[i].getAsFile();
+                    if (!file || file.size > 5 * 1024 * 1024) return;
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        desktopFeedbackImages.push(ev.target.result);
+                        renderDesktopFeedbackImages();
+                    };
+                    reader.readAsDataURL(file);
+                    break;
+                }
+            }
+        });
+    }
+    
+    if (submitBtn) {
+        submitBtn.addEventListener('click', () => {
+            const txtArea = document.getElementById('desktop-feedback-textarea');
+            const content = txtArea ? txtArea.value.trim() : '';
+            if (!content) { alert('Please enter your feedback'); return; }
+            
+            const selectedType = document.querySelector('input[name="desktop-feedback-type"]:checked');
+            const feedbackType = selectedType ? selectedType.value : 'tool';
+            console.log('Desktop feedback submitted:', { type: feedbackType, content, images: desktopFeedbackImages.length });
+            
+            if (txtArea) txtArea.value = '';
+            desktopFeedbackImages = [];
+            renderDesktopFeedbackImages();
+            
+            if (overlay) overlay.classList.remove('active');
+            showToast('Thank you for your feedback!');
+        });
+    }
+}
+
+function renderDesktopFeedbackImages() {
+    const grid = document.getElementById('desktop-feedback-images-grid');
+    const uploadLabel = document.getElementById('desktop-feedback-upload-label');
+    if (!grid) return;
+    
+    grid.innerHTML = desktopFeedbackImages.map((src, idx) => 
+        `<div class="feedback-image-preview">
+            <img src="${src}" alt="feedback image">
+            <button class="feedback-image-remove" data-idx="${idx}">&times;</button>
+        </div>`
+    ).join('');
+    
+    grid.querySelectorAll('.feedback-image-remove').forEach(btn => {
+        btn.addEventListener('click', () => {
+            desktopFeedbackImages.splice(parseInt(btn.dataset.idx), 1);
+            renderDesktopFeedbackImages();
+        });
+    });
+    
+    if (uploadLabel) {
+        uploadLabel.style.display = desktopFeedbackImages.length >= 3 ? 'none' : '';
+    }
 }

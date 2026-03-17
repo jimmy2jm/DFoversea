@@ -10,7 +10,8 @@
     "view": "view",
     "cancel": "取消",
     "confirm": "确定",
-    "share": "分享"
+    "share": "分享",
+    "logOut": "退出登录"
   },
   "share": {
     "wechat": "微信",
@@ -29,14 +30,27 @@
     "profile": "我的"
   },
   "login": {
+    "selectMethod": "选择登录方式：",
     "autoCreateHint": "新邮箱将自动创建账号",
     "emailPlaceholder": "邮箱地址",
     "verificationPlaceholder": "验证码",
     "getCode": "获取验证码",
     "registerLogin": "注册 / 登录",
+    "loginRegister": "登录 / 注册",
     "passwordLogin": "密码登录",
     "signInWith": "其他登录方式",
-    "logoutConfirm": "确定要退出登录吗？"
+    "logoutConfirm": "确定要退出登录吗？",
+    "logout": "退出登录"
+  },
+  "noAccount": {
+    "title": "未找到游戏角色",
+    "desc": "账号登录成功，但未找到关联的 Delta Force 游戏角色",
+    "solution1": "下载游戏并创建角色",
+    "solution1Desc": "请前往官网下载游戏，并使用当前登录的相同账号登录游戏、创建角色，完成后返回本工具重新登录即可正常使用",
+    "downloadBtn": "📥 前往下载游戏",
+    "orText": "或者",
+    "switchAccount": "使用其他账号登录",
+    "guestMode": "以游客模式浏览"
   },
   "gameMode": {
     "fenghuo": "烽火地带",
@@ -50,12 +64,18 @@
     "yesterdayEarnings": "昨日收益",
     "openGameViewMore": "打开游戏查看更多",
     "recentData": "近日数据",
+    "recentStatus": "近日战况",
+    "highValueItems": "近日高价值物品",
     "history": "HISTORY",
     "frequentOperator": "常用干员",
     "highlightMatch": "高光对局",
     "highlights": "HIGHLIGHTS"
   },
   "stats": {
+    "earnings": "收益",
+    "operatorKills": "击杀干员数",
+    "matches": "场数",
+    "kd": "K/D",
     "killCount": "击杀数",
     "winRate": "胜率",
     "avgScore": "场均得分",
@@ -124,7 +144,7 @@
     "allSeasons": "所有赛季",
     "seasonNum": "S{{num}}赛季",
     "overview": "大红藏馆总览",
-    "totalTypes": "大红总数",
+    "totalTypes": "大红种类",
     "totalCount": "大红数量",
     "totalValue": "大红累计价值",
     "weeklyCount": "本周收集数量",
@@ -156,7 +176,8 @@
     "peakRank": "最高段位",
     "server": "微信区",
     "statsData": "战绩数据",
-    "collectionRanking": "典藏外观周榜"
+    "collectionRanking": "典藏外观周榜",
+    "feedback": "意见反馈"
   },
   "ranks": {
     "gold": "黄金"
@@ -231,5 +252,20 @@
   "operators": {
     "weilong": "威龙",
     "haizhua": "骇爪"
+  },
+  "feedback": {
+    "title": "意见反馈",
+    "typeLabel": "反馈类型",
+    "typeTool": "工具相关",
+    "typeGame": "游戏相关",
+    "bug": "Bug",
+    "suggestion": "建议",
+    "other": "其他",
+    "placeholder": "请描述您的问题或建议...",
+    "uploadImage": "上传截图（最多9张）",
+    "addImage": "添加图片",
+    "imageHint": "最多9张图片",
+    "contactPlaceholder": "联系方式（选填）",
+    "submit": "提交反馈"
   }
 }

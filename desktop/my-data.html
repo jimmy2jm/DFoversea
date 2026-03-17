@@ -2485,9 +2485,22 @@
             </div>
         </div>
         <div class="nav-right">
-            <div class="user-icon"></div>
-            <span class="user-nickname">Grimlock#8888</span>
-            <button class="logout-btn" data-i18n="common.logOut">log out</button>
+            <button class="desktop-login-btn" id="desktop-login-btn" data-i18n="login.loginRegister">登录 / 注册</button>
+            <div class="desktop-user-info" id="desktop-user-info" style="display: none;">
+                <img class="desktop-user-avatar" id="desktop-user-avatar" src="" alt="" style="display: none;">
+                <span class="desktop-user-email" id="desktop-user-email"></span>
+                <span class="desktop-user-dropdown-arrow">▾</span>
+                <div class="desktop-user-dropdown" id="desktop-user-dropdown">
+                    <div class="desktop-dropdown-item" id="desktop-dropdown-feedback">
+                        <span class="desktop-dropdown-icon">💬</span>
+                        <span data-i18n="feedback.title">意见反馈</span>
+                    </div>
+                    <div class="desktop-dropdown-item logout" id="desktop-dropdown-logout">
+                        <span class="desktop-dropdown-icon">🚪</span>
+                        <span data-i18n="common.logOut">退出登录</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -4299,6 +4312,222 @@
                 }
             });
         }
+    </script>
+    
+    
+    <!-- 桌面端反馈弹窗 -->
+    <div class="desktop-feedback-overlay" id="desktop-feedback-overlay">
+        <div class="desktop-feedback-modal">
+            <div class="desktop-feedback-header">
+                <span class="desktop-feedback-title" data-i18n="feedback.title">User Feedback</span>
+                <span class="desktop-feedback-close" id="desktop-feedback-close">&times;</span>
+            </div>
+            <div class="desktop-feedback-body">
+                <div class="feedback-type-selector">
+                    <span class="feedback-type-label" data-i18n="feedback.typeLabel">反馈类型</span>
+                    <div class="feedback-type-options">
+                        <label class="feedback-type-option active">
+                            <input type="radio" name="desktop-feedback-type" value="tool" checked>
+                            <span class="feedback-type-text" data-i18n="feedback.typeTool">工具相关</span>
+                        </label>
+                        <label class="feedback-type-option">
+                            <input type="radio" name="desktop-feedback-type" value="game">
+                            <span class="feedback-type-text" data-i18n="feedback.typeGame">游戏相关</span>
+                        </label>
+                    </div>
+                </div>
+                <textarea class="feedback-textarea" id="desktop-feedback-textarea" placeholder="Please describe your feedback in detail..." data-i18n-placeholder="feedback.placeholder" rows="5"></textarea>
+                <div class="feedback-images-section">
+                    <div class="feedback-images-grid" id="desktop-feedback-images-grid"></div>
+                    <label class="feedback-upload-btn" id="desktop-feedback-upload-label">
+                        <input type="file" accept="image/*" multiple id="desktop-feedback-image-input" style="display:none;">
+                        <span class="upload-icon">+</span>
+                        <span class="upload-text" data-i18n="feedback.addImage">Add Image</span>
+                    </label>
+                    <div class="feedback-image-hint" data-i18n="feedback.imageHint">Up to 3 images, max 5MB each</div>
+                </div>
+                <button class="feedback-submit-btn" id="desktop-feedback-submit" data-i18n="feedback.submit">Submit Feedback</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 登录和反馈系统 for my-data.html
+        (function() {
+            let desktopFeedbackImages = [];
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                initDesktopLoginSystem();
+                initDesktopFeedback();
+            });
+            
+            function initDesktopLoginSystem() {
+                const loginBtn = document.getElementById('desktop-login-btn');
+                const userInfoEl = document.getElementById('desktop-user-info');
+                const userDropdown = document.getElementById('desktop-user-dropdown');
+                const dropdownFeedback = document.getElementById('desktop-dropdown-feedback');
+                const dropdownLogout = document.getElementById('desktop-dropdown-logout');
+                
+                checkDesktopLoginState();
+                
+                if (loginBtn) {
+                    loginBtn.addEventListener('click', () => {
+                        // my-data 没有登录弹窗，跳转到首页登录
+                        window.location.href = 'index.html';
+                    });
+                }
+                
+                // 用户下拉菜单
+                if (userInfoEl && userDropdown) {
+                    userInfoEl.addEventListener('click', (e) => {
+                        if (e.target.closest('.desktop-user-dropdown')) return;
+                        userInfoEl.classList.toggle('dropdown-open');
+                        userDropdown.classList.toggle('active');
+                    });
+                    document.addEventListener('click', (e) => {
+                        if (!userInfoEl.contains(e.target)) {
+                            userInfoEl.classList.remove('dropdown-open');
+                            userDropdown.classList.remove('active');
+                        }
+                    });
+                }
+                
+                // 下拉菜单 - 意见反馈
+                if (dropdownFeedback) {
+                    dropdownFeedback.addEventListener('click', () => {
+                        if (userInfoEl) userInfoEl.classList.remove('dropdown-open');
+                        if (userDropdown) userDropdown.classList.remove('active');
+                        const feedbackOverlay = document.getElementById('desktop-feedback-overlay');
+                        if (feedbackOverlay) feedbackOverlay.classList.add('active');
+                    });
+                }
+                
+                // 下拉菜单 - 退出登录
+                if (dropdownLogout) {
+                    dropdownLogout.addEventListener('click', () => {
+                        if (userInfoEl) userInfoEl.classList.remove('dropdown-open');
+                        if (userDropdown) userDropdown.classList.remove('active');
+                        localStorage.removeItem('df_login');
+                        const lBtn = document.getElementById('desktop-login-btn');
+                        const uInfo = document.getElementById('desktop-user-info');
+                        if (lBtn) lBtn.style.display = '';
+                        if (uInfo) uInfo.style.display = 'none';
+                    });
+                }
+            }
+            
+            function checkDesktopLoginState() {
+                const data = localStorage.getItem('df_login');
+                if (data) {
+                    try {
+                        const info = JSON.parse(data);
+                        if (info.loggedIn) {
+                            const loginBtn = document.getElementById('desktop-login-btn');
+                            const userInfo = document.getElementById('desktop-user-info');
+                            const avatarImg = document.getElementById('desktop-user-avatar');
+                            const emailSpan = document.getElementById('desktop-user-email');
+                            
+                            if (loginBtn) loginBtn.style.display = 'none';
+                            if (userInfo) userInfo.style.display = 'flex';
+                            if (avatarImg) {
+                                if (info.hasAvatar && info.avatar) {
+                                    avatarImg.src = info.avatar;
+                                    avatarImg.style.display = '';
+                                } else {
+                                    avatarImg.style.display = 'none';
+                                }
+                            }
+                            if (emailSpan) emailSpan.textContent = info.email || '';
+                        }
+                    } catch(e) {}
+                }
+            }
+            
+            function initDesktopFeedback() {
+                const overlay = document.getElementById('desktop-feedback-overlay');
+                const closeBtn = document.getElementById('desktop-feedback-close');
+                const submitBtn = document.getElementById('desktop-feedback-submit');
+                const imageInput = document.getElementById('desktop-feedback-image-input');
+                
+                // 反馈类型切换
+                const typeOptions = document.querySelectorAll('.desktop-feedback-body .feedback-type-option');
+                typeOptions.forEach(option => {
+                    option.addEventListener('click', () => {
+                        typeOptions.forEach(o => o.classList.remove('active'));
+                        option.classList.add('active');
+                        option.querySelector('input[type="radio"]').checked = true;
+                    });
+                });
+                
+                if (closeBtn) closeBtn.addEventListener('click', () => { if (overlay) overlay.classList.remove('active'); });
+                if (overlay) overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
+                
+                if (imageInput) {
+                    imageInput.addEventListener('change', (e) => {
+                        Array.from(e.target.files).forEach(file => {
+                            if (desktopFeedbackImages.length >= 3 || file.size > 5 * 1024 * 1024) return;
+                            const reader = new FileReader();
+                            reader.onload = (ev) => { desktopFeedbackImages.push(ev.target.result); renderImages(); };
+                            reader.readAsDataURL(file);
+                        });
+                        imageInput.value = '';
+                    });
+                }
+                
+                // textarea 粘贴图片支持
+                const feedbackTextarea = document.getElementById('desktop-feedback-textarea');
+                if (feedbackTextarea) {
+                    feedbackTextarea.addEventListener('paste', (e) => {
+                        const items = e.clipboardData && e.clipboardData.items;
+                        if (!items) return;
+                        for (let i = 0; i < items.length; i++) {
+                            if (items[i].type.indexOf('image') !== -1) {
+                                e.preventDefault();
+                                if (desktopFeedbackImages.length >= 3) return;
+                                const file = items[i].getAsFile();
+                                if (!file || file.size > 5 * 1024 * 1024) return;
+                                const reader = new FileReader();
+                                reader.onload = (ev) => {
+                                    desktopFeedbackImages.push(ev.target.result);
+                                    renderImages();
+                                };
+                                reader.readAsDataURL(file);
+                                break;
+                            }
+                        }
+                    });
+                }
+                
+                if (submitBtn) {
+                    submitBtn.addEventListener('click', () => {
+                        const textarea = document.getElementById('desktop-feedback-textarea');
+                        const content = textarea ? textarea.value.trim() : '';
+                        if (!content) { alert('Please enter your feedback'); return; }
+                        const selectedType = document.querySelector('input[name="desktop-feedback-type"]:checked');
+                        const feedbackType = selectedType ? selectedType.value : 'tool';
+                        console.log('Feedback submitted:', { type: feedbackType, content });
+                        if (textarea) textarea.value = '';
+                        desktopFeedbackImages = [];
+                        renderImages();
+                        if (overlay) overlay.classList.remove('active');
+                        alert('Thank you for your feedback!');
+                    });
+                }
+            }
+            
+            function renderImages() {
+                const grid = document.getElementById('desktop-feedback-images-grid');
+                const uploadLabel = document.getElementById('desktop-feedback-upload-label');
+                if (!grid) return;
+                grid.innerHTML = desktopFeedbackImages.map((src, idx) =>
+                    '<div class="feedback-image-preview"><img src="' + src + '"><button class="feedback-image-remove" data-idx="' + idx + '">&times;</button></div>'
+                ).join('');
+                grid.querySelectorAll('.feedback-image-remove').forEach(btn => {
+                    btn.addEventListener('click', () => { desktopFeedbackImages.splice(parseInt(btn.dataset.idx), 1); renderImages(); });
+                });
+                if (uploadLabel) uploadLabel.style.display = desktopFeedbackImages.length >= 3 ? 'none' : '';
+            }
+        })();
     </script>
 </body>
 </html>

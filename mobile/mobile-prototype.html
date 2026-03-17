@@ -13,27 +13,26 @@
         <!-- 左侧：语言切换 -->
         <div class="lang-selector">
             <button class="lang-selector-btn" id="lang-btn">
-                <span class="lang-flag" id="current-lang-flag">🇨🇳</span>
+                <svg class="lang-globe-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M2 12h20"/>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10A15.3 15.3 0 0 1 12 2z"/>
+                </svg>
             </button>
             <div class="lang-dropdown" id="lang-dropdown">
                 <div class="lang-option active" data-lang="zh-CN">
-                    <span class="lang-option-flag">🇨🇳</span>
                     <span class="lang-option-name">简体中文</span>
                 </div>
                 <div class="lang-option" data-lang="en">
-                    <span class="lang-option-flag">🇺🇸</span>
                     <span class="lang-option-name">English</span>
                 </div>
                 <div class="lang-option" data-lang="ja">
-                    <span class="lang-option-flag">🇯🇵</span>
                     <span class="lang-option-name">日本語</span>
                 </div>
                 <div class="lang-option" data-lang="ko">
-                    <span class="lang-option-flag">🇰🇷</span>
                     <span class="lang-option-name">한국어</span>
                 </div>
                 <div class="lang-option" data-lang="de">
-                    <span class="lang-option-flag">🇩🇪</span>
                     <span class="lang-option-name">Deutsch</span>
                 </div>
             </div>
@@ -49,9 +48,57 @@
                     <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
                 </svg>
             </button>
+            <div class="mobile-user-logged" id="mobile-user-logged" style="display: none;">
+                <img class="mobile-user-avatar" id="mobile-user-avatar" src="" alt="" style="display: none;">
+                <span class="mobile-user-email" id="mobile-user-email"></span>
+                <span class="user-dropdown-arrow">▾</span>
+            </div>
+            <!-- 用户下拉菜单 -->
+            <div class="user-dropdown-menu" id="user-dropdown-menu">
+                <div class="user-dropdown-item" id="dropdown-feedback">
+                    <span class="user-dropdown-icon">💬</span>
+                    <span data-i18n="profile.feedback">意见反馈</span>
+                </div>
+                <div class="user-dropdown-item logout" id="dropdown-logout">
+                    <span class="user-dropdown-icon">🚪</span>
+                    <span data-i18n="login.logout">退出登录</span>
+                </div>
+            </div>
         </div>
     </header>
     
+    <!-- 登录方式选择弹窗 -->
+    <div class="login-method-overlay" id="login-method-overlay">
+        <div class="login-method-modal">
+            <div class="login-method-header">
+                <span class="login-method-title" data-i18n="login.selectMethod">Log in with:</span>
+                <span class="login-method-close" id="login-method-close">&times;</span>
+            </div>
+            <div class="login-method-cards">
+                <div class="login-method-card" id="login-method-li">
+                    <div class="method-card-icon method-li-icon">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" rx="16" fill="#1a0a2e"/>
+                            <polygon points="30,25 30,75 55,75" fill="#7c3aed"/>
+                            <polygon points="45,25 70,75 70,25" fill="#a78bfa"/>
+                        </svg>
+                    </div>
+                    <span class="method-card-name">Level Infinite</span>
+                </div>
+                <div class="login-method-card" id="login-method-garena">
+                    <div class="method-card-icon method-garena-icon">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" rx="16" fill="#1a0a0a"/>
+                            <circle cx="50" cy="50" r="30" fill="#e53935"/>
+                            <text x="50" y="58" text-anchor="middle" font-size="28" font-weight="bold" fill="#fff">G</text>
+                        </svg>
+                    </div>
+                    <span class="method-card-name">Garena</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- 登录弹窗 -->
     <div class="login-modal-overlay" id="login-modal-overlay">
         <div class="login-modal">
@@ -66,29 +113,29 @@
             
             <!-- 弹窗内容 -->
             <div class="login-modal-content">
-                <p class="login-hint" data-i18n="login.autoCreateHint">Account will be created automatically for new emails.</p>
+                <p class="login-hint" data-i18n="login.autoCreateHint">新邮箱将自动创建账号</p>
                 
                 <!-- 邮箱输入 -->
                 <div class="login-input-group">
-                    <input type="email" class="login-input" placeholder="Email address" data-i18n-placeholder="login.emailPlaceholder">
+                    <input type="email" class="login-input" placeholder="请输入邮箱地址" data-i18n-placeholder="login.emailPlaceholder">
                 </div>
                 
                 <!-- 验证码输入 -->
                 <div class="login-input-group verification-group">
-                    <input type="text" class="login-input verification-input" placeholder="Verification code" data-i18n-placeholder="login.verificationPlaceholder">
-                    <button class="get-code-btn" data-i18n="login.getCode">Get code</button>
+                    <input type="text" class="login-input verification-input" placeholder="请输入验证码" data-i18n-placeholder="login.verificationPlaceholder">
+                    <button class="get-code-btn" data-i18n="login.getCode">获取验证码</button>
                 </div>
                 
                 <!-- 登录/注册按钮 -->
-                <button class="login-submit-btn" id="login-submit-btn" data-i18n="login.registerLogin">Register / Log in</button>
+                <button class="login-submit-btn" id="login-submit-btn" data-i18n="login.registerLogin">注册 / 登录</button>
                 
                 <!-- 密码登录链接 -->
-                <a href="#" class="password-login-link" data-i18n="login.passwordLogin">Password login</a>
+                <a href="#" class="password-login-link" data-i18n="login.passwordLogin">密码登录</a>
                 
                 <!-- 分隔线 -->
                 <div class="login-divider">
                     <span class="divider-line"></span>
-                    <span class="divider-text" data-i18n="login.signInWith">Sign in with</span>
+                    <span class="divider-text" data-i18n="login.signInWith">其他方式登录</span>
                     <span class="divider-line"></span>
                 </div>
                 
@@ -125,6 +172,30 @@
             </div>
         </div>
     </div>
+
+    <!-- 无游戏账号引导弹窗（底部抽屉） -->
+    <div class="no-account-overlay" id="mobile-no-account-overlay">
+        <div class="no-account-sheet">
+            <div class="no-account-sheet-handle"></div>
+            <div class="no-account-icon">🎮</div>
+            <p class="no-account-sheet-title" data-i18n="noAccount.title">未找到游戏角色</p>
+            <p class="no-account-sheet-desc" data-i18n="noAccount.desc">账号登录成功，但未找到关联的 Delta Force 游戏角色</p>
+            <div class="no-account-card">
+                <div class="no-account-card-label" data-i18n="noAccount.solution1">下载游戏并创建角色</div>
+                <p class="no-account-card-desc" data-i18n="noAccount.solution1Desc">请前往官网下载游戏，并使用当前登录的相同账号登录游戏、创建角色，完成后返回本工具重新登录即可正常使用</p>
+                <a href="https://www.playdeltaforce.com" target="_blank" class="no-account-download-btn" data-i18n="noAccount.downloadBtn">📥 前往下载游戏</a>
+            </div>
+            <div class="no-account-divider">
+                <span class="divider-line"></span>
+                <span class="divider-text" data-i18n="noAccount.orText">或者</span>
+                <span class="divider-line"></span>
+            </div>
+            <div class="no-account-alt-actions">
+                <a href="#" class="no-account-switch-btn" id="mobile-no-account-switch" data-i18n="noAccount.switchAccount">使用其他账号登录</a>
+                <a href="#" class="no-account-guest-link" id="mobile-no-account-guest"><span data-i18n="noAccount.guestMode">以游客模式浏览</span> <span class="guest-arrow">&gt;</span></a>
+            </div>
+        </div>
+    </div>
     
     <!-- 分享海报弹窗 -->
     <div class="share-modal-overlay" id="share-modal-overlay">
@@ -141,19 +212,154 @@
                     <!-- 海报头部 -->
                     <div class="poster-head">
                         <div class="poster-logo-text">△ DELTA FORCE</div>
-                        <div class="poster-report-title" data-i18n="share.dailyReport">日报</div>
+                        <div class="poster-report-title" id="poster-report-title">烽火日报</div>
+                        <div class="poster-date" id="poster-date">2026/01/29</div>
                     </div>
                     
-                    <!-- 海报主体内容占位 -->
-                    <div class="poster-body-placeholder">
-                        <div class="poster-placeholder-icon">📊</div>
-                        <div class="poster-placeholder-text" data-i18n="share.posterPlaceholder">海报内容生成中...</div>
+                    <!-- 用户信息区域 -->
+                    <div class="poster-user-row">
+                        <div class="poster-avatar"></div>
+                        <div class="poster-user-detail">
+                            <span class="poster-username">Grimlock#8888</span>
+                            <span class="poster-mode-label" id="poster-mode-label">烽火地带</span>
+                        </div>
+                    </div>
+
+                    <!-- 每日关键词 -->
+                    <div class="poster-keyword-area">
+                        <div class="poster-keyword-tag" id="poster-keyword-tag">大红扫荡者</div>
+                        <div class="poster-keyword-desc" id="poster-keyword-desc">昨日带出5件以上红色品质物品</div>
+                    </div>
+
+                    <!-- ===== 烽火地带海报内容 ===== -->
+                    <div class="poster-mode-content" id="poster-fh-data">
+                        <!-- 近日战况 -->
+                        <div class="poster-stats-section">
+                            <div class="poster-section-header">
+                                <span class="poster-section-title" data-i18n="home.recentStatus">近日战况</span>
+                            </div>
+                            <div class="poster-primary-stat">
+                                <span class="poster-primary-label" data-i18n="stats.earnings">收益</span>
+                                <span class="poster-primary-value">13,141,314</span>
+                                <span class="poster-primary-unit">HC</span>
+                            </div>
+                            <div class="poster-secondary-stats">
+                                <div class="poster-stat-item">
+                                    <span class="poster-stat-number">33</span>
+                                    <span class="poster-stat-name" data-i18n="stats.operatorKills">击杀干员数</span>
+                                </div>
+                                <div class="poster-stat-item">
+                                    <span class="poster-stat-number">27%</span>
+                                    <span class="poster-stat-name" data-i18n="stats.extractionRate">撤离率</span>
+                                </div>
+                                <div class="poster-stat-item">
+                                    <span class="poster-stat-number">20</span>
+                                    <span class="poster-stat-name" data-i18n="stats.matches">场数</span>
+                                </div>
+                                <div class="poster-stat-item">
+                                    <span class="poster-stat-number">2.1</span>
+                                    <span class="poster-stat-name" data-i18n="stats.kd">K/D</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 近日高价值物品 -->
+                        <div class="poster-items-section">
+                            <div class="poster-section-header">
+                                <span class="poster-section-title" data-i18n="home.highValueItems">近日高价值物品</span>
+                            </div>
+                            <div class="poster-items-grid">
+                                <div class="poster-item-card">
+                                    <div class="poster-item-img"></div>
+                                    <span class="poster-item-name">动力电池组</span>
+                                </div>
+                                <div class="poster-item-card">
+                                    <div class="poster-item-img"></div>
+                                    <span class="poster-item-name">金块</span>
+                                </div>
+                                <div class="poster-item-card">
+                                    <div class="poster-item-img"></div>
+                                    <span class="poster-item-name">加密U盘</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== 全面战场海报内容 ===== -->
+                    <div class="poster-mode-content" id="poster-zc-data" style="display: none;">
+                        <!-- 近日战况 -->
+                        <div class="poster-stats-section">
+                            <div class="poster-section-header">
+                                <span class="poster-section-title">近日战况</span>
+                            </div>
+                            <div class="poster-primary-stat">
+                                <span class="poster-primary-label">最高得分</span>
+                                <span class="poster-primary-value">38,888</span>
+                                <span class="poster-primary-unit">分</span>
+                            </div>
+                            <div class="poster-secondary-stats">
+                                <div class="poster-stat-item">
+                                    <span class="poster-stat-number">200</span>
+                                    <span class="poster-stat-name">击杀次数</span>
+                                </div>
+                                <div class="poster-stat-item">
+                                    <span class="poster-stat-number">42%</span>
+                                    <span class="poster-stat-name">胜率</span>
+                                </div>
+                                <div class="poster-stat-item">
+                                    <span class="poster-stat-number">6</span>
+                                    <span class="poster-stat-name">场数</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 阵地支援 -->
+                        <div class="poster-support-section">
+                            <div class="poster-section-header">
+                                <span class="poster-section-title">🎯 阵地支援</span>
+                            </div>
+                            <div class="poster-support-grid">
+                                <div class="poster-support-item">
+                                    <div class="poster-support-icon mortar"></div>
+                                    <span class="poster-support-name">制导导弹</span>
+                                    <span class="poster-support-count">×1</span>
+                                </div>
+                                <div class="poster-support-item">
+                                    <div class="poster-support-icon turret"></div>
+                                    <span class="poster-support-name">信标</span>
+                                    <span class="poster-support-count">×1</span>
+                                </div>
+                                <div class="poster-support-item">
+                                    <div class="poster-support-icon drone"></div>
+                                    <span class="poster-support-name">炮兵齐射</span>
+                                    <span class="poster-support-count">×1</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 载具数据 -->
+                        <div class="poster-vehicle-section">
+                            <div class="poster-section-header">
+                                <span class="poster-section-title">🚁 载具数据</span>
+                            </div>
+                            <div class="poster-vehicle-list">
+                                <div class="poster-vehicle-item">
+                                    <span class="poster-vehicle-name">侦查直升机</span>
+                                    <div class="poster-vehicle-stats">
+                                        <span class="poster-vehicle-stat">击败 <em>123</em></span>
+                                        <span class="poster-vehicle-stat">驾驶 <em>10min</em></span>
+                                    </div>
+                                </div>
+                                <div class="poster-vehicle-item">
+                                    <span class="poster-vehicle-name">主战坦克</span>
+                                    <div class="poster-vehicle-stats">
+                                        <span class="poster-vehicle-stat">击败 <em>45</em></span>
+                                        <span class="poster-vehicle-stat">驾驶 <em>8min</em></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- 海报底部 -->
                     <div class="poster-foot">
-                        <span class="poster-date-text">2026/02/13</span>
-                        <span class="poster-watermark-text">Delta Force Tracker</span>
                     </div>
                 </div>
             </div>
@@ -624,8 +830,36 @@
                         </div>
                     </div>
                     <div class="build-gun-preview"></div>
-                    <div class="radar-chart-container">
-                        <canvas id="radar-single"></canvas>
+                    <div class="radar-attachments-row">
+                        <div class="radar-chart-container">
+                            <canvas id="radar-single"></canvas>
+                        </div>
+                        <div class="build-attachments-grid" id="attachments-zc-mobile">
+                            <div class="attachment-item">
+                                <div class="attachment-icon">🔭</div>
+                                <div class="attachment-name">瞄准镜</div>
+                            </div>
+                            <div class="attachment-item">
+                                <div class="attachment-icon">🔫</div>
+                                <div class="attachment-name">枪口</div>
+                            </div>
+                            <div class="attachment-item">
+                                <div class="attachment-icon">✊</div>
+                                <div class="attachment-name">握把</div>
+                            </div>
+                            <div class="attachment-item">
+                                <div class="attachment-icon">📐</div>
+                                <div class="attachment-name">枪托</div>
+                            </div>
+                            <div class="attachment-item">
+                                <div class="attachment-icon">🎯</div>
+                                <div class="attachment-name">弹匣</div>
+                            </div>
+                            <div class="attachment-item">
+                                <div class="attachment-icon">⚙️</div>
+                                <div class="attachment-name">战术</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1054,8 +1288,51 @@
                 </div>
                 -->
             </div>
+            
+
         </section>
     </div><!-- 我的页面结束 -->
+    
+    <!-- 意见反馈弹窗 -->
+    <div class="feedback-modal-overlay" id="feedback-modal-overlay">
+        <div class="feedback-modal">
+            <div class="feedback-modal-header">
+                <span class="feedback-modal-title" data-i18n="feedback.title">意见反馈</span>
+                <span class="feedback-modal-close" id="feedback-modal-close">✕</span>
+            </div>
+            <div class="feedback-modal-body">
+                <!-- 反馈类型选择 -->
+                <div class="feedback-type-selector">
+                    <span class="feedback-type-label" data-i18n="feedback.typeLabel">反馈类型</span>
+                    <div class="feedback-type-options">
+                        <label class="feedback-type-option active">
+                            <input type="radio" name="feedback-type" value="tool" checked>
+                            <span class="feedback-type-text" data-i18n="feedback.typeTool">工具相关</span>
+                        </label>
+                        <label class="feedback-type-option">
+                            <input type="radio" name="feedback-type" value="game">
+                            <span class="feedback-type-text" data-i18n="feedback.typeGame">游戏相关</span>
+                        </label>
+                    </div>
+                </div>
+                <!-- 描述输入 -->
+                <textarea class="feedback-textarea" id="feedback-textarea" placeholder="请描述您的问题或建议..." data-i18n-placeholder="feedback.placeholder" maxlength="500"></textarea>
+                <div class="feedback-textarea-count"><span id="feedback-char-count">0</span>/500</div>
+                <!-- 图片上传 -->
+                <div class="feedback-image-section">
+                    <div class="feedback-image-label" data-i18n="feedback.uploadImage">上传截图（最多3张）</div>
+                    <div class="feedback-image-grid" id="feedback-image-grid">
+                        <div class="feedback-image-add" id="feedback-image-add">
+                            <span>+</span>
+                            <input type="file" accept="image/*" multiple style="display:none;" id="feedback-image-input">
+                        </div>
+                    </div>
+                </div>
+                <!-- 提交按钮 -->
+                <button class="feedback-submit-btn" id="feedback-submit-btn" data-i18n="feedback.submit">提交反馈</button>
+            </div>
+        </div>
+    </div>
     
     <!-- 底部导航 -->
     <nav class="bottom-nav">

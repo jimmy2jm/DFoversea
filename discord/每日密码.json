@@ -1,0 +1,67 @@
+{
+  "content": "🔐 **每日密码** - 今日烽火地带密码速查",
+  "embeds": [
+    {
+      "title": "🗝️ 02月26日 烽火密码",
+      "description": "**每日更新** · 密码将于次日 00:00 UTC 刷新",
+      "color": 10181046,
+      "author": {
+        "name": "三角洲行动 | 每日密码",
+        "icon_url": "https://example.com/delta-force-icon.png"
+      },
+      "fields": [
+        {
+          "name": "🏔️ 零号大坝",
+          "value": "```fix\n4861\n```",
+          "inline": true
+        },
+        {
+          "name": "🌲 长弓溪谷",
+          "value": "```fix\n7325\n```",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        },
+        {
+          "name": "🏜️ 巴克什",
+          "value": "```fix\n6183\n```",
+          "inline": true
+        },
+        {
+          "name": "🚀 航天基地",
+          "value": "```fix\n2957\n```",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        },
+        {
+          "name": "🏭 潮汐监狱",
+          "value": "```fix\n1479\n```",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        }
+      ],
+      "footer": {
+        "text": "密码每日刷新 · 数据更新于 02月26日 00:00 UTC • 三角洲行动密码系统",
+        "icon_url": "https://example.com/delta-stats-icon.png"
+      },
+      "timestamp": "2026-02-26T00:00:00.000Z"
+    }
+  ],
+  "attachments": []
+}
