@@ -2030,11 +2030,47 @@ function renderGunDetailPage() {
         });
     });
 
+    renderGunDetailCurrentInfo(currentInfo);
+
     if (currentGunDetailMode === 'fh') {
         renderFenghuoGunDetailSchemes();
     } else {
         renderZhanchangGunDetailSchemes();
     }
+}
+
+function renderGunDetailCurrentInfo(container) {
+    if (!container) return;
+
+    const guns = gunDetailGunList[currentGunDetailMode];
+    const currentGun = guns.find(gun => gun.id === currentGunDetailId) || guns[0];
+    const meta = gunDetailMeta[currentGun.id] || { role: '主武器', range: '通用距离', difficulty: '均衡' };
+    const statSource = currentGunDetailMode === 'fh'
+        ? (gunStatsData[currentGun.id]?.premium || gunStatsData[currentGun.id]?.budget || gunStatsData.mp5.premium)
+        : (gunStatsDataZC[currentGun.id]?.stats || gunStatsDataZC.m4a1.stats);
+    const score = Math.round(Object.values(statSource).reduce((sum, value) => sum + value, 0) / 5);
+
+    container.innerHTML = `
+        <div class="gun-detail-current-main">
+            <div class="gun-detail-current-image"></div>
+            <div class="gun-detail-current-text">
+                <div class="gun-detail-current-kicker">${currentGunDetailMode === 'fh' ? '烽火地带' : '全面战场'}</div>
+                <div class="gun-detail-current-name">${currentGun.name}</div>
+                <div class="gun-detail-current-desc">${meta.role} · ${meta.range} · ${meta.difficulty}</div>
+            </div>
+            <div class="gun-detail-current-score">
+                <span>${score}</span>
+                <em>综合</em>
+            </div>
+        </div>
+        <div class="gun-detail-current-stats">
+            <span>后坐 ${statSource.recoil}</span>
+            <span>操控 ${statSource.handling}</span>
+            <span>射程 ${statSource.range}</span>
+            <span>稳定 ${statSource.stability}</span>
+            <span>射速 ${statSource.fireRate}</span>
+        </div>
+    `;
 }
 
 function renderFenghuoGunDetailSchemes() {

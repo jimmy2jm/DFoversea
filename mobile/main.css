@@ -5482,3 +5482,587 @@ body.rtl .lang-selector .lang-dropdown {
 .no-account-guest-link .guest-arrow {
     font-size: 13px;
 }
+
+/* ============================================
+   HQ official layout refinement - mobile gun pages
+   ============================================ */
+.gun-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.gun-section > .section-header {
+    min-height: 34px;
+    padding: 8px 10px;
+    margin-bottom: 0;
+    background: rgba(92, 112, 114, 0.45);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.gun-section .section-title {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 800;
+}
+
+#gun-build-more {
+    color: var(--accent-cyan);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 0;
+}
+
+.gun-section .gun-selector {
+    padding: 10px 8px 4px;
+    margin-bottom: 4px;
+}
+
+.gun-section .gun-tab,
+.gun-section .build-card {
+    border-radius: 0;
+    background: rgba(6, 18, 20, 0.66);
+    border-color: rgba(42, 72, 78, 0.75);
+}
+
+.gun-section .gun-tab.active {
+    background: rgba(0, 212, 170, 0.1);
+    border-color: var(--accent-cyan);
+}
+
+.gun-section .build-cards-container {
+    padding: 0 8px 10px;
+}
+
+.gun-section .build-gun-preview,
+.gun-detail-gun-image {
+    border-radius: 0;
+    background: linear-gradient(135deg, rgba(74, 92, 96, 0.8), rgba(18, 38, 42, 0.86));
+}
+
+#page-gun-build-detail {
+    background:
+        radial-gradient(circle at 70% 0%, rgba(126, 146, 139, 0.16) 0, transparent 34%),
+        var(--bg-dark);
+}
+
+#page-gun-build-detail .subpage-header {
+    background: rgba(4, 18, 20, 0.96);
+    border-bottom: 1px solid rgba(80, 108, 112, 0.45);
+}
+
+#page-gun-build-detail .subpage-title {
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 800;
+}
+
+.gun-detail-mode-tabs {
+    background: rgba(10, 32, 35, 0.72);
+}
+
+.gun-detail-mode-tab {
+    border-radius: 0;
+    background: rgba(6, 18, 20, 0.66);
+    border-color: rgba(42, 72, 78, 0.75);
+}
+
+.gun-detail-mode-tab.active {
+    background: var(--accent-cyan);
+    color: #031816;
+}
+
+.gun-detail-current-info {
+    margin-bottom: 12px;
+    background: rgba(18, 38, 42, 0.92);
+    border: 1px solid rgba(84, 112, 118, 0.56);
+}
+
+.gun-detail-current-main {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+.gun-detail-current-image {
+    width: 78px;
+    height: 48px;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(74, 92, 96, 0.8), rgba(18, 38, 42, 0.86));
+    border: 1px solid rgba(42, 72, 78, 0.75);
+}
+
+.gun-detail-current-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.gun-detail-current-kicker {
+    font-size: 10px;
+    color: var(--accent-cyan);
+    letter-spacing: 0.12em;
+    margin-bottom: 2px;
+}
+
+.gun-detail-current-name {
+    font-size: 17px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.gun-detail-current-desc {
+    margin-top: 3px;
+    font-size: 11px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gun-detail-current-score {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid rgba(84, 112, 118, 0.45);
+}
+
+.gun-detail-current-score span {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    line-height: 1;
+}
+
+.gun-detail-current-score em {
+    margin-top: 3px;
+    font-size: 9px;
+    font-style: normal;
+    color: var(--text-secondary);
+}
+
+.gun-detail-current-stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-top: 1px solid rgba(84, 112, 118, 0.45);
+}
+
+.gun-detail-current-stats span {
+    padding: 7px 2px;
+    text-align: center;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.64);
+    border-left: 1px solid rgba(84, 112, 118, 0.28);
+}
+
+.gun-detail-current-stats span:first-child {
+    border-left: none;
+}
+
+.gun-detail-panel,
+.gun-detail-gun-card,
+.gun-detail-scheme-card,
+.gun-detail-radar-box,
+.gun-detail-attachment-box,
+.gun-detail-attachment {
+    border-radius: 0;
+}
+
+.gun-detail-panel {
+    background: rgba(18, 38, 42, 0.92);
+    border-color: rgba(84, 112, 118, 0.56);
+    padding: 0;
+    overflow: hidden;
+}
+
+.gun-detail-section-title {
+    margin: 0 0 10px;
+    padding: 8px 10px;
+    background: rgba(92, 112, 114, 0.45);
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.gun-detail-selector,
+.gun-detail-scheme-list {
+    padding: 0 10px 10px;
+}
+
+.gun-detail-gun-card,
+.gun-detail-scheme-card {
+    background: rgba(6, 18, 20, 0.66);
+    border-color: rgba(42, 72, 78, 0.75);
+}
+
+.gun-detail-gun-card.active {
+    border-color: var(--accent-cyan);
+    background: rgba(0, 212, 170, 0.1);
+}
+
+.gun-detail-scheme-header {
+    align-items: center;
+}
+
+.gun-detail-copy-btn {
+    border-radius: 0;
+    font-weight: 700;
+}
+
+.gun-detail-tag {
+    border-radius: 0;
+    color: var(--accent-cyan);
+    background: rgba(0, 212, 170, 0.08);
+    border: 1px solid rgba(0, 212, 170, 0.2);
+}
+
+.gun-detail-radar-box,
+.gun-detail-attachment-box,
+.gun-detail-attachment {
+    background: rgba(0, 0, 0, 0.18);
+    border-color: rgba(255, 255, 255, 0.06);
+}
+
+/* ============================================
+   HQ official layout refinement - mobile home
+   ============================================ */
+body {
+    background:
+        radial-gradient(circle at 68% 0%, rgba(126, 146, 139, 0.18) 0, transparent 34%),
+        linear-gradient(180deg, #0b2022 0%, #071c1e 48%, #07191a 100%);
+}
+
+.header {
+    background: rgba(4, 18, 20, 0.96);
+    border-bottom: 1px solid rgba(80, 108, 112, 0.45);
+    backdrop-filter: blur(8px);
+}
+
+.header-title {
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+.daily-report-card,
+.craft-card-mobile,
+.news-placeholder {
+    border-radius: 0;
+    background: rgba(18, 38, 42, 0.92);
+    border-color: rgba(84, 112, 118, 0.56);
+    box-shadow: 0 12px 34px rgba(0, 0, 0, 0.16);
+}
+
+.daily-report-card {
+    margin: 8px;
+}
+
+.report-tabs {
+    align-items: center;
+    padding: 8px;
+    gap: 0;
+    background: rgba(10, 32, 35, 0.72);
+    border-bottom: 1px solid rgba(84, 112, 118, 0.45);
+}
+
+.report-tab {
+    flex: 1;
+    height: 32px;
+    padding: 0 8px;
+    border-radius: 0;
+    border: 1px solid rgba(84, 112, 118, 0.58);
+    background: rgba(6, 18, 20, 0.66);
+    color: rgba(255, 255, 255, 0.62);
+    font-weight: 700;
+}
+
+.report-tab + .report-tab {
+    border-left: none;
+}
+
+.report-tab.active {
+    background: var(--accent-cyan);
+    border-color: var(--accent-cyan);
+    color: #031816;
+}
+
+.report-tab:not(.active) {
+    border-color: rgba(84, 112, 118, 0.58);
+}
+
+.share-btn {
+    height: 32px;
+    margin-left: 8px;
+    padding: 0 8px;
+    border-radius: 0;
+    border-color: rgba(0, 212, 170, 0.42);
+    background: rgba(0, 212, 170, 0.06);
+    font-weight: 700;
+}
+
+.password-section,
+.earnings-section,
+.battlefield-section,
+.highlight-section {
+    margin: 8px;
+    padding: 0;
+    border: 1px solid rgba(84, 112, 118, 0.48);
+    background: rgba(6, 18, 20, 0.42);
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.password-section-header,
+.earnings-section-header,
+.battlefield-label,
+.highlight-label,
+.craft-header-mobile,
+.gun-section > .section-header {
+    min-height: 32px;
+    padding: 7px 10px;
+    margin: 0;
+    background: rgba(92, 112, 114, 0.45);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.password-section-title,
+.earnings-section-title,
+.battlefield-label-text,
+.highlight-label-text,
+.craft-title-mobile,
+.section-title {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 800;
+}
+
+.password-section-icon,
+.earnings-section-icon {
+    display: none;
+}
+
+.password-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(58px, 1fr));
+    gap: 0;
+    padding: 0;
+    overflow-x: auto;
+}
+
+.password-item {
+    min-width: 58px;
+    max-width: none;
+    border-left: 1px solid rgba(84, 112, 118, 0.28);
+}
+
+.password-item:first-child {
+    border-left: none;
+}
+
+.password-map {
+    min-height: 0;
+    margin: 0;
+    padding: 7px 4px 4px;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.56);
+}
+
+.password-code-box {
+    min-height: 34px;
+    padding: 2px 3px 12px;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+.password-code {
+    color: var(--accent-cyan);
+    font-size: 14px;
+    text-shadow: 0 0 10px rgba(0, 212, 170, 0.25);
+}
+
+.password-view-hint {
+    height: 12px;
+    font-size: 8px;
+    color: rgba(0, 212, 170, 0.68);
+    background: transparent;
+}
+
+.earnings-content {
+    padding: 10px;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.item-list {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 6px;
+}
+
+.item-card,
+.earnings-summary,
+.battlefield-stat-item,
+.battlefield-right,
+.highlight-card,
+.craft-station-card,
+.gun-section .gun-tab,
+.gun-section .build-card {
+    border-radius: 0;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+}
+
+.item-card {
+    width: auto;
+    min-width: 0;
+    padding: 6px 3px;
+}
+
+.item-image,
+.battlefield-operator-image,
+.craft-station-preview,
+.build-gun-preview,
+.gun-tab-image {
+    border-radius: 0;
+    background: linear-gradient(135deg, rgba(74, 92, 96, 0.8), rgba(18, 38, 42, 0.86));
+}
+
+.earnings-summary {
+    min-width: 86px;
+    padding: 8px 5px;
+}
+
+.earnings-value,
+.battlefield-stat-value,
+.battlefield-operator-name,
+.highlight-score {
+    color: var(--accent-cyan);
+    text-shadow: 0 0 10px rgba(0, 212, 170, 0.2);
+}
+
+.action-buttons {
+    padding: 8px;
+    border-top: 1px solid rgba(84, 112, 118, 0.45);
+}
+
+.action-btn {
+    border-radius: 0;
+    font-weight: 800;
+}
+
+.action-btn.primary {
+    background: rgba(0, 212, 170, 0.06);
+}
+
+.report-content-fh,
+.report-content-zc {
+    min-height: 0;
+}
+
+.battlefield-section {
+    display: flex;
+    gap: 8px;
+    align-items: stretch;
+}
+
+.battlefield-left {
+    min-width: 0;
+}
+
+.battlefield-label {
+    flex-wrap: nowrap;
+    gap: 5px;
+}
+
+.battlefield-label-sub,
+.highlight-label-sub {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.battlefield-date {
+    margin-left: auto;
+    border-radius: 0;
+    background: rgba(0, 212, 170, 0.08);
+    color: var(--accent-cyan);
+}
+
+.battlefield-stats-grid {
+    padding: 10px;
+    gap: 6px;
+}
+
+.battlefield-stat-item {
+    padding: 7px 3px;
+}
+
+.battlefield-right {
+    width: 78px;
+    margin: 10px 10px 10px 0;
+}
+
+.highlight-section {
+    display: block;
+}
+
+.highlight-card {
+    margin: 10px;
+    padding: 8px;
+}
+
+.highlight-score {
+    background: rgba(0, 212, 170, 0.12);
+    border: 1px solid rgba(0, 212, 170, 0.28);
+    border-radius: 0;
+}
+
+.craft-section-home,
+.gun-section,
+.news-section {
+    margin: 10px 8px;
+}
+
+.craft-card-mobile,
+.gun-section {
+    border-radius: 0;
+    background: rgba(18, 38, 42, 0.92);
+    border-color: rgba(84, 112, 118, 0.56);
+}
+
+.craft-section-home .craft-header-mobile {
+    gap: 6px;
+}
+
+.craft-main-tab-mobile,
+.copy-btn,
+.gun-detail-copy-btn {
+    border-radius: 0;
+}
+
+.craft-main-tab-mobile.active {
+    background: var(--accent-cyan);
+    border-color: var(--accent-cyan);
+    color: #031816;
+}
+
+.craft-stations-grid {
+    padding: 10px;
+    gap: 6px;
+}
+
+.craft-station-card {
+    padding: 7px 5px;
+}
+
+.bottom-nav {
+    background: rgba(4, 18, 20, 0.96);
+    border-top: 1px solid rgba(80, 108, 112, 0.45);
+    backdrop-filter: blur(8px);
+}
+
+.nav-item.active .nav-icon,
+.nav-item.active .nav-label {
+    color: var(--accent-cyan);
+}
+
