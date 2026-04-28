@@ -6004,3 +6004,376 @@ body {
     }
 }
 
+/* ============================================
+   DESIGN GUIDE compliance - global overrides
+   ============================================ */
+
+/* ── 1. 圆角归零（头像 50% 除外） ── */
+.desktop-login-body .login-modal,
+.login-method-card,
+.login-input,
+.login-btn,
+.login-verification-input,
+.login-close-btn,
+.login-logo-icon,
+.report-tabs-inner,
+.tab-btn,
+.sub-card,
+.module-card,
+.module-header,
+.section-header,
+.items-card .item-card,
+.items-card .item-image,
+.support-item,
+.support-count,
+.codes-bar,
+.codes-bar-title,
+.code-inline-item,
+.copy-all-btn,
+.copy-code-btn,
+.password-guide-btn,
+.password-guide-modal,
+.guide-map,
+.guide-tab-btn,
+.guide-step,
+.carousel-btn,
+.carousel-indicators .indicator,
+.match-item,
+.match-stats,
+.match-mode,
+.show-more-btn,
+.gun-tab,
+.gun-tab-image,
+.build-card,
+.build-gun-image,
+.build-gun-preview,
+.copy-code-btn-float,
+.attachment-icon,
+.view-detail-btn,
+.market-item,
+.market-category-select,
+.market-rank-tabs,
+.market-rank-tab,
+.market-item-price-chart,
+.craft-station-item,
+.station-preview,
+.craft-main-tabs,
+.craft-main-tab,
+.craft-footer-tip,
+.craft-recommend-section,
+.recommend-item,
+.recommend-item-preview,
+.best-recommend-item,
+.collection-stat-item,
+.collection-progress-mini,
+.progress-fill,
+.collection-item-mini,
+.collection-image-mini,
+.gun-filter-bar,
+.gun-filter-select,
+.gun-search-input,
+.gun-list-card,
+.gun-mode-tabs,
+.gun-mode-tab,
+.scheme-row,
+.poster-modal,
+.poster-stat-item,
+.poster-support-icon,
+.daily-poster-card,
+.daily-poster-stat,
+.tool-page-header,
+.tool-page-link,
+.guide-step-number,
+.guide-map-code,
+.password-guide-tab,
+.toast,
+.craft-modal-idle .open-game-btn,
+.craft-item-card,
+.expand-arrow,
+.market-empty-state,
+.craft-chart-container,
+.collection-item,
+.red-exhibit-scroll-area,
+.red-record-modal {
+    border-radius: 0 !important;
+}
+
+/* 头像保留圆形 */
+.nav-avatar,
+.login-avatar-btn,
+.desktop-user-avatar,
+.mobile-user-avatar,
+.poster-avatar,
+.carousel-indicators .indicator:not(.active),
+.user-feedback-btn {
+    border-radius: 50% !important;
+}
+
+/* ── 2. 边框配色归正 ── */
+.items-card .item-card,
+.support-item,
+.vehicle-inline-item,
+.market-item,
+.craft-station-item,
+.best-recommend-item,
+.collection-stat-item,
+.collection-item-mini,
+.gun-tab,
+.build-card,
+.craft-item-card {
+    border-color: rgba(42, 72, 78, 0.75) !important;
+}
+
+.sub-card,
+.module-card,
+.codes-bar,
+.vehicle-bar,
+.gun-builds-section,
+.matches-section,
+.craft-recommend-section,
+.market-price-section,
+.tool-page-header,
+.collection-scroll-wrapper {
+    border-color: rgba(84, 112, 118, 0.52) !important;
+}
+
+/* ── 3. 子元素背景归正 ── */
+.items-card .item-card,
+.support-item,
+.vehicle-inline-item,
+.market-item,
+.craft-station-item,
+.best-recommend-item,
+.collection-stat-item,
+.collection-item-mini,
+.gun-tab,
+.build-card,
+.craft-item-card,
+.gun-list-card,
+.scheme-row {
+    background: rgba(6, 18, 20, 0.66) !important;
+}
+
+/* ── 4. 图片占位归正 ── */
+.items-card .item-image,
+.build-gun-image,
+.build-gun-preview,
+.station-preview,
+.recommend-item-preview,
+.collection-image-mini,
+.gun-tab-image,
+.craft-station-item .station-preview {
+    border-radius: 0 !important;
+    background: linear-gradient(135deg, rgba(74, 92, 96, 0.8), rgba(18, 38, 42, 0.86)) !important;
+}
+
+/* ── 5. 面板头部归正 ── */
+.sub-card-header,
+.module-header,
+.section-header {
+    background: rgba(92, 112, 114, 0.52) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.sub-card-title,
+.module-title,
+.section-title {
+    font-weight: 800 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* ── 6. 数据高亮色归正 ── */
+.stats-compact .primary-stat .stat-value,
+.secondary-stats-compact .stat-item .stat-number,
+.code-inline-item .code-value,
+.items-card .item-name,
+.collection-name-mini,
+.collection-name,
+.collect-item {
+    color: #24f4b2 !important;
+    -webkit-text-fill-color: initial !important;
+    background: none !important;
+}
+
+.stats-compact .primary-stat .stat-value,
+.code-inline-item .code-value {
+    text-shadow: 0 0 12px rgba(36, 244, 178, 0.24) !important;
+}
+
+/* ── 7. 进度条归正 ── */
+.progress-fill {
+    background: linear-gradient(90deg, #24f4b2, var(--accent-green)) !important;
+    border-radius: 0 !important;
+}
+
+/* ── 8. Tab 按钮归正 ── */
+.gun-mode-tab,
+.craft-main-tab {
+    border-radius: 0 !important;
+}
+
+.gun-mode-tab.active,
+.craft-main-tab.active {
+    background: rgba(36, 244, 178, 0.16) !important;
+    color: #24f4b2 !important;
+}
+
+/* ── 9. 行内分隔条归正 ── */
+.codes-bar,
+.vehicle-bar {
+    background: rgba(18, 38, 42, 0.9) !important;
+    border-color: rgba(84, 112, 118, 0.56) !important;
+    overflow: hidden !important;
+}
+
+.codes-bar-title,
+.vehicle-bar-title {
+    background: rgba(92, 112, 114, 0.52) !important;
+}
+
+.code-inline-item,
+.vehicle-inline-item {
+    border-left: 1px solid rgba(84, 112, 118, 0.35) !important;
+}
+
+/* ── 10. 登录弹窗归正 ── */
+.desktop-login-body .login-modal {
+    background: rgba(18, 38, 42, 0.96) !important;
+    border: 1px solid rgba(84, 112, 118, 0.56) !important;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.24) !important;
+}
+
+.desktop-login-body .login-input {
+    background: rgba(6, 18, 20, 0.66) !important;
+    border-color: rgba(42, 72, 78, 0.75) !important;
+    border-radius: 0 !important;
+    color: var(--text-primary) !important;
+}
+
+.desktop-login-body .login-btn {
+    background: #24f4b2 !important;
+    border-radius: 0 !important;
+    color: #031816 !important;
+    font-weight: 700 !important;
+}
+
+.login-method-card {
+    background: rgba(6, 18, 20, 0.66) !important;
+    border-color: rgba(42, 72, 78, 0.75) !important;
+}
+
+.login-close-btn {
+    background: rgba(92, 112, 114, 0.45) !important;
+    border-radius: 50% !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* ── 11. Toast 归正 ── */
+.toast {
+    background: rgba(18, 38, 42, 0.94) !important;
+    border: 1px solid rgba(84, 112, 118, 0.56) !important;
+    color: #24f4b2 !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+/* ── 12. 海报弹窗归正 ── */
+.poster-modal {
+    background: rgba(18, 38, 42, 0.96) !important;
+    border: 1px solid rgba(84, 112, 118, 0.56) !important;
+}
+
+/* ── 13. 密码指引归正 ── */
+.password-guide-modal {
+    background: rgba(18, 38, 42, 0.96) !important;
+    border: 1px solid rgba(84, 112, 118, 0.56) !important;
+}
+
+.password-guide-tab.active {
+    border-bottom-color: #24f4b2 !important;
+    background: rgba(36, 244, 178, 0.08) !important;
+}
+
+.guide-map-code strong {
+    color: var(--accent-orange) !important;
+    text-shadow: 0 0 10px rgba(251, 146, 60, 0.24) !important;
+}
+
+/* ── 14. 物价监控区归正 ── */
+.market-category-select {
+    background: rgba(6, 18, 20, 0.66) !important;
+    border-color: rgba(42, 72, 78, 0.75) !important;
+    border-radius: 0 !important;
+    color: var(--text-primary) !important;
+}
+
+/* ── 15. 制造模块归正 ── */
+.craft-main-tabs {
+    border-radius: 0 !important;
+    background: rgba(6, 18, 20, 0.66) !important;
+}
+
+.craft-modal-idle .open-game-btn {
+    background: #24f4b2 !important;
+    border-radius: 0 !important;
+    color: #031816 !important;
+    font-weight: 700 !important;
+}
+
+/* ── 16. hover 态归正 ── */
+.items-card .item-card:hover,
+.match-item:hover,
+.market-item:hover,
+.craft-station-item:hover,
+.collection-item-mini:hover,
+.collection-item:hover,
+.gun-list-card:hover,
+.best-recommend-item:hover,
+.craft-item-card:hover {
+    border-color: #24f4b2 !important;
+}
+
+.show-more-btn:hover,
+.view-detail-btn:hover,
+.copy-code-btn-float:hover,
+.expand-arrow:hover {
+    border-color: #24f4b2 !important;
+    color: #24f4b2 !important;
+}
+
+.attachment-icon:hover {
+    border-color: #24f4b2 !important;
+    background: rgba(36, 244, 178, 0.1) !important;
+}
+
+/* ── 17. 轮播指示器归正 ── */
+.carousel-indicators .indicator.active {
+    background: #24f4b2 !important;
+    border-radius: 0 !important;
+    width: 24px !important;
+}
+
+.carousel-btn:hover {
+    border-color: #24f4b2 !important;
+    color: #24f4b2 !important;
+    background: rgba(36, 244, 178, 0.1) !important;
+}
+
+/* ── 18. 底部模块/大红展馆归正 ── */
+.module-card {
+    border-radius: 0 !important;
+    background: rgba(18, 38, 42, 0.9) !important;
+    border-color: rgba(84, 112, 118, 0.52) !important;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.18) !important;
+}
+
+.red-exhibit-scroll-area {
+    border-radius: 0 !important;
+    background: rgba(6, 18, 20, 0.66) !important;
+    border-color: rgba(42, 72, 78, 0.75) !important;
+}
+
+.red-record-modal {
+    background: rgba(18, 38, 42, 0.96) !important;
+    border: 1px solid rgba(84, 112, 118, 0.56) !important;
+}
+

@@ -1495,7 +1495,7 @@ function showToast(message, duration = 2000) {
         border: 1px solid var(--accent-cyan);
         color: #fff;
         padding: 0.875rem 1.5rem;
-        border-radius: 4px;
+        border-radius: 0;
         font-size: 0.875rem;
         z-index: 10000;
         animation: toastIn 0.3s ease;

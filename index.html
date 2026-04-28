@@ -8,7 +8,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             min-height: 100vh;
-            background: #0a0e13;
+            background:
+                radial-gradient(circle at 64% 0%, rgba(126, 146, 139, 0.22) 0, transparent 30%),
+                linear-gradient(180deg, #0b2022 0%, #071c1e 48%, #07191a 100%);
             color: #fff;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             display: flex;
@@ -22,9 +24,7 @@
         h1 {
             font-size: 28px;
             margin-bottom: 12px;
-            background: linear-gradient(135deg, #00d4aa, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: #24f4b2;
         }
         p {
             color: #9ca3af;
@@ -44,17 +44,17 @@
             justify-content: center;
             width: 180px;
             height: 120px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 16px;
+            background: rgba(18, 38, 42, 0.92);
+            border: 1px solid rgba(84, 112, 118, 0.56);
+            border-radius: 0;
             text-decoration: none;
-            color: #fff;
+            color: rgba(255, 255, 255, 0.86);
             transition: all 0.2s;
         }
         a:hover {
-            background: rgba(0, 212, 170, 0.08);
-            border-color: #00d4aa;
-            transform: translateY(-2px);
+            background: rgba(36, 244, 178, 0.08);
+            border-color: #24f4b2;
+            color: #24f4b2;
         }
         a .icon { font-size: 36px; margin-bottom: 10px; }
         a .label { font-size: 15px; font-weight: 600; }

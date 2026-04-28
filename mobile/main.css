@@ -6066,3 +6066,367 @@ body {
     color: var(--accent-cyan);
 }
 
+/* ============================================
+   DESIGN GUIDE compliance - mobile overrides
+   ============================================ */
+
+/* ── 1. 圆角归零（头像 50% 除外） ── */
+.mobile-login-modal,
+.login-method-card,
+.login-input,
+.login-btn,
+.login-verification-input,
+.login-close-btn,
+.mobile-user-info,
+.report-tabs,
+.report-tab,
+.share-btn,
+.daily-report-card,
+.craft-card-mobile,
+.news-placeholder,
+.password-section,
+.password-item,
+.password-code-box,
+.password-view-hint,
+.earnings-section,
+.earnings-content,
+.item-card,
+.earnings-summary,
+.action-btn,
+.battlefield-section,
+.battlefield-stat-item,
+.battlefield-operator-image,
+.battlefield-right,
+.highlight-section,
+.highlight-card,
+.highlight-score,
+.craft-section-home,
+.craft-header-mobile,
+.craft-main-tab-mobile,
+.craft-stations-grid,
+.craft-station-card,
+.craft-station-preview,
+.gun-section,
+.gun-tab,
+.gun-tab-image,
+.build-card,
+.build-gun-preview,
+.gun-detail-copy-btn,
+.gun-detail-current-info,
+.gun-detail-current-image,
+.gun-detail-current-score,
+.gun-detail-mode-tab,
+.gun-detail-panel,
+.gun-detail-gun-card,
+.gun-detail-radar-box,
+.gun-detail-attachment-box,
+.gun-detail-attachment,
+.gun-detail-scheme-card,
+.gun-detail-attachment-icon,
+.copy-btn,
+.password-guide-modal,
+.password-guide-tab,
+.guide-step,
+.carousel-btn,
+.carousel-indicators .indicator,
+.toast,
+.market-section,
+.market-header-mobile,
+.market-card,
+.market-more-mobile,
+.mobile-feedback-btn,
+.craft-modal-idle .open-game-btn,
+.password-guide-tab .tab-code,
+.battlefield-date {
+    border-radius: 0 !important;
+}
+
+/* 头像保留圆形 */
+.login-avatar-btn,
+.mobile-user-avatar,
+.poster-avatar {
+    border-radius: 50% !important;
+}
+
+/* ── 2. 边框配色归正 ── */
+.daily-report-card,
+.craft-card-mobile,
+.news-placeholder,
+.password-section,
+.earnings-section,
+.battlefield-section,
+.highlight-section,
+.craft-section-home .craft-card-mobile,
+.gun-section,
+.gun-detail-current-info {
+    border-color: rgba(84, 112, 118, 0.56) !important;
+}
+
+.item-card,
+.battlefield-stat-item,
+.battlefield-right,
+.highlight-card,
+.highlight-score,
+.craft-station-card,
+.gun-tab,
+.build-card,
+.gun-detail-gun-card,
+.gun-detail-scheme-card,
+.gun-detail-attachment-icon,
+.market-card {
+    border-color: rgba(42, 72, 78, 0.75) !important;
+}
+
+/* ── 3. 子元素背景归正 ── */
+.item-card,
+.battlefield-stat-item,
+.battlefield-right,
+.highlight-card,
+.highlight-score,
+.craft-station-card,
+.gun-tab,
+.build-card,
+.gun-detail-gun-card,
+.gun-detail-scheme-card,
+.gun-detail-attachment-icon,
+.market-card {
+    background: rgba(6, 18, 20, 0.66) !important;
+}
+
+/* ── 4. 图片占位归正 ── */
+.battlefield-operator-image,
+.craft-station-preview,
+.build-gun-preview,
+.gun-tab-image,
+.gun-detail-current-image {
+    border-radius: 0 !important;
+    background: linear-gradient(135deg, rgba(74, 92, 96, 0.8), rgba(18, 38, 42, 0.86)) !important;
+}
+
+/* ── 5. 面板头部归正 ── */
+.password-section-header,
+.earnings-section-header,
+.battlefield-label,
+.highlight-label,
+.craft-header-mobile,
+.gun-section > .section-header {
+    background: rgba(92, 112, 114, 0.45) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.password-section-title,
+.earnings-section-title,
+.battlefield-label-text,
+.highlight-label-text,
+.craft-title-mobile,
+.section-title {
+    font-weight: 800 !important;
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* ── 6. 数据高亮色归正 ── */
+.earnings-value,
+.battlefield-stat-value,
+.battlefield-operator-name,
+.highlight-score,
+.password-code {
+    color: var(--accent-cyan) !important;
+    text-shadow: 0 0 10px rgba(0, 212, 170, 0.25) !important;
+}
+
+/* ── 7. 模式 Tab 归正 ── */
+.report-tab,
+.craft-main-tab-mobile,
+.gun-detail-mode-tab {
+    border-radius: 0 !important;
+}
+
+.report-tab.active,
+.craft-main-tab-mobile.active,
+.gun-detail-mode-tab.active {
+    background: var(--accent-cyan) !important;
+    border-color: var(--accent-cyan) !important;
+    color: #031816 !important;
+}
+
+/* ── 8. 登录弹窗归正 ── */
+.mobile-login-modal {
+    background: rgba(18, 38, 42, 0.96) !important;
+    border: 1px solid rgba(84, 112, 118, 0.56) !important;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.24) !important;
+}
+
+.login-input {
+    background: rgba(6, 18, 20, 0.66) !important;
+    border-color: rgba(42, 72, 78, 0.75) !important;
+    border-radius: 0 !important;
+    color: var(--text-primary) !important;
+}
+
+.login-btn {
+    background: var(--accent-cyan) !important;
+    border-radius: 0 !important;
+    color: #031816 !important;
+    font-weight: 700 !important;
+}
+
+.login-method-card {
+    background: rgba(6, 18, 20, 0.66) !important;
+    border-color: rgba(42, 72, 78, 0.75) !important;
+}
+
+/* ── 9. Toast 归正 ── */
+.toast {
+    background: rgba(18, 38, 42, 0.94) !important;
+    border: 1px solid rgba(84, 112, 118, 0.56) !important;
+    color: var(--accent-cyan) !important;
+    backdrop-filter: blur(8px) !important;
+}
+
+/* ── 10. 海报归正 ── */
+.poster-modal-content {
+    background: linear-gradient(180deg, rgba(18, 38, 42, 0.98), rgba(6, 18, 20, 0.98)) !important;
+    border-radius: 0 !important;
+    border: 2px solid rgba(84, 112, 118, 0.56) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+.poster-head {
+    border-bottom: 1px solid rgba(84, 112, 118, 0.45) !important;
+}
+
+.poster-support-icon.turret {
+    background: rgba(0, 212, 170, 0.15) !important;
+    border-color: rgba(0, 212, 170, 0.3) !important;
+    border-radius: 0 !important;
+}
+
+/* ── 11. 密码指引归正 ── */
+.password-guide-modal {
+    background: rgba(18, 38, 42, 0.96) !important;
+    border: 1px solid rgba(84, 112, 118, 0.56) !important;
+}
+
+.password-guide-tab.active {
+    border-bottom-color: var(--accent-cyan) !important;
+    background: rgba(0, 212, 170, 0.08) !important;
+}
+
+.password-guide-tab .tab-code {
+    color: var(--accent-cyan) !important;
+    background: rgba(0, 212, 170, 0.1) !important;
+    border-radius: 0 !important;
+}
+
+.guide-map-code strong {
+    color: var(--accent-orange) !important;
+    text-shadow: 0 0 10px rgba(255, 107, 53, 0.24) !important;
+}
+
+.guide-step {
+    background: rgba(18, 38, 42, 0.92) !important;
+    border-left: 2px solid var(--accent-cyan) !important;
+    border-radius: 0 !important;
+}
+
+.guide-step-number {
+    color: var(--accent-cyan) !important;
+}
+
+/* ── 12. 制造模块归正 ── */
+.craft-modal-idle .open-game-btn {
+    background: var(--accent-cyan) !important;
+    border-radius: 0 !important;
+    color: #031816 !important;
+    font-weight: 700 !important;
+}
+
+.craft-modal-working .profit-row.total .profit-row-label {
+    color: var(--accent-cyan) !important;
+}
+
+/* ── 13. 行内分隔条归正 ── */
+.password-grid {
+    gap: 0 !important;
+}
+
+.password-item {
+    border-left: 1px solid rgba(84, 112, 118, 0.28) !important;
+}
+
+.password-item:first-child {
+    border-left: none !important;
+}
+
+/* ── 14. 轮播指示器归正 ── */
+.carousel-indicators .indicator.active {
+    background: var(--accent-cyan) !important;
+    border-radius: 0 !important;
+    width: 20px !important;
+}
+
+.carousel-btn:active {
+    background: var(--accent-cyan) !important;
+    color: #000 !important;
+    border-color: var(--accent-cyan) !important;
+}
+
+/* ── 15. 物价监控区归正 ── */
+.market-section {
+    border: 1px solid rgba(84, 112, 118, 0.48) !important;
+    background: rgba(6, 18, 20, 0.42) !important;
+    overflow: hidden !important;
+}
+
+.market-header-mobile {
+    background: rgba(92, 112, 114, 0.45) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+}
+
+.market-more-mobile {
+    background: rgba(0, 212, 170, 0.06) !important;
+    border: 1px solid rgba(0, 212, 170, 0.3) !important;
+    color: var(--accent-cyan) !important;
+    font-weight: 700 !important;
+}
+
+/* ── 16. 分享按钮归正 ── */
+.share-btn {
+    border: 1px solid rgba(0, 212, 170, 0.42) !important;
+    border-radius: 0 !important;
+    background: rgba(0, 212, 170, 0.06) !important;
+    color: var(--accent-cyan) !important;
+    font-weight: 700 !important;
+}
+
+/* ── 17. 底部操作按钮归正 ── */
+.action-btn.primary {
+    background: transparent !important;
+    color: var(--accent-cyan) !important;
+    border: 1px solid var(--accent-cyan) !important;
+    border-radius: 0 !important;
+}
+
+.action-btn {
+    border-radius: 0 !important;
+    font-weight: 700 !important;
+}
+
+/* ── 18. 战况信息区归正 ── */
+.battlefield-date {
+    border-radius: 0 !important;
+    background: rgba(0, 212, 170, 0.08) !important;
+    color: var(--accent-cyan) !important;
+}
+
+.battlefield-label-sub,
+.highlight-label-sub {
+    color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* ── 19. 隐藏不需要的图标装饰 ── */
+.password-section-icon,
+.earnings-section-icon {
+    display: none !important;
+}
+
