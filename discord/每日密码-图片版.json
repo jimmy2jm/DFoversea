@@ -1,0 +1,76 @@
+{
+  "content": "🔐 **Daily Password** — Today's Hazard Ops secret room codes",
+  "embeds": [
+    {
+      "title": "🗝️ Mar 17 Hazard Ops Passwords",
+      "description": "**Updated Daily** · Passwords reset at 00:00 UTC\n\nUse the image below for a quick visual reference, or check the codes here:",
+      "color": 53418,
+      "author": {
+        "name": "Delta Force | Daily Password",
+        "icon_url": "https://example.com/delta-force-icon.png"
+      },
+      "fields": [
+        {
+          "name": "🏔️ Dam (零号大坝)",
+          "value": "```fix\n4861\n```",
+          "inline": true
+        },
+        {
+          "name": "🌲 Valley (长弓溪谷)",
+          "value": "```fix\n7325\n```",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        },
+        {
+          "name": "🏜️ Bakshi (巴克什)",
+          "value": "```fix\n6183\n```",
+          "inline": true
+        },
+        {
+          "name": "🚀 Space Lab (航天基地)",
+          "value": "```fix\n2957\n```",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        },
+        {
+          "name": "⛓️ Prison (潮汐监狱)",
+          "value": "```fix\n1479\n```",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        },
+        {
+          "name": "\u200b",
+          "value": "\u200b",
+          "inline": true
+        }
+      ],
+      "image": {
+        "url": "attachment://daily-password.png"
+      },
+      "footer": {
+        "text": "Passwords refresh daily · Updated Mar 17, 00:00 UTC • Delta Force Password System",
+        "icon_url": "https://example.com/delta-stats-icon.png"
+      },
+      "timestamp": "2026-03-17T00:00:00.000Z"
+    }
+  ],
+  "attachments": [
+    {
+      "id": 0,
+      "description": "Daily password visual card for all 5 Hazard Ops maps",
+      "filename": "daily-password.png"
+    }
+  ]
+}

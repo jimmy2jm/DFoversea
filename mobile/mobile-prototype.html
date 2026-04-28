@@ -722,8 +722,7 @@
     <section class="gun-section">
         <div class="section-header">
             <span class="section-title">🔧 <span data-i18n="gunBuilds.title">改枪推荐</span></span>
-            <!-- V1.0 隐藏更多 -->
-            <!-- <span class="section-more">更多 ▸</span> -->
+            <span class="section-more" id="gun-build-more">更多 ▸</span>
         </div>
         
         <!-- 烽火地带改枪推荐 -->
@@ -1356,6 +1355,34 @@
         </div>
     </nav>
     
+    <!-- ============================================
+         改枪推荐子页面
+         ============================================ -->
+    <div class="subpage" id="page-gun-build-detail">
+        <header class="subpage-header">
+            <span class="subpage-back" id="gun-build-detail-back">‹</span>
+            <span class="subpage-title">改枪推荐</span>
+            <span class="subpage-action"></span>
+        </header>
+
+        <div class="gun-detail-mode-tabs">
+            <button class="gun-detail-mode-tab active" data-mode="fh">🔥 烽火地带</button>
+            <button class="gun-detail-mode-tab" data-mode="zc">⚔️ 全面战场</button>
+        </div>
+
+        <div class="gun-detail-body">
+            <div class="gun-detail-panel">
+                <div class="gun-detail-section-title">选择枪械</div>
+                <div class="gun-detail-selector" id="gun-detail-selector"></div>
+            </div>
+
+            <div class="gun-detail-panel">
+                <div class="gun-detail-section-title">推荐方案</div>
+                <div class="gun-detail-scheme-list" id="gun-detail-scheme-list"></div>
+            </div>
+        </div>
+    </div>
+
     <!-- ============================================
          物价详情子页面
          ============================================ -->
