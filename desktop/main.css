@@ -5554,9 +5554,9 @@ body {
 .gun-builds-section,
 .module-card,
 .matches-section {
-    border-radius: 0;
-    background: rgba(18, 38, 42, 0.9);
-    border: 1px solid rgba(84, 112, 118, 0.52);
+    border-radius: 0 !important;
+    background: rgba(18, 38, 42, 0.9) !important;
+    border: 1px solid rgba(84, 112, 118, 0.52) !important;
     box-shadow: 0 18px 60px rgba(0, 0, 0, 0.18);
 }
 
@@ -5882,41 +5882,47 @@ body {
     color: #031816;
 }
 
-.tool-page-container .gun-mode-tabs {
+.tool-page-container .gun-mode-tabs,
+.main-container .gun-mode-tabs {
     display: flex;
     width: 360px;
-    background: rgba(10, 32, 35, 0.84);
-    border: 1px solid rgba(36, 244, 178, 0.35);
+    background: rgba(10, 32, 35, 0.84) !important;
+    border: 1px solid rgba(36, 244, 178, 0.35) !important;
     padding: 0;
-    border-radius: 0;
+    border-radius: 0 !important;
 }
 
-.tool-page-container .gun-mode-tab {
+.tool-page-container .gun-mode-tab,
+.main-container .gun-mode-tab {
     flex: 1;
     min-height: 38px;
     justify-content: center;
-    border-radius: 0;
+    border-radius: 0 !important;
     border: none;
     color: rgba(255, 255, 255, 0.6);
-    background: transparent;
+    background: transparent !important;
 }
 
-.tool-page-container .gun-mode-tab.active {
-    background: rgba(36, 244, 178, 0.16);
-    color: #24f4b2;
+.tool-page-container .gun-mode-tab.active,
+.main-container .gun-mode-tab.active {
+    background: rgba(36, 244, 178, 0.16) !important;
+    color: #24f4b2 !important;
 }
 
 .tool-page-container .gun-list-section,
+.main-container .gun-list-section,
 .market-price-section,
 .craft-recommend-section {
     padding: 0;
-    background: rgba(18, 38, 42, 0.9);
-    border: 1px solid rgba(84, 112, 118, 0.56);
-    border-radius: 0;
+    background: rgba(18, 38, 42, 0.9) !important;
+    border: 1px solid rgba(84, 112, 118, 0.56) !important;
+    border-radius: 0 !important;
 }
 
 .tool-page-container .gun-filter-bar,
 .tool-page-container .gun-list-content,
+.main-container .gun-filter-bar,
+.main-container .gun-list-content,
 .market-search-container,
 .market-filter-row,
 .market-list-header,
@@ -5929,24 +5935,27 @@ body {
 }
 
 .tool-page-container .gun-filter-bar,
+.main-container .gun-filter-bar,
 .market-search-container,
 .craft-tabs-row {
     margin-top: 14px;
 }
 
 .tool-page-container .gun-list-content,
+.main-container .gun-list-content,
 .market-items-list,
 .craft-chart-area {
     margin-bottom: 14px;
 }
 
 .tool-page-container .gun-filter-select,
+.main-container .gun-filter-select,
 .market-search-input,
 .market-category-select,
 .market-detail-select {
-    border-radius: 0;
-    background: rgba(6, 18, 20, 0.8);
-    border-color: rgba(84, 112, 118, 0.56);
+    border-radius: 0 !important;
+    background: rgba(6, 18, 20, 0.8) !important;
+    border-color: rgba(84, 112, 118, 0.56) !important;
 }
 
 .market-overview-grid {
@@ -5999,7 +6008,8 @@ body {
         flex-direction: column;
     }
 
-    .tool-page-container .gun-mode-tabs {
+    .tool-page-container .gun-mode-tabs,
+    .main-container .gun-mode-tabs {
         width: 100%;
     }
 }
@@ -6076,6 +6086,7 @@ body {
 .gun-mode-tabs,
 .gun-mode-tab,
 .scheme-row,
+.scheme-card,
 .poster-modal,
 .poster-stat-item,
 .poster-support-icon,
@@ -6120,7 +6131,9 @@ body {
 .collection-item-mini,
 .gun-tab,
 .build-card,
-.craft-item-card {
+.craft-item-card,
+.gun-list-card,
+.scheme-card {
     border-color: rgba(42, 72, 78, 0.75) !important;
 }
 
@@ -6150,8 +6163,15 @@ body {
 .build-card,
 .craft-item-card,
 .gun-list-card,
-.scheme-row {
+.scheme-row,
+.scheme-card,
+.gun-filter-bar {
     background: rgba(6, 18, 20, 0.66) !important;
+}
+
+.gun-list-card .gun-card-image,
+.scheme-card .scheme-preview {
+    background: linear-gradient(135deg, rgba(74, 92, 96, 0.8), rgba(18, 38, 42, 0.86)) !important;
 }
 
 /* ── 4. 图片占位归正 ── */
@@ -6330,6 +6350,12 @@ body {
 .best-recommend-item:hover,
 .craft-item-card:hover {
     border-color: #24f4b2 !important;
+}
+
+.gun-list-card.active {
+    border-color: #24f4b2 !important;
+    background: rgba(36, 244, 178, 0.08) !important;
+    box-shadow: none !important;
 }
 
 .show-more-btn:hover,

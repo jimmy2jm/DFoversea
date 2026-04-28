@@ -2010,9 +2010,21 @@ function bindGunBuildDetailEvents() {
     });
 }
 
+const gunDetailMeta = {
+    mp5:  { role: '冲锋枪', range: '近距离', difficulty: '新手友好' },
+    ak74: { role: '突击步枪', range: '中远距离', difficulty: '压枪要求高' },
+    m4a1: { role: '突击步枪', range: '通用距离', difficulty: '均衡' },
+    scar: { role: '战斗步枪', range: '远距离', difficulty: '精准要求高' },
+    vss:  { role: '狙击步枪', range: '中距离', difficulty: '潜行' },
+    hk416: { role: '突击步枪', range: '通用距离', difficulty: '均衡' },
+    aug:  { role: '突击步枪', range: '远距离', difficulty: '自带瞄具' },
+    svd:  { role: '狙击步枪', range: '远距离', difficulty: '一击必杀' }
+};
+
 function renderGunDetailPage() {
     const selector = document.getElementById('gun-detail-selector');
     const schemeList = document.getElementById('gun-detail-scheme-list');
+    const currentInfo = document.getElementById('gun-detail-current-info');
     if (!selector || !schemeList) return;
 
     const guns = gunDetailGunList[currentGunDetailMode];

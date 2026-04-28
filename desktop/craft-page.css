@@ -968,3 +968,121 @@
         text-align: right;
     }
 }
+
+/* ============================================
+   DESIGN GUIDE compliance - craft-page overrides
+   ============================================ */
+
+/* ── 圆角归零 ── */
+.craft-recommend-section,
+.craft-tabs-row,
+.craft-tab,
+.craft-item-card,
+.craft-item-image,
+.craft-item-name,
+.craft-item-stats,
+.craft-chart-container,
+.craft-tooltip,
+.tooltip-material-icon,
+.tooltip-material-name,
+.tooltip-material-price,
+.market-overview-card,
+.market-price-section,
+.market-search-input,
+.market-category-select,
+.market-list-header,
+.market-item,
+.market-item-rarity,
+.market-detail-modal,
+.market-empty-state,
+.page-header,
+.craft-profit-section,
+.craft-materials-section,
+.craft-station-grid,
+.craft-station-card,
+.craft-station-image,
+.craft-footer-tip,
+.craft-modal,
+.craft-modal-idle,
+.craft-modal-working,
+.recommend-item,
+.recommend-item-image,
+.open-game-btn,
+.idle-tip,
+.recommend-title,
+.profit-row,
+.profit-formula,
+.materials-section,
+.material-item,
+.material-image,
+.price-chart-section,
+.section-title {
+    border-radius: 0 !important;
+}
+
+/* ── 面板背景归正 ── */
+.craft-recommend-section,
+.market-price-section,
+.craft-profit-section,
+.craft-materials-section,
+.craft-modal {
+    background: rgba(18, 38, 42, 0.9) !important;
+    border-color: rgba(84, 112, 118, 0.52) !important;
+}
+
+/* ── 子元素背景归正 ── */
+.craft-item-card,
+.craft-station-card,
+.market-item,
+.material-item,
+.recommend-item {
+    background: rgba(6, 18, 20, 0.66) !important;
+    border-color: rgba(42, 72, 78, 0.75) !important;
+}
+
+/* ── Tab归正 ── */
+.craft-tab.active {
+    background: rgba(36, 244, 178, 0.16) !important;
+    color: #24f4b2 !important;
+    border-color: #24f4b2 !important;
+}
+
+/* ── 输入框/选择框归正 ── */
+.market-search-input,
+.market-category-select {
+    background: rgba(6, 18, 20, 0.66) !important;
+    border-color: rgba(42, 72, 78, 0.75) !important;
+    color: var(--text-primary) !important;
+}
+
+/* ── 数据高亮色归正 ── */
+.craft-item-profit,
+.craft-stat-value,
+.recommend-stat-value.highlight,
+.profit-row.total .profit-row-value {
+    color: #24f4b2 !important;
+    text-shadow: 0 0 12px rgba(36, 244, 178, 0.24) !important;
+}
+
+/* ── 按钮归正 ── */
+.open-game-btn {
+    background: #24f4b2 !important;
+    border-radius: 0 !important;
+    color: #031816 !important;
+    font-weight: 700 !important;
+}
+
+/* ── hover态归正 ── */
+.craft-item-card:hover,
+.craft-station-card:hover,
+.market-item:hover,
+.recommend-item:hover {
+    border-color: #24f4b2 !important;
+}
+
+/* ── 图片占位归正 ── */
+.craft-item-image,
+.craft-station-image,
+.recommend-item-image {
+    background: linear-gradient(135deg, rgba(74, 92, 96, 0.8), rgba(18, 38, 42, 0.86)) !important;
+}

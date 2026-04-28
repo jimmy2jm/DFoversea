@@ -2463,6 +2463,260 @@
                 font-size: 0.85rem;
             }
         }
+
+        /* ============================================
+           DESIGN GUIDE compliance - my-data overrides
+           ============================================ */
+
+        /* ── 圆角归零 ── */
+        .game-mode-tabs,
+        .game-mode-tab,
+        .profile-section,
+        .profile-info-row,
+        .profile-avatar,
+        .profile-avatar-ring,
+        .profile-avatar-loading,
+        .profile-name-tag,
+        .stat-card,
+        .content-tabs,
+        .content-tab,
+        .profile-tab,
+        .tab-badge,
+        .match-card,
+        .collection-grid-card,
+        .collection-large-card,
+        .asset-card,
+        .earning-card,
+        .season-card,
+        .player-card,
+        .operator-card,
+        .operator-avatar-wrapper,
+        .battle-record-card,
+        .battle-record-avatar,
+        .battle-status-tag,
+        .red-record-card,
+        .achievement-card,
+        .achievement-icon,
+        .inventory-item,
+        .filter-select,
+        .search-input,
+        .action-btn,
+        .export-btn,
+        .modal-content,
+        .modal-input,
+        .modal-btn,
+        .toast,
+        .progress-bar,
+        .rank-progress-bar,
+        .rank-progress-fill,
+        .season-badge,
+        .tag-badge,
+        .mode-badge,
+        .profile-tag,
+        .overview-card,
+        .detail-panel,
+        .sub-stat-card,
+        .weapon-card,
+        .medal-item,
+        .medal-icon,
+        .rank-badge,
+        .rank-card,
+        .rank-icon,
+        .rank-tier-badge,
+        .radar-overview-card,
+        .radar-stat-item,
+        .matches-list-container,
+        .stats-card,
+        .recent-matches-card,
+        .battle-record-item,
+        .battle-record-info,
+        .battle-record-result,
+        .matches-list-wrapper,
+        .matches-filter-bar,
+        .zc-player-card,
+        .stat-highlight-item,
+        .stat-column-item,
+        .stat-extra-icon,
+        .peak-rank,
+        .matches-mode-tab,
+        .filter-option,
+        .battle-record-list {
+            border-radius: 0 !important;
+        }
+
+        /* 头像保留圆形 */
+        .profile-avatar-img,
+        .operator-avatar,
+        .player-avatar {
+            border-radius: 50% !important;
+        }
+
+        /* ── 模式Tab归正 ── */
+        .game-mode-tab.active {
+            background: rgba(36, 244, 178, 0.16) !important;
+            color: #24f4b2 !important;
+            font-weight: 700 !important;
+            box-shadow: none !important;
+        }
+
+        .game-mode-tab[data-mode="zhanchang"].active {
+            background: rgba(36, 244, 178, 0.16) !important;
+            color: #24f4b2 !important;
+            box-shadow: none !important;
+        }
+
+        .game-mode-tabs {
+            background: rgba(6, 18, 20, 0.66) !important;
+            border-color: rgba(42, 72, 78, 0.75) !important;
+        }
+
+        /* ── 面板卡片归正（面板主卡片 → rgba(18,38,42,0.9)） ── */
+        .profile-section,
+        .stat-card,
+        .content-tabs,
+        .match-card,
+        .collection-grid-card,
+        .collection-large-card,
+        .asset-card,
+        .earning-card,
+        .season-card,
+        .player-card,
+        .detail-panel,
+        .sub-stat-card,
+        .rank-card,
+        .radar-overview-card,
+        .stats-card,
+        .recent-matches-card,
+        .matches-list-container,
+        .matches-list-wrapper,
+        .matches-filter-bar,
+        .zc-player-card {
+            background: rgba(18, 38, 42, 0.9) !important;
+            border-color: rgba(84, 112, 118, 0.52) !important;
+        }
+
+        /* ── 内嵌子元素归正（子卡片 → rgba(6,18,20,0.66)） ── */
+        .overview-card,
+        .weapon-card,
+        .operator-card,
+        .battle-record-card,
+        .red-record-card,
+        .achievement-card,
+        .inventory-item,
+        .medal-item,
+        .peak-rank,
+        .stat-highlight-item,
+        .stat-column-item,
+        .stat-extra-icon,
+        .battle-record-item,
+        .matches-mode-tab,
+        .filter-select,
+        .filter-option,
+        .battle-record-list {
+            background: rgba(6, 18, 20, 0.66) !important;
+            border-color: rgba(42, 72, 78, 0.75) !important;
+        }
+
+        /* stat-column-item primary 行的高亮边框保留品牌绿 */
+        .stats-column.economy .stat-column-item.primary,
+        .stats-column.combat .stat-column-item.primary,
+        .stats-column.team .stat-column-item.primary,
+        .stat-column-item.primary {
+            background: rgba(6, 18, 20, 0.66) !important;
+            border-color: rgba(42, 72, 78, 0.75) !important;
+        }
+
+        /* ── 面板头部归正 ── */
+        .content-tab.active {
+            border-bottom-color: #24f4b2 !important;
+            color: #24f4b2 !important;
+            background: rgba(36, 244, 178, 0.08) !important;
+        }
+
+        /* ── 数据高亮色归正 ── */
+        .stat-value,
+        .earning-value,
+        .player-stat-value,
+        .collection-stat-value,
+        .asset-stat-value,
+        .highlight-value {
+            color: #24f4b2 !important;
+            text-shadow: 0 0 12px rgba(36, 244, 178, 0.24) !important;
+        }
+
+        /* ── 按钮归正 ── */
+        .action-btn.primary,
+        .modal-btn.primary,
+        .export-btn {
+            background: transparent !important;
+            color: #24f4b2 !important;
+            border: 1px solid #24f4b2 !important;
+            border-radius: 0 !important;
+            font-weight: 700 !important;
+        }
+
+        .action-btn.primary:hover,
+        .modal-btn.primary:hover,
+        .export-btn:hover {
+            background: rgba(36, 244, 178, 0.08) !important;
+        }
+
+        /* ── 进度条归正 ── */
+        .progress-bar,
+        .progress-fill {
+            border-radius: 0 !important;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #24f4b2, var(--accent-green)) !important;
+        }
+
+        /* ── 输入框归正 ── */
+        .filter-select,
+        .search-input,
+        .modal-input {
+            background: rgba(6, 18, 20, 0.66) !important;
+            border-color: rgba(42, 72, 78, 0.75) !important;
+            color: var(--text-primary) !important;
+        }
+
+        /* ── hover态归正 ── */
+        .match-card:hover,
+        .collection-grid-card:hover,
+        .inventory-item:hover,
+        .operator-card:hover,
+        .weapon-card:hover,
+        .battle-record-card:hover,
+        .red-record-card:hover,
+        .player-card:hover,
+        .zc-player-card:hover,
+        .battle-record-item:hover,
+        .rank-card:hover {
+            border-color: #24f4b2 !important;
+        }
+
+        /* ── 标签归正 ── */
+        .tag-badge,
+        .season-badge,
+        .mode-badge,
+        .profile-tag,
+        .rank-badge {
+            background: rgba(36, 244, 178, 0.1) !important;
+            color: #24f4b2 !important;
+            border: 1px solid rgba(36, 244, 178, 0.3) !important;
+            border-radius: 0 !important;
+        }
+
+        /* ── Banner背景归正 ── */
+        .profile-banner {
+            background: linear-gradient(135deg, rgba(18, 38, 42, 0.96), rgba(6, 18, 20, 0.92)) !important;
+        }
+
+        .profile-banner::before {
+            background:
+                radial-gradient(ellipse at 30% 50%, rgba(36, 244, 178, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 30%, rgba(36, 244, 178, 0.06) 0%, transparent 40%) !important;
+        }
     </style>
 </head>
 <body>

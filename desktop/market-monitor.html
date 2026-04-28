@@ -44,6 +44,29 @@
         @media (max-width: 900px) {
             .market-overview-grid { grid-template-columns: repeat(2, 1fr); }
         }
+
+        /* ============================================
+           DESIGN GUIDE compliance - market-monitor overrides
+           ============================================ */
+
+        .market-overview-card {
+            border-radius: 0 !important;
+            background: rgba(18, 38, 42, 0.9) !important;
+            border-color: rgba(84, 112, 118, 0.52) !important;
+        }
+
+        .market-overview-value.positive {
+            color: #24f4b2 !important;
+            text-shadow: 0 0 12px rgba(36, 244, 178, 0.24) !important;
+        }
+
+        .market-overview-value.negative {
+            color: #ef4444 !important;
+        }
+
+        .market-overview-card:hover {
+            border-color: #24f4b2 !important;
+        }
     </style>
 </head>
 <body>
