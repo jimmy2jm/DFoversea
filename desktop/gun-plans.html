@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delta Force - 改枪方案</title>
-    <link rel="stylesheet" href="main.css?v=40">
+    <link rel="stylesheet" href="main.css?v=47">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -17,9 +17,8 @@
             </div>
             <div class="nav-links hq-primary-tabs">
                 <a href="index.html" class="nav-link">每日数据</a>
-                <a href="gun-plans.html" class="nav-link active">改枪方案</a>
                 <a href="my-data.html" class="nav-link">我的数据</a>
-                <a href="market-monitor.html" class="nav-link">物价监控</a>
+                <a href="gun-plans.html" class="nav-link active">改枪方案</a>
             </div>
         </div>
         <div class="nav-right">
@@ -58,10 +57,10 @@
 
         <!-- 烽火地带内容 -->
         <div class="gun-mode-content" id="fenghuo-content">
-            <!-- 改枪方案区域 -->
+            <!-- 推荐方案区域 -->
             <section class="gun-builds-section">
                 <div class="section-header">
-                    <span class="section-title">🔧 改枪方案</span>
+                    <span class="section-title">🔧 推荐方案</span>
                 </div>
                 
                 <!-- 枪械选择栏 -->
@@ -92,7 +91,6 @@
                 <div class="gun-builds-content" id="gun-builds-content-fh">
                     <!-- 性价比改法 -->
                     <div class="build-card budget">
-                        <button class="copy-code-btn-float">复制</button>
                         <div class="build-header">
                             <span class="build-type budget-type">💰 85K 性价比改法</span>
                             <div class="build-tags">
@@ -100,16 +98,18 @@
                                 <span class="build-tag">满腰射</span>
                             </div>
                         </div>
+                        <button class="copy-code-btn-float">复制</button>
                         <div class="build-gun-image"></div>
                         <div class="build-details">
                             <div class="build-radar">
                                 <canvas class="radar-chart" id="radar-budget-fh"></canvas>
                                 <div class="radar-labels">
-                                    <span class="radar-label label-top">后坐力控制</span>
-                                    <span class="radar-label label-right-top">操控速度</span>
-                                    <span class="radar-label label-right-bottom">射程优势</span>
-                                    <span class="radar-label label-left-bottom">持枪稳定性</span>
-                                    <span class="radar-label label-left-top">射速</span>
+                                    <span class="radar-label label-top" data-i18n="gunBuilds.baseDamage">基础伤害</span>
+                                    <span class="radar-label label-right-top" data-i18n="gunBuilds.rangeAdvantage">优势射程</span>
+                                    <span class="radar-label label-right-bottom" data-i18n="gunBuilds.recoilControl">后坐力控制</span>
+                                    <span class="radar-label label-bottom" data-i18n="gunBuilds.handlingSpeed">操控速度</span>
+                                    <span class="radar-label label-left-bottom" data-i18n="gunBuilds.weaponStability">武器稳定性</span>
+                                    <span class="radar-label label-left-top" data-i18n="gunBuilds.hipfireAccuracy">腰射精度</span>
                                 </div>
                             </div>
                             <div class="build-attachments">
@@ -123,14 +123,10 @@
                                 <div class="attachment-icon" title="战术"></div>
                             </div>
                         </div>
-                        <div class="build-footer">
-                            <button class="view-detail-btn">查看改装详情</button>
-                        </div>
                     </div>
                     
                     <!-- 满改方案 -->
                     <div class="build-card premium">
-                        <button class="copy-code-btn-float">复制</button>
                         <div class="build-header">
                             <span class="build-type premium-type">💎 157K 满改方案</span>
                             <div class="build-tags">
@@ -138,16 +134,18 @@
                                 <span class="build-tag">高精准</span>
                             </div>
                         </div>
+                        <button class="copy-code-btn-float">复制</button>
                         <div class="build-gun-image"></div>
                         <div class="build-details">
                             <div class="build-radar">
                                 <canvas class="radar-chart" id="radar-premium-fh"></canvas>
                                 <div class="radar-labels">
-                                    <span class="radar-label label-top">后坐力控制</span>
-                                    <span class="radar-label label-right-top">操控速度</span>
-                                    <span class="radar-label label-right-bottom">射程优势</span>
-                                    <span class="radar-label label-left-bottom">持枪稳定性</span>
-                                    <span class="radar-label label-left-top">射速</span>
+                                    <span class="radar-label label-top" data-i18n="gunBuilds.baseDamage">基础伤害</span>
+                                    <span class="radar-label label-right-top" data-i18n="gunBuilds.rangeAdvantage">优势射程</span>
+                                    <span class="radar-label label-right-bottom" data-i18n="gunBuilds.recoilControl">后坐力控制</span>
+                                    <span class="radar-label label-bottom" data-i18n="gunBuilds.handlingSpeed">操控速度</span>
+                                    <span class="radar-label label-left-bottom" data-i18n="gunBuilds.weaponStability">武器稳定性</span>
+                                    <span class="radar-label label-left-top" data-i18n="gunBuilds.hipfireAccuracy">腰射精度</span>
                                 </div>
                             </div>
                             <div class="build-attachments">
@@ -161,24 +159,20 @@
                                 <div class="attachment-icon" title="战术"></div>
                             </div>
                         </div>
-                        <div class="build-footer">
-                            <button class="view-detail-btn">查看改装详情</button>
-                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 枪械列表区域 - 烽火 -->
-            <section class="gun-list-section">
+            <!-- 枪械列表 + 改枪方案 - 烽火 -->
+            <section class="gun-list-section gun-scheme-section">
                 <div class="section-header">
                     <span class="section-title">🔫 枪械列表</span>
                 </div>
                 
-                <!-- 筛选栏 - 烽火（枪械类型 + 枪械价格） -->
-                <div class="gun-filter-bar">
+                <div class="gun-filter-bar scheme-filter-bar">
                     <div class="gun-filter-group">
                         <label class="filter-label">枪械类型</label>
-                        <select class="gun-filter-select" id="gun-type-filter-fh">
+                        <select class="gun-filter-select" id="scheme-type-filter-fh">
                             <option value="all">全部类型</option>
                             <option value="ar">突击步枪</option>
                             <option value="smg">冲锋枪</option>
@@ -189,44 +183,35 @@
                         </select>
                     </div>
                     <div class="gun-filter-group">
-                        <label class="filter-label">枪械价格</label>
-                        <select class="gun-filter-select" id="gun-price-filter-fh">
+                        <label class="filter-label">枪械名称</label>
+                        <select class="gun-filter-select" id="scheme-name-filter-fh">
+                            <option value="all">全部枪械</option>
+                        </select>
+                    </div>
+                    <div class="gun-filter-group">
+                        <label class="filter-label">价格</label>
+                        <select class="gun-filter-select" id="scheme-price-filter-fh">
                             <option value="all">全部价格</option>
-                            <option value="0-50000">5万以下</option>
-                            <option value="50000-100000">5-10万</option>
-                            <option value="100000-200000">10-20万</option>
-                            <option value="200000+">20万以上</option>
+                            <option value="lt80">8w 以下</option>
+                            <option value="80to120">8w - 12w</option>
+                            <option value="120to160">12w - 16w</option>
+                            <option value="gt160">16w 以上</option>
                         </select>
                     </div>
                 </div>
                 
-                <!-- 枪械列表内容 - 新结构 -->
-                <div class="gun-list-content" id="gun-list-content-fh">
-                    <!-- 横向枪械选择列表 - 带滚动容器 -->
-                    <div class="gun-horizontal-wrapper">
-                        <div class="gun-horizontal-list" id="gun-horizontal-list-fh">
-                            <!-- JS动态生成 -->
-                        </div>
-                        <!-- 右侧滚动引导箭头 -->
-                        <div class="gun-scroll-arrow" id="gun-scroll-arrow-fh">
-                            <span class="arrow-icon">›</span>
-                        </div>
-                    </div>
-                    
-                    <!-- 选中枪械的改装方案 - 纵向列表 -->
-                    <div class="gun-build-schemes-list" id="gun-build-schemes-fh">
-                        <!-- JS动态生成方案列表 -->
-                    </div>
+                <div class="gun-list-content scheme-list-content" id="gun-scheme-list-fh">
+                    <!-- JS 动态生成枪械列表 + 改枪方案 -->
                 </div>
             </section>
         </div>
 
         <!-- 全面战场内容 -->
         <div class="gun-mode-content" id="zhanchang-content" style="display: none;">
-            <!-- 改枪方案区域 -->
+            <!-- 推荐方案区域 -->
             <section class="gun-builds-section">
                 <div class="section-header">
-                    <span class="section-title">🔧 改枪方案</span>
+                    <span class="section-title">🔧 推荐方案</span>
                 </div>
                 
                 <!-- 枪械选择栏 -->
@@ -256,7 +241,6 @@
                 <!-- 改装方案区 - 战场（单个方案，全宽） -->
                 <div class="gun-builds-content single-build" id="gun-builds-content-zc">
                     <div class="build-card single">
-                        <button class="copy-code-btn-float">复制</button>
                         <div class="build-header">
                             <span class="build-type single-type">🎯 推荐改装方案</span>
                             <div class="build-tags">
@@ -265,16 +249,18 @@
                                 <span class="build-tag">PVP优化</span>
                             </div>
                         </div>
+                        <button class="copy-code-btn-float">复制</button>
                         <div class="build-gun-image"></div>
                         <div class="build-details">
                             <div class="build-radar">
                                 <canvas class="radar-chart" id="radar-single-zc"></canvas>
                                 <div class="radar-labels">
-                                    <span class="radar-label label-top">后坐力控制</span>
-                                    <span class="radar-label label-right-top">操控速度</span>
-                                    <span class="radar-label label-right-bottom">射程优势</span>
-                                    <span class="radar-label label-left-bottom">持枪稳定性</span>
-                                    <span class="radar-label label-left-top">射速</span>
+                                    <span class="radar-label label-top" data-i18n="gunBuilds.baseDamage">基础伤害</span>
+                                    <span class="radar-label label-right-top" data-i18n="gunBuilds.rangeAdvantage">优势射程</span>
+                                    <span class="radar-label label-right-bottom" data-i18n="gunBuilds.recoilControl">后坐力控制</span>
+                                    <span class="radar-label label-bottom" data-i18n="gunBuilds.handlingSpeed">操控速度</span>
+                                    <span class="radar-label label-left-bottom" data-i18n="gunBuilds.weaponStability">武器稳定性</span>
+                                    <span class="radar-label label-left-top" data-i18n="gunBuilds.hipfireAccuracy">腰射精度</span>
                                 </div>
                             </div>
                             <div class="build-attachments">
@@ -288,24 +274,20 @@
                                 <div class="attachment-icon" title="战术"></div>
                             </div>
                         </div>
-                        <div class="build-footer">
-                            <button class="view-detail-btn">查看改装详情</button>
-                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 枪械列表区域 - 战场 -->
-            <section class="gun-list-section">
+            <!-- 改枪方案列表 - 战场 -->
+            <section class="gun-list-section gun-scheme-section">
                 <div class="section-header">
-                    <span class="section-title">🔫 枪械列表</span>
+                    <span class="section-title">🔫 改枪方案列表</span>
                 </div>
                 
-                <!-- 筛选栏 - 战场（仅枪械类型） -->
-                <div class="gun-filter-bar">
+                <div class="gun-filter-bar scheme-filter-bar">
                     <div class="gun-filter-group">
                         <label class="filter-label">枪械类型</label>
-                        <select class="gun-filter-select" id="gun-type-filter-zc">
+                        <select class="gun-filter-select" id="scheme-type-filter-zc">
                             <option value="all">全部类型</option>
                             <option value="ar">突击步枪</option>
                             <option value="smg">冲锋枪</option>
@@ -315,25 +297,16 @@
                             <option value="pistol">手枪</option>
                         </select>
                     </div>
+                    <div class="gun-filter-group">
+                        <label class="filter-label">枪械名称</label>
+                        <select class="gun-filter-select" id="scheme-name-filter-zc">
+                            <option value="all">全部枪械</option>
+                        </select>
+                    </div>
                 </div>
                 
-                <!-- 枪械列表内容 - 新结构 -->
-                <div class="gun-list-content" id="gun-list-content-zc">
-                    <!-- 横向枪械选择列表 - 带滚动容器 -->
-                    <div class="gun-horizontal-wrapper">
-                        <div class="gun-horizontal-list" id="gun-horizontal-list-zc">
-                            <!-- JS动态生成 -->
-                        </div>
-                        <!-- 右侧滚动引导箭头 -->
-                        <div class="gun-scroll-arrow" id="gun-scroll-arrow-zc">
-                            <span class="arrow-icon">›</span>
-                        </div>
-                    </div>
-                    
-                    <!-- 选中枪械的改装方案 - 纵向列表 -->
-                    <div class="gun-build-schemes-list" id="gun-build-schemes-zc">
-                        <!-- JS动态生成方案列表 -->
-                    </div>
+                <div class="gun-list-content scheme-list-content" id="gun-scheme-list-zc">
+                    <!-- JS 动态生成枪械列表 + 改枪方案 -->
                 </div>
             </section>
         </div>
@@ -364,6 +337,26 @@
     </div>
 
     <script src="../shared/mock-data.js?v=1"></script>
-    <script src="main.js?v=17"></script>
+    <!-- 改枪方案详情弹窗 -->
+    <div class="gun-detail-modal-overlay" id="gun-detail-modal-overlay" aria-hidden="true">
+        <div class="gun-detail-modal" role="dialog" aria-modal="true">
+            <header class="gun-detail-modal-header">
+                <div class="gun-detail-modal-title-wrap">
+                    <span class="gun-detail-modal-title" id="gun-detail-modal-title">改枪方案详情</span>
+                    <div class="gun-detail-modal-tags" id="gun-detail-modal-tags"></div>
+                </div>
+                <button class="gun-detail-modal-close" id="gun-detail-modal-close" type="button" aria-label="关闭">✕</button>
+            </header>
+            <div class="gun-detail-modal-body" id="gun-detail-modal-body">
+                <!-- JS 渲染 -->
+            </div>
+            <footer class="gun-detail-modal-footer" id="gun-detail-modal-footer">
+                <!-- JS 渲染：固定的改枪码 + 复制按钮 -->
+            </footer>
+        </div>
+    </div>
+
+    <script src="../shared/gun-detail-mock.js?v=1"></script>
+    <script src="main.js?v=25"></script>
 </body>
 </html>

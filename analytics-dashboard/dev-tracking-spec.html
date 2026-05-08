@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFoversea 埋点开发需求文档</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1f2937; font-size: 13px; line-height: 1.6; }
+        .page { max-width: 1100px; margin: 0 auto; padding: 32px; }
+        h1 { font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+        .meta { font-size: 12px; color: #6b7280; margin-bottom: 24px; padding-bottom: 12px; border-bottom: 1px solid #e5e7eb; }
+        h2 { font-size: 15px; font-weight: 600; margin: 28px 0 10px; padding: 6px 12px; background: #f1f5f9; border-left: 3px solid #1a56db; }
+        h3 { font-size: 13px; font-weight: 600; margin: 16px 0 6px; color: #374151; }
+        p { margin: 4px 0 8px; color: #4b5563; }
+        table { width: 100%; border-collapse: collapse; margin: 8px 0 16px; font-size: 12px; }
+        th, td { padding: 7px 10px; text-align: left; border: 1px solid #e5e7eb; vertical-align: top; }
+        th { background: #f9fafb; font-weight: 600; color: #374151; white-space: nowrap; }
+        code { background: #eff6ff; padding: 1px 5px; border-radius: 3px; font-size: 11px; font-family: 'SF Mono', Monaco, monospace; color: #1e40af; }
+        .priority-p0 { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; background: #fee2e2; color: #991b1b; }
+        .priority-p1 { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; background: #fef3c7; color: #92400e; }
+        .priority-p2 { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; background: #e0e7ff; color: #3730a3; }
+        .existing { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 600; background: #d1fae5; color: #065f46; }
+        .note-box { background: #fffbeb; border: 1px solid #fde68a; border-radius: 6px; padding: 10px 14px; margin: 10px 0; font-size: 12px; color: #92400e; }
+        .note-box strong { color: #78350f; }
+        .code-block { background: #1e293b; color: #e2e8f0; border-radius: 6px; padding: 14px 16px; margin: 8px 0; font-size: 11px; font-family: 'SF Mono', Monaco, monospace; line-height: 1.7; overflow-x: auto; white-space: pre; }
+        .code-block .comment { color: #64748b; }
+        .code-block .key { color: #7dd3fc; }
+        .code-block .str { color: #86efac; }
+        .code-block .num { color: #fde68a; }
+        .section-intro { font-size: 12px; color: #6b7280; margin-bottom: 12px; }
+        .divider { border: none; border-top: 1px dashed #d1d5db; margin: 20px 0; }
+        @media print { body { font-size: 11px; } .page { padding: 16px; } h2 { break-after: avoid; } table { break-inside: avoid; } }
+    </style>
+</head>
+<body>
+<div class="page">
+
+<h1>DFoversea 埋点上报 — 开发实现需求文档</h1>
+<div class="meta">
+    项目: Delta Force 海外工具站 (HQ) &nbsp;|&nbsp; TLOG original_game_id: 29158 &nbsp;|&nbsp; 版本: v1.1 &nbsp;|&nbsp; 日期: 2026-05-07<br>
+    产品线: PC (<code>playdeltaforce.com/events/hq/{lang}/</code>) + Mobile (<code>.../hq/{lang}/m/</code>)
+</div>
+
+<!-- ===== 通用规范 ===== -->
+<h2>一、通用上报规范</h2>
+
+<h3>1.1 所有事件的通用参数（每次上报必带）</h3>
+<table>
+    <tr><th>参数名</th><th>类型</th><th>说明</th><th>取值示例</th></tr>
+    <tr><td><code>client_type</code></td><td>string</td><td>客户端平台</td><td><code>PC</code> / <code>iOS</code> / <code>Android</code></td></tr>
+    <tr><td><code>url</code></td><td>string</td><td>当前页面完整 URL</td><td><code>https://www.playdeltaforce.com/events/hq/en/</code></td></tr>
+    <tr><td><code>refer_url</code></td><td>string</td><td>前置页面 URL（从哪跳入）</td><td>外部来源或站内上一页</td></tr>
+    <tr><td><code>open_id</code></td><td>string</td><td>用户 ID（未登录则为空字符串）</td><td><code>uid_abc123</code> / <code>""</code></td></tr>
+</table>
+
+<h3>1.2 事件类型</h3>
+<table>
+    <tr><th>子事件名称</th><th>含义</th><th>触发场景</th></tr>
+    <tr><td><code>cm_vshow</code></td><td>曝光</td><td>页面/区域进入可视区时上报</td></tr>
+    <tr><td><code>cm_click</code></td><td>点击</td><td>用户主动交互时上报</td></tr>
+</table>
+
+<h3>1.3 上报时机规则</h3>
+<table>
+    <tr><th>场景</th><th>触发时机</th><th>去重规则</th></tr>
+    <tr><td>页面级曝光</td><td>页面 DOM 加载完成后</td><td>同一页面同一会话仅上报 1 次</td></tr>
+    <tr><td>区域级曝光</td><td>IntersectionObserver 检测进入可视区 ≥50%</td><td>每个区域每次会话仅触发 1 次</td></tr>
+    <tr><td>点击事件</td><td>用户点击/触摸时立即上报</td><td>不去重，每次点击都上报</td></tr>
+    <tr><td>停留时长</td><td><code>visibilitychange</code>=hidden 或 <code>beforeunload</code></td><td>每次离开页面上报一次</td></tr>
+    <tr><td>滚动深度</td><td>滚动停止 500ms 后，检测达到阈值</td><td>每个阈值 (25/50/75/100%) 仅触发 1 次</td></tr>
+</table>
+
+<!-- ===== 已有事件 ===== -->
+<h2>二、已有事件清单（已上线，需确认状态）</h2>
+<p class="section-intro">以下事件按现有埋点表已定义，开发需确认线上是否全部正常上报。</p>
+
+<table>
+    <tr><th>事件名称</th><th>子事件</th><th>触发描述</th><th>事件参数</th><th>状态</th></tr>
+    <tr><td><code>hq_home_page</code></td><td>cm_vshow</td><td>首页曝光（仅一次）</td><td>—</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_exp_page</code></td><td>cm_vshow</td><td>页面加载完成（每次跳转）</td><td><code>page_id</code>: home / my_data / gun_builds / craft_page</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_nav_link</code></td><td>cm_click</td><td>顶部导航链接点击</td><td><code>target_page_id</code></td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_login_entry</code></td><td>cm_click</td><td>点击顶部登录按钮</td><td>—</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_exp_login_modal</code></td><td>cm_vshow</td><td>登录弹窗曝光</td><td>—</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_login_method_select</code></td><td>cm_click</td><td>选择登录方式</td><td><code>method</code>: level_infinite / garena</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_login_submit</code></td><td>cm_click</td><td>登录请求提交</td><td><code>is_success</code>: 1/0<br><code>login_method</code>: level_infinite / garena<br><code>login_type</code>: email / social<br><code>login_channel</code>: facebook 等（邮箱为空）<br><code>error_code</code>: 0 成功 / 其他按错误码</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_exp_login_norole</code></td><td>cm_vshow</td><td>未找到游戏角色弹窗曝光</td><td>—</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_login_gotodownload</code></td><td>cm_click</td><td>点击前往下载游戏</td><td>—</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_login_otheraccount</code></td><td>cm_click</td><td>点击使用其他账号</td><td>—</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_login_dismiss</code></td><td>cm_click</td><td>关闭弹窗 / 游客浏览</td><td>—</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_logout</code></td><td>cm_click</td><td>退出登录</td><td>—</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_language_switch</code></td><td>cm_click</td><td>切换语言</td><td><code>from_lang</code>, <code>to_lang</code></td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_exp_daily_report</code></td><td>cm_vshow</td><td>日报卡片进入可视区</td><td><code>game_mode</code>: sol / mp</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_daily_share_btn</code></td><td>cm_click</td><td>点击日报分享按钮</td><td><code>game_mode</code>: sol / mp</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_exp_daily_poster_modal</code></td><td>cm_vshow</td><td>分享海报弹窗打开</td><td><code>game_mode</code>: sol / mp</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_daily_poster_share</code></td><td>cm_click</td><td>选择分享渠道</td><td><code>game_mode</code>: sol / mp<br><code>share_channel</code>: save_image / x / discord / facebook / reddit</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_exp_daily_password</code></td><td>cm_vshow</td><td>每日密码区域曝光</td><td>—</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_password_copy</code></td><td>cm_click</td><td>密码房指引按钮点击</td><td>—</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_exp_collection</code></td><td>cm_vshow</td><td>大红展馆模块曝光</td><td>—</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_exp_my_data</code></td><td>cm_vshow</td><td>我的数据页曝光</td><td><code>game_mode</code>: sol / mp</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_game_mode_switch</code></td><td>cm_click</td><td>切换烽火/全面战场</td><td><code>game_mode</code>: sol / mp（切换后的模式）</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_profile_tab</code></td><td>cm_click</td><td>切换 Profile 内容 Tab</td><td><code>profile_tab</code>: overview / record / weapon / operator / map<br>移动端: red_hall / record</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_match_detail</code></td><td>cm_click</td><td>点击单局战绩详情</td><td><code>game_mode</code>: sol / mp<br><code>source</code>: overview / record</td><td><span class="existing">已有</span></td></tr>
+    <tr><td><code>hq_click_feedback</code></td><td>cm_click</td><td>点击反馈按钮</td><td>—</td><td><span class="existing">已有</span></td></tr>
+</table>
+
+<!-- ===== 新增事件 ===== -->
+<h2>三、新增事件需求（本次需开发）</h2>
+<p class="section-intro">以下事件用于解决"用户停留多久、看到哪里、为什么流失"的分析盲区。按优先级排序。</p>
+
+<h3>3.1 会话级事件</h3>
+<table>
+    <tr><th>优先级</th><th>事件名称</th><th>子事件</th><th>触发时机</th><th>事件参数</th><th>开发说明</th></tr>
+    <tr>
+        <td><span class="priority-p1">P1</span></td>
+        <td><code>hq_session_start</code></td>
+        <td>cm_vshow</td>
+        <td>用户本次访问的第一个事件触发时</td>
+        <td>
+            <code>referrer</code>: document.referrer（外部来源 URL）<br>
+            <code>utm_source</code>: URL 参数中的 utm_source（无则空）<br>
+            <code>is_new_user</code>: 1(localStorage无访问记录) / 0(有)
+        </td>
+        <td>判断"30 分钟内无事件"为新会话。首次加载页面时检查上次事件时间戳（存 localStorage），若 >30min 或不存在则视为新会话并上报。</td>
+    </tr>
+    <tr>
+        <td><span class="priority-p1">P1</span></td>
+        <td><code>hq_session_end</code></td>
+        <td>cm_vshow</td>
+        <td><code>beforeunload</code> 或 <code>visibilitychange</code>=hidden 且后续无活动</td>
+        <td>
+            <code>session_duration_ms</code>: 从 session_start 到当前时间的毫秒数<br>
+            <code>pages_viewed</code>: 本次会话内浏览的不同 page_id 数量
+        </td>
+        <td>用 <code>navigator.sendBeacon</code> 确保页面关闭时能发出。session_duration 取 performance.now() 或 Date.now() 差值。</td>
+    </tr>
+</table>
+
+<h3>3.2 页面停留 & 滚动</h3>
+<table>
+    <tr><th>优先级</th><th>事件名称</th><th>子事件</th><th>触发时机</th><th>事件参数</th><th>开发说明</th></tr>
+    <tr>
+        <td><span class="priority-p0">P0</span></td>
+        <td><code>hq_page_stay</code></td>
+        <td>cm_vshow</td>
+        <td>用户离开当前页面时（跳转到站内其他页 / 关闭 / 切到后台）</td>
+        <td>
+            <code>page_id</code>: 当前页面标识<br>
+            <code>duration_ms</code>: 在本页可见状态停留的毫秒数
+        </td>
+        <td>
+            记录 pageshow 时间 T1。监听 visibilitychange：页面 hidden 时计 duration = now - T1（排除 hidden 期间）。<br>
+            站内跳转时也触发上报（SPA 则在路由切换前上报）。<br>
+            用 <code>sendBeacon</code> 兜底 beforeunload。
+        </td>
+    </tr>
+    <tr>
+        <td><span class="priority-p0">P0</span></td>
+        <td><code>hq_scroll_depth</code></td>
+        <td>cm_vshow</td>
+        <td>页面滚动到 25% / 50% / 75% / 100% 时</td>
+        <td>
+            <code>page_id</code>: 当前页面<br>
+            <code>depth</code>: 25 / 50 / 75 / 100（整数）
+        </td>
+        <td>
+            计算方式: <code>scrollTop / (scrollHeight - clientHeight) * 100</code>。<br>
+            每个阈值只触发一次（用 Set 记录已触发阈值）。<br>
+            加 500ms debounce 避免滚动中频繁计算。
+        </td>
+    </tr>
+</table>
+
+<h3>3.3 页面离开</h3>
+<table>
+    <tr><th>优先级</th><th>事件名称</th><th>子事件</th><th>触发时机</th><th>事件参数</th><th>开发说明</th></tr>
+    <tr>
+        <td><span class="priority-p0">P0</span></td>
+        <td><code>hq_page_leave</code></td>
+        <td>cm_click</td>
+        <td>用户离开当前页面的那一刻</td>
+        <td>
+            <code>page_id</code>: 离开的页面<br>
+            <code>leave_type</code>:<br>
+            &nbsp;&nbsp;<code>navigate</code> — 点击站内链接跳转<br>
+            &nbsp;&nbsp;<code>external</code> — 点击外链离开<br>
+            &nbsp;&nbsp;<code>close</code> — 关闭页面/标签页<br>
+            &nbsp;&nbsp;<code>back</code> — 浏览器返回<br>
+            <code>next_page_id</code>: 如果是站内跳转，目标页面 ID（否则为空）
+        </td>
+        <td>
+            站内跳转: 在 nav link 点击事件中上报（可复用 hq_click_nav_link 的时机）。<br>
+            关闭/返回: beforeunload 中上报，leave_type 通过 <code>performance.getEntriesByType('navigation')</code> 或 popstate 判断。<br>
+            无法 100% 区分 close 和 back 时，统一为 <code>close</code>。
+        </td>
+    </tr>
+</table>
+
+<h3>3.4 配装模块（当前无覆盖）</h3>
+<div class="note-box"><strong>背景：</strong>配装推荐是工具站核心功能，但当前埋点表完全没有覆盖这一模块的任何操作。以下事件是分析"配装使用漏斗"的必要条件。</div>
+<table>
+    <tr><th>优先级</th><th>事件名称</th><th>子事件</th><th>触发时机</th><th>事件参数</th><th>开发说明</th></tr>
+    <tr>
+        <td><span class="priority-p0">P0</span></td>
+        <td><code>hq_click_gun_select</code></td>
+        <td>cm_click</td>
+        <td>用户在配装页点击选择某把武器</td>
+        <td>
+            <code>gun_id</code>: 武器标识 (如 m4a1, ak74)<br>
+            <code>gun_type</code>: 武器类型 (ar / smg / sr / lmg / sg / pistol)<br>
+            <code>game_mode</code>: sol / mp
+        </td>
+        <td>绑定 .gun-tab 或武器列表项的 click 事件。</td>
+    </tr>
+    <tr>
+        <td><span class="priority-p0">P0</span></td>
+        <td><code>hq_exp_gun_scheme</code></td>
+        <td>cm_vshow</td>
+        <td>配装方案卡片展示（选择武器后自动展示）</td>
+        <td>
+            <code>gun_id</code><br>
+            <code>scheme_name</code>: 方案名称（如"性价比改法"/"满改方案"）<br>
+            <code>game_mode</code>: sol / mp
+        </td>
+        <td>武器选择后方案区域渲染完成即上报。</td>
+    </tr>
+    <tr>
+        <td><span class="priority-p0">P0</span></td>
+        <td><code>hq_click_gun_copy</code></td>
+        <td>cm_click</td>
+        <td>用户点击"复制配装码"按钮</td>
+        <td>
+            <code>gun_id</code><br>
+            <code>scheme_name</code><br>
+            <code>game_mode</code>: sol / mp<br>
+            <code>copy_type</code>: single / all（单个复制 / 一键全部复制）
+        </td>
+        <td>绑定 .copy-code-btn / .copy-scheme-btn / .copy-all-btn 的 click 事件。</td>
+    </tr>
+    <tr>
+        <td><span class="priority-p1">P1</span></td>
+        <td><code>hq_click_gun_filter</code></td>
+        <td>cm_click</td>
+        <td>用户使用武器筛选器（类型/价格）</td>
+        <td>
+            <code>filter_type</code>: gun_type / price<br>
+            <code>filter_value</code>: 选择的值<br>
+            <code>game_mode</code>: sol / mp
+        </td>
+        <td>绑定 #gun-type-filter-fh/zc 和 #gun-price-filter-fh 的 change 事件。</td>
+    </tr>
+</table>
+
+<h3>3.5 跳蚤市场 / 合成台（当前无覆盖）</h3>
+<table>
+    <tr><th>优先级</th><th>事件名称</th><th>子事件</th><th>触发时机</th><th>事件参数</th><th>开发说明</th></tr>
+    <tr>
+        <td><span class="priority-p1">P1</span></td>
+        <td><code>hq_click_market_search</code></td>
+        <td>cm_click</td>
+        <td>用户在市场页执行搜索</td>
+        <td>
+            <code>keyword</code>: 搜索关键词<br>
+            <code>result_count</code>: 返回结果数量
+        </td>
+        <td>搜索框 input 后 debounce 500ms 或 enter 时触发。</td>
+    </tr>
+    <tr>
+        <td><span class="priority-p1">P1</span></td>
+        <td><code>hq_click_market_sort</code></td>
+        <td>cm_click</td>
+        <td>用户点击排序列</td>
+        <td>
+            <code>sort_field</code>: price / change<br>
+            <code>sort_direction</code>: asc / desc
+        </td>
+        <td>绑定排序列头 click 事件。</td>
+    </tr>
+    <tr>
+        <td><span class="priority-p1">P1</span></td>
+        <td><code>hq_click_market_category</code></td>
+        <td>cm_click</td>
+        <td>用户切换市场品类筛选</td>
+        <td><code>category</code>: all / guns / armor / parts / collect / medical / ammo</td>
+        <td>绑定 #market-page-category 的 change 事件。</td>
+    </tr>
+    <tr>
+        <td><span class="priority-p2">P2</span></td>
+        <td><code>hq_click_craft_tab</code></td>
+        <td>cm_click</td>
+        <td>用户切换合成台 Tab</td>
+        <td><code>craft_tab</code>: tech_center / workbench / pharmacy / armor</td>
+        <td>绑定 .craft-tab-btn 的 click 事件。</td>
+    </tr>
+</table>
+
+<h3>3.6 异常 & 兜底</h3>
+<table>
+    <tr><th>优先级</th><th>事件名称</th><th>子事件</th><th>触发时机</th><th>事件参数</th><th>开发说明</th></tr>
+    <tr>
+        <td><span class="priority-p2">P2</span></td>
+        <td><code>hq_error</code></td>
+        <td>cm_vshow</td>
+        <td>页面 JS 报错或接口请求失败</td>
+        <td>
+            <code>error_type</code>: js_error / api_error / load_error<br>
+            <code>error_msg</code>: 错误信息（截取前 200 字符）<br>
+            <code>page_id</code>
+        </td>
+        <td>window.onerror + unhandledrejection 监听。避免高频上报：同一 error_msg 每会话最多上报 3 次。</td>
+    </tr>
+</table>
+
+<!-- ===== 实现示例 ===== -->
+<h2>四、代码实现参考</h2>
+
+<h3>4.1 上报函数封装</h3>
+<div class="code-block"><span class="comment">// tracker.js — 统一上报入口</span>
+<span class="key">function</span> trackEvent(eventName, subEvent, params = {}) {
+  <span class="key">const</span> payload = {
+    event_name: eventName,
+    sub_event: subEvent,
+    <span class="comment">// 通用参数</span>
+    client_type: getClientType(),   <span class="comment">// 'PC' | 'iOS' | 'Android'</span>
+    url: window.location.href,
+    refer_url: document.referrer,
+    open_id: getOpenId() || <span class="str">''</span>,
+    timestamp: Date.now(),
+    <span class="comment">// 业务参数</span>
+    ...params
+  };
+  <span class="comment">// 优先用 sendBeacon（页面关闭时也能发送）</span>
+  <span class="key">if</span> (navigator.sendBeacon) {
+    navigator.sendBeacon(REPORT_URL, JSON.stringify(payload));
+  } <span class="key">else</span> {
+    fetch(REPORT_URL, { method: <span class="str">'POST'</span>, body: JSON.stringify(payload), keepalive: <span class="key">true</span> });
+  }
+}</div>
+
+<h3>4.2 页面停留时长实现</h3>
+<div class="code-block"><span class="comment">// 页面可见时长追踪</span>
+<span class="key">let</span> pageShowTime = Date.now();
+<span class="key">let</span> totalVisibleTime = <span class="num">0</span>;
+
+document.addEventListener(<span class="str">'visibilitychange'</span>, () => {
+  <span class="key">if</span> (document.hidden) {
+    <span class="comment">// 切到后台，累加时长</span>
+    totalVisibleTime += Date.now() - pageShowTime;
+    reportStay();
+  } <span class="key">else</span> {
+    <span class="comment">// 回到前台，重置起点</span>
+    pageShowTime = Date.now();
+  }
+});
+
+window.addEventListener(<span class="str">'beforeunload'</span>, () => {
+  totalVisibleTime += Date.now() - pageShowTime;
+  reportStay();
+});
+
+<span class="key">function</span> reportStay() {
+  trackEvent(<span class="str">'hq_page_stay'</span>, <span class="str">'cm_vshow'</span>, {
+    page_id: getCurrentPageId(),
+    duration_ms: totalVisibleTime
+  });
+}</div>
+
+<h3>4.3 滚动深度实现</h3>
+<div class="code-block"><span class="comment">// 滚动深度追踪</span>
+<span class="key">const</span> reportedDepths = <span class="key">new</span> Set();
+<span class="key">const</span> THRESHOLDS = [<span class="num">25</span>, <span class="num">50</span>, <span class="num">75</span>, <span class="num">100</span>];
+<span class="key">let</span> scrollTimer = <span class="key">null</span>;
+
+window.addEventListener(<span class="str">'scroll'</span>, () => {
+  clearTimeout(scrollTimer);
+  scrollTimer = setTimeout(() => {
+    <span class="key">const</span> scrollPct = Math.round(
+      window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * <span class="num">100</span>
+    );
+    THRESHOLDS.forEach(t => {
+      <span class="key">if</span> (scrollPct >= t && !reportedDepths.has(t)) {
+        reportedDepths.add(t);
+        trackEvent(<span class="str">'hq_scroll_depth'</span>, <span class="str">'cm_vshow'</span>, {
+          page_id: getCurrentPageId(),
+          depth: t
+        });
+      }
+    });
+  }, <span class="num">500</span>);
+});</div>
+
+<!-- ===== 验收标准 ===== -->
+<h2>五、验收标准</h2>
+<table>
+    <tr><th>检查项</th><th>通过标准</th></tr>
+    <tr><td>参数完整性</td><td>每条上报包含全部通用参数 + 该事件定义的全部业务参数，无字段缺失</td></tr>
+    <tr><td>参数值正确</td><td>枚举值与文档定义一致（如 game_mode 只出现 sol/mp，不出现其他值）</td></tr>
+    <tr><td>去重逻辑</td><td>曝光类事件同一会话同一对象只上报 1 次；滚动深度每阈值只触发 1 次</td></tr>
+    <tr><td>页面关闭兜底</td><td>关闭页面时 hq_page_stay / hq_session_end 能正常上报（用 sendBeacon）</td></tr>
+    <tr><td>性能影响</td><td>不阻塞主线程，上报异步执行，单页面事件上报 <50次/session</td></tr>
+    <tr><td>跨端一致性</td><td>PC 和 Mobile 同一事件的参数结构、取值逻辑保持一致</td></tr>
+    <tr><td>自测覆盖</td><td>每个事件至少在 PC Chrome + Mobile Safari 各触发一次并在 TLOG 后台可查到</td></tr>
+</table>
+
+<hr class="divider">
+
+<h2>六、交付排期建议</h2>
+<table>
+    <tr><th>批次</th><th>包含事件</th><th>工作量预估</th><th>优先原因</th></tr>
+    <tr><td><strong>第一批 (P0)</strong></td><td>hq_page_stay<br>hq_scroll_depth<br>hq_page_leave<br>hq_click_gun_select<br>hq_exp_gun_scheme<br>hq_click_gun_copy</td><td>2-3 天</td><td>解决"停多久/看到哪/配装漏斗"三大盲区</td></tr>
+    <tr><td><strong>第二批 (P1)</strong></td><td>hq_session_start / end<br>hq_click_gun_filter<br>hq_click_market_search / sort / category</td><td>1-2 天</td><td>会话级分析 + 市场模块</td></tr>
+    <tr><td><strong>第三批 (P2)</strong></td><td>hq_click_craft_tab<br>hq_error</td><td>0.5 天</td><td>补全覆盖 + 异常监控</td></tr>
+</table>
+
+<div class="note-box" style="margin-top:20px;">
+    <strong>给开发的备注：</strong><br>
+    1. 上报地址 (REPORT_URL) 沿用现有 TLOG 上报通道，original_game_id 不变 (29158)<br>
+    2. 新事件不影响已有事件的触发逻辑，纯新增<br>
+    3. 如有疑问请联系产品确认触发时机和参数取值
+</div>
+
+</div>
+</body>
+</html>

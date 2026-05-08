@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>海外工具站数据分析 0430-0505</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+    background: #fafafa;
+    color: #1a1a1a;
+    line-height: 1.6;
+    padding: 40px 20px;
+  }
+  .container { max-width: 1200px; margin: 0 auto; }
+  header {
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+  }
+  h1 { font-size: 28px; font-weight: 600; margin-bottom: 8px; }
+  .subtitle { color: #888; font-size: 14px; }
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 40px 0 16px;
+    padding-left: 12px;
+    border-left: 3px solid #1a1a1a;
+  }
+  h3 { font-size: 16px; font-weight: 600; margin: 24px 0 12px; color: #333; }
+
+  /* KPI 卡片 */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .kpi-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .kpi-label { font-size: 12px; color: #888; margin-bottom: 8px; }
+  .kpi-value { font-size: 24px; font-weight: 600; margin-bottom: 6px; }
+  .kpi-change { font-size: 13px; }
+  .up { color: #d32f2f; }    /* 中文股市习惯：上涨红 */
+  .down { color: #388e3c; }  /* 下跌绿 */
+  .neutral { color: #888; }
+
+  /* 结论框 */
+  .conclusion {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .conclusion h3 { margin-top: 0; }
+  .conclusion ul { padding-left: 20px; }
+  .conclusion li { margin-bottom: 8px; }
+  .highlight {
+    background: #fff8e1;
+    padding: 16px 20px;
+    border-radius: 8px;
+    border-left: 3px solid #f9a825;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+
+  /* 图表容器 */
+  .chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .chart-card {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .chart-card.full { grid-column: 1 / -1; }
+  .chart-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; color: #333; }
+  .chart-wrap { position: relative; height: 280px; }
+  .chart-wrap.tall { height: 320px; }
+
+  /* 表格 */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #e5e5e5;
+    font-size: 13px;
+  }
+  th, td {
+    padding: 10px 12px;
+    text-align: right;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  th { background: #f7f7f7; font-weight: 600; color: #555; font-size: 12px; }
+  th:first-child, td:first-child { text-align: left; }
+  tr.this-period { background: #fff8e1; }
+  tr.peak td { font-weight: 600; }
+
+  /* 行动建议 */
+  .action-item {
+    display: flex;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .action-item:last-child { border-bottom: none; }
+  .priority {
+    flex-shrink: 0;
+    width: 36px;
+    height: 24px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+  .p0 { background: #d32f2f; }
+  .p1 { background: #f57c00; }
+  .p2 { background: #757575; }
+
+  footer {
+    text-align: center;
+    color: #aaa;
+    font-size: 12px;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid #e5e5e5;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>海外工具站数据分析报告</h1>
+  <div class="subtitle">分析窗口：2026-04-30 ~ 2026-05-05（6 天）｜对比窗口：04-24 ~ 04-29｜数据回溯起点：04-23</div>
+</header>
+
+<!-- KPI 概览 -->
+<h2>一、核心指标速览</h2>
+<div class="kpi-grid">
+  <div class="kpi-card">
+    <div class="kpi-label">本期总 UV</div>
+    <div class="kpi-value">95,853</div>
+    <div class="kpi-change down">↓ 48.8% vs 上期</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">我的数据页 CTR（均）</div>
+    <div class="kpi-value">37.74%</div>
+    <div class="kpi-change up">↑ 9.2% vs 上期</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">人均战绩查看次数</div>
+    <div class="kpi-value">3.07 次</div>
+    <div class="kpi-change up">↑ 6.7% vs 上期</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">日报分享率（均）</div>
+    <div class="kpi-value">14.87%</div>
+    <div class="kpi-change up">↑ 9.4% vs 上期</div>
+  </div>
+</div>
+
+<div class="highlight">
+  <strong>一句话结论：</strong>本期是典型的"<strong>冷却期但留存盘开始显现</strong>"——大盘流量自然回落是预期内的，但留下来的人粘性更高、传播意愿更强，这是赛季中期最健康的信号。
+</div>
+
+<!-- 关键发现 -->
+<h2>二、三大关键发现</h2>
+<div class="conclusion">
+  <h3>1. 流量在跌，质量在涨</h3>
+  <p>UV 从 0423 峰值 168k 降至 0505 的 12k，但 CTR、人均查看深度、分享率三大质量指标同步走强。<strong>不要被绝对值误导，留存盘正在成形。</strong></p>
+</div>
+<div class="conclusion">
+  <h3>2. LI 渠道流失速度异常</h3>
+  <p>LI 占比从 27.4% → 24.6%（-2.8pp），LI UV 环比 -53.9%，明显快于 GA 的 -48.4%。<strong>GA 才是真正的基本盘，LI 需要单独做流失归因。</strong></p>
+</div>
+<div class="conclusion">
+  <h3>3. 分享是当前最强增长杠杆</h3>
+  <p>0504 单日分享率冲到 <strong>17.6%</strong>（全周期最高），叠加端内访问占比下滑（94.2%）→ 说明"分享→外部回流"闭环已经跑通。</p>
+</div>
+
+<!-- 流量趋势 -->
+<h2>三、流量与渠道趋势</h2>
+<div class="chart-row">
+  <div class="chart-card full">
+    <div class="chart-title">每日 UV 趋势（按渠道拆分）</div>
+    <div class="chart-wrap tall"><canvas id="chartUV"></canvas></div>
+  </div>
+</div>
+
+<div class="chart-row">
+  <div class="chart-card">
+    <div class="chart-title">LI / GA 渠道占比变化</div>
+    <div class="chart-wrap"><canvas id="chartShare"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">端内访问占比（持续下滑 = 外部回流上升）</div>
+    <div class="chart-wrap"><canvas id="chartInternal"></canvas></div>
+  </div>
+</div>
+
+<!-- 质量指标 -->
+<h2>四、用户质量指标（全面回升）</h2>
+<div class="chart-row">
+  <div class="chart-card">
+    <div class="chart-title">我的数据页点击率（CTR）</div>
+    <div class="chart-wrap"><canvas id="chartCTR"></canvas></div>
+  </div>
+  <div class="chart-card">
+    <div class="chart-title">人均战绩详情查看次数</div>
+    <div class="chart-wrap"><canvas id="chartPerView"></canvas></div>
+  </div>
+  <div class="chart-card full">
+    <div class="chart-title">日报分享率（0504 创周期峰值 17.6%）</div>
+    <div class="chart-wrap"><canvas id="chartShareRate"></canvas></div>
+  </div>
+</div>
+
+<!-- 行动建议 -->
+<h2>五、行动建议</h2>
+<div class="conclusion">
+  <div class="action-item">
+    <div class="priority p0">P0</div>
+    <div><strong>加大日报分享激励/UI 引导</strong>：0504 的 17.6% 证明天花板未到，可以在分享按钮、日报弹窗、社交平台模板上做 A/B 测试。</div>
+  </div>
+  <div class="action-item">
+    <div class="priority p0">P0</div>
+    <div><strong>LI 渠道流失专项归因</strong>：拆分 LI 用户的页面停留、跳出节点、改枪码使用次数，对比 GA 用户找到差异点（版本同步？激励差异？）。</div>
+  </div>
+  <div class="action-item">
+    <div class="priority p1">P1</div>
+    <div><strong>核心战绩查看路径再加深</strong>：CTR 已升至 37.7%，加 1–2 个高价值二级模块（如战绩对比、趋势曲线）继续放大查看深度。</div>
+  </div>
+  <div class="action-item">
+    <div class="priority p1">P1</div>
+    <div><strong>建立外部入口监控仪表盘</strong>：端内占比下滑趋势需持续跟踪，预设 90% 红线告警。</div>
+  </div>
+  <div class="action-item">
+    <div class="priority p2">P2</div>
+    <div><strong>规划"二次唤醒"预案</strong>：0501 后已进入准平稳期，是版本/活动召回测试的最佳窗口。</div>
+  </div>
+</div>
+
+<!-- 数据明细 -->
+<h2>六、每日数据明细</h2>
+<table>
+  <thead>
+    <tr>
+      <th>日期</th><th>总UV</th><th>LI UV</th><th>GA UV</th>
+      <th>端内占比</th><th>我的页CTR</th><th>人均查看</th><th>分享率</th>
+    </tr>
+  </thead>
+  <tbody id="dataTable"></tbody>
+</table>
+
+<footer>
+  生成时间：2026-05-06 ｜ 数据来源：海外数据0430-0505.xlsx ｜ 共 13 天日级数据
+</footer>
+
+</div>
+
+<script>
+const dates = ['04-23','04-24','04-25','04-26','04-27','04-28','04-29','04-30','05-01','05-02','05-03','05-04','05-05'];
+const totalUV = [168289,64555,35037,27638,22932,18820,18074,20186,16108,16885,17194,13334,12146];
+const liUV = [50538,18824,9803,7604,5385,4915,4699,5250,3949,4047,4163,3330,2865];
+const gaUV = [115668,44104,24064,19103,16646,13036,12585,14017,11363,11968,12135,8955,8408];
+const liShare = liUV.map((v,i)=>v/totalUV[i]*100);
+const gaShare = gaUV.map((v,i)=>v/totalUV[i]*100);
+const internalRatio = [98.6,97.42,96.61,96.61,96.03,95.33,95.62,95.41,95.03,94.83,94.77,92.11,92.79];
+const ctr = [36.15,31.53,32.61,34.19,37.09,35.59,36.42,36.27,35.10,38.03,39.38,39.39,38.24];
+const perView = [2.26,2.55,2.76,3.01,2.98,3.00,2.97,2.81,2.96,3.09,3.09,3.22,3.25];
+const shareRate = [15.51,13.30,11.50,13.61,14.90,13.86,14.35,12.42,14.46,15.77,13.86,17.64,15.04];
+
+// 本期高亮（最后6天）
+const periodColors = dates.map((_,i)=> i>=7 ? '#d32f2f' : '#888');
+const periodBgColors = dates.map((_,i)=> i>=7 ? 'rgba(211,47,47,0.15)' : 'rgba(136,136,136,0.1)');
+
+const baseOpts = {
+  responsive: true,
+  maintainAspectRatio: false,
+  plugins: {
+    legend: { position: 'top', labels: { font: { size: 11 }, boxWidth: 12 } },
+    tooltip: { backgroundColor: 'rgba(0,0,0,0.85)', padding: 10 }
+  },
+  scales: {
+    x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+    y: { grid: { color: '#f0f0f0' }, ticks: { font: { size: 10 } } }
+  }
+};
+
+// UV 趋势
+new Chart(document.getElementById('chartUV'), {
+  type: 'line',
+  data: {
+    labels: dates,
+    datasets: [
+      { label: '总 UV', data: totalUV, borderColor: '#1a1a1a', backgroundColor: 'rgba(26,26,26,0.05)', fill: true, tension: 0.3, borderWidth: 2 },
+      { label: 'GA UV', data: gaUV, borderColor: '#f57c00', backgroundColor: 'transparent', tension: 0.3, borderWidth: 1.5 },
+      { label: 'LI UV', data: liUV, borderColor: '#1976d2', backgroundColor: 'transparent', tension: 0.3, borderWidth: 1.5 }
+    ]
+  },
+  options: baseOpts
+});
+
+// 渠道占比
+new Chart(document.getElementById('chartShare'), {
+  type: 'line',
+  data: {
+    labels: dates,
+    datasets: [
+      { label: 'GA 占比 %', data: gaShare, borderColor: '#f57c00', backgroundColor: 'rgba(245,124,0,0.1)', fill: true, tension: 0.3 },
+      { label: 'LI 占比 %', data: liShare, borderColor: '#1976d2', backgroundColor: 'rgba(25,118,210,0.1)', fill: true, tension: 0.3 }
+    ]
+  },
+  options: { ...baseOpts, scales: { ...baseOpts.scales, y: { ...baseOpts.scales.y, suggestedMax: 80 } } }
+});
+
+// 端内占比
+new Chart(document.getElementById('chartInternal'), {
+  type: 'line',
+  data: {
+    labels: dates,
+    datasets: [{
+      label: '端内访问占比 %', data: internalRatio,
+      borderColor: '#388e3c', backgroundColor: 'rgba(56,142,60,0.1)', fill: true, tension: 0.3, borderWidth: 2
+    }]
+  },
+  options: { ...baseOpts, scales: { ...baseOpts.scales, y: { min: 90, max: 100 } } }
+});
+
+// CTR
+new Chart(document.getElementById('chartCTR'), {
+  type: 'bar',
+  data: {
+    labels: dates,
+    datasets: [{ label: '我的数据页 CTR %', data: ctr, backgroundColor: periodBgColors, borderColor: periodColors, borderWidth: 1 }]
+  },
+  options: { ...baseOpts, scales: { ...baseOpts.scales, y: { suggestedMin: 28, suggestedMax: 42 } } }
+});
+
+// 人均查看
+new Chart(document.getElementById('chartPerView'), {
+  type: 'bar',
+  data: {
+    labels: dates,
+    datasets: [{ label: '人均战绩查看次数', data: perView, backgroundColor: periodBgColors, borderColor: periodColors, borderWidth: 1 }]
+  },
+  options: { ...baseOpts, scales: { ...baseOpts.scales, y: { suggestedMin: 2, suggestedMax: 3.5 } } }
+});
+
+// 分享率
+new Chart(document.getElementById('chartShareRate'), {
+  type: 'line',
+  data: {
+    labels: dates,
+    datasets: [{
+      label: '分享率 %', data: shareRate,
+      borderColor: '#d32f2f', backgroundColor: 'rgba(211,47,47,0.1)', fill: true, tension: 0.3, borderWidth: 2,
+      pointBackgroundColor: shareRate.map(v => v>=17 ? '#d32f2f' : '#fff'),
+      pointBorderColor: '#d32f2f', pointRadius: 4, pointHoverRadius: 6
+    }]
+  },
+  options: baseOpts
+});
+
+// 数据表
+const dailyData = [
+  ['04-23',168289,50538,115668,'98.60%','36.15%',2.26,'15.51%',false,true],
+  ['04-24',64555,18824,44104,'97.42%','31.53%',2.55,'13.30%',false,false],
+  ['04-25',35037,9803,24064,'96.61%','32.61%',2.76,'11.50%',false,false],
+  ['04-26',27638,7604,19103,'96.61%','34.19%',3.01,'13.61%',false,false],
+  ['04-27',22932,5385,16646,'96.03%','37.09%',2.98,'14.90%',false,false],
+  ['04-28',18820,4915,13036,'95.33%','35.59%',3.00,'13.86%',false,false],
+  ['04-29',18074,4699,12585,'95.62%','36.42%',2.97,'14.35%',false,false],
+  ['04-30',20186,5250,14017,'95.41%','36.27%',2.81,'12.42%',true,false],
+  ['05-01',16108,3949,11363,'95.03%','35.10%',2.96,'14.46%',true,false],
+  ['05-02',16885,4047,11968,'94.83%','38.03%',3.09,'15.77%',true,false],
+  ['05-03',17194,4163,12135,'94.77%','39.38%',3.09,'13.86%',true,false],
+  ['05-04',13334,3330,8955,'92.11%','39.39%',3.22,'17.64%',true,true],
+  ['05-05',12146,2865,8408,'92.79%','38.24%',3.25,'15.04%',true,false],
+];
+const tbody = document.getElementById('dataTable');
+dailyData.forEach(r => {
+  const tr = document.createElement('tr');
+  if (r[8]) tr.classList.add('this-period');
+  if (r[9]) tr.classList.add('peak');
+  tr.innerHTML = `<td>${r[0]}</td><td>${r[1].toLocaleString()}</td><td>${r[2].toLocaleString()}</td><td>${r[3].toLocaleString()}</td><td>${r[4]}</td><td>${r[5]}</td><td>${r[6]}</td><td>${r[7]}</td>`;
+  tbody.appendChild(tr);
+});
+</script>
+</body>
+</html>

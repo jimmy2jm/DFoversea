@@ -119,7 +119,11 @@
     "fullHipfire": "满腰射",
     "highAccuracy": "高精准",
     "highStability": "高稳定",
-    "pvpOptimized": "PVP优化"
+    "pvpOptimized": "PVP优化",
+    "rangeAdvantage": "优势射程",
+    "baseDamage": "基础伤害",
+    "weaponStability": "武器稳定性",
+    "hipfireAccuracy": "腰射精度"
   },
   "craft": {
     "title": "特勤处制造",

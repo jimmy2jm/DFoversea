@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFoversea 数据分析看板</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --bg: #f5f7fa; --card-bg: #ffffff; --text: #1f2937; --text-2: #6b7280; --border: #e5e7eb; --primary: #1a56db; --primary-light: #e8f0fe; --success: #059669; --danger: #dc2626; --shadow: 0 1px 3px rgba(0,0,0,0.06); }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); font-size: 13px; }
+
+        .header { background: #fff; border-bottom: 1px solid var(--border); padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+        .header h1 { font-size: 16px; font-weight: 600; color: var(--primary); }
+        .header-right { display: flex; align-items: center; gap: 16px; font-size: 12px; color: var(--text-2); }
+
+        /* Version Toggle */
+        .version-toggle { display: flex; background: #f1f5f9; border-radius: 6px; padding: 3px; border: 1px solid var(--border); }
+        .version-toggle .v-btn { padding: 6px 16px; border-radius: 4px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; background: transparent; color: var(--text-2); transition: all 0.15s; }
+        .version-toggle .v-btn.active { background: #fff; color: var(--primary); box-shadow: 0 1px 3px rgba(0,0,0,0.1); font-weight: 600; }
+        .version-toggle .v-btn .v-badge { font-size: 9px; padding: 1px 4px; border-radius: 3px; margin-left: 4px; vertical-align: top; }
+        .version-toggle .v-btn .v-badge.green { background: #d1fae5; color: #065f46; }
+        .version-toggle .v-btn .v-badge.orange { background: #fef3c7; color: #92400e; }
+
+        /* Filter Bar */
+        .filter-bar { background: #fff; border-bottom: 1px solid var(--border); padding: 10px 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .filter-group { display: flex; align-items: center; gap: 6px; }
+        .filter-group label { font-size: 12px; color: var(--text-2); font-weight: 500; }
+        .filter-group select { border: 1px solid var(--border); border-radius: 4px; padding: 5px 10px; font-size: 12px; color: var(--text); background: #fff; }
+        .filter-btn { padding: 5px 14px; border-radius: 4px; font-size: 12px; cursor: pointer; border: none; }
+        .filter-btn.primary { background: var(--primary); color: #fff; }
+        .filter-btn.secondary { background: #f3f4f6; color: var(--text-2); border: 1px solid var(--border); }
+
+        .main { padding: 16px 24px; max-width: 1400px; margin: 0 auto; }
+
+        /* KPI */
+        .kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 16px; }
+        .kpi-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; box-shadow: var(--shadow); }
+        .kpi-card .kpi-label { font-size: 11px; color: var(--text-2); margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+        .kpi-card .kpi-value { font-size: 22px; font-weight: 700; }
+        .kpi-card .kpi-change { font-size: 11px; margin-top: 4px; }
+        .kpi-card .kpi-change.up { color: var(--success); }
+        .kpi-card .kpi-change.down { color: var(--danger); }
+
+        /* Section */
+        .section { margin-bottom: 20px; }
+        .section-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+        .section-title { font-size: 14px; font-weight: 600; }
+        .section-version { font-size: 10px; padding: 2px 6px; border-radius: 3px; font-weight: 600; }
+        .section-version.v10 { background: #d1fae5; color: #065f46; }
+        .section-version.v11 { background: #fef3c7; color: #92400e; }
+
+        /* Chart */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 6px; padding: 14px 16px; box-shadow: var(--shadow); position: relative; }
+        .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .card-title { font-size: 12px; font-weight: 600; }
+        .card-dep { font-size: 10px; color: var(--text-2); margin-top: 2px; font-family: monospace; }
+        .chart-area { width: 100%; height: 170px; position: relative; }
+
+        /* Spec button */
+        .spec-btn { width: 18px; height: 18px; border-radius: 50%; border: 1px solid var(--border); background: #f9fafb; color: var(--text-2); font-size: 10px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; }
+        .spec-btn:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary); }
+        .spec-panel { display: none; position: fixed; z-index: 9999; width: 360px; max-height: 400px; overflow-y: auto; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; font-size: 11px; line-height: 1.7; box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+        .spec-panel.open { display: block; }
+        .spec-panel .spec-close { position: absolute; top: 8px; right: 10px; width: 18px; height: 18px; border: none; background: #f3f4f6; border-radius: 50%; cursor: pointer; font-size: 12px; color: var(--text-2); display: flex; align-items: center; justify-content: center; }
+        .spec-panel h4 { font-size: 11px; font-weight: 600; color: var(--primary); margin: 0 0 4px; }
+        .spec-panel table { width: 100%; border-collapse: collapse; margin: 4px 0; font-size: 11px; }
+        .spec-panel th, .spec-panel td { padding: 3px 6px; text-align: left; border: 1px solid var(--border); }
+        .spec-panel th { background: #f1f5f9; font-weight: 500; color: var(--text-2); }
+        .spec-panel code { background: #e8f0fe; padding: 1px 4px; border-radius: 2px; font-size: 10px; font-family: monospace; }
+
+        /* Funnel */
+        .funnel-steps { display: flex; flex-direction: column; gap: 5px; }
+        .funnel-row { display: flex; align-items: center; gap: 6px; }
+        .funnel-row .sn { width: 16px; height: 16px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-size: 9px; font-weight: 600; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .funnel-row .sl { font-size: 10px; color: var(--text-2); min-width: 70px; }
+        .funnel-row .sb-wrap { flex: 1; background: #f3f4f6; border-radius: 3px; height: 20px; overflow: hidden; }
+        .funnel-row .sb { height: 100%; background: linear-gradient(90deg, var(--primary), #60a5fa); border-radius: 3px; display: flex; align-items: center; padding: 0 6px; }
+        .funnel-row .sv { font-size: 9px; font-weight: 600; color: #fff; }
+        .funnel-row .sr { font-size: 9px; color: var(--text-2); min-width: 40px; text-align: right; }
+
+        /* Events table */
+        .table-scroll { max-height: 280px; overflow-y: auto; border: 1px solid var(--border); border-radius: 6px; }
+        .evt-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        .evt-table th { padding: 6px 8px; text-align: left; border-bottom: 2px solid var(--border); font-size: 10px; font-weight: 500; color: var(--text-2); background: #f9fafb; position: sticky; top: 0; }
+        .evt-table td { padding: 5px 8px; border-bottom: 1px solid var(--border); }
+        .evt-table .en { font-family: monospace; font-size: 10px; color: var(--primary); }
+        .evt-table .et { display: inline-block; padding: 1px 5px; border-radius: 3px; font-size: 9px; font-weight: 500; }
+        .evt-table .et.click { background: #dbeafe; color: #1e40af; }
+        .evt-table .et.vshow { background: #dcfce7; color: #166534; }
+        .evt-table .et.auto { background: #f3e8ff; color: #6b21a8; }
+        .bar-sm { display: inline-block; height: 4px; border-radius: 2px; vertical-align: middle; margin-right: 4px; }
+
+        /* v1.1 locked overlay */
+        .v11-only { position: relative; }
+        .v11-only.locked::after { content: '需 v1.1 埋点上线后可用'; position: absolute; inset: 0; background: rgba(255,255,255,0.85); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--text-2); font-weight: 500; border-radius: 6px; z-index: 5; }
+        .hidden { display: none !important; }
+
+        @media (max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } .main { padding: 12px; } }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>DFoversea · 工具站数据看板</h1>
+        <div class="header-right">
+            <div class="version-toggle">
+                <button class="v-btn active" data-ver="1.0">v1.0 现有埋点<span class="v-badge green">已上线</span></button>
+                <button class="v-btn" data-ver="1.1">v1.1 新增埋点<span class="v-badge orange">待开发</span></button>
+                <button class="v-btn" data-ver="all">全部</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="filter-bar">
+        <div class="filter-group"><label>开始日期:</label><input type="date" value="2026-04-07"></div>
+        <div class="filter-group"><label>结束日期:</label><input type="date" value="2026-05-06"></div>
+        <button class="filter-btn primary">确认</button>
+        <button class="filter-btn secondary">重置</button>
+    </div>
+
+    <main class="main">
+
+        <!-- ========== v1.0 KPI ========== -->
+        <div class="section" data-v="1.0">
+            <div class="section-header"><span class="section-title">核心 KPI</span><span class="section-version v10">v1.0</span></div>
+            <div class="kpi-row">
+                <div class="kpi-card">
+                    <div class="kpi-label">UV <button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="kpi-value">12,847</div><div class="kpi-change up">↑ 8.3% WoW</div>
+                    <div class="spec-panel"><h4>UV</h4><table><tr><th>数据源</th><td>全部 hq_* 事件，去重 <code>open_id</code>（含匿名设备标识）</td></tr><tr><th>显示值</th><td>所选日期范围内累计去重用户数</td></tr></table></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">PV <button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="kpi-value">58,392</div><div class="kpi-change up">↑ 12.1% WoW</div>
+                    <div class="spec-panel"><h4>PV</h4><table><tr><th>数据源</th><td><code>hq_exp_page</code> 在所选日期范围内的 COUNT</td></tr></table></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== v1.1 KPI ========== -->
+        <div class="section" data-v="1.1">
+            <div class="section-header"><span class="section-title">新增 KPI（需 v1.1 埋点）</span><span class="section-version v11">v1.1</span></div>
+            <div class="kpi-row">
+                <div class="kpi-card">
+                    <div class="kpi-label">Avg. 会话时长 <button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="kpi-value">4m 12s</div><div class="kpi-change up">↑ 5.3% WoW</div>
+                    <div class="spec-panel"><h4>平均会话时长</h4><table><tr><th>数据源</th><td><code>hq_session_end.session_duration_ms</code> AVG</td></tr><tr><th>依赖</th><td>需 hq_session_start / hq_session_end 上线</td></tr></table></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">人均浏览页数 <button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="kpi-value">3.8</div><div class="kpi-change up">↑ 0.4</div>
+                    <div class="spec-panel"><h4>人均浏览页数</h4><table><tr><th>数据源</th><td><code>hq_session_end.pages_viewed</code> AVG</td></tr></table></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">配装复制数 <button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="kpi-value">3,600</div><div class="kpi-change up">↑ 11.2% WoW</div>
+                    <div class="spec-panel"><h4>配装复制</h4><table><tr><th>数据源</th><td><code>hq_click_gun_copy</code> COUNT</td></tr><tr><th>依赖</th><td>需新增 hq_click_gun_copy 事件</td></tr></table></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">跳出率 <button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="kpi-value">32.5%</div><div class="kpi-change down">↓ 3.8%</div>
+                    <div class="spec-panel"><h4>跳出率</h4><table><tr><th>数据源</th><td><code>hq_session_end</code> WHERE pages_viewed=1 / 总会话数</td></tr></table></div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">新用户占比 <button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="kpi-value">61.3%</div><div class="kpi-change down">↓ 2.5%</div>
+                    <div class="spec-panel"><h4>新用户占比</h4><table><tr><th>数据源</th><td><code>hq_session_start</code> WHERE is_new_user=1 / 总会话数</td></tr></table></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== v1.0 趋势 ========== -->
+        <div class="section" data-v="1.0">
+            <div class="section-header"><span class="section-title">流量趋势</span><span class="section-version v10">v1.0</span></div>
+            <div class="grid-2">
+                <div class="card">
+                    <div class="card-header"><span class="card-title">DAU / PV 日趋势</span><button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="card-dep">hq_exp_page + open_id 去重</div>
+                    <div class="chart-area" id="c-trend"></div>
+                    <div class="spec-panel"><h4>DAU/PV 趋势</h4><table><tr><th>X轴</th><td>日期（全局时间范围）</td></tr><tr><th>数据</th><td>PV=hq_exp_page COUNT/日；DAU=open_id DISTINCT/日</td></tr><tr><th>筛选</th><td>时间→X轴范围；平台→client_type</td></tr></table></div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><span class="card-title">页面 PV / UV 分布</span><button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="card-dep">hq_exp_page GROUP BY page_id — PV(COUNT) + UV(DISTINCT open_id)</div>
+                    <div class="chart-area" id="c-pages"></div>
+                    <div class="spec-panel"><h4>页面 PV/UV 分布</h4><table><tr><th>数据</th><td>PV: <code>hq_exp_page</code> 按 page_id COUNT<br>UV: <code>hq_exp_page</code> 按 page_id DISTINCT open_id</td></tr><tr><th>图表</th><td>双柱状图（蓝色=PV，橙色=UV）</td></tr><tr><th>page_id</th><td>home / my_data / gun_builds / market / craft_page</td></tr></table></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== v1.0 维度拆解 ========== -->
+        <div class="section" data-v="1.0">
+            <div class="section-header"><span class="section-title">维度拆解</span><span class="section-version v10">v1.0</span></div>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-header"><span class="card-title">登录方式分布 (LI / Garena)</span></div>
+                    <div class="card-dep">hq_click_login_method_select.method</div>
+                    <div class="chart-area" id="c-login-method"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><span class="card-title">游戏模式分布</span></div>
+                    <div class="card-dep">hq_click_game_mode_switch.game_mode</div>
+                    <div class="chart-area" id="c-mode"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><span class="card-title">平台分布</span></div>
+                    <div class="card-dep">通用参数 client_type</div>
+                    <div class="chart-area" id="c-platform"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== v1.0 漏斗 ========== -->
+        <div class="section" data-v="1.0">
+            <div class="section-header"><span class="section-title">转化漏斗</span><span class="section-version v10">v1.0</span></div>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-header"><span class="card-title">登录漏斗</span><button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="funnel-steps" id="f-login"></div>
+                    <div class="spec-panel"><h4>登录漏斗</h4><table><tr><th>步骤</th><th>事件</th></tr><tr><td>1</td><td><code>hq_click_login_entry</code></td></tr><tr><td>2</td><td><code>hq_exp_login_modal</code></td></tr><tr><td>3</td><td><code>hq_click_login_method_select</code></td></tr><tr><td>4</td><td><code>hq_click_login_submit</code></td></tr><tr><td>5</td><td><code>hq_click_login_submit</code> (is_success=1)</td></tr></table></div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><span class="card-title">日报分享漏斗</span><button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="funnel-steps" id="f-share"></div>
+                    <div class="spec-panel"><h4>分享漏斗</h4><table><tr><th>步骤</th><th>事件</th></tr><tr><td>1</td><td><code>hq_exp_daily_report</code></td></tr><tr><td>2</td><td><code>hq_click_daily_share_btn</code></td></tr><tr><td>3</td><td><code>hq_exp_daily_poster_modal</code></td></tr><tr><td>4</td><td><code>hq_click_daily_poster_share</code></td></tr></table></div>
+                </div>
+                <div class="card">
+                    <div class="card-header"><span class="card-title">分享渠道趋势</span><button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="card-dep">hq_click_daily_poster_share 按 share_channel × 日期</div>
+                    <div class="chart-area" id="c-share"></div>
+                    <div class="spec-panel"><h4>分享渠道趋势</h4><table><tr><th>图表</th><td>堆叠柱状图，X轴=日期，每日按 share_channel 堆叠</td></tr><tr><th>数据</th><td><code>hq_click_daily_poster_share</code> 按日期+share_channel 分组 COUNT</td></tr><tr><th>渠道</th><td>save_image / x / discord / facebook / reddit</td></tr></table></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== v1.1 页面深度 ========== -->
+        <div class="section" data-v="1.1">
+            <div class="section-header"><span class="section-title">页面停留 & 滚动深度</span><span class="section-version v11">v1.1</span></div>
+            <div class="grid-2">
+                <div class="card v11-only">
+                    <div class="card-header"><span class="card-title">各页面平均停留时长</span><button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="card-dep">hq_page_stay.duration_ms GROUP BY page_id AVG</div>
+                    <div class="chart-area" id="c-stay"></div>
+                    <div class="spec-panel"><h4>页面停留时长</h4><table><tr><th>数据源</th><td><code>hq_page_stay</code> 按 page_id 分组，取 duration_ms 的中位数/均值</td></tr><tr><th>图表</th><td>横向柱状图，按时长降序</td></tr><tr><th>分析</th><td>时长过短→内容无吸引力；过长→找不到目标</td></tr></table></div>
+                </div>
+                <div class="card v11-only">
+                    <div class="card-header"><span class="card-title">首页滚动深度分布</span><button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="card-dep">hq_scroll_depth WHERE page_id=home</div>
+                    <div class="chart-area" id="c-scroll"></div>
+                    <div class="spec-panel"><h4>滚动深度</h4><table><tr><th>数据源</th><td><code>hq_scroll_depth</code> WHERE page_id=home，按 depth 分组 COUNT</td></tr><tr><th>图表</th><td>柱状图：25%/50%/75%/100% 各阈值到达人数</td></tr><tr><th>分析</th><td>若 75% 断崖下降→底部内容几乎无人看到</td></tr></table></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== v1.1 配装漏斗 ========== -->
+        <div class="section" data-v="1.1">
+            <div class="section-header"><span class="section-title">配装使用漏斗</span><span class="section-version v11">v1.1</span></div>
+            <div class="grid-2">
+                <div class="card v11-only">
+                    <div class="card-header"><span class="card-title">配装转化漏斗</span><button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="funnel-steps" id="f-gun"></div>
+                    <div class="spec-panel"><h4>配装漏斗</h4><table><tr><th>步骤</th><th>事件</th></tr><tr><td>1. 配装页PV</td><td><code>hq_exp_page</code> (page_id=gun_builds)</td></tr><tr><td>2. 选择武器</td><td><code>hq_click_gun_select</code></td></tr><tr><td>3. 方案曝光</td><td><code>hq_exp_gun_scheme</code></td></tr><tr><td>4. 复制配装码</td><td><code>hq_click_gun_copy</code></td></tr></table></div>
+                </div>
+                <div class="card v11-only">
+                    <div class="card-header"><span class="card-title">热门武器 TOP 8（按复制量）</span><button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="card-dep">hq_click_gun_copy GROUP BY gun_id</div>
+                    <div class="chart-area" id="c-guns"></div>
+                    <div class="spec-panel"><h4>热门武器</h4><table><tr><th>数据源</th><td><code>hq_click_gun_copy</code> 按 gun_id 分组 COUNT，取 TOP 8</td></tr><tr><th>分析</th><td>了解玩家武器偏好，指导内容更新优先级</td></tr></table></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== v1.1 来源 & 流失 ========== -->
+        <div class="section" data-v="1.1">
+            <div class="section-header"><span class="section-title">来源归因 & 流失分析</span><span class="section-version v11">v1.1</span></div>
+            <div class="grid-2">
+                <div class="card v11-only">
+                    <div class="card-header"><span class="card-title">流量来源 Top5</span><button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="card-dep">hq_session_start.referrer domain 提取</div>
+                    <div class="chart-area" id="c-source"></div>
+                    <div class="spec-panel"><h4>流量来源</h4><table><tr><th>数据源</th><td><code>hq_session_start.referrer</code> 提取域名，分组 COUNT</td></tr><tr><th>分析</th><td>定位有效渠道 vs 低效渠道；结合 utm_source 看推广效果</td></tr></table></div>
+                </div>
+                <div class="card v11-only">
+                    <div class="card-header"><span class="card-title">离开页面分布 (leave_type=close)</span><button class="spec-btn" onclick="showSpec(this)">i</button></div>
+                    <div class="card-dep">hq_page_leave WHERE leave_type=close GROUP BY page_id</div>
+                    <div class="chart-area" id="c-leave"></div>
+                    <div class="spec-panel"><h4>流失页面</h4><table><tr><th>数据源</th><td><code>hq_page_leave</code> WHERE leave_type=close，按 page_id 分组 COUNT</td></tr><tr><th>分析</th><td>哪个页面是"终点站"——用户最后看的页面是什么</td></tr></table></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========== v1.0 事件表 ========== -->
+        <div class="section" data-v="1.0">
+            <div class="section-header"><span class="section-title">事件明细</span><span class="section-version v10">v1.0</span></div>
+            <div class="card"><div class="table-scroll" id="evt-table-10"></div></div>
+        </div>
+
+        <!-- ========== v1.1 事件表 ========== -->
+        <div class="section" data-v="1.1">
+            <div class="section-header"><span class="section-title">新增事件明细</span><span class="section-version v11">v1.1</span></div>
+            <div class="card"><div class="table-scroll" id="evt-table-11"></div></div>
+        </div>
+
+    </main>
+
+    <script>
+    // ===== Version Toggle =====
+    function applyVersionFilter(ver) {
+        document.querySelectorAll('.section[data-v]').forEach(s => {
+            if (ver === 'all') { s.classList.remove('hidden'); }
+            else { s.dataset.v === ver ? s.classList.remove('hidden') : s.classList.add('hidden'); }
+        });
+        if (ver === '1.1' || ver === 'all') { setTimeout(renderV11, 50); }
+    }
+    document.querySelectorAll('.version-toggle .v-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.version-toggle .v-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            applyVersionFilter(btn.dataset.ver);
+        });
+    });
+    // 页面加载时按默认 active 按钮过滤
+    applyVersionFilter(document.querySelector('.version-toggle .v-btn.active').dataset.ver);
+
+    // ===== Spec Panel =====
+    function showSpec(btn) {
+        document.querySelectorAll('.spec-panel.open').forEach(p => p.classList.remove('open'));
+        const container = btn.closest('.kpi-card') || btn.closest('.card') || btn.closest('.section');
+        const panel = container.querySelector('.spec-panel');
+        if (!panel) return;
+        if (!panel.querySelector('.spec-close')) {
+            const c = document.createElement('button'); c.className='spec-close'; c.textContent='×';
+            c.onclick = e => { e.stopPropagation(); panel.classList.remove('open'); }; panel.prepend(c);
+        }
+        panel.classList.add('open');
+        const r = btn.getBoundingClientRect();
+        let left = r.right + 8; if (left + 360 > innerWidth - 16) left = r.left - 368; if (left < 8) left = 8;
+        let top = r.top - 10; if (top + 400 > innerHeight) top = innerHeight - 410; if (top < 8) top = 8;
+        panel.style.left = left+'px'; panel.style.top = top+'px';
+    }
+    document.addEventListener('click', e => { if (!e.target.closest('.spec-btn') && !e.target.closest('.spec-panel')) document.querySelectorAll('.spec-panel.open').forEach(p => p.classList.remove('open')); });
+
+    // ===== Chart Lib =====
+    const M = { rand:(a,b)=>Math.floor(Math.random()*(b-a+1))+a, series:(n,a,b,t=0)=>Array.from({length:n},(_,i)=>M.rand(a,b)+t*i) };
+    class C{constructor(id){this.el=document.getElementById(id);if(!this.el)return;this.cvs=document.createElement('canvas');this.el.appendChild(this.cvs);this.ctx=this.cvs.getContext('2d');this.fit()}fit(){const r=this.el.getBoundingClientRect();this.cvs.width=r.width*2;this.cvs.height=r.height*2;this.cvs.style.width=r.width+'px';this.cvs.style.height=r.height+'px';this.ctx.scale(2,2);this.w=r.width;this.h=r.height}clear(){this.ctx.clearRect(0,0,this.w,this.h)}
+    line(d,color,o={}){if(!this.ctx)return;this.clear();const{label,d2,c2,l2}=o;const p={t:24,r:12,b:18,l:40};const cW=this.w-p.l-p.r,cH=this.h-p.t-p.b;const all=d2?[...d,...d2]:d;const max=Math.max(...all)*1.08,min=Math.min(...all)*0.92;this.ctx.strokeStyle='#e5e7eb';this.ctx.lineWidth=.5;for(let i=0;i<=3;i++){const y=p.t+(cH/3)*i;this.ctx.beginPath();this.ctx.moveTo(p.l,y);this.ctx.lineTo(this.w-p.r,y);this.ctx.stroke();this.ctx.fillStyle='#9ca3af';this.ctx.font='9px sans-serif';this.ctx.textAlign='right';const v=max-((max-min)/3)*i;this.ctx.fillText(v>=1000?(v/1000).toFixed(0)+'k':Math.round(v),p.l-4,y+3)}const draw=(d,c)=>{this.ctx.strokeStyle=c;this.ctx.lineWidth=1.6;this.ctx.beginPath();d.forEach((v,i)=>{const x=p.l+(cW/(d.length-1))*i,y=p.t+cH-((v-min)/(max-min))*cH;i?this.ctx.lineTo(x,y):this.ctx.moveTo(x,y)});this.ctx.stroke();this.ctx.lineTo(p.l+cW,p.t+cH);this.ctx.lineTo(p.l,p.t+cH);this.ctx.closePath();this.ctx.fillStyle=c+'15';this.ctx.fill()};draw(d,color);if(d2)draw(d2,c2);if(label){let lx=p.l;this.ctx.fillStyle=color;this.ctx.fillRect(lx,6,10,3);this.ctx.fillStyle='#374151';this.ctx.font='10px sans-serif';this.ctx.textAlign='left';this.ctx.fillText(label,lx+13,10);if(l2){lx+=60;this.ctx.fillStyle=c2;this.ctx.fillRect(lx,6,10,3);this.ctx.fillStyle='#374151';this.ctx.fillText(l2,lx+13,10)}}}
+    bar(l,v,color){if(!this.ctx)return;this.clear();const p={t:10,r:12,b:30,l:36};const cW=this.w-p.l-p.r,cH=this.h-p.t-p.b;const max=Math.max(...v)*1.12;const bW=Math.min(24,(cW/l.length)*.55),gap=cW/l.length;v.forEach((val,i)=>{const x=p.l+gap*i+(gap-bW)/2,bH=(val/max)*cH,y=p.t+cH-bH;this.ctx.fillStyle=color;this.ctx.beginPath();this.ctx.roundRect(x,y,bW,bH,[3,3,0,0]);this.ctx.fill();this.ctx.fillStyle='#374151';this.ctx.font='9px sans-serif';this.ctx.textAlign='center';this.ctx.fillText(val>=1000?(val/1000).toFixed(1)+'k':val,x+bW/2,y-3);this.ctx.fillStyle='#6b7280';this.ctx.save();this.ctx.translate(x+bW/2,p.t+cH+9);this.ctx.rotate(-.3);this.ctx.fillText(l[i],0,0);this.ctx.restore()})}
+    hBar(l,v,colors){if(!this.ctx)return;this.clear();const p={t:4,r:46,b:4,l:68};const cW=this.w-p.l-p.r,cH=this.h-p.t-p.b;const max=Math.max(...v);const bH=Math.min(16,(cH/l.length)*.7),gap=cH/l.length;l.forEach((lb,i)=>{const y=p.t+gap*i+(gap-bH)/2,bW=(v[i]/max)*cW;this.ctx.fillStyle=colors?colors[i%colors.length]:'#1a56db';this.ctx.beginPath();this.ctx.roundRect(p.l,y,bW,bH,3);this.ctx.fill();this.ctx.fillStyle='#374151';this.ctx.font='10px sans-serif';this.ctx.textAlign='right';this.ctx.fillText(lb,p.l-5,y+bH/2+3);this.ctx.fillStyle='#6b7280';this.ctx.textAlign='left';this.ctx.fillText(v[i]>=1000?(v[i]/1000).toFixed(1)+'k':v[i],p.l+bW+5,y+bH/2+3)})}
+    doubleBar(labels, v1, v2, c1, c2, l1, l2){if(!this.ctx)return;this.clear();const p={t:22,r:12,b:30,l:36};const cW=this.w-p.l-p.r,cH=this.h-p.t-p.b;const max=Math.max(...v1,...v2)*1.12;const groupW=cW/labels.length;const bW=Math.min(12,groupW*0.3);labels.forEach((lb,i)=>{const gx=p.l+groupW*i;const h1=(v1[i]/max)*cH,h2=(v2[i]/max)*cH;const x1=gx+(groupW-bW*2-4)/2,x2=x1+bW+4;this.ctx.fillStyle=c1;this.ctx.beginPath();this.ctx.roundRect(x1,p.t+cH-h1,bW,h1,[2,2,0,0]);this.ctx.fill();this.ctx.fillStyle=c2;this.ctx.beginPath();this.ctx.roundRect(x2,p.t+cH-h2,bW,h2,[2,2,0,0]);this.ctx.fill();this.ctx.fillStyle='#6b7280';this.ctx.font='9px sans-serif';this.ctx.textAlign='center';this.ctx.save();this.ctx.translate(gx+groupW/2,p.t+cH+10);this.ctx.rotate(-0.3);this.ctx.fillText(lb,0,0);this.ctx.restore()});// legend
+        let lx=p.l;this.ctx.fillStyle=c1;this.ctx.fillRect(lx,6,10,3);this.ctx.fillStyle='#374151';this.ctx.font='10px sans-serif';this.ctx.textAlign='left';this.ctx.fillText(l1,lx+13,10);lx+=50;this.ctx.fillStyle=c2;this.ctx.fillRect(lx,6,10,3);this.ctx.fillStyle='#374151';this.ctx.fillText(l2,lx+13,10)}
+    stackedBar(days, channels, data, colors){if(!this.ctx)return;this.clear();const p={t:22,r:12,b:24,l:36};const cW=this.w-p.l-p.r,cH=this.h-p.t-p.b;const totals=days.map((_,i)=>channels.reduce((s,_,ci)=>s+data[ci][i],0));const max=Math.max(...totals)*1.12;const bW=Math.min(16,(cW/days.length)*0.6);const gap=cW/days.length;days.forEach((d,i)=>{const x=p.l+gap*i+(gap-bW)/2;let yOff=0;channels.forEach((ch,ci)=>{const h=(data[ci][i]/max)*cH;const y=p.t+cH-yOff-h;this.ctx.fillStyle=colors[ci];this.ctx.fillRect(x,y,bW,h);yOff+=h});if(i%5===0||i===days.length-1){this.ctx.fillStyle='#6b7280';this.ctx.font='8px sans-serif';this.ctx.textAlign='center';this.ctx.fillText(d,x+bW/2,p.t+cH+10)}});// legend
+        let lx=p.l;channels.forEach((ch,ci)=>{this.ctx.fillStyle=colors[ci];this.ctx.fillRect(lx,5,8,8);this.ctx.fillStyle='#374151';this.ctx.font='9px sans-serif';this.ctx.textAlign='left';this.ctx.fillText(ch,lx+10,12);lx+=60})}
+    donut(l,v,colors){if(!this.ctx)return;this.clear();const cx=this.w*.28,cy=this.h/2,r=Math.min(cx,cy)-12;const total=v.reduce((a,b)=>a+b,0);let angle=-Math.PI/2;v.forEach((val,i)=>{const s=(val/total)*Math.PI*2;this.ctx.beginPath();this.ctx.arc(cx,cy,r,angle,angle+s);this.ctx.arc(cx,cy,r*.58,angle+s,angle,true);this.ctx.closePath();this.ctx.fillStyle=colors[i];this.ctx.fill();angle+=s});const lx=this.w*.52;l.forEach((lb,i)=>{const ly=16+i*20;this.ctx.fillStyle=colors[i];this.ctx.beginPath();this.ctx.roundRect(lx,ly-2,8,8,2);this.ctx.fill();this.ctx.fillStyle='#374151';this.ctx.font='10px sans-serif';this.ctx.textAlign='left';this.ctx.fillText(`${lb} ${((v[i]/total)*100).toFixed(0)}%`,lx+12,ly+5)})}}
+
+    // ===== Funnel =====
+    function funnel(id, steps){const el=document.getElementById(id);if(!el)return;const max=steps[0].v;el.innerHTML=steps.map((s,i)=>{const w=Math.max(18,(s.v/max)*100);const rate=i>0?((s.v/steps[i-1].v)*100).toFixed(0)+'%':'';return`<div class="funnel-row"><span class="sn">${i+1}</span><span class="sl">${s.l}</span><div class="sb-wrap"><div class="sb" style="width:${w}%"><span class="sv">${s.v.toLocaleString()}</span></div></div><span class="sr">${rate}</span></div>`}).join('')}
+
+    // ===== Events Tables =====
+    function evtTable(id, events){const el=document.getElementById(id);const max=events[0][1];el.innerHTML=`<table class="evt-table"><thead><tr><th>日期</th><th>事件名</th><th>PV</th><th>UV</th></tr></thead><tbody>${events.map(e=>{const uv=Math.round(e[1]*0.6+M.rand(-100,100));return`<tr><td>2026-05-06</td><td class="en">${e[0]}</td><td>${e[1].toLocaleString()}</td><td>${uv.toLocaleString()}</td></tr>`}).join('')}</tbody></table>`}
+
+    // ===== Init =====
+    let v11Rendered = false;
+    function renderV11() {
+        if (v11Rendered) return;
+        v11Rendered = true;
+        new C('c-stay').hBar(['home','my_data','gun_builds','market','craft'],[48,125,92,67,55],['#1a56db','#3b82f6','#60a5fa','#93c5fd','#bfdbfe']);
+        new C('c-scroll').bar(['25%','50%','75%','100%'],[9200,6800,3400,1200],'#7c3aed');
+        funnel('f-gun',[{l:'配装页PV',v:9800},{l:'选枪',v:7200},{l:'方案曝光',v:5400},{l:'复制配装码',v:3600}]);
+        new C('c-guns').hBar(['M4A1','AK-74','MP5','SCAR','HK416','SVD','AUG','VSS'],[1840,1620,1380,1120,980,760,620,480],['#1a56db','#2563eb','#3b82f6','#60a5fa','#93c5fd','#a5b4fc','#c7d2fe','#dbeafe']);
+        new C('c-source').hBar(['direct','google','discord','x.com','youtube'],[4200,2800,1900,1200,680],['#1a56db','#10b981','#5865f2','#6b7280','#dc2626']);
+        new C('c-leave').hBar(['home','my_data','gun_builds','market','craft'],[4800,2200,1400,900,600],['#dc2626','#ef4444','#f87171','#fca5a5','#fecaca']);
+        evtTable('evt-table-11',[['hq_page_leave',82000],['hq_scroll_depth',46000],['hq_error',320]]);
+    }
+
+    document.addEventListener('DOMContentLoaded',()=>{
+        new C('c-trend').line(M.series(30,45000,62000,200),'#1a56db',{label:'PV',d2:M.series(30,10000,15000,80),c2:'#f59e0b',l2:'UV'});
+        new C('c-pages').doubleBar(['home','my_data','gun_builds','market','craft'],[28400,12300,9800,4800,3100],[9200,5400,4100,2200,1400],'#1a56db','#f59e0b','PV','UV');
+        // 维度
+        new C('c-login-method').donut(['Level Infinite','Garena'],[66,34],['#1a56db','#f59e0b']);
+        new C('c-mode').donut(['烽火地带(SOL)','全面战场(MP)'],[58,42],['#1a56db','#7c3aed']);
+        new C('c-platform').donut(['PC','iOS','Android'],[52,28,20],['#1a56db','#f59e0b','#10b981']);
+        // 漏斗
+        funnel('f-login',[{l:'点击登录',v:8420},{l:'弹窗曝光',v:7850},{l:'选择方式',v:7850},{l:'提交请求',v:6070},{l:'登录成功',v:5160}]);
+        funnel('f-share',[{l:'日报曝光',v:24500},{l:'分享按钮',v:3280},{l:'海报打开',v:3120},{l:'渠道分享',v:1840}]);
+        // 分享渠道堆叠柱状图
+        const days30=Array.from({length:30},(_,i)=>{const d=new Date(2026,3,7+i);return (d.getMonth()+1)+'/'+d.getDate()});
+        new C('c-share').stackedBar(days30,['save','discord','x','fb','reddit'],[M.series(30,20,35,0),M.series(30,10,20,0),M.series(30,6,14,0),M.series(30,3,8,0),M.series(30,1,4,0)],['#1a56db','#5865f2','#6b7280','#1877f2','#ff4500']);
+        // Events v1.0
+        evtTable('evt-table-10',[
+            ['hq_exp_page',82450],['hq_home_page',58392],['hq_click_nav_link',34280],['hq_exp_daily_report',24500],['hq_exp_daily_password',18900],['hq_exp_collection',12400],['hq_exp_my_data',12300],['hq_click_game_mode_switch',9840],['hq_click_login_entry',8420],['hq_click_login_method_select',7850],['hq_exp_login_modal',7850],['hq_click_profile_tab',6720],['hq_click_login_submit',6070],['hq_click_password_copy',5620],['hq_click_match_detail',4580],['hq_click_daily_share_btn',3280],['hq_exp_daily_poster_modal',3120],['hq_click_language_switch',2150],['hq_click_daily_poster_share',1840],['hq_click_login_dismiss',1380],['hq_click_logout',1240],['hq_exp_login_norole',890],['hq_click_feedback',890],['hq_click_login_otheraccount',560],['hq_click_login_gotodownload',420]
+        ]);
+    });
+    </script>
+</body>
+</html>

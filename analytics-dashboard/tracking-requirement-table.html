@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFoversea 埋点需求表</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1f2937; font-size: 12px; }
+        .page { padding: 20px; }
+        h1 { font-size: 16px; margin-bottom: 4px; }
+        .meta { font-size: 11px; color: #6b7280; margin-bottom: 16px; }
+        .meta span { margin-right: 16px; }
+
+        /* 通用信息区 */
+        .info-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 12px 16px; margin-bottom: 20px; font-size: 11px; line-height: 1.8; }
+        .info-box h3 { font-size: 12px; margin-bottom: 6px; color: #1e40af; }
+        .info-box table { width: auto; border-collapse: collapse; margin: 4px 0; }
+        .info-box th, .info-box td { padding: 3px 12px 3px 0; border: none; font-size: 11px; }
+        .info-box th { color: #6b7280; font-weight: 500; }
+        .info-box code { background: #e0e7ff; padding: 1px 4px; border-radius: 2px; font-size: 10px; }
+
+        /* 主表格 */
+        .table-wrap { overflow-x: auto; border: 1px solid #d1d5db; border-radius: 4px; }
+        table.main { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 1300px; }
+        table.main th {
+            background: #1e3a5f; color: #fff; padding: 8px 10px; text-align: left;
+            font-weight: 600; font-size: 11px; white-space: nowrap;
+            position: sticky; top: 0; z-index: 10;
+        }
+        table.main td { padding: 8px 10px; border-bottom: 1px solid #e5e7eb; vertical-align: top; }
+        table.main tr:hover td { background: #f8fafc; }
+        table.main tr.section-row td { background: #f1f5f9; font-weight: 600; color: #1e40af; border-bottom: 2px solid #cbd5e1; }
+
+        /* 列宽 */
+        table.main .col-module { width: 90px; }
+        table.main .col-type { width: 50px; }
+        table.main .col-name { width: 180px; }
+        table.main .col-trigger { width: 200px; }
+        table.main .col-screenshot { width: 120px; }
+        table.main .col-params { width: 260px; }
+        table.main .col-purpose { width: 200px; }
+        table.main .col-version { width: 50px; text-align: center; }
+        table.main .col-note { width: 180px; }
+
+        /* 标签 */
+        .tag-click { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 500; background: #dbeafe; color: #1e40af; }
+        .tag-vshow { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 500; background: #dcfce7; color: #166534; }
+        .tag-auto { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 500; background: #f3e8ff; color: #6b21a8; }
+        .version-tag { display: inline-block; padding: 2px 8px; border-radius: 3px; font-size: 10px; font-weight: 600; background: #dcfce7; color: #166534; }
+        .version-new { background: #fef3c7; color: #92400e; }
+        .evt-name { font-family: 'SF Mono', Monaco, monospace; font-size: 11px; color: #1e40af; }
+        .param-code { font-family: monospace; font-size: 10px; color: #374151; line-height: 1.8; }
+        .screenshot-placeholder {
+            width: 100px; height: 56px; background: #f1f5f9; border: 1px dashed #94a3b8;
+            border-radius: 4px; display: flex; align-items: center; justify-content: center;
+            font-size: 9px; color: #94a3b8; text-align: center;
+        }
+        .highlight-purpose { color: #dc2626; font-weight: 600; }
+    </style>
+</head>
+<body>
+<div class="page">
+
+<h1>DFoversea 工具站埋点需求表</h1>
+<div class="meta">
+    <span>TLOG original_game_id: <strong>29158</strong></span>
+    <span>PC端: playdeltaforce.com/events/hq/{lang}/</span>
+    <span>移动端: .../hq/{lang}/m/</span>
+    <span>日期: 2026-05-07</span>
+</div>
+
+<div class="info-box">
+    <h3>通用上报参数（所有事件必带）</h3>
+    <table>
+        <tr><th>参数</th><th>类型</th><th>说明</th><th>示例</th></tr>
+        <tr><td><code>client_type</code></td><td>string</td><td>客户端平台</td><td>PC / iOS / Android</td></tr>
+        <tr><td><code>url</code></td><td>string</td><td>当前页面 URL</td><td>https://www.playdeltaforce.com/events/hq/en/</td></tr>
+        <tr><td><code>refer_url</code></td><td>string</td><td>前置页面 URL（从哪跳入）</td><td>外部来源或站内上一页</td></tr>
+        <tr><td><code>open_id</code></td><td>string</td><td>用户 ID（未登录为空）</td><td>uid_abc123 / ""</td></tr>
+    </table>
+</div>
+
+<div class="table-wrap">
+<table class="main">
+<thead>
+    <tr>
+        <th class="col-module">模块</th>
+        <th class="col-type">事件类</th>
+        <th class="col-name">事件名</th>
+        <th class="col-trigger">触发时机</th>
+        <th class="col-screenshot">示意图</th>
+        <th class="col-params">自定义事件参数</th>
+        <th class="col-purpose">分析目的</th>
+        <th class="col-version">版本</th>
+        <th class="col-note">备注</th>
+    </tr>
+</thead>
+<tbody>
+
+<!-- ===== 登录与账号 ===== -->
+<tr class="section-row"><td colspan="9">登录与账号</td></tr>
+<tr>
+    <td>登录与账号</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_login_entry</td>
+    <td>点击顶部导航栏登录按钮</td>
+    <td><div class="screenshot-placeholder">登录按钮<br>截图待补</div></td>
+    <td class="param-code">—</td>
+    <td>登录入口触达率</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>登录与账号</td>
+    <td><span class="tag-vshow">曝光</span></td>
+    <td class="evt-name">hq_exp_login_modal</td>
+    <td>登录方式选择弹窗曝光</td>
+    <td><div class="screenshot-placeholder">登录弹窗<br>截图待补</div></td>
+    <td class="param-code">—</td>
+    <td>登录流程入口曝光，与登录按钮点击做对照</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>登录与账号</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_login_method_select</td>
+    <td>选择登录方式（LI / Garena）</td>
+    <td><div class="screenshot-placeholder">方式选择<br>截图待补</div></td>
+    <td class="param-code">method: level_infinite / garena</td>
+    <td>登录平台偏好分布</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>登录与账号</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_login_submit</td>
+    <td>登录请求提交及返回结果</td>
+    <td><div class="screenshot-placeholder">提交按钮<br>截图待补</div></td>
+    <td class="param-code">is_success: 1成功 / 0失败<br>login_method: level_infinite / garena<br>login_type: email / social<br>login_channel: facebook 等，邮箱登录为空<br>error_code: 0成功，其他按实际错误码</td>
+    <td><span class="highlight-purpose">核心指标：登录成功率、各渠道登录比例</span></td>
+    <td><span class="version-tag">1.0</span></td>
+    <td>Garena 登录不确定能否返回登录类型、社媒等字段，可以按实际情况改动自定义参数</td>
+</tr>
+<tr>
+    <td>登录与账号</td>
+    <td><span class="tag-vshow">曝光</span></td>
+    <td class="evt-name">hq_exp_login_norole</td>
+    <td>未找到游戏角色弹窗曝光</td>
+    <td><div class="screenshot-placeholder">无角色弹窗<br>截图待补</div></td>
+    <td class="param-code">—</td>
+    <td>查看无游戏角色的访问量级</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>登录与账号</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_login_gotodownload</td>
+    <td>点击前往官网下载游戏</td>
+    <td><div class="screenshot-placeholder">下载按钮<br>截图待补</div></td>
+    <td class="param-code">—</td>
+    <td>—</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>登录与账号</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_login_otheraccount</td>
+    <td>点击使用其他账号登录</td>
+    <td><div class="screenshot-placeholder">截图待补</div></td>
+    <td class="param-code">—</td>
+    <td>—</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>登录与账号</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_login_dismiss</td>
+    <td>点击关闭弹窗或以游客身份浏览</td>
+    <td><div class="screenshot-placeholder">截图待补</div></td>
+    <td class="param-code">—</td>
+    <td>游客流失比例</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>登录与账号</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_logout</td>
+    <td>点击退出登录完成</td>
+    <td><div class="screenshot-placeholder">截图待补</div></td>
+    <td class="param-code">—</td>
+    <td>—</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+
+<!-- ===== 全局导航 ===== -->
+<tr class="section-row"><td colspan="9">全局导航与页面</td></tr>
+<tr>
+    <td>全局导航</td>
+    <td><span class="tag-vshow">曝光</span></td>
+    <td class="evt-name">hq_home_page</td>
+    <td>首页曝光（页面加载完成后，仅上报一次）</td>
+    <td><div class="screenshot-placeholder">首页整体<br>截图待补</div></td>
+    <td class="param-code">—</td>
+    <td>首页 UV 统计</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>全局导航</td>
+    <td><span class="tag-vshow">曝光</span></td>
+    <td class="evt-name">hq_exp_page</td>
+    <td>页面加载完成（每次页面跳转触发）</td>
+    <td><div class="screenshot-placeholder">—</div></td>
+    <td class="param-code">page_id: home / my_data / gun_builds / craft_page / market</td>
+    <td>各页面 PV，页面流量分布</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>全局导航</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_nav_link</td>
+    <td>点击顶部导航链接（Home / My Data 等）</td>
+    <td><div class="screenshot-placeholder">导航栏<br>截图待补</div></td>
+    <td class="param-code">target_page_id: 目标页面标识</td>
+    <td>导航使用偏好，页面跳转路径</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>全局导航</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_language_switch</td>
+    <td>切换语言</td>
+    <td><div class="screenshot-placeholder">语言选择器<br>截图待补</div></td>
+    <td class="param-code">from_lang: 切换前语言<br>to_lang: 切换后语言</td>
+    <td>语言需求分布</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+
+<!-- ===== 首页内容 ===== -->
+<tr class="section-row"><td colspan="9">首页内容</td></tr>
+<tr>
+    <td>首页-日报</td>
+    <td><span class="tag-vshow">曝光</span></td>
+    <td class="evt-name">hq_exp_daily_report</td>
+    <td>日报卡片进入可视区域</td>
+    <td><div class="screenshot-placeholder">日报卡片<br>截图待补</div></td>
+    <td class="param-code">game_mode: sol / mp</td>
+    <td>日报内容曝光量</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>首页-日报</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_daily_share_btn</td>
+    <td>点击日报分享按钮</td>
+    <td><div class="screenshot-placeholder">分享按钮<br>截图待补</div></td>
+    <td class="param-code">game_mode: sol / mp</td>
+    <td>分享意愿</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>首页-日报</td>
+    <td><span class="tag-vshow">曝光</span></td>
+    <td class="evt-name">hq_exp_daily_poster_modal</td>
+    <td>日报分享海报弹窗打开</td>
+    <td><div class="screenshot-placeholder">海报弹窗<br>截图待补</div></td>
+    <td class="param-code">game_mode: sol / mp</td>
+    <td>分享流程推进率</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>首页-日报</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_daily_poster_share</td>
+    <td>点击日报海报分享渠道按钮</td>
+    <td><div class="screenshot-placeholder">渠道按钮<br>截图待补</div></td>
+    <td class="param-code">game_mode: sol / mp<br>share_channel: save_image / x / discord / facebook / reddit</td>
+    <td><span class="highlight-purpose">核心指标：分享完成数，渠道偏好</span></td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>首页-密码</td>
+    <td><span class="tag-vshow">曝光</span></td>
+    <td class="evt-name">hq_exp_daily_password</td>
+    <td>每日密码区域曝光</td>
+    <td><div class="screenshot-placeholder">密码区域<br>截图待补</div></td>
+    <td class="param-code">—</td>
+    <td>密码功能曝光</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>首页-密码</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_password_copy</td>
+    <td>点击密码房指引按钮</td>
+    <td><div class="screenshot-placeholder">复制按钮<br>截图待补</div></td>
+    <td class="param-code">—</td>
+    <td>密码功能使用率</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>首页-展馆</td>
+    <td><span class="tag-vshow">曝光</span></td>
+    <td class="evt-name">hq_exp_collection</td>
+    <td>大红展馆模块进入可视区域</td>
+    <td><div class="screenshot-placeholder">展馆模块<br>截图待补</div></td>
+    <td class="param-code">—</td>
+    <td>展馆曝光率（页面滚动深度间接指标）</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+
+<!-- ===== 我的数据 ===== -->
+<tr class="section-row"><td colspan="9">我的数据</td></tr>
+<tr>
+    <td>我的数据</td>
+    <td><span class="tag-vshow">曝光</span></td>
+    <td class="evt-name">hq_exp_my_data</td>
+    <td>我的数据页曝光（含切换模式时）</td>
+    <td><div class="screenshot-placeholder">数据页<br>截图待补</div></td>
+    <td class="param-code">game_mode: sol / mp</td>
+    <td>数据页访问量，按模式拆分</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>我的数据</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_game_mode_switch</td>
+    <td>切换烽火地带 / 全面战场（点击 tab 发生切换时）</td>
+    <td><div class="screenshot-placeholder">模式Tab<br>截图待补</div></td>
+    <td class="param-code">game_mode: sol / mp（切换后的模式）</td>
+    <td>模式偏好比例</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+<tr>
+    <td>我的数据</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_profile_tab</td>
+    <td>切换 Profile 内容 Tab（总览、战绩等）</td>
+    <td><div class="screenshot-placeholder">Profile Tab<br>截图待补</div></td>
+    <td class="param-code">profile_tab: overview / record / weapon / operator / map<br>【移动端改为: red_hall / record】</td>
+    <td>各 Tab 使用分布</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td>初版仅 overview 和 record</td>
+</tr>
+<tr>
+    <td>我的数据</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_match_detail</td>
+    <td>点击战绩列表中单局战绩</td>
+    <td><div class="screenshot-placeholder">战绩列表<br>截图待补</div></td>
+    <td class="param-code">game_mode: sol / mp<br>source: overview / record</td>
+    <td>战绩详情查看深度</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td>source 区分从总览页点击和战绩列表页点击</td>
+</tr>
+
+<!-- ===== 反馈 ===== -->
+<tr class="section-row"><td colspan="9">反馈</td></tr>
+<tr>
+    <td>反馈</td>
+    <td><span class="tag-click">点击</span></td>
+    <td class="evt-name">hq_click_feedback</td>
+    <td>点击页面上的反馈按钮</td>
+    <td><div class="screenshot-placeholder">反馈按钮<br>截图待补</div></td>
+    <td class="param-code">—</td>
+    <td>反馈功能触达率</td>
+    <td><span class="version-tag">1.0</span></td>
+    <td></td>
+</tr>
+
+<!-- ===== 新增：页面行为 ===== -->
+<tr class="section-row"><td colspan="9">📍 新增 — 页面行为（用户停留 & 流失分析）</td></tr>
+<tr>
+    <td>页面行为</td>
+    <td><span class="tag-auto">自动</span></td>
+    <td class="evt-name">hq_page_leave</td>
+    <td>用户离开当前页面时上报（站内跳转 / 关闭页面）</td>
+    <td><div class="screenshot-placeholder">—<br>无 UI 交互</div></td>
+    <td class="param-code">page_id: 当前页面标识<br>duration_ms: 在本页可见状态的毫秒数<br>leave_type: navigate(站内跳转) / close(关闭或返回)<br>next_page_id: 站内跳转目标（leave_type=close 时为空）</td>
+    <td><span class="highlight-purpose">核心：知道用户每页停了多久、为什么离开、去了哪里</span></td>
+    <td><span class="version-tag version-new">1.1</span></td>
+    <td>触发时机：① 站内链接点击时，在跳转前上报 leave_type=navigate（从 href 取 next_page_id）；② beforeunload 时上报 leave_type=close。<br>duration_ms 计算：页面 pageshow 时记录 T1，visibilitychange=hidden 时暂停计时、=visible 时恢复，最终上报累计可见时长。<br>注意：visibilitychange 仅用于暂停计时，不触发 leave 上报（切标签页不算离开）。用 sendBeacon 确保 beforeunload 时能发出。</td>
+</tr>
+<tr>
+    <td>页面行为</td>
+    <td><span class="tag-auto">自动</span></td>
+    <td class="evt-name">hq_scroll_depth</td>
+    <td>页面滚动达到 25% / 50% / 75% / 100% 阈值时</td>
+    <td><div class="screenshot-placeholder">—<br>无 UI 交互</div></td>
+    <td class="param-code">page_id: 当前页面<br>depth: 25 / 50 / 75 / 100（整数）</td>
+    <td><span class="highlight-purpose">核心：用户看到了多少内容，定位内容断层位置</span></td>
+    <td><span class="version-tag version-new">1.1</span></td>
+    <td>计算：scrollTop / (scrollHeight - clientHeight) * 100。每个阈值每页仅触发1次（用 Set 记录）。加 500ms debounce。<br>边界处理：若 scrollHeight ≤ clientHeight（页面无需滚动），则页面加载完成后直接上报 depth=100。<br>监听对象：window scroll 事件（非内部容器滚动）。</td>
+</tr>
+
+
+<!-- ===== 新增：异常 ===== -->
+<tr class="section-row"><td colspan="9">📍 新增 — 异常监控</td></tr>
+<tr>
+    <td>异常</td>
+    <td><span class="tag-auto">自动</span></td>
+    <td class="evt-name">hq_error</td>
+    <td>页面 JS 报错或资源加载失败</td>
+    <td><div class="screenshot-placeholder">—<br>无 UI 交互</div></td>
+    <td class="param-code">error_type: js_error / load_error<br>error_msg: 错误信息（前200字符）<br>page_id: 当前页面</td>
+    <td>技术异常导致的流失排查</td>
+    <td><span class="version-tag version-new">1.1</span></td>
+    <td>js_error: window.addEventListener('error') + window.addEventListener('unhandledrejection') 全局监听。<br>load_error: window.addEventListener('error', cb, true) 捕获阶段监听资源加载失败（img/script/css）。<br>防刷：同一 error_msg 每页面最多上报 3 次。</td>
+</tr>
+
+</tbody>
+</table>
+</div>
+
+<!-- 版本说明 -->
+<div class="info-box" style="margin-top:20px;">
+    <h3>版本说明</h3>
+    <table>
+        <tr><td><span class="version-tag">1.0</span></td><td>已有埋点（已上线或已开发），本次需确认线上状态</td></tr>
+        <tr><td><span class="version-tag version-new">1.1</span></td><td>本次新增需求，需开发实现</td></tr>
+    </table>
+    <h3 style="margin-top:10px;">事件类型图例</h3>
+    <table>
+        <tr><td><span class="tag-click">点击</span></td><td>cm_click — 用户主动交互触发</td></tr>
+        <tr><td><span class="tag-vshow">曝光</span></td><td>cm_vshow — 页面/区域可见时自动触发</td></tr>
+        <tr><td><span class="tag-auto">自动</span></td><td>无需用户操作，系统自动采集（停留/滚动/会话/异常）</td></tr>
+    </table>
+</div>
+
+</div>
+</body>
+</html>

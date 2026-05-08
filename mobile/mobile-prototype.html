@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Delta Force - Mobile Prototype</title>
-    <link rel="stylesheet" href="main.css?v=16">
+    <link rel="stylesheet" href="main.css?v=23">
     <script src="i18n.js" defer></script>
 </head>
 <body>
@@ -574,7 +574,6 @@
                     <div class="craft-main-tab-mobile active" data-main-tab="detail" data-for="home" data-i18n="craft.craftDetail">制作详情</div>
                     <div class="craft-main-tab-mobile" data-main-tab="recommend" data-for="home" data-i18n="craft.craftRecommend">制作推荐</div>
                 </div>
-                <span class="craft-more-mobile" data-i18n="common.more">更多 ⊞</span>
             </div>
             
             <!-- ===== 制造详情内容 ===== -->
@@ -722,7 +721,7 @@
     <section class="gun-section">
         <div class="section-header">
             <span class="section-title">🔧 <span data-i18n="gunBuilds.title">改枪推荐</span></span>
-            <span class="section-more" id="gun-build-more">查看全部 ▸</span>
+            <span class="section-more" id="gun-build-more-mobile">查看全部 ▸</span>
         </div>
         
         <!-- 烽火地带改枪推荐 -->
@@ -754,27 +753,25 @@
             <!-- 横版并列方案 - 烽火（两个方案） -->
             <div class="build-cards-container" id="gun-builds-content-fh-mobile">
                 <!-- 性价比改法 -->
-                <div class="build-card budget">
-                    <button class="copy-btn" data-i18n="common.copy">复制</button>
+                <div class="build-card budget" data-gun-cost="budget">
                     <div class="build-header">
-                        <div class="build-title-row">
-                            <span class="build-type budget-type">💰 85K <span data-i18n="gunBuilds.budgetBuild">性价比</span></span>
-                            <span class="build-value"><span class="value-icon">💎</span><span class="value-num">102,350</span></span>
-                        </div>
+                        <span class="build-type budget-type">💰 85K <span data-i18n="gunBuilds.budgetBuild">性价比</span></span>
                         <div class="build-tags">
                             <span class="build-tag" data-i18n="gunBuilds.shortRange">中近距离</span>
                             <span class="build-tag" data-i18n="gunBuilds.fullHipfire">满腰射</span>
                         </div>
                     </div>
-                    <div class="build-gun-preview"></div>
+                    <button class="copy-btn">复制</button>
+                    <div class="build-gun-preview">
+                        <span class="build-gun-price-overlay"><span class="value-icon">💎</span><span class="value-num">85,000</span></span>
+                    </div>
                     <div class="radar-chart-container">
                         <canvas id="radar-budget"></canvas>
                     </div>
                 </div>
                 
                 <!-- 满改方案 -->
-                <div class="build-card premium">
-                    <button class="copy-btn" data-i18n="common.copy">复制</button>
+                <div class="build-card premium" data-gun-cost="highend">
                     <div class="build-header">
                         <span class="build-type premium-type">💎 157K <span data-i18n="gunBuilds.premiumBuild">满改</span></span>
                         <div class="build-tags">
@@ -782,7 +779,10 @@
                             <span class="build-tag" data-i18n="gunBuilds.highAccuracy">高精准</span>
                         </div>
                     </div>
-                    <div class="build-gun-preview"></div>
+                    <button class="copy-btn">复制</button>
+                    <div class="build-gun-preview">
+                        <span class="build-gun-price-overlay"><span class="value-icon">💎</span><span class="value-num">157,000</span></span>
+                    </div>
                     <div class="radar-chart-container">
                         <canvas id="radar-premium"></canvas>
                     </div>
@@ -818,8 +818,7 @@
             
             <!-- 单方案 - 战场（无价格，单个方案） -->
             <div class="build-cards-container single-build" id="gun-builds-content-zc-mobile">
-                <div class="build-card single">
-                    <button class="copy-btn" data-i18n="common.copy">复制</button>
+                <div class="build-card single" data-gun-cost="balanced">
                     <div class="build-header">
                         <span class="build-type single-type">🎯 <span data-i18n="gunBuilds.recommendedBuild">推荐改装方案</span></span>
                         <div class="build-tags" id="build-tags-zc-mobile">
@@ -828,6 +827,7 @@
                             <span class="build-tag" data-i18n="gunBuilds.pvpOptimized">PVP优化</span>
                         </div>
                     </div>
+                    <button class="copy-btn">复制</button>
                     <div class="build-gun-preview"></div>
                     <div class="radar-attachments-row">
                         <div class="radar-chart-container">
@@ -872,16 +872,15 @@
          ============================================ -->
     <div class="page-content" id="page-tools">
         <section class="tools-section">
-            <!-- 制造推荐卡片 -->
+            <!-- 特勤处制造推荐 - 暂时隐藏 -->
+            <!--
             <div class="craft-card-mobile">
                 <div class="craft-header-mobile">
                     <span class="craft-title-mobile">🔧 <span data-i18n="craft.craftRecommendTitle">特勤处制造推荐</span></span>
                     <span class="craft-more-mobile" data-i18n="common.more">更多 ⊞</span>
                 </div>
                 
-                <!-- ===== 制造推荐内容 ===== -->
                 <div class="craft-recommend-content active" id="craft-recommend-content">
-                    <!-- 制造分类Tab -->
                     <div class="craft-tabs-mobile">
                         <div class="craft-tab-mobile active" data-craft="tech" data-i18n="craft.techCenter">技术中心</div>
                         <div class="craft-tab-mobile" data-craft="work" data-i18n="craft.workbench">工作台</div>
@@ -889,12 +888,8 @@
                         <div class="craft-tab-mobile" data-craft="armor" data-i18n="craft.armorBench">防具台</div>
                     </div>
                     
-                    <!-- 物品列表 -->
-                    <div class="craft-items-mobile" id="craft-items-mobile">
-                        <!-- JS动态生成 -->
-                    </div>
+                    <div class="craft-items-mobile" id="craft-items-mobile"></div>
                     
-                    <!-- 价格走势图 -->
                     <div class="craft-chart-section-mobile">
                         <div class="chart-legend-mobile">
                             <div class="legend-items-mobile">
@@ -915,7 +910,44 @@
                     </div>
                 </div>
             </div>
+            -->
             
+            <!-- ===================== 改枪全量方案 ===================== -->
+            <div class="gun-scheme-card-mobile">
+                <div class="gun-scheme-header-mobile">
+                    <span class="gun-scheme-title-mobile">🔫 改枪全量方案</span>
+                </div>
+                <!-- 烽火/战场 Tab -->
+                <div class="gun-scheme-mode-tabs-mobile">
+                    <button class="gun-scheme-mode-tab-mobile active" data-mode="fh">🔥 烽火地带</button>
+                    <button class="gun-scheme-mode-tab-mobile" data-mode="zc">⚔️ 全面战场</button>
+                </div>
+                <!-- 筛选器 -->
+                <div class="gun-scheme-filters-mobile" id="gun-scheme-filters-mobile">
+                    <select class="gun-scheme-filter-select" data-filter="type">
+                        <option value="all">全部类型</option>
+                        <option value="ar">突击步枪</option>
+                        <option value="smg">冲锋枪</option>
+                        <option value="sr">狙击步枪</option>
+                        <option value="lmg">轻机枪</option>
+                        <option value="sg">霰弹枪</option>
+                        <option value="pistol">手枪</option>
+                    </select>
+                    <select class="gun-scheme-filter-select" data-filter="name">
+                        <option value="all">全部枪械</option>
+                    </select>
+                    <select class="gun-scheme-filter-select" data-filter="price">
+                        <option value="all">全部价格</option>
+                        <option value="lt80">8w 以下</option>
+                        <option value="80to120">8w - 12w</option>
+                        <option value="120to160">12w - 16w</option>
+                        <option value="gt160">16w 以上</option>
+                    </select>
+                </div>
+                <!-- 方案列表（单列） -->
+                <div class="gun-scheme-list-mobile" id="gun-scheme-list-mobile"></div>
+            </div>
+
             <!-- 交易物价模块 - V1.0 隐藏 -->
             <!--
             <div class="market-card-mobile">
@@ -1356,33 +1388,20 @@
     </nav>
     
     <!-- ============================================
-         改枪推荐子页面
+         改枪方案详情子页面
          ============================================ -->
-    <div class="subpage" id="page-gun-build-detail">
+    <div class="subpage" id="page-gun-scheme-detail">
         <header class="subpage-header">
-            <span class="subpage-back" id="gun-build-detail-back">‹</span>
-            <span class="subpage-title">改枪推荐</span>
+            <span class="subpage-back" id="gun-scheme-detail-back">‹</span>
+            <span class="subpage-title">方案详情</span>
             <span class="subpage-action"></span>
         </header>
-
-        <div class="gun-detail-mode-tabs">
-            <button class="gun-detail-mode-tab active" data-mode="fh">🔥 烽火地带</button>
-            <button class="gun-detail-mode-tab" data-mode="zc">⚔️ 全面战场</button>
+        <div class="gun-scheme-detail-body" id="gun-scheme-detail-body">
+            <!-- JS 渲染 -->
         </div>
-
-        <div class="gun-detail-body">
-            <div class="gun-detail-panel">
-                <div class="gun-detail-section-title">选择枪械</div>
-                <div class="gun-detail-selector" id="gun-detail-selector"></div>
-            </div>
-
-            <div class="gun-detail-current-info" id="gun-detail-current-info"></div>
-
-            <div class="gun-detail-panel">
-                <div class="gun-detail-section-title">推荐方案</div>
-                <div class="gun-detail-scheme-list" id="gun-detail-scheme-list"></div>
-            </div>
-        </div>
+        <footer class="gun-scheme-detail-footer" id="gun-scheme-detail-footer">
+            <!-- JS 渲染：stats + 复制按钮 -->
+        </footer>
     </div>
 
     <!-- ============================================
@@ -1546,6 +1565,7 @@
     <script src="../shared/mock-data.js"></script>
     
     <!-- 引入主JS文件 -->
-    <script src="main.js"></script>
+    <script src="../shared/gun-detail-mock.js?v=1"></script>
+    <script src="main.js?v=9"></script>
 </body>
 </html>

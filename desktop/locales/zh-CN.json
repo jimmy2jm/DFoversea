@@ -129,9 +129,12 @@
     "pvpOptimized": "PVP优化",
     "recoilControl": "后坐力控制",
     "handlingSpeed": "操控速度",
-    "rangeAdvantage": "射程优势",
+    "rangeAdvantage": "优势射程",
     "gunStability": "持枪稳定性",
-    "fireRate": "射速"
+    "fireRate": "射速",
+    "baseDamage": "基础伤害",
+    "weaponStability": "武器稳定性",
+    "hipfireAccuracy": "腰射精度"
   },
   "attachments": {
     "muzzle": "枪口",

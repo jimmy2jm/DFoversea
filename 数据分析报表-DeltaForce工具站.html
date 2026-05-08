@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delta Force Tracker — 数据分析报表</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg-primary: #0a0e17;
+    --bg-secondary: #111827;
+    --bg-card: #1a2236;
+    --bg-card-hover: #1f2a40;
+    --border: #2a3550;
+    --text-primary: #f0f4f8;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --accent-red: #ef4444;
+    --accent-orange: #f97316;
+    --accent-yellow: #eab308;
+    --accent-green: #22c55e;
+    --accent-blue: #3b82f6;
+    --accent-purple: #a855f7;
+    --accent-cyan: #06b6d4;
+    --accent-pink: #ec4899;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 40px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .header-inner {
+    max-width: 1400px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo { display: flex; align-items: center; gap: 14px; }
+  .logo-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--accent-red), var(--accent-orange));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 900; color: #fff;
+  }
+  .logo-text { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; }
+  .logo-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  .header-date { font-size: 13px; color: var(--text-secondary); }
+
+  /* Nav Tabs */
+  .nav-tabs {
+    max-width: 1400px; margin: 0 auto;
+    padding: 0 40px;
+    display: flex; gap: 4px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-tab {
+    padding: 12px 20px; font-size: 14px; font-weight: 500;
+    color: var(--text-muted); cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+  .nav-tab:hover { color: var(--text-secondary); }
+  .nav-tab.active {
+    color: var(--accent-cyan);
+    border-bottom-color: var(--accent-cyan);
+  }
+
+  /* Main */
+  .main { max-width: 1400px; margin: 0 auto; padding: 28px 40px 60px; }
+  .section { display: none; }
+  .section.active { display: block; }
+
+  /* Section Title */
+  .section-title {
+    font-size: 22px; font-weight: 700; margin-bottom: 6px;
+  }
+  .section-desc { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+
+  /* KPI Cards */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px; margin-bottom: 28px;
+  }
+  .kpi-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: all 0.2s;
+  }
+  .kpi-card:hover { background: var(--bg-card-hover); border-color: #3a4a6a; }
+  .kpi-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  .kpi-value { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+  .kpi-change { font-size: 12px; display: flex; align-items: center; gap: 4px; }
+  .kpi-change.up { color: var(--accent-green); }
+  .kpi-change.down { color: var(--accent-red); }
+  .kpi-badge {
+    display: inline-block; font-size: 10px; padding: 2px 6px;
+    border-radius: 4px; margin-left: 8px; font-weight: 600;
+  }
+  .kpi-badge.pc { background: rgba(59,130,246,0.15); color: var(--accent-blue); }
+  .kpi-badge.mobile { background: rgba(168,85,247,0.15); color: var(--accent-purple); }
+
+  /* Chart Container */
+  .chart-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px; margin-bottom: 28px;
+  }
+  .chart-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+  .chart-grid.full { grid-template-columns: 1fr; }
+  .chart-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+  }
+  .chart-title { font-size: 14px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .chart-title .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .chart-wrapper { position: relative; width: 100%; }
+
+  /* Funnel */
+  .funnel-container { padding: 10px 0; }
+  .funnel-step {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 8px;
+  }
+  .funnel-bar-wrap { flex: 1; position: relative; }
+  .funnel-bar {
+    height: 48px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; color: #fff;
+    transition: width 0.8s ease;
+    position: relative;
+  }
+  .funnel-step-label { width: 180px; font-size: 13px; color: var(--text-secondary); text-align: right; flex-shrink: 0; }
+  .funnel-step-value { width: 90px; font-size: 14px; font-weight: 700; flex-shrink: 0; }
+  .funnel-rate {
+    position: absolute; right: -70px; top: 50%; transform: translateY(-50%);
+    font-size: 11px; color: var(--accent-cyan); white-space: nowrap;
+  }
+  .funnel-arrow {
+    text-align: center; color: var(--text-muted); font-size: 11px;
+    margin: 2px 0 2px 180px;
+  }
+
+  /* Module Heatmap */
+  .heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+  }
+  .heatmap-cell {
+    border-radius: 10px; padding: 16px; text-align: center;
+    transition: all 0.3s; cursor: default;
+  }
+  .heatmap-cell:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+  .heatmap-name { font-size: 12px; color: rgba(255,255,255,0.8); margin-bottom: 6px; }
+  .heatmap-value { font-size: 20px; font-weight: 700; color: #fff; }
+  .heatmap-pct { font-size: 11px; color: rgba(255,255,255,0.6); margin-top: 4px; }
+
+  /* Table */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th {
+    text-align: left; padding: 10px 14px;
+    background: rgba(255,255,255,0.03);
+    color: var(--text-muted); font-weight: 500; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+  }
+  .data-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text-secondary);
+  }
+  .data-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .status-tag {
+    display: inline-block; padding: 2px 8px; border-radius: 4px;
+    font-size: 11px; font-weight: 500;
+  }
+  .status-tag.high { background: rgba(34,197,94,0.15); color: var(--accent-green); }
+  .status-tag.medium { background: rgba(234,179,8,0.15); color: var(--accent-yellow); }
+  .status-tag.low { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+
+  /* Analysis Question Cards */
+  .question-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .question-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+    border-left: 3px solid var(--accent-cyan);
+  }
+  .question-card .q-num { font-size: 11px; color: var(--accent-cyan); font-weight: 600; margin-bottom: 6px; }
+  .question-card .q-text { font-size: 14px; color: var(--text-primary); margin-bottom: 8px; }
+  .question-card .q-method { font-size: 12px; color: var(--text-muted); }
+  .question-card .q-method span { color: var(--accent-orange); }
+
+  /* Insight Box */
+  .insight-box {
+    background: linear-gradient(135deg, rgba(6,182,212,0.08), rgba(59,130,246,0.08));
+    border: 1px solid rgba(6,182,212,0.2);
+    border-radius: 10px; padding: 16px 20px; margin-bottom: 24px;
+  }
+  .insight-box .insight-title { font-size: 13px; font-weight: 600; color: var(--accent-cyan); margin-bottom: 8px; }
+  .insight-box ul { list-style: none; }
+  .insight-box li { font-size: 13px; color: var(--text-secondary); padding: 3px 0; padding-left: 16px; position: relative; }
+  .insight-box li::before { content: '→'; position: absolute; left: 0; color: var(--accent-cyan); }
+
+  @media (max-width: 900px) {
+    .header, .main { padding-left: 20px; padding-right: 20px; }
+    .chart-grid, .chart-grid.three { grid-template-columns: 1fr; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .question-grid { grid-template-columns: 1fr; }
+    .funnel-step-label { width: 120px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">
+      <div class="logo-icon">Δ</div>
+      <div>
+        <div class="logo-text">Delta Force Tracker</div>
+        <div class="logo-sub">数据分析报表 — V1.0</div>
+      </div>
+    </div>
+    <div class="header-date">数据日期：2026-04-28 · 示例数据</div>
+  </div>
+</div>
+
+<!-- Nav Tabs -->
+<div class="nav-tabs" id="navTabs">
+  <button class="nav-tab active" data-tab="overview">📊 总览看板</button>
+  <button class="nav-tab" data-tab="login">🔐 登录漏斗</button>
+  <button class="nav-tab" data-tab="features">🔥 功能热度</button>
+  <button class="nav-tab" data-tab="share">📰 日报与分享</button>
+  <button class="nav-tab" data-tab="questions">❓ 分析问题</button>
+</div>
+
+<div class="main">
+
+<!-- ===================== Section: Overview ===================== -->
+<div class="section active" id="sec-overview">
+  <div class="section-title">核心指标看板</div>
+  <div class="section-desc">产品日常监控核心指标，按 PC / Mobile 双端拆分</div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">DAU</div>
+      <div class="kpi-value">12,480 <span class="kpi-badge pc">PC 7,820</span></div>
+      <div class="kpi-change up">↑ 8.3% vs 昨日</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">MAU</div>
+      <div class="kpi-value">86,350 <span class="kpi-badge mobile">M 4,660</span></div>
+      <div class="kpi-change up">↑ 3.1% vs 上月</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">登录率</div>
+      <div class="kpi-value">42.6%</div>
+      <div class="kpi-change up">↑ 2.1pp</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">DAU/MAU</div>
+      <div class="kpi-value">14.5%</div>
+      <div class="kpi-change down">↓ 0.8pp</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">日报查看率</div>
+      <div class="kpi-value">68.2%</div>
+      <div class="kpi-change up">↑ 5.4pp</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">密码使用率</div>
+      <div class="kpi-value">31.7%</div>
+      <div class="kpi-change up">↑ 1.2pp</div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-title">💡 关键洞察</div>
+    <ul>
+      <li>登录率 42.6% 偏低，需关注游客→登录的引导策略</li>
+      <li>DAU/MAU 14.5% 低于行业均值（20%+），用户粘性有提升空间</li>
+      <li>日报查看率 68.2% 表现良好，是首页最有价值的模块</li>
+      <li>密码使用率 31.7%，需评估密码区域在首屏的曝光位置</li>
+    </ul>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-blue)"></span>DAU 趋势（近30天）</div>
+      <div class="chart-wrapper"><canvas id="chartDAU" height="220"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-purple)"></span>页面 PV 热度分布</div>
+      <div class="chart-wrapper"><canvas id="chartPagePV" height="220"></canvas></div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-cyan)"></span>PC vs Mobile 用户占比</div>
+      <div class="chart-wrapper"><canvas id="chartPlatform" height="200"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-green)"></span>语言分布</div>
+      <div class="chart-wrapper"><canvas id="chartLang" height="200"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== Section: Login Funnel ===================== -->
+<div class="section" id="sec-login">
+  <div class="section-title">登录转化漏斗</div>
+  <div class="section-desc">追踪用户从首页曝光到登录成功的全链路转化，识别最大流失点</div>
+
+  <div class="funnel-container" id="loginFunnel"></div>
+
+  <div class="chart-grid" style="margin-top: 28px;">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-orange)"></span>登录方式偏好</div>
+      <div class="chart-wrapper"><canvas id="chartLoginMethod" height="220"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-pink)"></span>社交登录渠道分布</div>
+      <div class="chart-wrapper"><canvas id="chartSocialChannel" height="220"></canvas></div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-red)"></span>登录失败原因分布</div>
+      <div class="chart-wrapper"><canvas id="chartLoginError" height="220"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-yellow)"></span>未找到角色后行为</div>
+      <div class="chart-wrapper"><canvas id="chartNoRole" height="200"></canvas></div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-title">💡 漏斗分析要点</div>
+    <ul>
+      <li>首页→登录入口的点击率仅 28.5%，是整个漏斗的最大流失点，需加强登录入口引导</li>
+      <li>登录弹窗→选择方式的转化 88.3% 较健康，说明弹窗体验良好</li>
+      <li>登录成功率 91.2%，失败主要集中在 error_code 1001（网络超时）和 2003（账号不存在）</li>
+      <li>未找到角色用户中 62% 选择下载游戏，说明有引导到游戏端的作用</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===================== Section: Features ===================== -->
+<div class="section" id="sec-features">
+  <div class="section-title">功能模块热度</div>
+  <div class="section-desc">各功能模块的曝光量、点击量与互动深度对比</div>
+
+  <div class="heatmap-grid" id="heatmapGrid" style="margin-bottom: 28px;"></div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-red)"></span>游戏模式偏好（sol vs mp）</div>
+      <div class="chart-wrapper"><canvas id="chartGameMode" height="220"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-blue)"></span>Profile Tab 关注度</div>
+      <div class="chart-wrapper"><canvas id="chartProfileTab" height="220"></canvas></div>
+    </div>
+  </div>
+
+  <div class="chart-grid full">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-purple)"></span>导航点击分布 & 页面流转</div>
+      <div class="chart-wrapper"><canvas id="chartNav" height="240"></canvas></div>
+    </div>
+  </div>
+
+  <div class="chart-card" style="margin-top: 20px;">
+    <div class="chart-title"><span class="dot" style="background:var(--accent-green)"></span>模块互动深度（曝光→点击转化率）</div>
+    <div class="chart-wrapper"><canvas id="chartModuleDepth" height="250"></canvas></div>
+  </div>
+</div>
+
+<!-- ===================== Section: Share ===================== -->
+<div class="section" id="sec-share">
+  <div class="section-title">日报与分享分析</div>
+  <div class="section-desc">日报模块的查看→分享全链路，以及分享渠道偏好</div>
+
+  <div class="funnel-container" id="shareFunnel"></div>
+
+  <div class="chart-grid" style="margin-top: 28px;">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-orange)"></span>分享渠道分布（PC）</div>
+      <div class="chart-wrapper"><canvas id="chartSharePC" height="220"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-purple)"></span>分享渠道分布（Mobile）</div>
+      <div class="chart-wrapper"><canvas id="chartShareMobile" height="220"></canvas></div>
+    </div>
+  </div>
+
+  <div class="chart-grid">
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-cyan)"></span>日报分享率趋势</div>
+      <div class="chart-wrapper"><canvas id="chartShareTrend" height="220"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <div class="chart-title"><span class="dot" style="background:var(--accent-green)"></span>sol vs mp 日报互动对比</div>
+      <div class="chart-wrapper"><canvas id="chartModeCompare" height="220"></canvas></div>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <div class="insight-title">💡 日报与分享洞察</div>
+    <ul>
+      <li>日报查看→分享按钮的整体转化 18.7%，高于游戏类工具站平均（12-15%）</li>
+      <li>PC端 save_image 占比最高（42%），Mobile端 Discord 占比最高（35%）</li>
+      <li>mp 模式的分享意愿略高于 sol 模式，可能与竞技性内容更易传播有关</li>
+      <li>密码使用漏斗中触达率 74% 较高，但使用率仅 31.7%，考虑优化交互引导</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ===================== Section: Questions ===================== -->
+<div class="section" id="sec-questions">
+  <div class="section-title">关键分析问题</div>
+  <div class="section-desc">基于埋点数据，需要持续追踪和回答的核心业务问题</div>
+
+  <div class="question-grid">
+    <div class="question-card">
+      <div class="q-num">Q1</div>
+      <div class="q-text">登录漏斗中最大流失点在哪里？</div>
+      <div class="q-method">分析方法：<span>登录漏斗分步转化率</span>，对比 PC/Mobile 差异，结合停留时长判断是"不想登"还是"登不了"</div>
+    </div>
+    <div class="question-card">
+      <div class="q-num">Q2</div>
+      <div class="q-text">游客用户为什么不登录？</div>
+      <div class="q-method">分析方法：<span>游客行为路径分析</span>，看游客停留在哪些页面，是否触达登录后才能使用的功能</div>
+    </div>
+    <div class="question-card">
+      <div class="q-num">Q3</div>
+      <div class="q-text">日报分享率是否达到预期？哪个渠道最有效？</div>
+      <div class="q-method">分析方法：<span>分享漏斗 + 渠道转化对比</span>，追踪各渠道分享后的回流数据</div>
+    </div>
+    <div class="question-card">
+      <div class="q-num">Q4</div>
+      <div class="q-text">密码功能的触达率和使用率差多少？</div>
+      <div class="q-method">分析方法：<span>密码漏斗两步转化</span>，对比密码区域在首屏 vs 次屏的曝光差异</div>
+    </div>
+    <div class="question-card">
+      <div class="q-num">Q5</div>
+      <div class="q-text">sol/mp 两种模式的用户行为有何差异？</div>
+      <div class="q-method">分析方法：<span>按 game_mode 分群对比</span>，日报查看率、分享率、数据页访问深度</div>
+    </div>
+    <div class="question-card">
+      <div class="q-num">Q6</div>
+      <div class="q-text">PC 和 Mobile 用户行为差异有多大？</div>
+      <div class="q-method">分析方法：<span>双端对比分析</span>，导航方式、功能使用深度、页面停留时间差异</div>
+    </div>
+    <div class="question-card">
+      <div class="q-num">Q7</div>
+      <div class="q-text">登录失败的用户后续行为是什么？</div>
+      <div class="q-method">分析方法：<span>登录失败用户行为追踪</span>，看是否重试、换方式、或直接离开</div>
+    </div>
+    <div class="question-card">
+      <div class="q-num">Q8</div>
+      <div class="q-text">大红展馆的互动深度如何？</div>
+      <div class="q-method">分析方法：<span>展馆曝光→分享转化率</span>，PC端海报分享 vs Mobile端物品浏览的深度对比</div>
+    </div>
+    <div class="question-card">
+      <div class="q-num">Q9</div>
+      <div class="q-text">语言切换用户的特征是什么？</div>
+      <div class="q-method">分析方法：<span>语言切换对频次分析</span>，结合地区、功能使用深度交叉分析</div>
+    </div>
+    <div class="question-card">
+      <div class="q-num">Q10</div>
+      <div class="q-text">提交反馈的用户是什么画像？</div>
+      <div class="q-method">分析方法：<span>反馈用户 vs 非反馈用户对比</span>，活跃度、登录率、功能使用广度</div>
+    </div>
+  </div>
+
+  <div class="chart-card" style="margin-top: 28px;">
+    <div class="chart-title"><span class="dot" style="background:var(--accent-cyan)"></span>埋点事件完整清单</div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>模块</th>
+          <th>事件描述</th>
+          <th>事件名</th>
+          <th>子事件</th>
+          <th>关键参数</th>
+          <th>分析价值</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>🏠 首页</td><td>首页曝光</td><td>hq_home_page</td><td>cm_vshow</td><td>—</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>🔐 登录</td><td>点击登录入口</td><td>hq_click_login_entry</td><td>cm_click</td><td>—</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>🔐 登录</td><td>登录弹窗曝光</td><td>hq_exp_login_modal</td><td>cm_vshow</td><td>—</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>🔐 登录</td><td>选择登录方式</td><td>hq_click_login_method_select</td><td>cm_click</td><td>method: LI/Garena</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>🔐 登录</td><td>登录提交及结果</td><td>hq_click_login_submit</td><td>cm_click</td><td>is_success, login_method, login_type, error_code</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>🔐 登录</td><td>未找到角色弹窗</td><td>hq_exp_login_norole</td><td>cm_vshow</td><td>—</td><td><span class="status-tag medium">中</span></td></tr>
+        <tr><td>🔐 登录</td><td>点击下载游戏</td><td>hq_click_login_gotodownload</td><td>cm_click</td><td>—</td><td><span class="status-tag medium">中</span></td></tr>
+        <tr><td>🔐 登录</td><td>使用其他账号</td><td>hq_click_login_otheraccount</td><td>cm_click</td><td>—</td><td><span class="status-tag low">低</span></td></tr>
+        <tr><td>🔐 登录</td><td>关闭/游客浏览</td><td>hq_click_login_dismiss</td><td>cm_click</td><td>—</td><td><span class="status-tag medium">中</span></td></tr>
+        <tr><td>🔐 登录</td><td>退出登录</td><td>hq_click_logout</td><td>cm_click</td><td>—</td><td><span class="status-tag low">低</span></td></tr>
+        <tr><td>🧭 导航</td><td>页面加载完成</td><td>hq_exp_page</td><td>cm_vshow</td><td>page_id</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>🧭 导航</td><td>点击导航链接</td><td>hq_click_nav_link</td><td>cm_click</td><td>target_page_id</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>🧭 导航</td><td>切换语言</td><td>hq_click_language_switch</td><td>cm_click</td><td>from_lang, to_lang</td><td><span class="status-tag medium">中</span></td></tr>
+        <tr><td>📰 日报</td><td>日报卡片曝光</td><td>hq_exp_daily_report</td><td>cm_vshow</td><td>game_mode: sol/mp</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>📰 日报</td><td>点击分享按钮</td><td>hq_click_daily_share_btn</td><td>cm_click</td><td>game_mode: sol/mp</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>📰 日报</td><td>海报弹窗打开</td><td>hq_exp_daily_poster_modal</td><td>cm_vshow</td><td>game_mode: sol/mp</td><td><span class="status-tag medium">中</span></td></tr>
+        <tr><td>📰 日报</td><td>点击分享渠道</td><td>hq_click_daily_poster_share</td><td>cm_click</td><td>game_mode, share_channel</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>🔑 密码</td><td>密码区域曝光</td><td>hq_exp_daily_password</td><td>cm_vshow</td><td>—</td><td><span class="status-tag medium">中</span></td></tr>
+        <tr><td>🔑 密码</td><td>点击密码复制</td><td>hq_click_password_copy</td><td>cm_click</td><td>—</td><td><span class="status-tag medium">中</span></td></tr>
+        <tr><td>🏮 展馆</td><td>大红展馆曝光</td><td>hq_exp_collection</td><td>cm_vshow</td><td>—</td><td><span class="status-tag medium">中</span></td></tr>
+        <tr><td>📊 数据</td><td>我的数据页曝光</td><td>hq_exp_my_data</td><td>cm_vshow</td><td>game_mode: sol/mp</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>📊 数据</td><td>切换游戏模式</td><td>hq_click_game_mode_switch</td><td>cm_click</td><td>game_mode: sol/mp</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>📊 数据</td><td>切换Profile Tab</td><td>hq_click_profile_tab</td><td>cm_click</td><td>profile_tab</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>📊 数据</td><td>查看战绩详情</td><td>hq_click_match_detail</td><td>cm_click</td><td>game_mode, source</td><td><span class="status-tag high">高</span></td></tr>
+        <tr><td>💬 反馈</td><td>点击反馈按钮</td><td>hq_click_feedback</td><td>cm_click</td><td>—</td><td><span class="status-tag low">低</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</div>
+
+<script>
+// ========== Tab Switching ==========
+document.querySelectorAll('.nav-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('sec-' + tab.dataset.tab).classList.add('active');
+  });
+});
+
+// ========== Chart Default Options ==========
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, sans-serif';
+Chart.defaults.font.size = 12;
+
+const COLORS = {
+  blue: '#3b82f6', purple: '#a855f7', cyan: '#06b6d4',
+  green: '#22c55e', orange: '#f97316', red: '#ef4444',
+  yellow: '#eab308', pink: '#ec4899'
+};
+
+// ========== Overview Charts ==========
+// DAU Trend
+new Chart(document.getElementById('chartDAU'), {
+  type: 'line',
+  data: {
+    labels: Array.from({length: 30}, (_, i) => `${i+1}日`),
+    datasets: [{
+      label: 'PC', data: [6200,5800,6500,7100,6900,7200,7500,6800,7100,7400,7800,7200,6900,7500,8000,8200,7600,7900,8100,7700,7500,8000,8300,8100,7900,8200,8500,7800,8000,7820],
+      borderColor: COLORS.blue, backgroundColor: 'rgba(59,130,246,0.1)',
+      fill: true, tension: 0.4, pointRadius: 0
+    },{
+      label: 'Mobile', data: [3200,3100,3400,3600,3500,3700,3800,3400,3600,3700,3900,3600,3500,3800,4000,4100,3800,3900,4000,3800,3700,4000,4200,4100,3900,4100,4300,3900,4000,4660],
+      borderColor: COLORS.purple, backgroundColor: 'rgba(168,85,247,0.1)',
+      fill: true, tension: 0.4, pointRadius: 0
+    }]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { beginAtZero: false, grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false } } } }
+});
+
+// Page PV
+new Chart(document.getElementById('chartPagePV'), {
+  type: 'bar',
+  data: {
+    labels: ['Home', 'My Data', 'Gun Builds', 'Craft'],
+    datasets: [{
+      label: 'PV', data: [45200, 18600, 8400, 5200],
+      backgroundColor: [COLORS.blue, COLORS.cyan, COLORS.orange, COLORS.green],
+      borderRadius: 6, barPercentage: 0.6
+    }]
+  },
+  options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' } }, y: { grid: { display: false } } } }
+});
+
+// Platform
+new Chart(document.getElementById('chartPlatform'), {
+  type: 'doughnut',
+  data: {
+    labels: ['PC Desktop', 'Mobile'],
+    datasets: [{ data: [62.6, 37.4], backgroundColor: [COLORS.blue, COLORS.purple], borderWidth: 0, spacing: 4 }]
+  },
+  options: { responsive: true, cutout: '65%', plugins: { legend: { position: 'bottom' } } }
+});
+
+// Language
+new Chart(document.getElementById('chartLang'), {
+  type: 'doughnut',
+  data: {
+    labels: ['English', '简体中文', '日本語', '한국어', 'Deutsch'],
+    datasets: [{ data: [48, 22, 14, 10, 6], backgroundColor: [COLORS.blue, COLORS.red, COLORS.pink, COLORS.cyan, COLORS.yellow], borderWidth: 0, spacing: 4 }]
+  },
+  options: { responsive: true, cutout: '65%', plugins: { legend: { position: 'bottom' } } }
+});
+
+// ========== Login Funnel ==========
+const loginFunnelData = [
+  { label: '首页曝光', value: 12480, color: COLORS.blue },
+  { label: '点击登录入口', value: 3557, color: COLORS.cyan },
+  { label: '登录弹窗曝光', value: 3420, color: COLORS.green },
+  { label: '选择登录方式', value: 3020, color: COLORS.orange },
+  { label: '提交登录', value: 2750, color: COLORS.yellow },
+  { label: '登录成功', value: 2510, color: COLORS.red }
+];
+
+function renderFunnel(containerId, data) {
+  const container = document.getElementById(containerId);
+  const maxVal = data[0].value;
+  let html = '';
+  data.forEach((step, i) => {
+    const pct = (step.value / maxVal * 100);
+    const stepRate = i > 0 ? ((step.value / data[i-1].value) * 100).toFixed(1) + '%' : '100%';
+    const totalRate = ((step.value / maxVal) * 100).toFixed(1) + '%';
+    html += `<div class="funnel-step">
+      <div class="funnel-step-label">${step.label}</div>
+      <div class="funnel-bar-wrap">
+        <div class="funnel-bar" style="width:${pct}%;background:${step.color}">${totalRate}</div>
+        ${i > 0 ? `<div class="funnel-rate">↑ ${stepRate}</div>` : ''}
+      </div>
+      <div class="funnel-step-value">${step.value.toLocaleString()}</div>
+    </div>`;
+    if (i < data.length - 1) {
+      html += `<div class="funnel-arrow">▼</div>`;
+    }
+  });
+  container.innerHTML = html;
+}
+renderFunnel('loginFunnel', loginFunnelData);
+
+// Login Method
+new Chart(document.getElementById('chartLoginMethod'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Level Infinite', 'Garena'],
+    datasets: [{ data: [68, 32], backgroundColor: [COLORS.blue, COLORS.orange], borderWidth: 0, spacing: 4 }]
+  },
+  options: { responsive: true, cutout: '60%', plugins: { legend: { position: 'bottom' } } }
+});
+
+// Social Channel
+new Chart(document.getElementById('chartSocialChannel'), {
+  type: 'bar',
+  data: {
+    labels: ['Facebook', 'Google', 'Apple', 'Twitter/X', '其他'],
+    datasets: [{ label: '占比%', data: [42, 28, 16, 9, 5], backgroundColor: [COLORS.blue, COLORS.red, COLORS.purple, COLORS.cyan, COLORS.yellow], borderRadius: 6, barPercentage: 0.6 }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false } } } }
+});
+
+// Login Error
+new Chart(document.getElementById('chartLoginError'), {
+  type: 'bar',
+  data: {
+    labels: ['1001 网络超时', '2003 账号不存在', '2005 密码错误', '3001 服务异常', '其他'],
+    datasets: [{ label: '次数', data: [86, 62, 48, 24, 12], backgroundColor: COLORS.red, borderRadius: 6, barPercentage: 0.6 }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false } } } }
+});
+
+// No Role
+new Chart(document.getElementById('chartNoRole'), {
+  type: 'doughnut',
+  data: {
+    labels: ['下载游戏', '换号登录', '关闭弹窗'],
+    datasets: [{ data: [62, 23, 15], backgroundColor: [COLORS.green, COLORS.blue, COLORS.red], borderWidth: 0, spacing: 4 }]
+  },
+  options: { responsive: true, cutout: '60%', plugins: { legend: { position: 'bottom' } } }
+});
+
+// ========== Features Heatmap ==========
+const heatmapData = [
+  { name: '首页日报', value: '68.2%', uv: 8512, bg: 'linear-gradient(135deg, #1e40af, #3b82f6)' },
+  { name: '今日密码', value: '31.7%', uv: 3956, bg: 'linear-gradient(135deg, #92400e, #f97316)' },
+  { name: '大红展馆', value: '24.8%', uv: 3095, bg: 'linear-gradient(135deg, #991b1b, #ef4444)' },
+  { name: '我的数据', value: '38.4%', uv: 4792, bg: 'linear-gradient(135deg, #065f46, #22c55e)' },
+  { name: '改枪推荐', value: '18.6%', uv: 2321, bg: 'linear-gradient(135deg, #5b21b6, #a855f7)' },
+  { name: '特勤处制造', value: '12.3%', uv: 1535, bg: 'linear-gradient(135deg, #155e75, #06b6d4)' },
+  { name: '意见反馈', value: '3.2%', uv: 399, bg: 'linear-gradient(135deg, #713f12, #eab308)' }
+];
+
+const heatmapGrid = document.getElementById('heatmapGrid');
+heatmapGrid.innerHTML = heatmapData.map(h => `
+  <div class="heatmap-cell" style="background:${h.bg}">
+    <div class="heatmap-name">${h.name}</div>
+    <div class="heatmap-value">${h.value}</div>
+    <div class="heatmap-pct">UV ${h.uv.toLocaleString()}</div>
+  </div>
+`).join('');
+
+// Game Mode
+new Chart(document.getElementById('chartGameMode'), {
+  type: 'bar',
+  data: {
+    labels: ['日报查看', '数据页访问', '模式切换', '战绩详情'],
+    datasets: [
+      { label: '烽火地带 (sol)', data: [5200, 3100, 1800, 2400], backgroundColor: COLORS.orange, borderRadius: 4, barPercentage: 0.7 },
+      { label: '全面战场 (mp)', data: [4800, 2900, 2200, 3100], backgroundColor: COLORS.blue, borderRadius: 4, barPercentage: 0.7 }
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false } } } }
+});
+
+// Profile Tab
+new Chart(document.getElementById('chartProfileTab'), {
+  type: 'bar',
+  data: {
+    labels: ['Overview', 'Record', 'Weapon', 'Operator', 'Map'],
+    datasets: [
+      { label: 'PC', data: [4200, 3800, 1600, 1200, 800], backgroundColor: COLORS.blue, borderRadius: 4, barPercentage: 0.7 },
+      { label: 'Mobile', data: [2100, 2800, 0, 0, 0], backgroundColor: COLORS.purple, borderRadius: 4, barPercentage: 0.7 }
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false } } } }
+});
+
+// Nav Distribution
+new Chart(document.getElementById('chartNav'), {
+  type: 'bar',
+  data: {
+    labels: ['Home → My Data', 'Home → Gun Builds', 'Home → Craft', 'My Data → Home', '直接访问 My Data', '其他跳转'],
+    datasets: [{ label: '点击次数', data: [8200, 3400, 2100, 5600, 4200, 1800], backgroundColor: [COLORS.blue, COLORS.orange, COLORS.green, COLORS.cyan, COLORS.purple, COLORS.yellow], borderRadius: 6, barPercentage: 0.6 }]
+  },
+  options: { responsive: true, indexAxis: 'y', plugins: { legend: { display: false } }, scales: { x: { grid: { color: 'rgba(255,255,255,0.04)' } }, y: { grid: { display: false } } } }
+});
+
+// Module Depth
+new Chart(document.getElementById('chartModuleDepth'), {
+  type: 'bar',
+  data: {
+    labels: ['日报(查看→分享)', '密码(曝光→复制)', '展馆(曝光→互动)', '数据(曝光→切换Tab)', '数据(曝光→战绩详情)', '导航(曝光→点击)'],
+    datasets: [{ label: '转化率 %', data: [18.7, 31.7, 12.4, 45.2, 38.6, 52.1], backgroundColor: [COLORS.blue, COLORS.orange, COLORS.red, COLORS.green, COLORS.purple, COLORS.cyan], borderRadius: 6, barPercentage: 0.6 }]
+  },
+  options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' }, max: 60 }, x: { grid: { display: false } } } }
+});
+
+// ========== Share Funnel ==========
+const shareFunnelData = [
+  { label: '日报卡片曝光', value: 8512, color: COLORS.blue },
+  { label: '点击分享按钮', value: 1592, color: COLORS.cyan },
+  { label: '海报弹窗打开', value: 1480, color: COLORS.green },
+  { label: '选择分享渠道', value: 1240, color: COLORS.orange }
+];
+renderFunnel('shareFunnel', shareFunnelData);
+
+// Share PC
+new Chart(document.getElementById('chartSharePC'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Save Image', 'X (Twitter)', 'Discord', 'Facebook', 'Reddit'],
+    datasets: [{ data: [42, 22, 18, 12, 6], backgroundColor: [COLORS.green, COLORS.blue, COLORS.purple, COLORS.cyan, COLORS.orange], borderWidth: 0, spacing: 4 }]
+  },
+  options: { responsive: true, cutout: '60%', plugins: { legend: { position: 'bottom' } } }
+});
+
+// Share Mobile
+new Chart(document.getElementById('chartShareMobile'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Discord', 'Save Image', 'X (Twitter)', 'Copy Link'],
+    datasets: [{ data: [35, 28, 22, 15], backgroundColor: [COLORS.purple, COLORS.green, COLORS.blue, COLORS.cyan], borderWidth: 0, spacing: 4 }]
+  },
+  options: { responsive: true, cutout: '60%', plugins: { legend: { position: 'bottom' } } }
+});
+
+// Share Trend
+new Chart(document.getElementById('chartShareTrend'), {
+  type: 'line',
+  data: {
+    labels: Array.from({length: 14}, (_, i) => `4/${i+15}`),
+    datasets: [{
+      label: '日报分享率 (%)', data: [14.2,15.1,13.8,16.5,17.2,15.8,18.1,16.9,17.5,18.3,19.1,17.8,18.6,18.7],
+      borderColor: COLORS.cyan, backgroundColor: 'rgba(6,182,212,0.1)',
+      fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: COLORS.cyan
+    }]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false } } } }
+});
+
+// Mode Compare
+new Chart(document.getElementById('chartModeCompare'), {
+  type: 'bar',
+  data: {
+    labels: ['日报查看率', '分享意愿率', '海报到达率', '渠道选择率'],
+    datasets: [
+      { label: 'sol (烽火地带)', data: [65.2, 16.8, 92.1, 82.4], backgroundColor: COLORS.orange, borderRadius: 4, barPercentage: 0.7 },
+      { label: 'mp (全面战场)', data: [71.4, 20.5, 93.5, 85.1], backgroundColor: COLORS.blue, borderRadius: 4, barPercentage: 0.7 }
+    ]
+  },
+  options: { responsive: true, plugins: { legend: { position: 'top' } }, scales: { y: { grid: { color: 'rgba(255,255,255,0.04)' } }, x: { grid: { display: false } } } }
+});
+</script>
+
+</body>
+</html>

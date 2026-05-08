@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFoversea 数据看板 — 表格版</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f9fafb; color: #1f2937; font-size: 12px; }
+        .header { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 12px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+        .header h1 { font-size: 15px; font-weight: 600; color: #1a56db; }
+        .header-right { display: flex; align-items: center; gap: 10px; font-size: 11px; color: #6b7280; }
+        .filter-bar { background: #fff; border-bottom: 1px solid #e5e7eb; padding: 8px 24px; display: flex; align-items: center; gap: 10px; }
+        .filter-bar label { font-size: 11px; color: #6b7280; }
+        .filter-bar input[type="date"] { border: 1px solid #d1d5db; border-radius: 4px; padding: 4px 8px; font-size: 11px; }
+        .filter-bar button { padding: 4px 12px; border-radius: 4px; font-size: 11px; border: none; cursor: pointer; }
+        .filter-bar .btn-primary { background: #1a56db; color: #fff; }
+        .main { padding: 16px 24px; max-width: 1200px; margin: 0 auto; }
+        .section { margin-bottom: 20px; }
+        .section-title { font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #374151; display: flex; align-items: center; gap: 6px; }
+        .section-title .badge { font-size: 9px; padding: 2px 6px; border-radius: 3px; background: #dbeafe; color: #1e40af; }
+        .table-wrap { background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; overflow: hidden; }
+        table { width: 100%; border-collapse: collapse; font-size: 11px; }
+        th { padding: 8px 12px; text-align: left; background: #f1f5f9; font-weight: 600; color: #374151; border-bottom: 2px solid #e5e7eb; white-space: nowrap; }
+        td { padding: 6px 12px; border-bottom: 1px solid #f3f4f6; }
+        tr:hover td { background: #f9fafb; }
+        .num { font-family: 'SF Mono', Monaco, monospace; font-size: 11px; text-align: right; }
+        .pct { color: #6b7280; font-size: 10px; }
+        .bar-cell { position: relative; }
+        .bar-bg { position: absolute; left: 0; top: 2px; bottom: 2px; border-radius: 2px; opacity: 0.15; }
+        .highlight { font-weight: 600; color: #1e40af; }
+        .sub-row td { background: #fafbfc; padding-left: 28px; }
+        .kpi-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-bottom: 16px; }
+        .kpi-box { background: #fff; border: 1px solid #e5e7eb; border-radius: 6px; padding: 14px 16px; }
+        .kpi-box .kpi-label { font-size: 10px; color: #6b7280; margin-bottom: 4px; }
+        .kpi-box .kpi-value { font-size: 22px; font-weight: 700; color: #1f2937; }
+        .kpi-box .kpi-sub { font-size: 10px; color: #6b7280; margin-top: 2px; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>DFoversea · 数据看板（表格版）</h1>
+        <div class="header-right">数据时区 UTC+8</div>
+    </header>
+    <div class="filter-bar">
+        <label>开始:</label><input type="date" value="2026-04-07">
+        <label>结束:</label><input type="date" value="2026-05-06">
+        <button class="btn-primary">查询</button>
+    </div>
+
+    <main class="main">
+
+        <!-- KPI -->
+        <div class="kpi-grid">
+            <div class="kpi-box"><div class="kpi-label">UV（最近一天）</div><div class="kpi-value">2,981</div><div class="kpi-sub">WoW: ↑ 8.3%</div></div>
+            <div class="kpi-box"><div class="kpi-label">PV（最近一天）</div><div class="kpi-value">13,762</div><div class="kpi-sub">WoW: ↑ 12.1%</div></div>
+        </div>
+
+        <!-- 每日流量 -->
+        <div class="section">
+            <div class="section-title">每日流量趋势 <span class="badge">表1</span>
+                <select id="f-source" style="margin-left:12px;border:1px solid #d1d5db;border-radius:4px;padding:3px 8px;font-size:11px;">
+                    <option value="all">全部</option>
+                    <option value="in">端内</option>
+                    <option value="out">端外</option>
+                </select>
+            </div>
+            <div class="table-wrap">
+                <table id="t-daily"></table>
+            </div>
+        </div>
+
+        <!-- 页面 PV/UV -->
+        <div class="section">
+            <div class="section-title">页面级 PV / UV <span class="badge">表2</span></div>
+            <div class="table-wrap">
+                <table id="t-pages"></table>
+            </div>
+        </div>
+
+        <!-- 维度拆解 -->
+        <div class="section">
+            <div class="section-title">登录方式分布 <span class="badge">表3</span></div>
+            <div class="table-wrap">
+                <table id="t-login-method"></table>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">游戏模式分布 — 日报 <span class="badge">表4a</span></div>
+            <div class="table-wrap">
+                <table id="t-mode-report"></table>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">游戏模式分布 — 我的数据页 <span class="badge">表4b</span></div>
+            <div class="table-wrap">
+                <table id="t-mode-mydata"></table>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">平台分布 <span class="badge">表5</span></div>
+            <div class="table-wrap">
+                <table id="t-platform"></table>
+            </div>
+        </div>
+
+        <!-- 漏斗 -->
+        <div class="section">
+            <div class="section-title">登录漏斗 <span class="badge">表6</span></div>
+            <div class="table-wrap">
+                <table id="t-funnel-login"></table>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">日报分享漏斗 <span class="badge">表7</span></div>
+            <div class="table-wrap">
+                <table id="t-funnel-share"></table>
+            </div>
+        </div>
+
+        <!-- 分享渠道 -->
+        <div class="section">
+            <div class="section-title">分享渠道每日明细 <span class="badge">表8</span></div>
+            <div class="table-wrap">
+                <table id="t-share-channel"></table>
+            </div>
+        </div>
+
+        <!-- 事件明细 -->
+        <div class="section">
+            <div class="section-title">事件明细 <span class="badge">表9</span></div>
+            <div class="table-wrap" style="max-height:400px;overflow-y:auto;">
+                <table id="t-events"></table>
+            </div>
+        </div>
+    </main>
+
+    <script>
+    const M = { rand:(a,b)=>Math.floor(Math.random()*(b-a+1))+a };
+    const days = Array.from({length:30},(_,i)=>{const d=new Date(2026,3,7+i);return `2026-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}).reverse();
+
+    function makeTable(id, headers, rows) {
+        const el = document.getElementById(id);
+        el.innerHTML = `<thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map((c,i)=>`<td${i>=headers.length-2?' class="num"':''}>${c}</td>`).join('')}</tr>`).join('')}</tbody>`;
+    }
+
+    // 表1: 每日流量 + 留存率
+    // days 已降序，i=0 是最新日期，留存需要等够天数才有值
+    makeTable('t-daily', ['日期','PV','UV','次日留存','3日留存','7日留存','14日留存','30日留存'], days.map((d,i)=>{
+        const pv = M.rand(12000,16000), uv = M.rand(2500,3500);
+        const d2 = i >= 1 ? (M.rand(35,50)+'%') : '-';
+        const d3 = i >= 3 ? (M.rand(22,38)+'%') : '-';
+        const d7 = i >= 7 ? (M.rand(14,25)+'%') : '-';
+        const d14 = i >= 14 ? (M.rand(8,16)+'%') : '-';
+        const d30 = i >= 30 ? (M.rand(4,10)+'%') : '-';
+        return [d, pv.toLocaleString(), uv.toLocaleString(), d2, d3, d7, d14, d30];
+    }));
+
+    // 表2: 页面级
+    const pages = ['home','my_data','gun_builds','market','craft'];
+    makeTable('t-pages', ['日期','页面','PV','UV'],
+        days.slice(-7).flatMap(d=>pages.map(p=>[d, p, M.rand(1000,8000).toLocaleString(), M.rand(500,3000).toLocaleString()]))
+    );
+
+    // 表3: 登录方式
+    makeTable('t-login-method', ['日期','登录方式','UV','PV'],
+        days.slice(-7).flatMap(d=>[
+            [d,'level_infinite', M.rand(300,500).toLocaleString(), M.rand(350,550).toLocaleString()],
+            [d,'garena', M.rand(100,200).toLocaleString(), M.rand(120,230).toLocaleString()]
+        ])
+    );
+
+    // 表4a: 游戏模式 — 日报
+    makeTable('t-mode-report', ['日期','模式','UV','PV'],
+        days.slice(-7).flatMap(d=>[
+            [d,'sol', M.rand(350,550).toLocaleString(), M.rand(400,650).toLocaleString()],
+            [d,'mp', M.rand(250,400).toLocaleString(), M.rand(300,450).toLocaleString()]
+        ])
+    );
+
+    // 表4b: 游戏模式 — 我的数据页
+    makeTable('t-mode-mydata', ['日期','模式','UV','PV'],
+        days.slice(-7).flatMap(d=>[
+            [d,'sol', M.rand(200,350).toLocaleString(), M.rand(250,400).toLocaleString()],
+            [d,'mp', M.rand(150,280).toLocaleString(), M.rand(180,320).toLocaleString()]
+        ])
+    );
+
+    // 表5: 平台
+    makeTable('t-platform', ['日期','平台','UV','PV'],
+        days.slice(-7).flatMap(d=>[
+            [d,'PC', M.rand(1200,1800).toLocaleString(), M.rand(5000,8000).toLocaleString()],
+            [d,'iOS', M.rand(600,1000).toLocaleString(), M.rand(2500,4000).toLocaleString()],
+            [d,'Android', M.rand(400,700).toLocaleString(), M.rand(1800,3000).toLocaleString()]
+        ])
+    );
+
+    // 表6: 登录漏斗
+    makeTable('t-funnel-login', ['日期','点击登录 UV','弹窗曝光 UV','选择方式 UV','提交请求 UV','登录成功 UV'],
+        days.slice(-7).map(d=>{
+            let v1=M.rand(250,350),v2=M.rand(230,v1),v3=M.rand(220,v2),v4=M.rand(150,v3),v5=M.rand(120,v4);
+            return [d,v1,v2,v3,v4,v5];
+        })
+    );
+
+    // 表7: 分享漏斗
+    makeTable('t-funnel-share', ['日期','日报曝光 UV','分享按钮 UV','海报打开 UV','渠道分享 UV'],
+        days.slice(-7).map(d=>{
+            let v1=M.rand(700,900),v2=M.rand(80,130),v3=M.rand(70,v2),v4=M.rand(40,v3);
+            return [d,v1,v2,v3,v4];
+        })
+    );
+
+    // 表8: 分享渠道
+    const channels = ['save_image','discord','x','facebook','reddit'];
+    makeTable('t-share-channel', ['日期','渠道','PV','UV'],
+        days.slice(-7).flatMap(d=>channels.map(ch=>[d, ch, M.rand(5,40).toLocaleString(), M.rand(3,25).toLocaleString()]))
+    );
+
+    // 表9: 事件明细
+    const evts = ['hq_exp_page','hq_home_page','hq_click_nav_link','hq_exp_daily_report','hq_exp_daily_password','hq_exp_collection','hq_exp_my_data','hq_click_game_mode_switch','hq_click_login_entry','hq_click_login_method_select','hq_exp_login_modal','hq_click_profile_tab','hq_click_login_submit','hq_click_password_copy','hq_click_match_detail','hq_click_daily_share_btn','hq_exp_daily_poster_modal','hq_click_language_switch','hq_click_daily_poster_share','hq_click_login_dismiss','hq_click_logout','hq_exp_login_norole','hq_click_feedback','hq_click_login_otheraccount','hq_click_login_gotodownload'];
+    makeTable('t-events', ['日期','事件名','PV','UV'],
+        days.slice(-3).flatMap(d=>evts.map(e=>[d, `<span style="font-family:monospace;color:#1e40af">${e}</span>`, M.rand(10,3000).toLocaleString(), M.rand(5,1500).toLocaleString()]))
+    );
+    </script>
+</body>
+</html>

@@ -95,7 +95,11 @@
     "fullHipfire": "Maximale Hüftfeuer",
     "highAccuracy": "Hohe Präzision",
     "highStability": "Hohe Stabilität",
-    "pvpOptimized": "PVP-optimiert"
+    "pvpOptimized": "PVP-optimiert",
+    "rangeAdvantage": "Reichweite",
+    "baseDamage": "Schaden",
+    "weaponStability": "Stabilität",
+    "hipfireAccuracy": "Hüftfeuer-Genauigkeit"
   },
   "craft": {
     "title": "BLACK SITE",

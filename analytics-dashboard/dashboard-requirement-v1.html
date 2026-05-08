@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFoversea 数据看板需求文档 v1.0（表格版）</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1f2937; font-size: 13px; line-height: 1.7; padding: 32px; max-width: 900px; margin: 0 auto; }
+        h1 { font-size: 18px; margin-bottom: 4px; }
+        .meta { font-size: 11px; color: #6b7280; margin-bottom: 28px; border-bottom: 1px solid #e5e7eb; padding-bottom: 12px; }
+        h2 { font-size: 14px; font-weight: 600; margin: 24px 0 8px; padding: 5px 10px; background: #f1f5f9; border-left: 3px solid #1a56db; }
+        .module { background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 14px 16px; margin: 10px 0; }
+        .module-title { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #1e40af; }
+        .module p { font-size: 12px; color: #374151; margin: 3px 0; }
+        .module .label { color: #6b7280; min-width: 60px; display: inline-block; }
+        .note { font-size: 11px; color: #6b7280; font-style: italic; margin-top: 4px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        table.fields { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 11px; }
+        table.fields th, table.fields td { padding: 5px 8px; text-align: left; border: 1px solid #e5e7eb; }
+        table.fields th { background: #f1f5f9; font-weight: 600; color: #374151; }
+        .field { font-family: monospace; color: #1e40af; font-size: 11px; }
+        @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<h1>DFoversea 数据看板建设需求 — v1.0（表格版）</h1>
+<div class="meta">展示形式：纯数据表格（类 Excel） | 后端直接输出结果字段，前端渲染表格 | 日期: 2026-05-07</div>
+
+<h2>全局筛选</h2>
+<div class="module">
+    <p><span class="label">筛选项:</span>开始日期 + 结束日期</p>
+    <p><span class="label">影响范围:</span>下方所有表格的数据查询时间范围</p>
+</div>
+
+<h2>核心 KPI（2 张卡片）</h2>
+<div class="grid">
+    <div class="module">
+        <div class="module-title">UV</div>
+        <p><span class="label">口径:</span>最近一天的去重访客数</p>
+        <p><span class="label">对比:</span>WoW 环比</p>
+    </div>
+    <div class="module">
+        <div class="module-title">PV</div>
+        <p><span class="label">口径:</span>最近一天的总页面浏览次数</p>
+        <p><span class="label">对比:</span>WoW 环比</p>
+    </div>
+</div>
+
+<h2>表1: 每日流量趋势</h2>
+<div class="module">
+    <p><span class="label">局部筛选:</span>来源（全部 / 端内 / 端外）</p>
+    <p><span class="label">口径:</span>每日的 PV、UV，以及当日新用户的 N 日留存率</p>
+    <table class="fields">
+        <tr><th>列名</th><th>口径</th></tr>
+        <tr><td class="field">日期</td><td>数据日期，降序排列</td></tr>
+        <tr><td class="field">PV</td><td>当日页面浏览总次数</td></tr>
+        <tr><td class="field">UV</td><td>当日去重访客数</td></tr>
+        <tr><td class="field">次日留存</td><td>当日新访客中，次日回访的比例</td></tr>
+        <tr><td class="field">3日留存</td><td>当日新访客中，第3日回访的比例</td></tr>
+        <tr><td class="field">7日留存</td><td>当日新访客中，第7日回访的比例</td></tr>
+        <tr><td class="field">14日留存</td><td>当日新访客中，第14日回访的比例</td></tr>
+        <tr><td class="field">30日留存</td><td>当日新访客中，第30日回访的比例</td></tr>
+    </table>
+    <p class="note">留存天数不够时显示为空（如今天的数据无法算出7日留存）</p>
+</div>
+
+<h2>表2: 页面级 PV / UV</h2>
+<div class="module">
+    <p><span class="label">口径:</span>按页面维度拆分的每日 PV 和 UV</p>
+    <table class="fields">
+        <tr><th>列名</th><th>口径</th></tr>
+        <tr><td class="field">日期</td><td>数据日期</td></tr>
+        <tr><td class="field">页面</td><td>home / my_data / gun_builds / market / craft</td></tr>
+        <tr><td class="field">PV</td><td>该页面当日浏览次数</td></tr>
+        <tr><td class="field">UV</td><td>该页面当日去重访客数</td></tr>
+    </table>
+</div>
+
+<h2>表3: 登录方式分布</h2>
+<div class="module">
+    <p><span class="label">口径:</span>按登录方式拆分的每日选择人数</p>
+    <table class="fields">
+        <tr><th>列名</th><th>口径</th></tr>
+        <tr><td class="field">日期</td><td>数据日期</td></tr>
+        <tr><td class="field">登录方式</td><td>level_infinite / garena</td></tr>
+        <tr><td class="field">UV</td><td>选择该方式的去重用户数</td></tr>
+        <tr><td class="field">PV</td><td>选择该方式的总次数</td></tr>
+    </table>
+</div>
+
+<h2>表4a: 游戏模式分布 — 日报</h2>
+<div class="module">
+    <p><span class="label">口径:</span>日报卡片中，按游戏模式拆分的曝光数据</p>
+    <table class="fields">
+        <tr><th>列名</th><th>口径</th></tr>
+        <tr><td class="field">日期</td><td>数据日期</td></tr>
+        <tr><td class="field">模式</td><td>sol / mp</td></tr>
+        <tr><td class="field">UV</td><td>查看该模式日报的去重用户数</td></tr>
+        <tr><td class="field">PV</td><td>该模式日报的曝光次数</td></tr>
+    </table>
+</div>
+
+<h2>表4b: 游戏模式分布 — 我的数据页</h2>
+<div class="module">
+    <p><span class="label">口径:</span>我的数据页中，按游戏模式拆分的使用数据</p>
+    <table class="fields">
+        <tr><th>列名</th><th>口径</th></tr>
+        <tr><td class="field">日期</td><td>数据日期</td></tr>
+        <tr><td class="field">模式</td><td>sol / mp</td></tr>
+        <tr><td class="field">UV</td><td>切换/查看该模式的去重用户数</td></tr>
+        <tr><td class="field">PV</td><td>切换/查看该模式的总次数</td></tr>
+    </table>
+</div>
+
+<h2>表5: 平台分布</h2>
+<div class="module">
+    <p><span class="label">口径:</span>按客户端平台拆分的每日访客</p>
+    <table class="fields">
+        <tr><th>列名</th><th>口径</th></tr>
+        <tr><td class="field">日期</td><td>数据日期</td></tr>
+        <tr><td class="field">平台</td><td>PC / iOS / Android</td></tr>
+        <tr><td class="field">UV</td><td>该平台当日去重用户数</td></tr>
+        <tr><td class="field">PV</td><td>该平台当日总事件数</td></tr>
+    </table>
+</div>
+
+<h2>表6: 登录漏斗</h2>
+<div class="module">
+    <p><span class="label">口径:</span>登录流程各步骤的每日去重用户数，用于计算转化率</p>
+    <table class="fields">
+        <tr><th>列名</th><th>口径</th></tr>
+        <tr><td class="field">日期</td><td>数据日期</td></tr>
+        <tr><td class="field">点击登录 UV</td><td>点击登录按钮的去重用户数</td></tr>
+        <tr><td class="field">弹窗曝光 UV</td><td>登录弹窗展示的去重用户数</td></tr>
+        <tr><td class="field">选择方式 UV</td><td>选择 LI/Garena 的去重用户数</td></tr>
+        <tr><td class="field">提交请求 UV</td><td>提交登录请求的去重用户数</td></tr>
+        <tr><td class="field">登录成功 UV</td><td>登录成功的去重用户数</td></tr>
+    </table>
+</div>
+
+<h2>表7: 日报分享漏斗</h2>
+<div class="module">
+    <p><span class="label">口径:</span>日报分享流程各步骤的每日去重用户数</p>
+    <table class="fields">
+        <tr><th>列名</th><th>口径</th></tr>
+        <tr><td class="field">日期</td><td>数据日期</td></tr>
+        <tr><td class="field">日报曝光 UV</td><td>日报卡片曝光的去重用户数</td></tr>
+        <tr><td class="field">分享按钮 UV</td><td>点击分享按钮的去重用户数</td></tr>
+        <tr><td class="field">海报打开 UV</td><td>海报弹窗打开的去重用户数</td></tr>
+        <tr><td class="field">渠道分享 UV</td><td>完成分享的去重用户数</td></tr>
+    </table>
+</div>
+
+<h2>表8: 分享渠道每日明细</h2>
+<div class="module">
+    <p><span class="label">口径:</span>按分享渠道拆分的每日分享数据</p>
+    <table class="fields">
+        <tr><th>列名</th><th>口径</th></tr>
+        <tr><td class="field">日期</td><td>数据日期</td></tr>
+        <tr><td class="field">渠道</td><td>save_image / x / discord / facebook / reddit</td></tr>
+        <tr><td class="field">PV</td><td>该渠道当日分享次数</td></tr>
+        <tr><td class="field">UV</td><td>该渠道当日去重用户数</td></tr>
+    </table>
+</div>
+
+<h2>表9: 事件明细</h2>
+<div class="module">
+    <p><span class="label">口径:</span>每个埋点事件的每日触发量</p>
+    <table class="fields">
+        <tr><th>列名</th><th>口径</th></tr>
+        <tr><td class="field">日期</td><td>数据日期</td></tr>
+        <tr><td class="field">事件名</td><td>全部已上线的 hq_* 事件名称</td></tr>
+        <tr><td class="field">PV</td><td>该事件当日总触发次数</td></tr>
+        <tr><td class="field">UV</td><td>该事件当日触发的去重用户数</td></tr>
+    </table>
+    <p class="note">默认按 PV 降序排列</p>
+</div>
+
+</body>
+</html>

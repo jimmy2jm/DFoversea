@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFoversea 数据报表需求 & 分析方案</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+            color: #1a202c;
+            line-height: 1.7;
+            padding: 40px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        h1 { font-size: 28px; margin-bottom: 8px; color: #1a365d; }
+        h2 { font-size: 20px; margin: 32px 0 12px; color: #2d3748; border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; }
+        h3 { font-size: 16px; margin: 20px 0 8px; color: #4a5568; }
+        p, li { font-size: 14px; color: #4a5568; }
+        .subtitle { font-size: 14px; color: #718096; margin-bottom: 32px; }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 13px; }
+        th, td { padding: 10px 12px; text-align: left; border: 1px solid #e2e8f0; }
+        th { background: #edf2f7; font-weight: 600; color: #2d3748; }
+        tr:nth-child(even) { background: #f7fafc; }
+        .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 500; }
+        .tag-click { background: #ebf8ff; color: #2b6cb0; }
+        .tag-vshow { background: #f0fff4; color: #276749; }
+        .tag-high { background: #fed7d7; color: #c53030; }
+        .tag-medium { background: #fefcbf; color: #975a16; }
+        .tag-low { background: #e2e8f0; color: #4a5568; }
+        code { background: #edf2f7; padding: 2px 6px; border-radius: 3px; font-size: 12px; font-family: 'SF Mono', Monaco, monospace; }
+        .section-card { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 24px; margin: 16px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        ul { padding-left: 20px; margin: 8px 0; }
+        li { margin: 4px 0; }
+        .metric-formula { background: #f7fafc; border-left: 3px solid #4299e1; padding: 12px 16px; margin: 8px 0; font-size: 13px; }
+        .toc { background: white; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px 24px; margin-bottom: 32px; }
+        .toc a { color: #4299e1; text-decoration: none; font-size: 14px; }
+        .toc a:hover { text-decoration: underline; }
+        .toc ol { padding-left: 20px; }
+        .toc li { margin: 6px 0; }
+    </style>
+</head>
+<body>
+    <h1>DFoversea 数据报表需求与分析方案</h1>
+    <p class="subtitle">项目: Delta Force 海外工具站 | 版本: v1.0 | 更新日期: 2026-04-28</p>
+
+    <div class="toc">
+        <strong>目录</strong>
+        <ol>
+            <li><a href="#overview">项目概述与数据采集现状</a></li>
+            <li><a href="#events">埋点事件清单（TLOG上报）</a></li>
+            <li><a href="#metrics">核心指标体系</a></li>
+            <li><a href="#reports">数据报表需求</a></li>
+            <li><a href="#analysis">数据分析方案</a></li>
+            <li><a href="#funnel">漏斗模型设计</a></li>
+            <li><a href="#segments">用户分群策略</a></li>
+        </ol>
+    </div>
+
+    <!-- Section 1 -->
+    <h2 id="overview">一、项目概述与数据采集现状</h2>
+    <div class="section-card">
+        <h3>产品形态</h3>
+        <ul>
+            <li><strong>Desktop 版</strong>: 5个核心页面（首页、我的数据、配装推荐、跳蚤市场、合成台）</li>
+            <li><strong>Mobile 版</strong>: 移动端原型，功能与Desktop对齐</li>
+            <li><strong>技术栈</strong>: 纯静态前端（HTML/CSS/JS），无服务端，无构建工具</li>
+            <li><strong>i18n</strong>: 支持 zh-CN / de 两种语言</li>
+        </ul>
+
+        <h3>数据上报配置</h3>
+        <ul>
+            <li><strong>上报平台</strong>: TLOG（original_game_id: 29158）</li>
+            <li><strong>通用参数</strong>:
+                <ul>
+                    <li><code>client_type</code> — PC / iOS / Android</li>
+                    <li><code>url</code> — 当前页面URL</li>
+                    <li><code>refer_url</code> — 前置页面URL</li>
+                    <li><code>open_id</code> — 用户ID</li>
+                </ul>
+            </li>
+            <li><strong>事件类型</strong>: <code>cm_vshow</code>（曝光） / <code>cm_click</code>（点击）</li>
+        </ul>
+    </div>
+
+    <!-- Section 2 -->
+    <h2 id="events">二、埋点事件清单</h2>
+    <div class="section-card" style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>模块</th>
+                    <th>事件名称</th>
+                    <th>子事件</th>
+                    <th>触发时机</th>
+                    <th>事件参数</th>
+                    <th>优先级</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td rowspan="12"><strong>登录模块</strong></td>
+                    <td><code>hq_click_login_entry</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>点击顶部导航栏登录按钮</td>
+                    <td>—</td>
+                    <td><span class="tag tag-high">高</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_exp_login_modal</code></td>
+                    <td><span class="tag tag-vshow">cm_vshow</span></td>
+                    <td>登录方式选择弹窗曝光</td>
+                    <td>—</td>
+                    <td><span class="tag tag-high">高</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_click_login_method_select</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>选择登录方式</td>
+                    <td><code>method</code>: level_infinite / garena</td>
+                    <td><span class="tag tag-high">高</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_click_login_submit</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>登录请求提交及返回结果</td>
+                    <td><code>is_success</code>: 1/0<br><code>login_method</code>: level_infinite/garena<br><code>login_type</code>: email/social<br><code>login_channel</code>: facebook等<br><code>error_code</code>: 0=成功</td>
+                    <td><span class="tag tag-high">高</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_exp_login_norole</code></td>
+                    <td><span class="tag tag-vshow">cm_vshow</span></td>
+                    <td>未找到游戏角色弹窗曝光</td>
+                    <td>—</td>
+                    <td><span class="tag tag-medium">中</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_click_login_gotodownload</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>前往官网下载游戏</td>
+                    <td>—</td>
+                    <td><span class="tag tag-medium">中</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_click_login_otheraccount</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>使用其他账号登录</td>
+                    <td>—</td>
+                    <td><span class="tag tag-low">低</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_click_login_dismiss</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>关闭弹窗/游客身份浏览</td>
+                    <td>—</td>
+                    <td><span class="tag tag-medium">中</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_click_logout</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>退出登录完成</td>
+                    <td>—</td>
+                    <td><span class="tag tag-low">低</span></td>
+                </tr>
+
+                <tr>
+                    <td rowspan="3"><strong>全局导航</strong></td>
+                    <td><code>hq_home_page</code></td>
+                    <td><span class="tag tag-vshow">cm_vshow</span></td>
+                    <td>首页曝光（页面加载完成后，只上报一次）</td>
+                    <td>—</td>
+                    <td><span class="tag tag-high">高</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_exp_page</code></td>
+                    <td><span class="tag tag-vshow">cm_vshow</span></td>
+                    <td>页面加载完成（每次跳转触发）</td>
+                    <td><code>page_id</code>: home / my_data / gun_builds / craft_page等</td>
+                    <td><span class="tag tag-high">高</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_click_nav_link</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>点击顶部导航链接</td>
+                    <td><code>target_page_id</code>: 目标页面标识</td>
+                    <td><span class="tag tag-high">高</span></td>
+                </tr>
+
+                <tr>
+                    <td><strong>语言</strong></td>
+                    <td><code>hq_click_language_switch</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>切换语言</td>
+                    <td><code>from_lang</code> / <code>to_lang</code></td>
+                    <td><span class="tag tag-medium">中</span></td>
+                </tr>
+
+                <tr>
+                    <td rowspan="5"><strong>首页内容</strong></td>
+                    <td><code>hq_exp_daily_report</code></td>
+                    <td><span class="tag tag-vshow">cm_vshow</span></td>
+                    <td>日报卡片进入可视区域</td>
+                    <td><code>game_mode</code>: sol / mp</td>
+                    <td><span class="tag tag-high">高</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_click_daily_share_btn</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>点击日报分享按钮</td>
+                    <td><code>game_mode</code>: sol / mp</td>
+                    <td><span class="tag tag-high">高</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_exp_daily_poster_modal</code></td>
+                    <td><span class="tag tag-vshow">cm_vshow</span></td>
+                    <td>海报弹窗打开</td>
+                    <td><code>game_mode</code>: sol / mp</td>
+                    <td><span class="tag tag-medium">中</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_click_daily_poster_share</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>选择分享渠道按钮</td>
+                    <td><code>game_mode</code>: sol / mp<br><code>share_channel</code>: save_image / x / discord / facebook / reddit</td>
+                    <td><span class="tag tag-high">高</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_exp_daily_password</code></td>
+                    <td><span class="tag tag-vshow">cm_vshow</span></td>
+                    <td>每日密码区域曝光</td>
+                    <td>—</td>
+                    <td><span class="tag tag-medium">中</span></td>
+                </tr>
+
+                <tr>
+                    <td rowspan="2"><strong>密码 & 展馆</strong></td>
+                    <td><code>hq_click_password_copy</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>点击密码房指引按钮</td>
+                    <td>—</td>
+                    <td><span class="tag tag-medium">中</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_exp_collection</code></td>
+                    <td><span class="tag tag-vshow">cm_vshow</span></td>
+                    <td>大红展馆模块进入可视区域</td>
+                    <td>—</td>
+                    <td><span class="tag tag-medium">中</span></td>
+                </tr>
+
+                <tr>
+                    <td rowspan="4"><strong>我的数据</strong></td>
+                    <td><code>hq_exp_my_data</code></td>
+                    <td><span class="tag tag-vshow">cm_vshow</span></td>
+                    <td>我的数据页曝光（含模式切换时）</td>
+                    <td><code>game_mode</code>: sol / mp</td>
+                    <td><span class="tag tag-high">高</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_click_game_mode_switch</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>切换烽火地带/全面战场模式</td>
+                    <td><code>game_mode</code>: sol / mp</td>
+                    <td><span class="tag tag-high">高</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_click_profile_tab</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>切换Profile内容Tab</td>
+                    <td><code>profile_tab</code>: overview / record / weapon / operator / map<br>（移动端: red_hall / record）</td>
+                    <td><span class="tag tag-medium">中</span></td>
+                </tr>
+                <tr>
+                    <td><code>hq_click_match_detail</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>点击单局战绩详情</td>
+                    <td><code>game_mode</code>: sol / mp<br><code>source</code>: overview / record</td>
+                    <td><span class="tag tag-medium">中</span></td>
+                </tr>
+
+                <tr>
+                    <td><strong>反馈</strong></td>
+                    <td><code>hq_click_feedback</code></td>
+                    <td><span class="tag tag-click">cm_click</span></td>
+                    <td>点击反馈按钮</td>
+                    <td>—</td>
+                    <td><span class="tag tag-low">低</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Section 3 -->
+    <h2 id="metrics">三、核心指标体系</h2>
+    <div class="section-card">
+        <h3>3.1 流量指标</h3>
+        <table>
+            <tr><th>指标</th><th>定义</th><th>计算方式</th></tr>
+            <tr><td>DAU</td><td>日活跃用户数</td><td>去重 open_id (当日有任意事件上报)</td></tr>
+            <tr><td>PV</td><td>页面浏览量</td><td>SUM(hq_exp_page)</td></tr>
+            <tr><td>UV</td><td>独立访客</td><td>去重 open_id (或匿名设备ID)</td></tr>
+            <tr><td>人均PV</td><td>平均每用户浏览页数</td><td>PV / UV</td></tr>
+            <tr><td>跳出率</td><td>仅浏览1页即离开的占比</td><td>单页会话数 / 总会话数</td></tr>
+        </table>
+
+        <h3>3.2 转化指标</h3>
+        <table>
+            <tr><th>指标</th><th>定义</th><th>计算方式</th></tr>
+            <tr><td>登录转化率</td><td>点击登录→成功登录</td><td>login_submit(success) / click_login_entry</td></tr>
+            <tr><td>配装复制率</td><td>浏览配装页→复制配装码</td><td>copy事件 / gun_builds页PV</td></tr>
+            <tr><td>分享转化率</td><td>日报曝光→完成分享</td><td>poster_share / daily_report曝光</td></tr>
+        </table>
+
+        <h3>3.3 留存指标</h3>
+        <table>
+            <tr><th>指标</th><th>定义</th></tr>
+            <tr><td>次日留存</td><td>第N日新用户在N+1日回访的占比</td></tr>
+            <tr><td>7日留存</td><td>第N日新用户在N+7日回访的占比</td></tr>
+            <tr><td>30日留存</td><td>第N日新用户在N+30日回访的占比</td></tr>
+        </table>
+
+        <h3>3.4 参与度指标</h3>
+        <table>
+            <tr><th>指标</th><th>定义</th></tr>
+            <tr><td>平均会话时长</td><td>从首次事件到末次事件的时间差均值</td></tr>
+            <tr><td>功能渗透率</td><td>使用特定功能的用户占总活跃用户的比例</td></tr>
+            <tr><td>模式偏好比</td><td>烽火地带 vs 全面战场的使用占比</td></tr>
+        </table>
+    </div>
+
+    <!-- Section 4 -->
+    <h2 id="reports">四、数据报表需求</h2>
+    <div class="section-card">
+        <h3>报表 1: 日常运营概览</h3>
+        <ul>
+            <li><strong>频率</strong>: 每日更新</li>
+            <li><strong>维度</strong>: 日期 × 平台(Desktop/Mobile)</li>
+            <li><strong>指标</strong>: DAU, PV, UV, 人均PV, 平均会话时长, 跳出率</li>
+            <li><strong>图表</strong>: 趋势折线图 + 环比/同比变化</li>
+        </ul>
+
+        <h3>报表 2: 页面流量分布</h3>
+        <ul>
+            <li><strong>频率</strong>: 每日更新</li>
+            <li><strong>维度</strong>: page_id × 日期</li>
+            <li><strong>指标</strong>: 各页PV/UV, 页面停留时长, 进入率, 退出率</li>
+            <li><strong>图表</strong>: 堆叠柱状图 + 桑基图（页面流转路径）</li>
+        </ul>
+
+        <h3>报表 3: 登录漏斗</h3>
+        <ul>
+            <li><strong>频率</strong>: 每日更新</li>
+            <li><strong>维度</strong>: login_method × login_type × login_channel</li>
+            <li><strong>指标</strong>: 各步骤转化率, 登录成功率, 错误码分布</li>
+            <li><strong>图表</strong>: 漏斗图 + 错误码饼图</li>
+        </ul>
+
+        <h3>报表 4: 内容互动分析</h3>
+        <ul>
+            <li><strong>频率</strong>: 每周汇总</li>
+            <li><strong>维度</strong>: game_mode × 内容类型(日报/密码/展馆)</li>
+            <li><strong>指标</strong>: 曝光量, 互动量(点击/复制/分享), 互动率</li>
+            <li><strong>图表</strong>: 曝光-互动双轴折线图</li>
+        </ul>
+
+        <h3>报表 5: 配装功能分析</h3>
+        <ul>
+            <li><strong>频率</strong>: 每周汇总</li>
+            <li><strong>维度</strong>: 武器类型 × game_mode × 配装方案类型</li>
+            <li><strong>指标</strong>: 浏览量, 复制量, 复制转化率, 热门武器TOP10</li>
+            <li><strong>图表</strong>: 水平条形图 + 漏斗</li>
+        </ul>
+
+        <h3>报表 6: 用户留存</h3>
+        <ul>
+            <li><strong>频率</strong>: 每日更新</li>
+            <li><strong>维度</strong>: 注册日期(cohort) × 回访天数</li>
+            <li><strong>指标</strong>: N日留存率, 留存曲线</li>
+            <li><strong>图表</strong>: 留存矩阵热力图</li>
+        </ul>
+
+        <h3>报表 7: 分享渠道效果</h3>
+        <ul>
+            <li><strong>频率</strong>: 每周汇总</li>
+            <li><strong>维度</strong>: share_channel × game_mode</li>
+            <li><strong>指标</strong>: 各渠道分享次数, 渠道偏好占比</li>
+            <li><strong>图表</strong>: 饼图 + 趋势</li>
+        </ul>
+    </div>
+
+    <!-- Section 5 -->
+    <h2 id="analysis">五、数据分析方案</h2>
+    <div class="section-card">
+        <h3>5.1 用户旅程分析</h3>
+        <p>基于 <code>refer_url</code> + <code>url</code> + 事件序列，构建典型用户路径：</p>
+        <div class="metric-formula">
+            路径1: 首页 → 我的数据 → 切换模式 → 查看战绩<br>
+            路径2: 首页 → 配装推荐 → 选择武器 → 复制配装码<br>
+            路径3: 首页 → 日报曝光 → 分享按钮 → 海报 → 渠道分享<br>
+            路径4: 登录入口 → 选择方式 → 提交 → 成功/未找到角色 → 下载/换号
+        </div>
+
+        <h3>5.2 A/B分析维度</h3>
+        <ul>
+            <li><strong>平台对比</strong>: Desktop vs Mobile 在相同功能上的转化差异</li>
+            <li><strong>登录方式对比</strong>: Level Infinite vs Garena 的转化率与留存差异</li>
+            <li><strong>游戏模式对比</strong>: SOL(烽火) vs MP(全面战场) 的用户活跃度与深度</li>
+            <li><strong>语言对比</strong>: zh-CN vs de 用户的行为差异</li>
+        </ul>
+
+        <h3>5.3 异常监控</h3>
+        <table>
+            <tr><th>监控项</th><th>阈值</th><th>告警逻辑</th></tr>
+            <tr><td>登录失败率</td><td>>20%</td><td>error_code != 0 占比超阈值</td></tr>
+            <tr><td>DAU波动</td><td>环比下降 >30%</td><td>自动告警</td></tr>
+            <tr><td>页面加载异常</td><td>PV=0持续5分钟</td><td>某page_id无数据</td></tr>
+            <tr><td>"未找到角色"激增</td><td>环比 >50%</td><td>服务端可能异常</td></tr>
+        </table>
+
+        <h3>5.4 核心分析问题</h3>
+        <ol>
+            <li><strong>配装复制</strong>是核心价值动作，如何提升复制转化率？→ 分析从页面浏览到复制的流失节点</li>
+            <li><strong>登录流失</strong>在哪一步最严重？→ 漏斗各步转化率 + error_code分布</li>
+            <li><strong>日报分享</strong>渠道效果如何？→ 各渠道分享量 & 用户复访率</li>
+            <li><strong>模式偏好</strong>对用户留存有何影响？→ SOL用户 vs MP用户的留存对比</li>
+            <li><strong>新用户引导</strong>是否有效？→ 新用户首次会话行为序列 & 是否触达核心功能</li>
+        </ol>
+    </div>
+
+    <!-- Section 6 -->
+    <h2 id="funnel">六、漏斗模型设计</h2>
+    <div class="section-card">
+        <h3>漏斗 A: 登录转化漏斗</h3>
+        <div class="metric-formula">
+            hq_click_login_entry → hq_exp_login_modal → hq_click_login_method_select → hq_click_login_submit(success) → 完成登录
+        </div>
+        <p>分支: submit失败 → norole弹窗 → gotodownload / otheraccount / dismiss</p>
+
+        <h3>漏斗 B: 日报分享漏斗</h3>
+        <div class="metric-formula">
+            hq_exp_daily_report → hq_click_daily_share_btn → hq_exp_daily_poster_modal → hq_click_daily_poster_share
+        </div>
+
+        <h3>漏斗 C: 配装使用漏斗</h3>
+        <div class="metric-formula">
+            hq_exp_page(gun_builds) → 选择武器 → 查看方案 → 复制配装码
+        </div>
+
+        <h3>漏斗 D: 数据查看漏斗</h3>
+        <div class="metric-formula">
+            hq_exp_my_data → hq_click_game_mode_switch → hq_click_profile_tab → hq_click_match_detail
+        </div>
+    </div>
+
+    <!-- Section 7 -->
+    <h2 id="segments">七、用户分群策略</h2>
+    <div class="section-card">
+        <table>
+            <tr><th>分群名称</th><th>定义</th><th>分析目的</th></tr>
+            <tr><td>核心玩家</td><td>登录用户 + 周访问≥3次 + 使用配装功能</td><td>分析高活跃用户行为模式</td></tr>
+            <tr><td>数据查看者</td><td>主要访问my_data页 + 查看战绩</td><td>了解数据功能的粘性</td></tr>
+            <tr><td>工具使用者</td><td>频繁使用配装复制/密码复制</td><td>评估工具功能价值</td></tr>
+            <tr><td>社交分享者</td><td>有分享行为(poster_share)的用户</td><td>社交传播效果分析</td></tr>
+            <tr><td>流失风险用户</td><td>7日内无回访的活跃用户</td><td>流失预警 & 召回策略</td></tr>
+            <tr><td>新用户</td><td>首次访问≤7天的用户</td><td>引导效果评估</td></tr>
+            <tr><td>游客用户</td><td>未登录状态浏览</td><td>登录引导策略优化</td></tr>
+        </table>
+    </div>
+
+    <footer style="margin-top: 48px; padding-top: 16px; border-top: 1px solid #e2e8f0; font-size: 12px; color: #a0aec0;">
+        <p>文档维护: DFoversea 数据分析团队 | 配套可视化看板: <a href="index.html" style="color:#4299e1;">analytics-dashboard/index.html</a></p>
+    </footer>
+</body>
+</html>

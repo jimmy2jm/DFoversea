@@ -618,6 +618,7 @@ document.querySelectorAll('#gun-selector-fh-mobile .gun-tab').forEach(tab => {
         this.classList.add('active');
         // 重绘雷达图（可以根据不同枪械显示不同数据）
         drawRadarCharts();
+        refreshMobileSchemeAuthorsInContainer(document.getElementById('gun-builds-content-fh-mobile'), this.dataset.gun);
     });
 });
 
@@ -662,17 +663,28 @@ function drawRadarChart(canvasId, stats, color, fillColor) {
     const height = rect.height;
     const centerX = width / 2;
     const centerY = height / 2;
-    const radius = Math.min(width, height) / 2 - 20;
+    const radius = Math.min(width, height) / 2 - 24;
     
-    const labels = ['后坐力控制', '操控速度', '射程优势', '持枪稳定性', '射速'];
-    const values = [stats.recoil, stats.handling, stats.range, stats.stability, stats.fireRate];
-    const numSides = 5;
+    // 顶部顺时针：基础伤害 / 优势射程 / 后坐力控制 / 操控速度 / 武器稳定性 / 腰射精度
+    const labels = ['基础伤害', '优势射程', '后坐力控制', '操控速度', '武器稳定性', '腰射精度'];
+    const fallback = (v) => (typeof v === 'number' ? v : 0);
+    const damage = fallback(stats.damage ?? Math.round((fallback(stats.range) + fallback(stats.recoil)) / 2));
+    const hipfire = fallback(stats.hipfire ?? Math.round((fallback(stats.handling) + (100 - fallback(stats.range))) / 2));
+    const values = [
+        damage,
+        fallback(stats.range),
+        fallback(stats.recoil),
+        fallback(stats.handling),
+        fallback(stats.stability),
+        hipfire
+    ];
+    const numSides = 6;
     const angleStep = (Math.PI * 2) / numSides;
     const startAngle = -Math.PI / 2; // 从顶部开始
     
     ctx.clearRect(0, 0, width, height);
     
-    // 绘制背景网格（多层五边形）
+    // 绘制背景网格（多层多边形）
     for (let level = 1; level <= 4; level++) {
         const levelRadius = (radius / 4) * level;
         ctx.beginPath();
@@ -729,17 +741,18 @@ function drawRadarChart(canvasId, stats, color, fillColor) {
         ctx.fill();
     }
     
-    // 绘制标签
+    // 绘制标签（依据角度自适应 anchor）
     ctx.font = '9px sans-serif';
-    ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillStyle = '#8a9bb0';
     
     for (let i = 0; i < numSides; i++) {
         const angle = startAngle + angleStep * i;
-        const labelRadius = radius + 12;
+        const labelRadius = radius + 14;
         const x = centerX + Math.cos(angle) * labelRadius;
         const y = centerY + Math.sin(angle) * labelRadius;
+        const cosA = Math.cos(angle);
+        ctx.textAlign = cosA > 0.2 ? 'left' : cosA < -0.2 ? 'right' : 'center';
         ctx.fillText(labels[i], x, y);
     }
 }
@@ -852,10 +865,12 @@ function initZhanchangGunSelectorMobile() {
                 updateZhanchangTagsMobile(gunData.tags);
                 updateZhanchangAttachmentsMobile(gunData.attachments);
             }
+            refreshMobileSchemeAuthorsInContainer(document.getElementById('gun-builds-content-zc-mobile'), gunType);
         });
     });
     
     zhanchangGunSelectorInitialized = true;
+    refreshMobileSchemeAuthorsInContainer(document.getElementById('gun-builds-content-zc-mobile'), document.querySelector('#gun-selector-zc-mobile .gun-tab.active')?.dataset?.gun || 'm4a1');
 }
 
 // 更新战场模式的标签
@@ -882,17 +897,219 @@ function updateZhanchangAttachmentsMobile(attachments) {
 // 初始化雷达图
 drawRadarCharts();
 
+// 初始化烽火首屏的方案作者区
+refreshMobileSchemeAuthorsInContainer(
+    document.getElementById('gun-builds-content-fh-mobile'),
+    document.querySelector('#gun-selector-fh-mobile .gun-tab.active')?.dataset?.gun || 'mp5'
+);
+
 // 窗口大小变化时重绘
 window.addEventListener('resize', drawRadarCharts);
 
+/**
+ * 渲染方案作者区（HTML）。author 为空时返回空字符串。
+ */
+function renderMobileSchemeAuthor(author, opts = {}) {
+    if (!author || !author.name) return '';
+    const compactCls = opts.compact ? ' scheme-author--compact' : '';
+    const officialCls = author.official ? ' scheme-author--official' : '';
+    const initial = (author.name.replace(/^DF[\s·]*/i, '')[0] || author.name[0] || '?').toUpperCase();
+    const avatarText = author.official ? 'DF' : initial;
+    const avatar = author.avatar
+        ? `<img class="scheme-author-avatar" src="${author.avatar}" alt="${author.name}" />`
+        : `<span class="scheme-author-avatar scheme-author-avatar--text">${avatarText}</span>`;
+    return `
+        <div class="scheme-author${compactCls}${officialCls}">
+            ${avatar}
+            <span class="scheme-author-name">${author.name}</span>
+        </div>
+    `;
+}
+
+/* ============================================
+   移动端方案统计：点赞 + 复制次数
+   ============================================ */
+function getMobileStatIcons() {
+    return {
+        heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',
+        heartFilled: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',
+        copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
+    };
+}
+
+function renderMobileSchemeStats(meta, opts = {}) {
+    if (!meta || !meta.gunId) return '';
+    if (typeof window.getGunSchemeStats !== 'function') return '';
+    const stats = window.getGunSchemeStats(meta);
+    const variantCls = opts.footer ? ' scheme-stats--footer' : '';
+    const likedCls = stats.likedByMe ? ' is-liked' : '';
+    const heartIcon = stats.likedByMe ? getMobileStatIcons().heartFilled : getMobileStatIcons().heart;
+    const fmt = window.formatStatNumber || (n => String(n));
+    const gunIdAttr = (meta.gunId || '').toLowerCase();
+    const costAttr = meta.cost || 'balanced';
+    return `
+        <div class="scheme-stats${variantCls}" data-scheme-gun="${gunIdAttr}" data-scheme-cost="${costAttr}">
+            <button class="scheme-stat scheme-stat-like${likedCls}" type="button" aria-pressed="${stats.likedByMe}" aria-label="点赞">
+                <span class="scheme-stat-icon">${heartIcon}</span>
+                <span class="scheme-stat-value">${fmt(stats.likes)}</span>
+            </button>
+            <span class="scheme-stat scheme-stat-copy" aria-label="复制次数">
+                <span class="scheme-stat-icon">${getMobileStatIcons().copy}</span>
+                <span class="scheme-stat-value">${fmt(stats.copies)}</span>
+            </span>
+        </div>
+    `;
+}
+
+function refreshMobileSchemeStatsUI(meta) {
+    if (!meta || !meta.gunId || typeof window.getGunSchemeStats !== 'function') return;
+    const stats = window.getGunSchemeStats(meta);
+    const fmt = window.formatStatNumber || (n => String(n));
+    const sel = `.scheme-stats[data-scheme-gun="${(meta.gunId || '').toLowerCase()}"][data-scheme-cost="${meta.cost || 'balanced'}"]`;
+    document.querySelectorAll(sel).forEach(el => {
+        const likeBtn = el.querySelector('.scheme-stat-like');
+        const copyEl = el.querySelector('.scheme-stat-copy .scheme-stat-value');
+        if (likeBtn) {
+            likeBtn.classList.toggle('is-liked', stats.likedByMe);
+            likeBtn.setAttribute('aria-pressed', String(stats.likedByMe));
+            const iconWrap = likeBtn.querySelector('.scheme-stat-icon');
+            if (iconWrap) iconWrap.innerHTML = stats.likedByMe ? getMobileStatIcons().heartFilled : getMobileStatIcons().heart;
+            const valEl = likeBtn.querySelector('.scheme-stat-value');
+            if (valEl) valEl.textContent = fmt(stats.likes);
+        }
+        if (copyEl) copyEl.textContent = fmt(stats.copies);
+    });
+}
+
+function ensureMobileSchemeStatsClickDelegate() {
+    if (document.body.dataset.mobileSchemeStatsBound === '1') return;
+    document.body.dataset.mobileSchemeStatsBound = '1';
+    document.body.addEventListener('click', (e) => {
+        const likeBtn = e.target.closest('.scheme-stat-like');
+        if (!likeBtn) return;
+        const wrap = likeBtn.closest('.scheme-stats');
+        if (!wrap) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const meta = {
+            gunId: wrap.dataset.schemeGun,
+            cost: wrap.dataset.schemeCost
+        };
+        if (typeof window.toggleGunSchemeLike === 'function') {
+            window.toggleGunSchemeLike(meta);
+            refreshMobileSchemeStatsUI(meta);
+        }
+    });
+}
+
+function bumpMobileSchemeCopyCount(meta) {
+    if (!meta || !meta.gunId) return;
+    if (typeof window.incrementGunSchemeCopy !== 'function') return;
+    window.incrementGunSchemeCopy(meta);
+    refreshMobileSchemeStatsUI(meta);
+}
+
+function mountMobileSchemeAuthorOnCard(card, meta, opts = {}) {
+    if (!card || typeof window.getGunSchemeAuthor !== 'function') return;
+    // 全卡范围内清理旧节点（含历史遗留 .build-footer、嵌套位置的旧 .scheme-author/.scheme-stats）
+    card.querySelectorAll('.scheme-author, .scheme-stats, .build-footer').forEach(el => el.remove());
+
+    // 作者
+    const author = window.getGunSchemeAuthor(meta);
+    const html = renderMobileSchemeAuthor(author, opts);
+    if (html) {
+        const tpl = document.createElement('div');
+        tpl.innerHTML = html.trim();
+        card.appendChild(tpl.firstElementChild);
+    }
+
+    // 点赞 + 复制次数
+    const statsHtml = renderMobileSchemeStats(meta);
+    if (statsHtml) {
+        const tpl2 = document.createElement('div');
+        tpl2.innerHTML = statsHtml.trim();
+        card.appendChild(tpl2.firstElementChild);
+    }
+
+    // 整卡可点击
+    card.classList.add('is-clickable');
+    if (meta) {
+        if (meta.gunId) card.dataset.gunId = meta.gunId;
+        if (meta.cost) card.dataset.cost = meta.cost;
+    }
+
+    ensureMobileSchemeStatsClickDelegate();
+}
+
+function refreshMobileSchemeAuthorsInContainer(container, gunId) {
+    if (!container || !gunId) return;
+    const id = gunId.toLowerCase();
+    [
+        { sel: '.build-card.budget', cost: 'budget' },
+        { sel: '.build-card.premium', cost: 'highend' },
+        { sel: '.build-card.single', cost: 'balanced' }
+    ].forEach(item => {
+        const card = container.querySelector(item.sel);
+        if (card) mountMobileSchemeAuthorOnCard(card, { gunId: id, cost: item.cost });
+    });
+}
+
+function isMobileUserLoggedIn() {
+    try {
+        const data = JSON.parse(localStorage.getItem('df_login') || '{}');
+        return !!data.loggedIn;
+    } catch (e) {
+        return false;
+    }
+}
+
+function setMobileGunCopyButtonState(btn, loggedIn) {
+    // 富结构按钮（含 icon + label 子元素）只改 label，不破坏 DOM
+    const labelEl = btn.querySelector('.gun-scheme-detail-copy-label');
+    const readText = () => (labelEl ? labelEl.textContent : btn.textContent).trim();
+    const writeText = (val) => {
+        if (labelEl) labelEl.textContent = val;
+        else btn.textContent = val;
+    };
+    if (!btn.dataset.defaultCopyText && readText() !== '登录以复制') {
+        btn.dataset.defaultCopyText = readText() || '复制';
+    }
+    if (loggedIn) {
+        btn.disabled = false;
+        btn.classList.remove('gun-copy-login-required');
+        writeText(btn.dataset.defaultCopyText || '复制');
+    } else {
+        btn.disabled = true;
+        btn.classList.add('gun-copy-login-required');
+        writeText('登录以复制');
+        btn.style.background = '';
+        btn.style.color = '';
+    }
+}
+
+function updateMobileGunCopyButtonsAuthState(root = document) {
+    const loggedIn = isMobileUserLoggedIn();
+    root.querySelectorAll('.build-card .copy-btn, .gun-detail-copy-btn, .gun-scheme-detail-copy-btn').forEach(btn => {
+        setMobileGunCopyButtonState(btn, loggedIn);
+    });
+}
+
 // 复制按钮
+updateMobileGunCopyButtonsAuthState();
 document.querySelectorAll('.copy-btn').forEach(btn => {
-    btn.addEventListener('click', function() {
+    btn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (!isMobileUserLoggedIn()) return;
+        // 触发复制次数自增
+        const card = this.closest('.build-card');
+        if (card && card.dataset.gunId && card.dataset.cost) {
+            bumpMobileSchemeCopyCount({ gunId: card.dataset.gunId, cost: card.dataset.cost });
+        }
         this.textContent = '已复制 ✓';
         this.style.background = 'var(--accent-cyan)';
         this.style.color = '#000';
         setTimeout(() => {
-            this.textContent = '复制';
+            this.textContent = this.dataset.defaultCopyText || '复制';
             this.style.background = '';
             this.style.color = '';
         }, 1500);
@@ -1966,207 +2183,476 @@ const gunDetailDefaultAttachments = [
 
 let currentGunDetailMode = 'fh';
 let currentGunDetailId = 'mp5';
-
-function openGunBuildDetailPage() {
-    const page = document.getElementById('page-gun-build-detail');
-    if (!page) return;
-
-    const zcReportActive = document.getElementById('report-zc')?.classList.contains('active');
-    currentGunDetailMode = zcReportActive ? 'zc' : 'fh';
-    currentGunDetailId = gunDetailGunList[currentGunDetailMode][0].id;
-
-    document.querySelectorAll('.gun-detail-mode-tab').forEach(tab => {
-        tab.classList.toggle('active', tab.dataset.mode === currentGunDetailMode);
-    });
-
-    page.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    renderGunDetailPage();
-}
-
-function closeGunBuildDetailPage() {
-    const page = document.getElementById('page-gun-build-detail');
-    if (page) {
-        page.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-}
-
-function bindGunBuildDetailEvents() {
-    const moreBtn = document.getElementById('gun-build-more');
-    if (moreBtn) moreBtn.addEventListener('click', openGunBuildDetailPage);
-
-    const backBtn = document.getElementById('gun-build-detail-back');
-    if (backBtn) backBtn.addEventListener('click', closeGunBuildDetailPage);
-
-    document.querySelectorAll('.gun-detail-mode-tab').forEach(tab => {
-        tab.addEventListener('click', function() {
-            document.querySelectorAll('.gun-detail-mode-tab').forEach(t => t.classList.remove('active'));
-            this.classList.add('active');
-            currentGunDetailMode = this.dataset.mode;
-            currentGunDetailId = gunDetailGunList[currentGunDetailMode][0].id;
-            renderGunDetailPage();
-        });
-    });
-}
-
-const gunDetailMeta = {
-    mp5:  { role: '冲锋枪', range: '近距离', difficulty: '新手友好' },
-    ak74: { role: '突击步枪', range: '中远距离', difficulty: '压枪要求高' },
-    m4a1: { role: '突击步枪', range: '通用距离', difficulty: '均衡' },
-    scar: { role: '战斗步枪', range: '远距离', difficulty: '精准要求高' },
-    vss:  { role: '狙击步枪', range: '中距离', difficulty: '潜行' },
-    hk416: { role: '突击步枪', range: '通用距离', difficulty: '均衡' },
-    aug:  { role: '突击步枪', range: '远距离', difficulty: '自带瞄具' },
-    svd:  { role: '狙击步枪', range: '远距离', difficulty: '一击必杀' }
+/* ============================================
+   工具页 · 改枪全量方案
+   - 烽火/战场 Tab：mode
+   - 三档筛选：枪械类型 / 枪械名称 / 价格（仅烽火）
+   - 列表单列，每张卡：标题 / 标签 / 价格 / 复制按钮 / 枪图 / 作者 / stats
+   - 点击整卡 → 打开方案详情子页（看配件清单）
+   ============================================ */
+const MOBILE_TYPE_NAMES = {
+    ar: '突击步枪', smg: '冲锋枪', sr: '狙击步枪',
+    lmg: '轻机枪', sg: '霰弹枪', pistol: '手枪'
 };
 
-function renderGunDetailPage() {
-    const selector = document.getElementById('gun-detail-selector');
-    const schemeList = document.getElementById('gun-detail-scheme-list');
-    const currentInfo = document.getElementById('gun-detail-current-info');
-    if (!selector || !schemeList) return;
+// 枪械元数据（mode → 枪 id → {name, type, price?}）
+const MOBILE_GUNS_FH = [
+    { id: 'akm', name: 'AKM', type: 'ar', price: 125000 },
+    { id: 'tenglong', name: '腾龙', type: 'ar', price: 98000 },
+    { id: 'ak74', name: 'AK-74M', type: 'ar', price: 115000 },
+    { id: 'm4a1', name: 'M4A1', type: 'ar', price: 105000 },
+    { id: 'scar', name: 'SCAR-H', type: 'ar', price: 145000 },
+    { id: 'hk416', name: 'HK416', type: 'ar', price: 135000 },
+    { id: 'mp5', name: 'MP5', type: 'smg', price: 72000 },
+    { id: 'vector', name: 'Vector', type: 'smg', price: 88000 },
+    { id: 'mp7', name: 'MP7', type: 'smg', price: 78000 },
+    { id: 'awm', name: 'AWM', type: 'sr', price: 285000 },
+    { id: 'svd', name: 'SVD', type: 'sr', price: 165000 },
+    { id: 'vss', name: 'VSS', type: 'sr', price: 92000 },
+    { id: 'pkm', name: 'PKM', type: 'lmg', price: 158000 },
+    { id: 's12k', name: 'S12K', type: 'sg', price: 65000 },
+    { id: 'g18', name: 'Glock-18', type: 'pistol', price: 22000 }
+];
 
-    const guns = gunDetailGunList[currentGunDetailMode];
-    selector.innerHTML = guns.map(gun => `
-        <div class="gun-detail-gun-card ${gun.id === currentGunDetailId ? 'active' : ''}" data-gun="${gun.id}">
-            <div class="gun-detail-gun-image"></div>
-            <div class="gun-detail-gun-name">${gun.name}</div>
-        </div>
-    `).join('');
+const MOBILE_GUNS_ZC = [
+    { id: 'm4a1', name: 'M4A1', type: 'ar' },
+    { id: 'ak74', name: 'AK-74M', type: 'ar' },
+    { id: 'hk416', name: 'HK416', type: 'ar' },
+    { id: 'aug', name: 'AUG', type: 'ar' },
+    { id: 'scar', name: 'SCAR-H', type: 'ar' },
+    { id: 'mp5', name: 'MP5', type: 'smg' },
+    { id: 'vector', name: 'Vector', type: 'smg' },
+    { id: 'awm', name: 'AWM', type: 'sr' },
+    { id: 'svd', name: 'SVD', type: 'sr' },
+    { id: 'vss', name: 'VSS', type: 'sr' }
+];
 
-    selector.querySelectorAll('.gun-detail-gun-card').forEach(card => {
-        card.addEventListener('click', function() {
-            currentGunDetailId = this.dataset.gun;
-            renderGunDetailPage();
-        });
-    });
+const MOBILE_FH_SCHEMES_BY_GUN = {
+    // 烽火每把枪 2 套：性价比 / 满改
+    _default: [
+        { cost: 'budget', costIcon: '💰', priceText: '85K', totalPrice: 85000, name: '性价比方案', tags: ['新手友好', '中近距离'] },
+        { cost: 'highend', costIcon: '💎', priceText: '157K', totalPrice: 157000, name: '满改方案', tags: ['长距离', '高精准'] }
+    ]
+};
 
-    renderGunDetailCurrentInfo(currentInfo);
+const MOBILE_ZC_SCHEMES_BY_GUN = {
+    _default: [
+        { cost: 'balanced', costIcon: '🎯', priceText: '', totalPrice: 110000, name: '推荐改装方案', tags: ['PVP优化', '高稳定'] }
+    ]
+};
 
-    if (currentGunDetailMode === 'fh') {
-        renderFenghuoGunDetailSchemes();
-    } else {
-        renderZhanchangGunDetailSchemes();
+let mobileSchemeCurrentMode = 'fh';
+
+function getMobileSchemesForGun(mode, gun) {
+    const map = mode === 'fh' ? MOBILE_FH_SCHEMES_BY_GUN : MOBILE_ZC_SCHEMES_BY_GUN;
+    return (map[gun.id] || map._default).map(s => ({
+        ...s,
+        gunId: gun.id,
+        gunName: gun.name,
+        gunType: gun.type,
+        gunPrice: gun.price
+    }));
+}
+
+function getMobileFlatSchemes(mode) {
+    const guns = mode === 'fh' ? MOBILE_GUNS_FH : MOBILE_GUNS_ZC;
+    const out = [];
+    guns.forEach(g => getMobileSchemesForGun(mode, g).forEach(s => out.push(s)));
+    return out;
+}
+
+function getMobileSchemeFilters() {
+    const root = document.getElementById('gun-scheme-filters-mobile');
+    if (!root) return { type: 'all', name: 'all', price: 'all' };
+    return {
+        type: root.querySelector('[data-filter="type"]')?.value || 'all',
+        name: root.querySelector('[data-filter="name"]')?.value || 'all',
+        price: root.querySelector('[data-filter="price"]')?.value || 'all'
+    };
+}
+
+function matchMobilePriceBucket(price, bucket) {
+    if (!price && bucket !== 'all') return false;
+    switch (bucket) {
+        case 'lt80': return price < 80000;
+        case '80to120': return price >= 80000 && price < 120000;
+        case '120to160': return price >= 120000 && price < 160000;
+        case 'gt160': return price >= 160000;
+        case 'all':
+        default: return true;
     }
 }
 
-function renderGunDetailCurrentInfo(container) {
-    if (!container) return;
-
-    const guns = gunDetailGunList[currentGunDetailMode];
-    const currentGun = guns.find(gun => gun.id === currentGunDetailId) || guns[0];
-    const meta = gunDetailMeta[currentGun.id] || { role: '主武器', range: '通用距离', difficulty: '均衡' };
-    const statSource = currentGunDetailMode === 'fh'
-        ? (gunStatsData[currentGun.id]?.premium || gunStatsData[currentGun.id]?.budget || gunStatsData.mp5.premium)
-        : (gunStatsDataZC[currentGun.id]?.stats || gunStatsDataZC.m4a1.stats);
-    const score = Math.round(Object.values(statSource).reduce((sum, value) => sum + value, 0) / 5);
-
-    container.innerHTML = `
-        <div class="gun-detail-current-main">
-            <div class="gun-detail-current-image"></div>
-            <div class="gun-detail-current-text">
-                <div class="gun-detail-current-kicker">${currentGunDetailMode === 'fh' ? '烽火地带' : '全面战场'}</div>
-                <div class="gun-detail-current-name">${currentGun.name}</div>
-                <div class="gun-detail-current-desc">${meta.role} · ${meta.range} · ${meta.difficulty}</div>
-            </div>
-            <div class="gun-detail-current-score">
-                <span>${score}</span>
-                <em>综合</em>
-            </div>
-        </div>
-        <div class="gun-detail-current-stats">
-            <span>后坐 ${statSource.recoil}</span>
-            <span>操控 ${statSource.handling}</span>
-            <span>射程 ${statSource.range}</span>
-            <span>稳定 ${statSource.stability}</span>
-            <span>射速 ${statSource.fireRate}</span>
-        </div>
-    `;
+/**
+ * 根据当前类型筛选填充「枪械名称」下拉项
+ */
+function populateMobileSchemeNameOptions() {
+    const root = document.getElementById('gun-scheme-filters-mobile');
+    if (!root) return;
+    const select = root.querySelector('[data-filter="name"]');
+    if (!select) return;
+    const guns = mobileSchemeCurrentMode === 'fh' ? MOBILE_GUNS_FH : MOBILE_GUNS_ZC;
+    const typeFilter = root.querySelector('[data-filter="type"]')?.value || 'all';
+    const list = typeFilter === 'all' ? guns : guns.filter(g => g.type === typeFilter);
+    const prev = select.value;
+    select.innerHTML = ['<option value="all">全部枪械</option>']
+        .concat(list.map(g => `<option value="${g.id}">${g.name}</option>`)).join('');
+    if (prev && [...select.options].some(o => o.value === prev)) select.value = prev;
+    else select.value = 'all';
 }
 
-function renderFenghuoGunDetailSchemes() {
-    const schemeList = document.getElementById('gun-detail-scheme-list');
-    const gunData = gunStatsData[currentGunDetailId] || gunStatsData.mp5;
-    const schemes = [
-        { type: 'budget', title: '💰 85K 性价比方案', tags: ['中近距离', '满腰射', '新手友好'], stats: gunData.budget, color: '#4ade80', fill: 'rgba(74, 222, 128, 0.2)' },
-        { type: 'premium', title: '💎 157K 满改方案', tags: ['长距离', '高精准', '高稳定'], stats: gunData.premium, color: '#a78bfa', fill: 'rgba(167, 139, 250, 0.2)' }
-    ];
-
-    schemeList.innerHTML = schemes.map(scheme => renderGunDetailSchemeCard(scheme)).join('');
-    setTimeout(() => {
-        schemes.forEach(scheme => drawRadarChart(`gun-detail-radar-${scheme.type}`, scheme.stats, scheme.color, scheme.fill));
-    }, 50);
-    bindGunDetailCopyButtons();
+function renderMobileGunSchemeList() {
+    const list = document.getElementById('gun-scheme-list-mobile');
+    if (!list) return;
+    const filters = getMobileSchemeFilters();
+    const rows = getMobileFlatSchemes(mobileSchemeCurrentMode).filter(s => {
+        if (filters.type !== 'all' && s.gunType !== filters.type) return false;
+        if (filters.name !== 'all' && s.gunId !== filters.name) return false;
+        if (mobileSchemeCurrentMode === 'fh' && filters.price !== 'all'
+            && !matchMobilePriceBucket(s.gunPrice, filters.price)) return false;
+        return true;
+    });
+    if (!rows.length) {
+        list.innerHTML = '<div class="gun-scheme-list-empty">暂无符合条件的方案</div>';
+        return;
+    }
+    list.innerHTML = rows.map(s => renderMobileSchemeListCard(s)).join('');
+    bindMobileSchemeListInteractions(list);
 }
 
-function renderZhanchangGunDetailSchemes() {
-    const schemeList = document.getElementById('gun-detail-scheme-list');
-    const gunData = gunStatsDataZC[currentGunDetailId] || gunStatsDataZC.m4a1;
-    const scheme = {
-        type: 'single',
-        title: '🎯 全面战场推荐方案',
-        tags: gunData.tags || ['PVP优化', '高稳定'],
-        stats: gunData.stats,
-        color: '#f39c12',
-        fill: 'rgba(243, 156, 18, 0.2)',
-        attachments: gunData.attachments || gunDetailDefaultAttachments
-    };
-
-    schemeList.innerHTML = renderGunDetailSchemeCard(scheme);
-    setTimeout(() => drawRadarChart('gun-detail-radar-single', scheme.stats, scheme.color, scheme.fill), 50);
-    bindGunDetailCopyButtons();
-}
-
-function renderGunDetailSchemeCard(scheme) {
-    const attachments = scheme.attachments || gunDetailDefaultAttachments;
+function renderMobileSchemeListCard(scheme) {
+    const meta = { gunId: scheme.gunId, cost: scheme.cost };
+    const author = (typeof window.getGunSchemeAuthor === 'function')
+        ? window.getGunSchemeAuthor(meta) : null;
+    const authorHtml = renderMobileSchemeAuthor(author, { compact: true });
+    const statsHtml = renderMobileSchemeStats(meta);
+    // 枪图左下角浮层：方案总价（完整数字）
+    const totalPriceOverlay = scheme.totalPrice
+        ? `<span class="scheme-list-card-gun-price"><span class="value-icon">💎</span><span class="value-num">${scheme.totalPrice.toLocaleString('en-US')}</span></span>`
+        : '';
     return `
-        <div class="gun-detail-scheme-card ${scheme.type}">
-            <div class="gun-detail-scheme-header">
-                <div class="gun-detail-scheme-name">${scheme.title}</div>
-                <button class="gun-detail-copy-btn">复制</button>
-            </div>
-            <div class="gun-detail-tags">
-                ${scheme.tags.map(tag => `<span class="gun-detail-tag">${tag}</span>`).join('')}
-            </div>
-            <div class="gun-detail-preview-row">
-                <div class="gun-detail-radar-box">
-                    <canvas id="gun-detail-radar-${scheme.type}"></canvas>
+        <div class="scheme-list-card-mobile is-clickable"
+             data-gun-id="${scheme.gunId}" data-cost="${scheme.cost}" data-name="${scheme.name}">
+            <!-- 顶部：标题 + 副标题 + 标签（右上角箭头暗示可点） -->
+            <div class="scheme-list-card-header">
+                <div class="scheme-list-card-title-row">
+                    <span class="scheme-list-card-title">${scheme.name}</span>
+                    <span class="scheme-list-card-arrow" aria-hidden="true">›</span>
                 </div>
-                <div class="gun-detail-attachment-box">
-                    ${attachments.map(att => `
-                        <div class="gun-detail-attachment">
-                            <div class="gun-detail-attachment-icon">${att.icon}</div>
-                            <div class="gun-detail-attachment-name">${att.name}</div>
-                        </div>
-                    `).join('')}
+                <div class="scheme-list-card-sub">${scheme.gunName} · ${MOBILE_TYPE_NAMES[scheme.gunType] || ''}</div>
+                <div class="scheme-list-card-tags">
+                    ${scheme.tags.map(t => `<span class="scheme-list-card-tag">${t}</span>`).join('')}
                 </div>
             </div>
+            <!-- 复制按钮（全宽） -->
+            <button class="scheme-list-card-copy-btn" type="button">复制</button>
+            <!-- 中间：枪图（左下角附完整数字方案总价） -->
+            <div class="scheme-list-card-gun-image">
+                ${totalPriceOverlay}
+            </div>
+            ${authorHtml}
+            ${statsHtml}
         </div>
     `;
 }
 
-function bindGunDetailCopyButtons() {
-    document.querySelectorAll('.gun-detail-copy-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+function bindMobileSchemeListInteractions(list) {
+    ensureMobileSchemeStatsClickDelegate();
+    updateMobileGunCopyButtonsAuthState(list);
+
+    // 复制按钮
+    list.querySelectorAll('.scheme-list-card-copy-btn').forEach(btn => {
+        if (btn.dataset.bound === '1') return;
+        btn.dataset.bound = '1';
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (!isMobileUserLoggedIn()) return;
+            const card = btn.closest('.scheme-list-card-mobile');
+            if (card) bumpMobileSchemeCopyCount({ gunId: card.dataset.gunId, cost: card.dataset.cost });
             this.textContent = '已复制 ✓';
             this.style.background = 'var(--accent-cyan)';
             this.style.color = '#000';
             setTimeout(() => {
-                this.textContent = '复制';
+                this.textContent = this.dataset.defaultCopyText || '复制';
                 this.style.background = '';
                 this.style.color = '';
             }, 1500);
         });
     });
+
+    // 整卡点击 → 详情子页
+    if (list.dataset.cardClickBound === '1') return;
+    list.dataset.cardClickBound = '1';
+    list.addEventListener('click', function(e) {
+        if (e.target.closest('.scheme-list-card-copy-btn, .scheme-stat, .scheme-stat-like, .scheme-author, button, a')) return;
+        const card = e.target.closest('.scheme-list-card-mobile');
+        if (!card) return;
+        const tags = [...card.querySelectorAll('.scheme-list-card-tag')].map(t => t.textContent.trim());
+        const gunNameSub = card.querySelector('.scheme-list-card-sub')?.textContent || '';
+        const gunName = gunNameSub.split('·')[0].trim();
+        const buildName = card.dataset.name || '改枪方案';
+        openGunSchemeDetailPage({
+            gunId: card.dataset.gunId,
+            gunName,
+            cost: card.dataset.cost || 'balanced',
+            buildName: `${gunName} · ${buildName}`,
+            priceLabel: '',
+            tags,
+            mode: mobileSchemeCurrentMode
+        });
+    });
 }
 
-// 页面加载完成后绑定事件
+function bindMobileGunSchemeModule() {
+    // 首页"改枪推荐"右上角"查看全部" → 切到工具 Tab
+    const moreBtn = document.getElementById('gun-build-more-mobile');
+    if (moreBtn && moreBtn.dataset.bound !== '1') {
+        moreBtn.dataset.bound = '1';
+        moreBtn.addEventListener('click', function() {
+            // 触发底部导航的"工具" Tab 点击（统一走 nav-item click 路径）
+            const toolsNav = document.querySelector('.nav-item[data-page="工具"]');
+            if (toolsNav) {
+                toolsNav.click();
+                // 滚动到改枪全量方案模块
+                setTimeout(() => {
+                    const card = document.querySelector('.gun-scheme-card-mobile');
+                    if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            }
+        });
+    }
+
+    const card = document.querySelector('.gun-scheme-card-mobile');
+    if (!card) return;
+
+    // 烽火/战场 Tab
+    card.querySelectorAll('.gun-scheme-mode-tab-mobile').forEach(tab => {
+        tab.addEventListener('click', function() {
+            if (this.classList.contains('active')) return;
+            card.querySelectorAll('.gun-scheme-mode-tab-mobile').forEach(t => t.classList.remove('active'));
+            this.classList.add('active');
+            mobileSchemeCurrentMode = this.dataset.mode || 'fh';
+            // 战场不展示价格筛选
+            const priceSel = card.querySelector('[data-filter="price"]');
+            if (priceSel) priceSel.style.display = mobileSchemeCurrentMode === 'fh' ? '' : 'none';
+            // 类型 / 名称重置并重渲染
+            const typeSel = card.querySelector('[data-filter="type"]');
+            if (typeSel) typeSel.value = 'all';
+            populateMobileSchemeNameOptions();
+            if (priceSel) priceSel.value = 'all';
+            renderMobileGunSchemeList();
+        });
+    });
+
+    // 筛选器
+    card.querySelectorAll('.gun-scheme-filter-select').forEach(sel => {
+        sel.addEventListener('change', function() {
+            if (this.dataset.filter === 'type') {
+                populateMobileSchemeNameOptions();
+            }
+            renderMobileGunSchemeList();
+        });
+    });
+
+    // 首屏渲染
+    populateMobileSchemeNameOptions();
+    renderMobileGunSchemeList();
+}
+
+
+
+// 页面加载完成后绑定事件（每个绑定独立 try/catch，避免一个失败阻塞其余）
 document.addEventListener('DOMContentLoaded', function() {
-    bindMarketDetailEvents();
-    bindGunBuildDetailEvents();
-    initLoginSystem();
+    const safeRun = (name, fn) => {
+        try { fn(); } catch (e) { console.error('[init failed]', name, e); }
+    };
+    safeRun('bindMarketDetailEvents', bindMarketDetailEvents);
+    safeRun('bindMobileGunSchemeModule', bindMobileGunSchemeModule);
+    safeRun('bindGunSchemeDetailEvents', bindGunSchemeDetailEvents);
+    safeRun('bindHomeBuildCardDetailEvents', bindHomeBuildCardDetailEvents);
+    safeRun('initLoginSystem', initLoginSystem);
 });
+
+/* ============================================
+   改枪方案详情子页面
+   ============================================ */
+function openGunSchemeDetailPage(meta) {
+    meta = meta || {};
+    const page = document.getElementById('page-gun-scheme-detail');
+    const body = document.getElementById('gun-scheme-detail-body');
+    const footer = document.getElementById('gun-scheme-detail-footer');
+    if (!page || !body || typeof window.getGunSchemeDetail !== 'function') return;
+
+    const detail = window.getGunSchemeDetail({
+        gunId: meta.gunId,
+        gunName: meta.gunName,
+        cost: meta.cost,
+        code: meta.code,
+        name: meta.buildName
+    });
+
+    body.innerHTML = renderGunSchemeDetailBodyHTML(meta, detail);
+    if (footer) {
+        footer.innerHTML = renderGunSchemeDetailFooterHTML(meta, detail);
+        bindGunSchemeDetailFooter(footer, detail, meta);
+    }
+    ensureMobileSchemeStatsClickDelegate();
+
+    page.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeGunSchemeDetailPage() {
+    const page = document.getElementById('page-gun-scheme-detail');
+    if (!page) return;
+    page.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function bindGunSchemeDetailEvents() {
+    const backBtn = document.getElementById('gun-scheme-detail-back');
+    if (backBtn) backBtn.addEventListener('click', closeGunSchemeDetailPage);
+}
+
+function renderGunSchemeDetailBodyHTML(meta, detail) {
+    const tags = (meta.tags || []).filter(Boolean);
+    const totalLabel = detail.totalPrice ? `💎 ${detail.totalPrice.toLocaleString()}` : '';
+    const authorHtml = renderMobileSchemeAuthor(detail.author);
+
+    return `
+        <section class="gun-scheme-detail-overview">
+            <div class="gun-scheme-detail-title-row">
+                <span class="gun-scheme-detail-title">${meta.buildName || '改枪方案详情'}</span>
+            </div>
+            ${totalLabel ? `<div class="gun-scheme-detail-price-row">
+                <span class="gun-scheme-detail-price">${totalLabel}</span>
+            </div>` : ''}
+            ${tags.length ? `<div class="gun-scheme-detail-tags">
+                ${tags.map(tag => `<span class="gun-scheme-detail-tag">${tag}</span>`).join('')}
+            </div>` : ''}
+            <!-- 全宽枪图 -->
+            <div class="gun-scheme-detail-gun-image" aria-hidden="true"></div>
+            ${authorHtml}
+        </section>
+
+        <section class="gun-scheme-detail-section">
+            <h3 class="gun-scheme-detail-section-title">配件清单</h3>
+            <div class="gun-scheme-attachment-list">
+                ${detail.attachments.map(att => renderMobileAttachmentRow(att)).join('')}
+            </div>
+        </section>
+    `;
+}
+
+function renderGunSchemeDetailFooterHTML(meta, detail) {
+    const statsHtml = renderMobileSchemeStats({ gunId: meta?.gunId, cost: meta?.cost }, { footer: true });
+    const copyIcon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+    return `
+        <div class="gun-scheme-detail-footer-stats">${statsHtml}</div>
+        <button class="gun-scheme-detail-copy-btn gun-detail-copy-btn" type="button" data-code="${detail.code}">
+            <span class="gun-scheme-detail-copy-icon" aria-hidden="true">${copyIcon}</span>
+            <span class="gun-scheme-detail-copy-label">复制改枪码</span>
+        </button>
+    `;
+}
+
+function renderMobileAttachmentRow(att) {
+    const effectsHtml = (att.effects || []).map(effect => {
+        const cls = effect.positive ? 'effect-positive' : 'effect-negative';
+        const sign = effect.value > 0 ? '+' : '';
+        return `
+            <div class="attachment-effect ${cls}">
+                <span class="effect-label">${effect.label}</span>
+                <span class="effect-value">${sign}${effect.value}</span>
+            </div>
+        `;
+    }).join('');
+
+    const priceLabel = att.price ? `💎 ${att.price.toLocaleString()}` : '';
+    const subtitle = att.subtitle ? `<span class="attachment-subtitle">${att.subtitle}</span>` : '';
+
+    return `
+        <div class="attachment-row">
+            <div class="attachment-row-icon">${att.icon}</div>
+            <div class="attachment-row-main">
+                <div class="attachment-row-header">
+                    <div class="attachment-row-title">
+                        <span class="attachment-slot-name">${att.slotName}</span>
+                        <span class="attachment-name">${att.name}</span>
+                    </div>
+                    ${priceLabel ? `<span class="attachment-price">${priceLabel}</span>` : ''}
+                </div>
+                ${subtitle ? `<div class="attachment-row-sub">${subtitle}</div>` : ''}
+                ${effectsHtml ? `<div class="attachment-effects">${effectsHtml}</div>` : ''}
+            </div>
+        </div>
+    `;
+}
+
+function bindGunSchemeDetailFooter(footerEl, detail, meta) {
+    updateMobileGunCopyButtonsAuthState(footerEl);
+    const copyBtn = footerEl.querySelector('.gun-scheme-detail-copy-btn');
+    if (!copyBtn) return;
+    const labelEl = copyBtn.querySelector('.gun-scheme-detail-copy-label');
+    const defaultLabel = labelEl?.textContent || '复制改枪码';
+    copyBtn.addEventListener('click', function() {
+        if (!isMobileUserLoggedIn()) return;
+        if (meta && meta.gunId) bumpMobileSchemeCopyCount({ gunId: meta.gunId, cost: meta.cost });
+        if (labelEl) labelEl.textContent = '已复制 ✓';
+        copyBtn.classList.add('copied');
+        setTimeout(() => {
+            if (labelEl) labelEl.textContent = defaultLabel;
+            copyBtn.classList.remove('copied');
+        }, 1500);
+    });
+}
+
+function bindHomeBuildCardDetailEvents() {
+    if (document.body.dataset.viewDetailMobileBound === '1') return;
+    document.body.dataset.viewDetailMobileBound = '1';
+    document.body.addEventListener('click', function(e) {
+        // 排除卡片内的交互元素
+        if (e.target.closest('.copy-btn, .scheme-stat, .scheme-stat-like, .scheme-author, button, a')) return;
+        const card = e.target.closest('.build-card.is-clickable');
+        if (!card) return;
+        // 只处理首页方案卡：必须在 build-cards-container 内
+        if (!card.closest('[id*="gun-builds-content"]')) return;
+        e.stopPropagation();
+        const cost = card.dataset.gunCost
+            || (card.classList.contains('budget') ? 'budget'
+                : card.classList.contains('premium') ? 'highend'
+                : 'balanced');
+        const fallbackName = card.classList.contains('budget') ? '性价比改法'
+            : card.classList.contains('premium') ? '满改方案'
+            : '推荐方案';
+        const tags = [...card.querySelectorAll('.build-tag')]
+            .map(t => (t.textContent || '').trim())
+            .filter(Boolean)
+            .filter(t => !/^gunBuilds\./i.test(t));
+
+        // 取当前选中的枪
+        const container = card.closest('[id*="gun-builds-content"]');
+        const isZc = (container?.id || '').includes('zc');
+        const mode = isZc ? 'zc' : 'fh';
+        const selectorId = isZc ? 'gun-selector-zc-mobile' : 'gun-selector-fh-mobile';
+        let activeGun = document.querySelector(`#${selectorId} .gun-tab.active`);
+        if (!activeGun) {
+            activeGun = document.querySelector('.gun-selector .gun-tab.active');
+        }
+        const gunId = activeGun?.dataset?.gun || 'm4a1';
+        const gunName = activeGun?.querySelector('.gun-tab-name')?.textContent?.trim() || gunId.toUpperCase();
+
+        openGunSchemeDetailPage({
+            gunId,
+            gunName,
+            cost,
+            buildName: `${gunName} · ${fallbackName}`,
+            priceLabel: '',
+            tags,
+            mode
+        });
+    });
+}
 
 /* ============================================
    登录系统
@@ -2466,6 +2952,7 @@ function updateLoginUI(data) {
         // 隐藏默认登录按钮，显示已登录信息
         if (loginAvatarBtn) loginAvatarBtn.style.display = 'none';
         if (userLogged) userLogged.style.display = 'flex';
+        updateMobileGunCopyButtonsAuthState();
         
         // 设置邮箱
         if (userEmail) userEmail.textContent = data.email || '';
@@ -2486,6 +2973,7 @@ function updateLoginUI(data) {
             loginAvatarBtn.classList.remove('logged-in');
         }
         if (userLogged) userLogged.style.display = 'none';
+        updateMobileGunCopyButtonsAuthState();
     }
 }
 

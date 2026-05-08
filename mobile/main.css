@@ -2387,9 +2387,7 @@ body {
     display: flex;
     gap: 6px;
     margin-bottom: 8px;
-    overflow-x: auto;
     padding-bottom: 4px;
-    -webkit-overflow-scrolling: touch;
 }
 
 .gun-selector::-webkit-scrollbar {
@@ -2397,17 +2395,17 @@ body {
 }
 
 .gun-tab {
-    flex-shrink: 0;
+    flex: 1 1 0;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    padding: 6px 10px;
+    padding: 6px 4px;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
     border-radius: 6px;
     cursor: pointer;
-    min-width: 64px;
 }
 
 .gun-tab.active {
@@ -2416,7 +2414,8 @@ body {
 }
 
 .gun-tab-image {
-    width: 52px;
+    width: 100%;
+    max-width: 52px;
     height: 24px;
     background: linear-gradient(135deg, #3a4a5a, #2a3a4a);
     border-radius: 4px;
@@ -2425,6 +2424,10 @@ body {
 .gun-tab-name {
     font-size: 10px;
     color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .gun-tab.active .gun-tab-name {
@@ -2480,18 +2483,20 @@ body {
 
 /* 复制按钮 */
 .copy-btn {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    padding: 2px 6px;
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    margin-top: 2px;
     background: transparent;
     border: 1px solid var(--accent-cyan);
     color: var(--accent-cyan);
-    font-size: 9px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
     border-radius: 4px;
     cursor: pointer;
     white-space: nowrap;
-    z-index: 5;
+    text-align: center;
 }
 
 .copy-btn:active {
@@ -2499,10 +2504,20 @@ body {
     color: #000;
 }
 
+.copy-btn.gun-copy-login-required,
+.gun-detail-copy-btn.gun-copy-login-required {
+    background: transparent !important;
+    border: none !important;
+    color: rgba(255, 255, 255, 0.42) !important;
+    pointer-events: none;
+    cursor: default !important;
+    font-weight: 700;
+}
+
 /* 方案头部 - 固定高度确保对齐 */
 .build-header {
     margin-bottom: 6px;
-    padding-right: 45px;
+    padding-right: 0;
     /* 固定高度：标题行 + 标签区域 */
     min-height: 52px;
 }
@@ -2570,6 +2585,7 @@ body {
 
 /* 枪械图片占位 */
 .build-gun-preview {
+    position: relative;
     width: 100%;
     height: 50px;
     background: var(--bg-card-secondary);
@@ -6430,3 +6446,877 @@ body {
     display: none !important;
 }
 
+/* ============================================
+   改枪方案详情子页面 - 移动端
+   ============================================ */
+#page-gun-scheme-detail {
+    background: #031a1c;
+}
+
+.gun-scheme-detail-body {
+    padding: 12px 12px 80px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    overflow-y: auto;
+    height: calc(100vh - 52px);
+    -webkit-overflow-scrolling: touch;
+}
+
+.gun-scheme-detail-overview {
+    background: rgba(18, 38, 42, 0.9);
+    border: 1px solid rgba(84, 112, 118, 0.52);
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.gun-scheme-detail-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.gun-scheme-detail-title {
+    color: #24f4b2;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+}
+
+.gun-scheme-detail-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.gun-scheme-detail-tag {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    background: rgba(36, 244, 178, 0.08);
+    border: 1px solid rgba(36, 244, 178, 0.32);
+    color: #24f4b2;
+    font-size: 10.5px;
+    font-weight: 700;
+}
+
+.gun-scheme-detail-price {
+    color: #24f4b2;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.gun-scheme-detail-summary {
+    margin: 4px 0 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    line-height: 1.55;
+}
+
+.gun-scheme-detail-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.gun-scheme-detail-section-title {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.gun-scheme-attachment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.attachment-row {
+    display: flex;
+    gap: 10px;
+    padding: 10px 12px;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+}
+
+.attachment-row-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #24f4b2;
+    background: rgba(36, 244, 178, 0.06);
+    border: 1px solid rgba(36, 244, 178, 0.2);
+}
+
+.attachment-row-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.attachment-row-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.attachment-row-title {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.attachment-slot-name {
+    color: rgba(255, 255, 255, 0.42);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.attachment-name {
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 700;
+    font-size: 13px;
+}
+
+.attachment-price {
+    color: #24f4b2;
+    font-size: 11px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.attachment-row-sub {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 11px;
+}
+
+.attachment-effects {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 2px;
+}
+
+.attachment-effect {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 2px 7px;
+    border: 1px solid;
+    font-size: 10.5px;
+    font-weight: 700;
+}
+
+.attachment-effect.effect-positive {
+    color: #24f4b2;
+    background: rgba(36, 244, 178, 0.1);
+    border-color: rgba(36, 244, 178, 0.45);
+}
+
+.attachment-effect.effect-negative {
+    color: #ff7a7a;
+    background: rgba(255, 122, 122, 0.08);
+    border-color: rgba(255, 122, 122, 0.38);
+}
+
+/* ============================================
+   方案作者区（移动端）
+   - 仅在有作者数据时由 JS 渲染
+   - 缺省时元素本身不存在，不影响布局
+   ============================================ */
+.scheme-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(84, 112, 118, 0.3);
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 12px;
+    line-height: 1;
+}
+
+.scheme-author-avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: rgba(36, 244, 178, 0.16);
+    color: #24f4b2;
+    font-size: 11px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(36, 244, 178, 0.4);
+    overflow: hidden;
+}
+
+.scheme-author-name {
+    color: rgba(255, 255, 255, 0.78);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+.scheme-author--compact {
+    margin-top: 8px;
+    padding-top: 8px;
+    gap: 6px;
+    font-size: 11px;
+}
+
+.scheme-author--compact .scheme-author-avatar {
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+}
+
+.scheme-author--compact .scheme-author-name {
+    font-size: 11px;
+    max-width: 110px;
+}
+
+/* 官方账号变体 */
+.scheme-author--official .scheme-author-avatar {
+    background: rgba(120, 200, 220, 0.16);
+    color: #78ffd8;
+    border-color: rgba(120, 200, 220, 0.45);
+    letter-spacing: 0;
+}
+
+.scheme-author--official .scheme-author-name {
+    color: rgba(255, 255, 255, 0.62);
+    font-weight: 500;
+}
+
+
+/* ============================================
+   枪械图片（统一）：等比缩放，不拉伸不裁剪
+   ============================================ */
+.build-gun-preview,
+.gun-detail-current-image,
+.gun-detail-gun-image,
+.gun-tab-image {
+    background-image: url('../shared/images/PKM.png') !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: contain !important;
+    background-color: rgba(18, 38, 42, 0.9) !important;
+    color: transparent !important;
+    font-size: 0 !important;
+}
+
+.build-gun-preview::before,
+.build-gun-preview::after,
+.gun-detail-current-image::before,
+.gun-detail-current-image::after,
+.gun-detail-gun-image::before,
+.gun-detail-gun-image::after {
+    content: '' !important;
+    background: none !important;
+}
+
+/* 改枪卡片内枪图：放大一倍 */
+.build-gun-preview {
+    height: 100px !important;
+}
+
+/* 枪械 Tab 上方占位：尺寸翻倍 */
+.gun-tab-image {
+    width: 104px !important;
+    height: 48px !important;
+}
+
+.gun-tab-image::before,
+.gun-tab-image::after {
+    content: '' !important;
+    background: none !important;
+}
+
+/* ============================================
+   方案统计（点赞 + 复制次数）- 移动端
+   ============================================ */
+.scheme-stats {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(84, 112, 118, 0.3);
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 12px;
+}
+
+.scheme-stats .scheme-stat {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    line-height: 1;
+    color: inherit;
+}
+
+.scheme-stats .scheme-stat-icon {
+    width: 14px;
+    height: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scheme-stats .scheme-stat-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.scheme-stats .scheme-stat-value {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+}
+
+/* 左侧 2/3：点赞按钮 */
+.scheme-stat-like {
+    flex: 2 1 0;
+    background: transparent;
+    border: 1px solid rgba(84, 112, 118, 0.42);
+    padding: 6px 8px;
+    border-radius: 0;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.scheme-stat-like:active {
+    border-color: rgba(255, 110, 145, 0.6);
+    color: #ff6e91;
+}
+
+.scheme-stat-like.is-liked {
+    border-color: rgba(255, 110, 145, 0.7);
+    color: #ff4d75;
+    background: rgba(255, 110, 145, 0.1);
+}
+
+.scheme-stat-like.is-liked .scheme-stat-icon {
+    color: #ff4d75;
+}
+
+/* 右侧 1/3：复制次数（不可点） */
+.scheme-stat-copy {
+    flex: 1 1 0;
+    justify-content: flex-end;
+    color: rgba(255, 255, 255, 0.55);
+    padding: 6px 4px;
+}
+
+/* ============================================
+   整张方案卡片可点击（移动端提示：轻点卡片看详情）
+   ============================================ */
+.build-card.is-clickable,
+.gun-detail-scheme-card.is-clickable {
+    cursor: pointer;
+    position: relative;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.build-card.is-clickable:active,
+.gun-detail-scheme-card.is-clickable:active {
+    border-color: #24f4b2 !important;
+    background: rgba(36, 244, 178, 0.04);
+}
+
+/* ============================================
+   改枪方案详情子页面：body + footer 冻结布局
+   仅在 .active 时生效，避免覆盖 .subpage 默认 display:none
+   ============================================ */
+#page-gun-scheme-detail.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.gun-scheme-detail-body {
+    /* 顶部 subpage-header 52px，底部 footer 自身高度 —— body 用 flex:1 吸收 */
+    flex: 1;
+    height: auto;
+    padding: 12px 12px 16px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 价格单起一行 */
+.gun-scheme-detail-price-row {
+    display: flex;
+    align-items: center;
+}
+
+.gun-scheme-detail-price-row .gun-scheme-detail-price {
+    display: inline-flex;
+    align-items: center;
+    height: 26px;
+    padding: 0 12px;
+    background: rgba(255, 209, 102, 0.12);
+    border: 1px solid rgba(255, 209, 102, 0.5);
+    color: #ffd166;
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+}
+
+/* 底部冻结 footer：stats（左）+ 大号复制按钮（右，主视觉） */
+.gun-scheme-detail-footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid rgba(84, 112, 118, 0.4);
+    background: rgba(18, 38, 42, 0.96);
+    backdrop-filter: blur(6px);
+}
+
+.gun-scheme-detail-footer-stats {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+/* footer 内 stats 变体：紧凑胶囊（适合小屏） */
+.gun-scheme-detail-footer .scheme-stats--footer {
+    display: flex;
+    gap: 8px;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 12px;
+}
+
+.gun-scheme-detail-footer .scheme-stats--footer .scheme-stat {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 7px 10px;
+    border: 1px solid rgba(84, 112, 118, 0.45);
+    background: rgba(6, 18, 20, 0.4);
+    flex: none;
+}
+
+.gun-scheme-detail-footer .scheme-stat-like.is-liked {
+    border-color: rgba(255, 110, 145, 0.7);
+    color: #ff4d75;
+    background: rgba(255, 110, 145, 0.12);
+}
+
+.gun-scheme-detail-footer .scheme-stat-copy {
+    color: rgba(255, 255, 255, 0.62);
+}
+
+/* 大号复制按钮（主视觉） */
+.gun-scheme-detail-copy-btn {
+    flex: 1 1 auto;
+    min-height: 44px;
+    padding: 0 18px;
+    border: 1px solid #24f4b2;
+    background: #24f4b2;
+    border-radius: 0 !important;
+    color: #031816;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 0 16px rgba(36, 244, 178, 0.32);
+    transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.gun-scheme-detail-copy-btn.copied {
+    background: rgba(36, 244, 178, 0.2);
+    color: #24f4b2;
+}
+
+.gun-scheme-detail-copy-icon {
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+}
+
+.gun-scheme-detail-copy-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.gun-scheme-detail-copy-btn.gun-copy-login-required {
+    background: transparent !important;
+    border: 1px solid rgba(84, 112, 118, 0.56) !important;
+    color: rgba(255, 255, 255, 0.42) !important;
+    pointer-events: none;
+    box-shadow: none !important;
+}
+
+/* ============================================
+   改枪方案列表（当前枪 Tab 下方）：复制按钮全宽
+   ============================================ */
+.gun-detail-copy-btn--full {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    margin-top: 8px;
+    border: 1px solid var(--accent-cyan, #24f4b2);
+    background: transparent;
+    color: var(--accent-cyan, #24f4b2);
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    text-align: center;
+}
+
+.gun-detail-copy-btn--full:active {
+    background: var(--accent-cyan, #24f4b2);
+    color: #031816;
+}
+
+/* 列表方案卡：删除右上角 actions 区（已移除 DOM），保留 header 单行标题 */
+.gun-detail-scheme-card .gun-detail-scheme-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+/* ============================================
+   工具页 · 改枪全量方案模块
+   - 严格遵循 DESIGN_GUIDE：直角、深色面板、品牌绿（移动端 #00d4aa）
+   ============================================ */
+.gun-scheme-card-mobile {
+    background: rgba(18, 38, 42, 0.9);
+    border: 1px solid rgba(84, 112, 118, 0.52);
+    border-radius: 0;
+    padding: 0;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.gun-scheme-header-mobile {
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 10px;
+    background: rgba(92, 112, 114, 0.5);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.gun-scheme-title-mobile {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+}
+
+/* 烽火/战场 主 Tab 容器（参考 DESIGN_GUIDE 6.1） */
+.gun-scheme-mode-tabs-mobile {
+    display: flex;
+    gap: 0;
+    margin: 10px 10px 0;
+    padding: 2px;
+    background: rgba(10, 32, 35, 0.84);
+    border: 1px solid rgba(0, 212, 170, 0.35);
+    border-radius: 0;
+}
+
+.gun-scheme-mode-tab-mobile {
+    flex: 1;
+    padding: 8px 10px;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    border-radius: 0;
+    cursor: pointer;
+}
+
+.gun-scheme-mode-tab-mobile.active {
+    background: rgba(0, 212, 170, 0.16);
+    color: var(--accent-cyan, #00d4aa);
+}
+
+/* 筛选器（直角下拉框） */
+.gun-scheme-filters-mobile {
+    display: flex;
+    gap: 6px;
+    margin: 10px 10px 0;
+    flex-wrap: wrap;
+}
+
+.gun-scheme-filter-select {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 7px 8px;
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    background: rgba(6, 18, 20, 0.66);
+    color: rgba(255, 255, 255, 0.88);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    border-radius: 0;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, rgba(255,255,255,0.5) 50%),
+                      linear-gradient(135deg, rgba(255,255,255,0.5) 50%, transparent 50%);
+    background-position: calc(100% - 12px) 50%, calc(100% - 7px) 50%;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 22px;
+}
+
+/* 列表区 */
+.gun-scheme-list-mobile {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+}
+
+.gun-scheme-list-empty {
+    padding: 28px 12px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 12px;
+}
+
+/* 单张方案卡（子卡片样式 - DESIGN_GUIDE 6.6） */
+.scheme-list-card-mobile {
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    border-radius: 0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.scheme-list-card-mobile.is-clickable {
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.scheme-list-card-mobile.is-clickable:active {
+    border-color: var(--accent-cyan, #00d4aa);
+    background: rgba(0, 212, 170, 0.05);
+}
+
+/* 顶部：标题 + 价格 + 副标题 + 标签 */
+.scheme-list-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.scheme-list-card-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.scheme-list-card-title {
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.scheme-list-card-arrow {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.45);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    pointer-events: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.scheme-list-card-mobile.is-clickable:active .scheme-list-card-arrow {
+    color: var(--accent-cyan, #00d4aa);
+    transform: translateX(2px);
+}
+
+.scheme-list-card-sub {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+}
+
+.scheme-list-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.scheme-list-card-tag {
+    display: inline-flex;
+    align-items: center;
+    height: 20px;
+    padding: 0 7px;
+    background: transparent;
+    border: 1px solid rgba(84, 112, 118, 0.56);
+    border-radius: 0;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 10.5px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+/* 复制按钮（幽灵按钮 - DESIGN_GUIDE 6.5） */
+.scheme-list-card-copy-btn {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid rgba(0, 212, 170, 0.5);
+    background: rgba(0, 212, 170, 0.06);
+    color: var(--accent-cyan, #00d4aa);
+    border-radius: 0;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    text-align: center;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.scheme-list-card-copy-btn:active {
+    background: var(--accent-cyan, #00d4aa);
+    color: #031816;
+}
+
+.scheme-list-card-copy-btn.gun-copy-login-required {
+    background: transparent !important;
+    border-color: rgba(84, 112, 118, 0.56) !important;
+    color: rgba(255, 255, 255, 0.42) !important;
+    pointer-events: none;
+    cursor: default !important;
+}
+
+/* 中间枪图占位（DESIGN_GUIDE 6.7） */
+.scheme-list-card-gun-image {
+    position: relative;
+    width: 100%;
+    height: 88px;
+    background-image: url('../shared/images/PKM.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-color: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    border-radius: 0;
+}
+
+.scheme-list-card-gun-price {
+    position: absolute;
+    left: 6px;
+    bottom: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    background: rgba(6, 18, 20, 0.78);
+    border: 1px solid rgba(0, 212, 170, 0.42);
+    border-radius: 0;
+    color: var(--accent-cyan, #00d4aa);
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    pointer-events: none;
+}
+
+
+
+/* ============================================
+   首页推荐方案卡：枪图左下角的方案总价浮层
+   ============================================ */
+.build-gun-preview .build-gun-price-overlay {
+    position: absolute;
+    left: 6px;
+    bottom: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 7px;
+    background: rgba(6, 18, 20, 0.78);
+    border: 1px solid rgba(0, 212, 170, 0.42);
+    border-radius: 0;
+    color: var(--accent-cyan, #00d4aa);
+    font-size: 10.5px;
+    font-weight: 700;
+    line-height: 1;
+    pointer-events: none;
+    letter-spacing: 0.02em;
+}
+
+.build-gun-preview .build-gun-price-overlay .value-icon {
+    font-size: 9px;
+}
+
+.build-gun-preview .build-gun-price-overlay .value-num {
+    font-family: 'Orbitron', monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.02em;
+}
+
+/* ============================================
+   方案详情子页：全宽枪图（标题/价格/标签下方）
+   ============================================ */
+.gun-scheme-detail-gun-image {
+    width: 100%;
+    height: 120px;
+    background-image: url('../shared/images/PKM.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-color: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    border-radius: 0;
+    margin-top: 4px;
+}

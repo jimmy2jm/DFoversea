@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delta Force - Home</title>
-    <link rel="stylesheet" href="main.css?v=44">
+    <link rel="stylesheet" href="main.css?v=47">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <script src="i18n.js" defer></script>
 </head>
@@ -18,9 +18,8 @@
             </div>
             <div class="nav-links hq-primary-tabs">
                 <a href="index.html" class="nav-link active">每日数据</a>
-                <a href="gun-plans.html" class="nav-link">改枪方案</a>
                 <a href="my-data.html" class="nav-link">我的数据</a>
-                <a href="market-monitor.html" class="nav-link">物价监控</a>
+                <a href="gun-plans.html" class="nav-link">改枪方案</a>
             </div>
         </div>
         <div class="nav-right">
@@ -760,7 +759,6 @@
                 <div class="gun-builds-content" id="gun-builds-content-fh-home">
                     <!-- 性价比改法 -->
                     <div class="build-card budget">
-                        <button class="copy-code-btn-float" data-i18n="common.copy">复制</button>
                         <div class="build-header">
                             <span class="build-type budget-type">💰 85K <span data-i18n="gunBuilds.budgetBuild">性价比改法</span></span>
                             <div class="build-tags">
@@ -768,16 +766,18 @@
                                 <span class="build-tag" data-i18n="gunBuilds.fullHipfire">满腰射</span>
                             </div>
                         </div>
+                        <button class="copy-code-btn-float">复制</button>
                         <div class="build-gun-image"></div>
                         <div class="build-details">
                             <div class="build-radar">
                                 <canvas class="radar-chart" id="radar-budget-home"></canvas>
                                 <div class="radar-labels">
-                                    <span class="radar-label label-top" data-i18n="gunBuilds.recoilControl">后坐力控制</span>
-                                    <span class="radar-label label-right-top" data-i18n="gunBuilds.handlingSpeed">操控速度</span>
-                                    <span class="radar-label label-right-bottom" data-i18n="gunBuilds.rangeAdvantage">射程优势</span>
-                                    <span class="radar-label label-left-bottom" data-i18n="gunBuilds.gunStability">持枪稳定性</span>
-                                    <span class="radar-label label-left-top" data-i18n="gunBuilds.fireRate">射速</span>
+                                    <span class="radar-label label-top" data-i18n="gunBuilds.baseDamage">基础伤害</span>
+                                    <span class="radar-label label-right-top" data-i18n="gunBuilds.rangeAdvantage">优势射程</span>
+                                    <span class="radar-label label-right-bottom" data-i18n="gunBuilds.recoilControl">后坐力控制</span>
+                                    <span class="radar-label label-bottom" data-i18n="gunBuilds.handlingSpeed">操控速度</span>
+                                    <span class="radar-label label-left-bottom" data-i18n="gunBuilds.weaponStability">武器稳定性</span>
+                                    <span class="radar-label label-left-top" data-i18n="gunBuilds.hipfireAccuracy">腰射精度</span>
                                 </div>
                             </div>
                             <div class="build-attachments">
@@ -795,7 +795,6 @@
                     
                     <!-- 满改方案 -->
                     <div class="build-card premium">
-                        <button class="copy-code-btn-float" data-i18n="common.copy">复制</button>
                         <div class="build-header">
                             <span class="build-type premium-type">💎 157K <span data-i18n="gunBuilds.premiumBuild">满改方案</span></span>
                             <div class="build-tags">
@@ -803,16 +802,18 @@
                                 <span class="build-tag" data-i18n="gunBuilds.highAccuracy">高精准</span>
                             </div>
                         </div>
+                        <button class="copy-code-btn-float">复制</button>
                         <div class="build-gun-image"></div>
                         <div class="build-details">
                             <div class="build-radar">
                                 <canvas class="radar-chart" id="radar-premium-home"></canvas>
                                 <div class="radar-labels">
-                                    <span class="radar-label label-top" data-i18n="gunBuilds.recoilControl">后坐力控制</span>
-                                    <span class="radar-label label-right-top" data-i18n="gunBuilds.handlingSpeed">操控速度</span>
-                                    <span class="radar-label label-right-bottom" data-i18n="gunBuilds.rangeAdvantage">射程优势</span>
-                                    <span class="radar-label label-left-bottom" data-i18n="gunBuilds.gunStability">持枪稳定性</span>
-                                    <span class="radar-label label-left-top" data-i18n="gunBuilds.fireRate">射速</span>
+                                    <span class="radar-label label-top" data-i18n="gunBuilds.baseDamage">基础伤害</span>
+                                    <span class="radar-label label-right-top" data-i18n="gunBuilds.rangeAdvantage">优势射程</span>
+                                    <span class="radar-label label-right-bottom" data-i18n="gunBuilds.recoilControl">后坐力控制</span>
+                                    <span class="radar-label label-bottom" data-i18n="gunBuilds.handlingSpeed">操控速度</span>
+                                    <span class="radar-label label-left-bottom" data-i18n="gunBuilds.weaponStability">武器稳定性</span>
+                                    <span class="radar-label label-left-top" data-i18n="gunBuilds.hipfireAccuracy">腰射精度</span>
                                 </div>
                             </div>
                             <div class="build-attachments">
@@ -859,7 +860,6 @@
                 <!-- 改装方案区 - 战场（单个方案） -->
                 <div class="gun-builds-content single-build" id="gun-builds-content-zc-home">
                     <div class="build-card single">
-                        <button class="copy-code-btn-float">复制</button>
                         <div class="build-header">
                             <span class="build-type single-type">🎯 推荐改装方案</span>
                             <div class="build-tags">
@@ -868,16 +868,18 @@
                                 <span class="build-tag">PVP优化</span>
                             </div>
                         </div>
+                        <button class="copy-code-btn-float">复制</button>
                         <div class="build-gun-image"></div>
                         <div class="build-details">
                             <div class="build-radar">
                                 <canvas class="radar-chart" id="radar-single-home"></canvas>
                                 <div class="radar-labels">
-                                    <span class="radar-label label-top">后坐力控制</span>
-                                    <span class="radar-label label-right-top">操控速度</span>
-                                    <span class="radar-label label-right-bottom">射程优势</span>
-                                    <span class="radar-label label-left-bottom">持枪稳定性</span>
-                                    <span class="radar-label label-left-top">射速</span>
+                                    <span class="radar-label label-top" data-i18n="gunBuilds.baseDamage">基础伤害</span>
+                                    <span class="radar-label label-right-top" data-i18n="gunBuilds.rangeAdvantage">优势射程</span>
+                                    <span class="radar-label label-right-bottom" data-i18n="gunBuilds.recoilControl">后坐力控制</span>
+                                    <span class="radar-label label-bottom" data-i18n="gunBuilds.handlingSpeed">操控速度</span>
+                                    <span class="radar-label label-left-bottom" data-i18n="gunBuilds.weaponStability">武器稳定性</span>
+                                    <span class="radar-label label-left-top" data-i18n="gunBuilds.hipfireAccuracy">腰射精度</span>
                                 </div>
                             </div>
                             <div class="build-attachments">
@@ -1016,7 +1018,6 @@
                 <div class="module-header">
                     <span class="module-title"><span data-i18n="craft.title">🔨 特勤处制造</span></span>
                     <div class="module-header-actions compact-actions">
-                        <a href="market-monitor.html" class="view-link">物价监控 ></a>
                         <span class="header-date">2026/01/30</span>
                     </div>
                 </div>
@@ -1844,6 +1845,26 @@
     </div>
 
     <script src="../shared/mock-data.js?v=1"></script>
-    <script src="main.js?v=20"></script>
+    <!-- 改枪方案详情弹窗 -->
+    <div class="gun-detail-modal-overlay" id="gun-detail-modal-overlay" aria-hidden="true">
+        <div class="gun-detail-modal" role="dialog" aria-modal="true">
+            <header class="gun-detail-modal-header">
+                <div class="gun-detail-modal-title-wrap">
+                    <span class="gun-detail-modal-title" id="gun-detail-modal-title">改枪方案详情</span>
+                    <div class="gun-detail-modal-tags" id="gun-detail-modal-tags"></div>
+                </div>
+                <button class="gun-detail-modal-close" id="gun-detail-modal-close" type="button" aria-label="关闭">✕</button>
+            </header>
+            <div class="gun-detail-modal-body" id="gun-detail-modal-body">
+                <!-- JS 渲染 -->
+            </div>
+            <footer class="gun-detail-modal-footer" id="gun-detail-modal-footer">
+                <!-- JS 渲染：固定的改枪码 + 复制按钮 -->
+            </footer>
+        </div>
+    </div>
+
+    <script src="../shared/gun-detail-mock.js?v=1"></script>
+    <script src="main.js?v=25"></script>
 </body>
 </html>

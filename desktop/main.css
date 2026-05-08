@@ -1556,20 +1556,20 @@ body {
     gap: 0.75rem;
 }
 
-/* 右上角复制按钮 */
+/* 复制按钮：全宽块级，位于 .build-header 下方 */
 .copy-code-btn-float {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    padding: 0.35rem 0.75rem;
+    display: block;
+    width: 100%;
+    padding: 0.55rem 1rem;
     background: transparent;
     border: 1px solid var(--accent-cyan);
     color: var(--accent-cyan);
-    font-size: 0.7rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
     border-radius: 4px;
     cursor: pointer;
     transition: all 0.2s ease;
-    z-index: 1;
 }
 
 .copy-code-btn-float:hover {
@@ -1582,7 +1582,6 @@ body {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.4rem;
-    padding-right: 4rem; /* 为右上角复制按钮留空间 */
 }
 
 .build-type {
@@ -1672,13 +1671,18 @@ body {
 }
 
 .radar-label.label-right-bottom {
-    top: 88%;
-    left: 80%;
+    top: 68%;
+    left: 96%;
+}
+
+.radar-label.label-bottom {
+    top: 95%;
+    left: 50%;
 }
 
 .radar-label.label-left-bottom {
-    top: 88%;
-    left: 20%;
+    top: 68%;
+    left: 4%;
 }
 
 .radar-label.label-left-top {
@@ -1717,6 +1721,13 @@ body {
     justify-content: center;
     padding-top: 0.5rem;
     border-top: 1px solid var(--border-color);
+}
+
+/* 作者区紧邻其后的按钮区不再重复分割线 */
+.scheme-author + .build-footer {
+    border-top: none;
+    padding-top: 0;
+    margin-top: 0.5rem;
 }
 
 .view-detail-btn {
@@ -6296,6 +6307,642 @@ body {
     backdrop-filter: blur(8px) !important;
 }
 
+.gun-code-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 2rem;
+    transform: translateX(-50%);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 160px;
+    max-width: min(360px, calc(100vw - 32px));
+    padding: 12px 18px;
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.24);
+}
+
+.gun-code-toast-title {
+    color: #24f4b2;
+    font-weight: 800;
+    font-size: 0.86rem;
+}
+
+/* ============================================
+   改枪方案详情弹窗 - PC
+   ============================================ */
+.gun-detail-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10050;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(0, 8, 10, 0.76);
+    backdrop-filter: blur(6px);
+}
+
+.gun-detail-modal-overlay.active {
+    display: flex;
+}
+
+.gun-detail-modal {
+    width: min(760px, 100%);
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    background: rgba(12, 28, 32, 0.98);
+    border: 1px solid rgba(84, 112, 118, 0.56);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+    border-radius: 0;
+}
+
+.gun-detail-modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(84, 112, 118, 0.4);
+    background: rgba(18, 38, 42, 0.9);
+}
+
+.gun-detail-modal-title-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.gun-detail-modal-title {
+    color: #24f4b2;
+    font-weight: 800;
+    font-size: 1.02rem;
+    letter-spacing: 0.02em;
+}
+
+.gun-detail-modal-tags {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.gun-detail-modal-tag {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 8px;
+    background: rgba(36, 244, 178, 0.08);
+    border: 1px solid rgba(36, 244, 178, 0.32);
+    border-radius: 0;
+    color: #24f4b2;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+.gun-detail-modal-close {
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(84, 112, 118, 0.56);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    flex-shrink: 0;
+    border-radius: 0;
+}
+
+.gun-detail-modal-close:hover {
+    border-color: #24f4b2;
+    color: #24f4b2;
+}
+
+.gun-detail-modal-body {
+    flex: 1;
+    padding: 16px 18px 18px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.gun-detail-modal-overview {
+    background: rgba(18, 38, 42, 0.9);
+    border: 1px solid rgba(84, 112, 118, 0.4);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Hero：左侧大图 + 右侧雷达图 */
+.gun-detail-modal-hero {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) minmax(180px, 1fr);
+    gap: 14px;
+    align-items: stretch;
+}
+
+.gun-detail-modal-hero-image {
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4.5rem;
+    background: linear-gradient(135deg, rgba(74, 92, 96, 0.8), rgba(18, 38, 42, 0.86));
+    border: 1px solid rgba(42, 72, 78, 0.75);
+}
+
+.gun-detail-modal-hero-radar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    padding: 8px;
+}
+
+.gun-detail-modal-radar-wrap {
+    width: 100%;
+    max-width: 260px;
+    aspect-ratio: 7 / 6;
+}
+
+.gun-detail-modal-radar-wrap > svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.gun-detail-modal-meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 标题区价格徽章 */
+.gun-detail-modal-price-row {
+    display: flex;
+    align-items: center;
+}
+
+.gun-detail-modal-tag-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.gun-detail-modal-value {
+    display: inline-flex;
+    align-items: center;
+    height: 26px;
+    padding: 0 12px;
+    background: rgba(255, 209, 102, 0.12);
+    border: 1px solid rgba(255, 209, 102, 0.5);
+    color: #ffd166;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.84rem;
+    font-weight: 800;
+    border-radius: 0;
+    letter-spacing: 0.04em;
+}
+
+.gun-detail-modal-summary {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.82rem;
+    line-height: 1.5;
+}
+
+.gun-detail-modal-section {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.gun-detail-modal-section-title {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.gun-attachment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* 双列瀑布流：CSS columns 自然支持混合高度 */
+.gun-attachment-grid {
+    display: block;
+    column-count: 2;
+    column-gap: 10px;
+}
+
+.gun-attachment-grid > .attachment-row {
+    break-inside: avoid;
+    page-break-inside: avoid;
+    -webkit-column-break-inside: avoid;
+    margin-bottom: 10px;
+    display: flex; /* 行内仍用 flex，保持原内部布局 */
+}
+
+.attachment-row {
+    display: flex;
+    gap: 12px;
+    padding: 10px 12px;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+}
+
+.attachment-row-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #24f4b2;
+    background: rgba(36, 244, 178, 0.06);
+    border: 1px solid rgba(36, 244, 178, 0.2);
+}
+
+.attachment-row-main {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.attachment-row-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.attachment-row-title {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.attachment-slot-name {
+    color: rgba(255, 255, 255, 0.48);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.attachment-name {
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 700;
+    font-size: 0.9rem;
+}
+
+.attachment-price {
+    color: #24f4b2;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.attachment-row-sub {
+    color: rgba(255, 255, 255, 0.56);
+    font-size: 0.74rem;
+}
+
+.attachment-effects {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.attachment-effect {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 2px 8px;
+    border: 1px solid;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.attachment-effect.effect-positive {
+    color: #24f4b2;
+    background: rgba(36, 244, 178, 0.1);
+    border-color: rgba(36, 244, 178, 0.45);
+}
+
+.attachment-effect.effect-negative {
+    color: #ff7a7a;
+    background: rgba(255, 122, 122, 0.08);
+    border-color: rgba(255, 122, 122, 0.38);
+}
+
+.effect-label {
+    color: inherit;
+    opacity: 0.82;
+}
+
+.effect-value {
+    color: inherit;
+    font-family: 'Orbitron', monospace;
+}
+
+/* 弹窗底部冻结：改枪码 + 醒目复制按钮 */
+.gun-detail-modal-footer {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 18px;
+    border-top: 1px solid rgba(84, 112, 118, 0.4);
+    background: rgba(18, 38, 42, 0.96);
+}
+
+/* 左侧：点赞 + 复制次数（横排） */
+.gun-detail-modal-footer-stats {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+}
+
+/* footer 内 stats 变体：横排紧凑，无边框分割线 */
+.scheme-stats--footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
+    font-size: 0.82rem;
+    color: rgba(255, 255, 255, 0.72);
+}
+
+.scheme-stats--footer .scheme-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1;
+    padding: 8px 12px;
+    border: 1px solid rgba(84, 112, 118, 0.45);
+    background: rgba(6, 18, 20, 0.4);
+    flex: none;
+    justify-content: center;
+}
+
+.scheme-stats--footer .scheme-stat-like {
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+
+.scheme-stats--footer .scheme-stat-like:hover {
+    border-color: rgba(255, 110, 145, 0.6);
+    color: #ff6e91;
+}
+
+.scheme-stats--footer .scheme-stat-like.is-liked {
+    border-color: rgba(255, 110, 145, 0.7);
+    color: #ff4d75;
+    background: rgba(255, 110, 145, 0.12);
+}
+
+.scheme-stats--footer .scheme-stat-like.is-liked .scheme-stat-icon {
+    color: #ff4d75;
+}
+
+.scheme-stats--footer .scheme-stat-copy {
+    color: rgba(255, 255, 255, 0.62);
+}
+
+.scheme-stats--footer .scheme-stat-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scheme-stats--footer .scheme-stat-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.scheme-stats--footer .scheme-stat-value {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+/* 右侧：高优先级复制按钮（占满剩余空间、大号、主题色填充） */
+.gun-detail-modal-copy-btn {
+    flex: 1 1 auto;
+    min-width: 180px;
+    min-height: 48px;
+    padding: 0 24px;
+    border: 1px solid #24f4b2;
+    background: #24f4b2;
+    border-radius: 0;
+    color: #031816;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: 0 0 22px rgba(36, 244, 178, 0.32);
+    transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.gun-detail-modal-copy-btn:hover {
+    box-shadow: 0 0 28px rgba(36, 244, 178, 0.55);
+    transform: translateY(-1px);
+}
+
+.gun-detail-modal-copy-btn.copied {
+    background: rgba(36, 244, 178, 0.2);
+    color: #24f4b2;
+    box-shadow: 0 0 18px rgba(36, 244, 178, 0.45);
+}
+
+.gun-detail-modal-copy-icon {
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
+}
+
+.gun-detail-modal-copy-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.gun-detail-modal-copy-btn.gun-copy-login-required {
+    background: transparent !important;
+    border: 1px solid rgba(84, 112, 118, 0.56) !important;
+    color: rgba(255, 255, 255, 0.42) !important;
+    pointer-events: none;
+    cursor: default !important;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
+/* Tier 榜卡片新增详情按钮 */
+.tier-build-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.tier-detail-btn {
+    min-width: 66px;
+    height: 30px;
+    padding: 0 10px;
+    background: transparent;
+    border: 1px solid rgba(84, 112, 118, 0.56);
+    border-radius: 0;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.74rem;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.tier-detail-btn:hover {
+    border-color: #24f4b2;
+    color: #24f4b2;
+}
+
+/* ============================================
+   方案作者区（公共组件）
+   - 仅在有作者数据时由 JS 渲染
+   - 缺省时元素本身不存在，不影响布局
+   ============================================ */
+.scheme-author {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(84, 112, 118, 0.32);
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.78rem;
+    line-height: 1;
+}
+
+.scheme-author-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: rgba(36, 244, 178, 0.16);
+    color: #24f4b2;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.72rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0;
+    border: 1px solid rgba(36, 244, 178, 0.4);
+    overflow: hidden;
+}
+
+.scheme-author-name {
+    color: rgba(255, 255, 255, 0.78);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+/* 紧凑版 - Tier 榜方案卡 */
+.scheme-author--compact {
+    margin-top: 8px;
+    padding-top: 8px;
+    gap: 6px;
+    font-size: 0.72rem;
+}
+
+.scheme-author--compact .scheme-author-avatar {
+    width: 20px;
+    height: 20px;
+    font-size: 0.66rem;
+}
+
+.scheme-author--compact .scheme-author-name {
+    font-size: 0.74rem;
+    max-width: 120px;
+}
+
+/* 官方账号变体：头像底色稍冷，与玩家投稿做区分 */
+.scheme-author--official .scheme-author-avatar {
+    background: rgba(120, 200, 220, 0.16);
+    color: #78ffd8;
+    border-color: rgba(120, 200, 220, 0.45);
+    letter-spacing: 0;
+}
+
+.scheme-author--official .scheme-author-name {
+    color: rgba(255, 255, 255, 0.62);
+    font-weight: 500;
+}
+
+/* 详情弹窗概览中作者紧贴 summary 下方 */
+.gun-detail-modal-summary + .scheme-author {
+    margin-top: 8px;
+    padding-top: 8px;
+}
+
+@media (max-width: 900px) {
+    .gun-detail-modal {
+        max-height: 94vh;
+    }
+    .gun-detail-modal-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    .gun-detail-modal-footer-stats {
+        justify-content: center;
+    }
+    .gun-detail-modal-copy-btn {
+        width: 100%;
+        min-height: 48px;
+    }
+    .tier-build-actions {
+        flex-wrap: wrap;
+    }
+    .gun-detail-modal-hero {
+        grid-template-columns: 1fr;
+    }
+    .gun-detail-modal-hero-image {
+        min-height: 130px;
+    }
+    .gun-attachment-grid {
+        column-count: 1;
+    }
+}
+
 /* ── 12. 海报弹窗归正 ── */
 .poster-modal {
     background: rgba(18, 38, 42, 0.96) !important;
@@ -6318,7 +6965,7 @@ body {
     text-shadow: 0 0 10px rgba(251, 146, 60, 0.24) !important;
 }
 
-/* ── 14. 物价监控区归正 ── */
+/* ── 14. 通用 select 归正 ── */
 .market-category-select {
     background: rgba(6, 18, 20, 0.66) !important;
     border-color: rgba(42, 72, 78, 0.75) !important;
@@ -6403,3 +7050,575 @@ body {
     border: 1px solid rgba(84, 112, 118, 0.56) !important;
 }
 
+/* ============================================
+   Gun Tier List - gun-plans prototype
+   ============================================ */
+.tier-list-content {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.tier-filter-bar {
+    border: 1px solid rgba(42, 72, 78, 0.75);
+}
+
+.tier-group {
+    background: rgba(18, 38, 42, 0.9);
+    border: 1px solid rgba(84, 112, 118, 0.52);
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.tier-group-header {
+    display: flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 6px 12px;
+    background: rgba(92, 112, 114, 0.52);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    gap: 10px;
+}
+
+.tier-badge,
+.tier-type-badge,
+.tier-build-tag,
+.tier-build-count {
+    border-radius: 0;
+}
+
+.tier-badge {
+    min-width: 44px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid currentColor;
+}
+
+.tier-badge-t0 {
+    color: #ffd166;
+}
+
+.tier-badge-t1 {
+    color: #24f4b2;
+}
+
+.tier-badge-t2 {
+    color: rgba(214, 224, 228, 0.82);
+}
+
+.tier-badge-t3 {
+    color: rgba(142, 154, 158, 0.86);
+}
+
+.tier-group-title {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.tier-group-count {
+    margin-left: auto;
+    color: rgba(255, 255, 255, 0.56);
+    font-size: 0.78rem;
+}
+
+.tier-gun-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+}
+
+.tier-gun-row {
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    border-radius: 0;
+    overflow: hidden;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.tier-gun-row:hover,
+.tier-gun-row.expanded {
+    border-color: #24f4b2;
+}
+
+.tier-gun-header {
+    width: 100%;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    text-align: left;
+}
+
+.tier-gun-image {
+    width: 56px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: linear-gradient(135deg, rgba(74, 92, 96, 0.8), rgba(18, 38, 42, 0.86));
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    border-radius: 0;
+    font-size: 1.25rem;
+}
+
+.tier-gun-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.tier-gun-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.tier-gun-name {
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 800;
+    font-size: 0.98rem;
+    letter-spacing: 0.02em;
+}
+
+.tier-type-badge,
+.tier-build-tag {
+    display: inline-flex;
+    align-items: center;
+    height: 22px;
+    padding: 0 7px;
+    background: rgba(36, 244, 178, 0.08);
+    border: 1px solid rgba(36, 244, 178, 0.28);
+    color: #24f4b2;
+    font-size: 0.68rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.tier-build-count {
+    padding: 4px 8px;
+    background: rgba(36, 244, 178, 0.08);
+    border: 1px solid rgba(36, 244, 178, 0.28);
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.76rem;
+    white-space: nowrap;
+}
+
+.tier-expand-icon {
+    width: 22px;
+    color: #24f4b2;
+    font-size: 1.1rem;
+    transition: transform 0.2s ease;
+    text-align: center;
+}
+
+.tier-gun-row.expanded .tier-expand-icon {
+    transform: rotate(180deg);
+}
+
+.tier-gun-builds {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 12px 12px;
+}
+
+.tier-gun-row.expanded .tier-gun-builds {
+    display: flex;
+}
+
+.tier-build-card {
+    background: rgba(18, 38, 42, 0.9);
+    border: 1px solid rgba(84, 112, 118, 0.38);
+    border-radius: 0;
+    padding: 10px 12px;
+}
+
+.tier-build-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.tier-build-title-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+}
+
+.tier-build-title {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.tier-build-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tier-copy-btn {
+    min-width: 58px;
+    height: 30px;
+    padding: 0 12px;
+    background: rgba(36, 244, 178, 0.06);
+    border: 1px solid rgba(36, 244, 178, 0.5);
+    border-radius: 0;
+    color: #24f4b2;
+    font-size: 0.76rem;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.tier-copy-btn:hover,
+.tier-copy-btn.copied {
+    background: #24f4b2;
+    color: #031816;
+}
+
+.copy-code-btn-float.gun-copy-login-required,
+.copy-scheme-btn.gun-copy-login-required,
+.tier-copy-btn.gun-copy-login-required {
+    background: transparent !important;
+    border: none !important;
+    color: rgba(255, 255, 255, 0.42) !important;
+    box-shadow: none !important;
+    cursor: default !important;
+    pointer-events: none;
+    font-weight: 700;
+}
+
+.tier-build-body {
+    display: grid;
+    grid-template-columns: 88px 126px 1fr;
+    align-items: center;
+    gap: 12px;
+}
+
+.tier-build-price {
+    color: #24f4b2;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.94rem;
+    font-weight: 800;
+    text-shadow: 0 0 12px rgba(36, 244, 178, 0.24);
+}
+
+.tier-radar-compact {
+    width: 126px;
+    height: 108px;
+    overflow: hidden;
+}
+
+.tier-radar-compact .scheme-radar-svg {
+    width: 126px;
+    height: 108px;
+}
+
+.tier-radar-compact .scheme-radar-svg text {
+    display: none;
+}
+
+.tier-attachments-compact {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(32px, 1fr));
+    gap: 6px;
+}
+
+.tier-attachments-compact .scheme-attachment-slot {
+    width: auto;
+    height: 42px;
+    background: rgba(6, 18, 20, 0.66);
+    border-color: rgba(42, 72, 78, 0.75);
+    border-radius: 0;
+}
+
+.tier-attachments-compact .slot-icon {
+    font-size: 1rem;
+}
+
+.tier-attachments-compact .slot-name {
+    font-size: 0.5rem;
+}
+
+.tier-empty {
+    min-height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    border-radius: 0;
+}
+
+@media (max-width: 900px) {
+    .tier-gun-header {
+        flex-wrap: wrap;
+    }
+
+    .tier-build-body {
+        grid-template-columns: 1fr;
+    }
+
+    .tier-attachments-compact {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+
+/* ============================================
+   枪械图片（统一）：等比缩放，不拉伸不裁剪
+   ============================================ */
+.build-gun-image,
+.scheme-gun-image,
+.tier-gun-image,
+.gun-detail-modal-hero-image,
+.gun-tab-image {
+    background-image: url('../shared/images/PKM.png') !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: contain !important;
+    background-color: rgba(18, 38, 42, 0.9) !important;
+    color: transparent !important;
+    font-size: 0 !important;
+}
+
+/* 隐藏旧的占位文字/emoji，避免与背景图叠加 */
+.build-gun-image::before,
+.build-gun-image::after,
+.tier-gun-image::before,
+.tier-gun-image::after,
+.gun-detail-modal-hero-image::before,
+.gun-detail-modal-hero-image::after,
+.scheme-gun-image::before,
+.scheme-gun-image::after {
+    content: '' !important;
+}
+
+/* Tier 榜行枪图：稍微放大点更清晰 */
+.tier-gun-image {
+    width: 64px;
+    height: 44px;
+}
+
+/* 改枪卡片内枪图：放大一倍 */
+.build-gun-image {
+    height: 140px !important;
+}
+
+/* 枪械 Tab 上方占位区域：放大对应高度，并清掉旧的灰渐变 */
+.gun-tab-image {
+    height: 80px !important;
+}
+
+.gun-tab-image::before,
+.gun-tab-image::after {
+    content: '' !important;
+    background: none !important;
+}
+
+/* Tier 榜内枪图：保持紧凑（之前已设 64×44），不动 */
+
+/* ============================================
+   方案统计区（点赞 + 复制次数）
+   - 卡片底部：左 2/3 点赞，右 1/3 复制次数
+   ============================================ */
+.scheme-stats {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(84, 112, 118, 0.32);
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.78rem;
+}
+
+.scheme-stats .scheme-stat {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    line-height: 1;
+    color: inherit;
+}
+
+.scheme-stats .scheme-stat-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.scheme-stats .scheme-stat-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.scheme-stats .scheme-stat-value {
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+/* 左侧 2/3：点赞按钮（icon + 数字居中） */
+.scheme-stat-like {
+    flex: 2 1 0;
+    background: transparent;
+    border: 1px solid rgba(84, 112, 118, 0.42);
+    padding: 6px 10px;
+    border-radius: 0;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+    justify-content: center;
+}
+
+.scheme-stat-like:hover {
+    border-color: rgba(255, 110, 145, 0.6);
+    color: #ff6e91;
+}
+
+.scheme-stat-like.is-liked {
+    border-color: rgba(255, 110, 145, 0.7);
+    color: #ff4d75;
+    background: rgba(255, 110, 145, 0.08);
+}
+
+.scheme-stat-like.is-liked .scheme-stat-icon {
+    color: #ff4d75;
+}
+
+/* 右侧 1/3：复制次数（不可点） */
+.scheme-stat-copy {
+    flex: 1 1 0;
+    justify-content: flex-end;
+    color: rgba(255, 255, 255, 0.55);
+    padding: 6px 4px;
+}
+
+/* 紧凑版（列表卡片中） */
+.scheme-stats--compact {
+    margin-top: 8px;
+    padding-top: 8px;
+    gap: 8px;
+    font-size: 0.74rem;
+}
+
+.scheme-stats--compact .scheme-stat-icon {
+    width: 14px;
+    height: 14px;
+}
+
+.scheme-stats--compact .scheme-stat-like {
+    padding: 4px 8px;
+}
+
+/* ============================================
+   整张方案卡片可点击：hover 浮动 + 手型
+   ============================================ */
+.build-card.is-clickable {
+    cursor: pointer;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.build-card.is-clickable:hover {
+    transform: translateY(-3px);
+    border-color: #24f4b2 !important;
+    box-shadow: 0 10px 24px rgba(36, 244, 178, 0.18), 0 0 0 1px rgba(36, 244, 178, 0.35) inset;
+}
+
+/* ============================================
+   改枪方案列表（复用 .build-card 样式，保持与推荐方案卡一致）
+   ============================================ */
+.gun-scheme-section .section-header {
+    margin-bottom: 1rem;
+}
+
+.scheme-filter-bar {
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    background: rgba(6, 18, 20, 0.66);
+}
+
+.scheme-list-content {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+@media (max-width: 1100px) {
+    .scheme-list-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* 列表卡片主标题下方的副标题：枪名 · 类型 */
+.scheme-list-card .build-card-gun-sub {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+}
+
+/* 列表卡片的枪图：相对定位承载左下角价格浮层 */
+.scheme-list-card .build-gun-image {
+    position: relative;
+}
+
+/* 枪图左下角：裸枪价（完整数字 + 硬币 icon） */
+.scheme-list-card .build-gun-price {
+    position: absolute;
+    left: 10px;
+    bottom: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 9px;
+    background: rgba(6, 18, 20, 0.78);
+    border: 1px solid rgba(251, 146, 60, 0.42);
+    color: var(--accent-orange, #fb923c);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+}
+
+.scheme-list-card .build-gun-price-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.scheme-list-card .build-gun-price-value {
+    font-family: 'Orbitron', monospace;
+    font-variant-numeric: tabular-nums;
+}
+
+/* 列表容器空状态 */
+.scheme-empty {
+    padding: 28px 16px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.84rem;
+    grid-column: 1 / -1;
+}

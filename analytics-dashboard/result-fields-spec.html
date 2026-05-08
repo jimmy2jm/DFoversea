@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFoversea 看板结果字段需求</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #fff; color: #1f2937; font-size: 12px; line-height: 1.6; padding: 28px; max-width: 1000px; margin: 0 auto; }
+        h1 { font-size: 17px; margin-bottom: 4px; }
+        .meta { font-size: 11px; color: #6b7280; margin-bottom: 20px; border-bottom: 1px solid #e5e7eb; padding-bottom: 10px; }
+        h2 { font-size: 13px; font-weight: 600; margin: 22px 0 8px; padding: 5px 10px; background: #f1f5f9; border-left: 3px solid #1a56db; }
+        p { font-size: 12px; color: #4b5563; margin: 4px 0 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 6px 0 16px; font-size: 11px; }
+        th, td { padding: 6px 10px; text-align: left; border: 1px solid #e5e7eb; }
+        th { background: #f9fafb; font-weight: 600; color: #374151; }
+        .field { font-family: monospace; color: #1e40af; font-size: 11px; }
+        .note { font-size: 11px; color: #6b7280; font-style: italic; }
+        .tag { display: inline-block; padding: 1px 6px; border-radius: 3px; font-size: 10px; font-weight: 500; }
+        .tag-daily { background: #dbeafe; color: #1e40af; }
+        .tag-total { background: #dcfce7; color: #166534; }
+        .tag-dim { background: #fef3c7; color: #92400e; }
+    </style>
+</head>
+<body>
+
+<h1>DFoversea 看板 — 结果字段需求清单</h1>
+<div class="meta">说明：以下为看板展示所需的全部预计算结果字段，由后端按日聚合后直接输出给前端展示，无需前端二次计算。<br>粒度：每行 = 1 天的数据 | 筛选条件：开始日期 ~ 结束日期</div>
+
+<!-- ===== 表1: 每日汇总 ===== -->
+<h2>表 1: 每日流量汇总</h2>
+<p>用于：KPI 卡片 + DAU/PV 日趋势折线图</p>
+<table>
+    <tr><th>字段名</th><th>类型</th><th>口径说明</th><th>用途</th></tr>
+    <tr><td class="field">date</td><td>date</td><td>日期</td><td>X 轴 / 筛选</td></tr>
+    <tr><td class="field">pv</td><td>int</td><td>当日页面浏览总次数</td><td>KPI + 趋势图</td></tr>
+    <tr><td class="field">uv</td><td>int</td><td>当日去重访客数</td><td>KPI + 趋势图</td></tr>
+</table>
+
+<!-- ===== 表2: 页面维度 ===== -->
+<h2>表 2: 页面级 PV/UV</h2>
+<p>用于：页面 PV/UV 双柱状图</p>
+<table>
+    <tr><th>字段名</th><th>类型</th><th>口径说明</th><th>用途</th></tr>
+    <tr><td class="field">date</td><td>date</td><td>日期</td><td>筛选</td></tr>
+    <tr><td class="field">page_id</td><td>string</td><td>页面标识：home / my_data / gun_builds / market / craft</td><td>X 轴分组</td></tr>
+    <tr><td class="field">page_pv</td><td>int</td><td>该页面当日浏览次数</td><td>蓝色柱</td></tr>
+    <tr><td class="field">page_uv</td><td>int</td><td>该页面当日去重访客数</td><td>橙色柱</td></tr>
+</table>
+
+<!-- ===== 表3: 登录方式 ===== -->
+<h2>表 3: 登录方式分布</h2>
+<p>用于：登录方式饼图 (LI / Garena)</p>
+<table>
+    <tr><th>字段名</th><th>类型</th><th>口径说明</th><th>用途</th></tr>
+    <tr><td class="field">date</td><td>date</td><td>日期</td><td>筛选</td></tr>
+    <tr><td class="field">login_method</td><td>string</td><td>level_infinite / garena</td><td>饼图分片</td></tr>
+    <tr><td class="field">method_uv</td><td>int</td><td>选择该方式的去重用户数</td><td>占比计算</td></tr>
+    <tr><td class="field">method_pv</td><td>int</td><td>选择该方式的总次数</td><td>备用</td></tr>
+</table>
+
+<!-- ===== 表4: 游戏模式 ===== -->
+<h2>表 4: 游戏模式分布</h2>
+<p>用于：游戏模式饼图 (SOL / MP)</p>
+<table>
+    <tr><th>字段名</th><th>类型</th><th>口径说明</th><th>用途</th></tr>
+    <tr><td class="field">date</td><td>date</td><td>日期</td><td>筛选</td></tr>
+    <tr><td class="field">game_mode</td><td>string</td><td>sol / mp</td><td>饼图分片</td></tr>
+    <tr><td class="field">mode_uv</td><td>int</td><td>切换到该模式的去重用户数</td><td>占比计算</td></tr>
+    <tr><td class="field">mode_pv</td><td>int</td><td>切换到该模式的总次数</td><td>备用</td></tr>
+</table>
+
+<!-- ===== 表5: 平台分布 ===== -->
+<h2>表 5: 平台分布</h2>
+<p>用于：平台饼图 (PC / iOS / Android)</p>
+<table>
+    <tr><th>字段名</th><th>类型</th><th>口径说明</th><th>用途</th></tr>
+    <tr><td class="field">date</td><td>date</td><td>日期</td><td>筛选</td></tr>
+    <tr><td class="field">client_type</td><td>string</td><td>PC / iOS / Android</td><td>饼图分片</td></tr>
+    <tr><td class="field">platform_uv</td><td>int</td><td>该平台当日去重用户数</td><td>占比计算</td></tr>
+    <tr><td class="field">platform_pv</td><td>int</td><td>该平台当日总事件数</td><td>备用</td></tr>
+</table>
+
+<!-- ===== 表6: 登录漏斗 ===== -->
+<h2>表 6: 登录漏斗</h2>
+<p>用于：登录转化漏斗图</p>
+<table>
+    <tr><th>字段名</th><th>类型</th><th>口径说明</th><th>用途</th></tr>
+    <tr><td class="field">date</td><td>date</td><td>日期</td><td>筛选</td></tr>
+    <tr><td class="field">login_click_uv</td><td>int</td><td>点击登录按钮的去重用户数</td><td>漏斗第1步</td></tr>
+    <tr><td class="field">login_modal_uv</td><td>int</td><td>登录弹窗曝光的去重用户数</td><td>漏斗第2步</td></tr>
+    <tr><td class="field">login_method_uv</td><td>int</td><td>选择登录方式的去重用户数</td><td>漏斗第3步</td></tr>
+    <tr><td class="field">login_submit_uv</td><td>int</td><td>提交登录请求的去重用户数</td><td>漏斗第4步</td></tr>
+    <tr><td class="field">login_success_uv</td><td>int</td><td>登录成功的去重用户数</td><td>漏斗第5步</td></tr>
+</table>
+
+<!-- ===== 表7: 分享漏斗 ===== -->
+<h2>表 7: 日报分享漏斗</h2>
+<p>用于：分享转化漏斗图</p>
+<table>
+    <tr><th>字段名</th><th>类型</th><th>口径说明</th><th>用途</th></tr>
+    <tr><td class="field">date</td><td>date</td><td>日期</td><td>筛选</td></tr>
+    <tr><td class="field">report_exp_uv</td><td>int</td><td>日报卡片曝光的去重用户数</td><td>漏斗第1步</td></tr>
+    <tr><td class="field">share_btn_uv</td><td>int</td><td>点击分享按钮的去重用户数</td><td>漏斗第2步</td></tr>
+    <tr><td class="field">poster_exp_uv</td><td>int</td><td>海报弹窗打开的去重用户数</td><td>漏斗第3步</td></tr>
+    <tr><td class="field">poster_share_uv</td><td>int</td><td>完成渠道分享的去重用户数</td><td>漏斗第4步</td></tr>
+</table>
+
+<!-- ===== 表8: 分享渠道 ===== -->
+<h2>表 8: 分享渠道每日明细</h2>
+<p>用于：分享渠道堆叠柱状图（X 轴=日期，按渠道堆叠）</p>
+<table>
+    <tr><th>字段名</th><th>类型</th><th>口径说明</th><th>用途</th></tr>
+    <tr><td class="field">date</td><td>date</td><td>日期</td><td>X 轴</td></tr>
+    <tr><td class="field">share_channel</td><td>string</td><td>save_image / x / discord / facebook / reddit</td><td>堆叠颜色分组</td></tr>
+    <tr><td class="field">channel_pv</td><td>int</td><td>该渠道当日分享次数</td><td>柱高</td></tr>
+    <tr><td class="field">channel_uv</td><td>int</td><td>该渠道当日去重用户数</td><td>备用</td></tr>
+</table>
+
+<!-- ===== 表9: 事件明细 ===== -->
+<h2>表 9: 事件明细表</h2>
+<p>用于：事件明细数据表（表头：日期 / 事件名 / PV / UV）</p>
+<table>
+    <tr><th>字段名</th><th>类型</th><th>口径说明</th><th>用途</th></tr>
+    <tr><td class="field">date</td><td>date</td><td>日期</td><td>表格列</td></tr>
+    <tr><td class="field">event_name</td><td>string</td><td>事件名称（如 hq_exp_page、hq_click_login_entry 等）</td><td>表格列</td></tr>
+    <tr><td class="field">event_pv</td><td>int</td><td>该事件当日总触发次数</td><td>表格列</td></tr>
+    <tr><td class="field">event_uv</td><td>int</td><td>该事件当日触发的去重用户数</td><td>表格列</td></tr>
+</table>
+
+<!-- ===== 汇总 ===== -->
+<h2>字段汇总一览</h2>
+<table>
+    <tr><th>表</th><th>主维度</th><th>结果字段</th><th>行数/日(预估)</th></tr>
+    <tr><td>每日流量汇总</td><td>date</td><td>pv, uv</td><td>1</td></tr>
+    <tr><td>页面级 PV/UV</td><td>date × page_id</td><td>page_pv, page_uv</td><td>5</td></tr>
+    <tr><td>登录方式</td><td>date × login_method</td><td>method_uv, method_pv</td><td>2</td></tr>
+    <tr><td>游戏模式</td><td>date × game_mode</td><td>mode_uv, mode_pv</td><td>2</td></tr>
+    <tr><td>平台分布</td><td>date × client_type</td><td>platform_uv, platform_pv</td><td>3</td></tr>
+    <tr><td>登录漏斗</td><td>date</td><td>login_click/modal/method/submit/success_uv</td><td>1</td></tr>
+    <tr><td>分享漏斗</td><td>date</td><td>report_exp/share_btn/poster_exp/poster_share_uv</td><td>1</td></tr>
+    <tr><td>分享渠道</td><td>date × share_channel</td><td>channel_pv, channel_uv</td><td>5</td></tr>
+    <tr><td>事件明细</td><td>date × event_name</td><td>event_pv, event_uv</td><td>25</td></tr>
+</table>
+<p class="note">共 9 张结果表，每日总行数约 45 行。前端按日期范围拉取后直接渲染，无需再做聚合计算。</p>
+
+</body>
+</html>

@@ -108,7 +108,10 @@
     "handlingSpeed": "Handhabung",
     "rangeAdvantage": "Reichweite",
     "gunStability": "Stabilität",
-    "fireRate": "Feuerrate"
+    "fireRate": "Feuerrate",
+    "baseDamage": "Schaden",
+    "weaponStability": "Stabilität",
+    "hipfireAccuracy": "Hüftfeuer-Genauigkeit"
   },
   "attachments": {
     "muzzle": "Mündung",
