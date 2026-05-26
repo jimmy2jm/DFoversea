@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delta Force - Home</title>
-    <link rel="stylesheet" href="main.css?v=47">
+    <link rel="stylesheet" href="main.css?v=51">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <script src="i18n.js" defer></script>
 </head>
@@ -20,6 +20,8 @@
                 <a href="index.html" class="nav-link active">每日数据</a>
                 <a href="my-data.html" class="nav-link">我的数据</a>
                 <a href="gun-plans.html" class="nav-link">改枪方案</a>
+                <a href="#" class="nav-link">地图工具</a>
+                <a href="#" class="nav-link">游戏百科</a>
             </div>
         </div>
         <div class="nav-right">
@@ -1334,45 +1336,128 @@
 
     <!-- 生成海报弹窗 -->
     <div class="poster-modal-overlay" id="poster-modal-overlay">
-        <div class="poster-modal">
+        <div class="poster-modal poster-modal-landscape">
             <div class="poster-modal-header">
                 <span class="poster-modal-title">🖼️ 大红藏馆海报</span>
                 <span class="poster-modal-close" id="poster-modal-close">✕</span>
             </div>
             
-            <!-- 海报预览区域 -->
+            <!-- 海报预览区域（横版） -->
             <div class="poster-preview-area">
-                <div class="poster-placeholder">
-                    <div class="poster-content">
-                        <div class="poster-header-section">
+                <div class="poster-placeholder poster-placeholder-landscape">
+                    <div class="poster-content poster-content-landscape">
+                        <!-- 顶栏：Logo + 标题 -->
+                        <div class="poster-top-bar">
                             <div class="poster-logo">△ DELTA FORCE</div>
                             <div class="poster-title-text">大红藏馆</div>
                         </div>
-                        <div class="poster-stats-section">
-                            <div class="poster-stat">
-                                <span class="poster-stat-value">67</span>
-                                <span class="poster-stat-label">大红种类</span>
+
+                        <!-- 主内容：左大红主图 + 右数据 -->
+                        <div class="poster-main-row">
+                            <!-- 左：最高价值大红 -->
+                            <div class="poster-hero-area">
+                                <div class="poster-hero-image">
+                                    <span class="poster-hero-icon">💎</span>
+                                </div>
+                                <div class="poster-hero-info">
+                                    <div class="poster-hero-tag">最高价值大红</div>
+                                    <div class="poster-hero-name">赛伊德的怀表</div>
+                                    <div class="poster-hero-desc">古董级稀有藏品，市场价值连城，藏馆中目前价格最高的传奇红色品质物品。</div>
+                                    <div class="poster-hero-value">
+                                        <span class="value-icon">💰</span>
+                                        <span class="value-num">2,888,000</span>
+                                        <span class="value-unit">HC</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="poster-stat">
-                                <span class="poster-stat-value">142</span>
-                                <span class="poster-stat-label">大红数量</span>
-                            </div>
-                            <div class="poster-stat">
-                                <span class="poster-stat-value">67%</span>
-                                <span class="poster-stat-label">收藏进度</span>
+
+                            <!-- 右：数据概览 + Top6 高价值藏品 -->
+                            <div class="poster-side-area">
+                                <!-- 右上：数据概览 -->
+                                <div class="poster-overview-section">
+                                    <div class="poster-overview-title">藏馆数据概览</div>
+                                    <div class="poster-overview-stats">
+                                        <div class="poster-stat">
+                                            <span class="poster-stat-value">67</span>
+                                            <span class="poster-stat-label">大红种数</span>
+                                        </div>
+                                        <div class="poster-stat">
+                                            <span class="poster-stat-value">142</span>
+                                            <span class="poster-stat-label">大红数量</span>
+                                        </div>
+                                        <div class="poster-stat">
+                                            <span class="poster-stat-value">23.6M</span>
+                                            <span class="poster-stat-label">大红总价值</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 右下：Top6 高价值大红 -->
+                                <div class="poster-top-items-section">
+                                    <div class="poster-top-items-title">高价值收藏品</div>
+                                    <div class="poster-top-items-grid">
+                                        <div class="poster-top-item">
+                                            <span class="poster-top-rank">TOP 1</span>
+                                            <div class="poster-top-item-img">⌚</div>
+                                            <div class="poster-top-item-name">赛伊德的怀表</div>
+                                            <div class="poster-top-item-value">2,888K</div>
+                                        </div>
+                                        <div class="poster-top-item">
+                                            <span class="poster-top-rank">TOP 2</span>
+                                            <div class="poster-top-item-img">🦴</div>
+                                            <div class="poster-top-item-name">棘龙爪化石</div>
+                                            <div class="poster-top-item-value">1,650K</div>
+                                        </div>
+                                        <div class="poster-top-item">
+                                            <span class="poster-top-rank">TOP 3</span>
+                                            <div class="poster-top-item-img">🪙</div>
+                                            <div class="poster-top-item-name">古币</div>
+                                            <div class="poster-top-item-value">1,420K</div>
+                                        </div>
+                                        <div class="poster-top-item">
+                                            <span class="poster-top-rank">TOP 4</span>
+                                            <div class="poster-top-item-img">💍</div>
+                                            <div class="poster-top-item-name">钻戒</div>
+                                            <div class="poster-top-item-value">980K</div>
+                                        </div>
+                                        <div class="poster-top-item">
+                                            <span class="poster-top-rank">TOP 5</span>
+                                            <div class="poster-top-item-img">🔋</div>
+                                            <div class="poster-top-item-name">动力电池组</div>
+                                            <div class="poster-top-item-value">820K</div>
+                                        </div>
+                                        <div class="poster-top-item">
+                                            <span class="poster-top-rank">TOP 6</span>
+                                            <div class="poster-top-item-img">💾</div>
+                                            <div class="poster-top-item-name">加密U盘</div>
+                                            <div class="poster-top-item-value">760K</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="poster-items-section">
-                            <div class="poster-item-row">
-                                <div class="poster-item-img"></div>
-                                <div class="poster-item-img"></div>
-                                <div class="poster-item-img"></div>
-                                <div class="poster-item-img"></div>
-                            </div>
-                        </div>
+
+                        <!-- 底栏 -->
                         <div class="poster-footer-section">
                             <span class="poster-date">2026/01/30</span>
                             <span class="poster-watermark">Generated by Delta Force Tracker</span>
+                        </div>
+
+                        <!-- 链接 + 二维码（右下角小浮层） -->
+                        <div class="poster-link-row-floating">
+                            <div class="poster-link-section poster-link-section-daily">
+                                <div class="poster-link-info">
+                                    <div class="poster-link-label">立即体验</div>
+                                    <div class="poster-link-url">www.playdeltaforce.com/events/hq</div>
+                                </div>
+                                <div class="poster-qrcode" aria-label="QR Code">
+                                    <div class="qr-grid"></div>
+                                    <div class="qr-corner qr-corner-tl"></div>
+                                    <div class="qr-corner qr-corner-tr"></div>
+                                    <div class="qr-corner qr-corner-bl"></div>
+                                    <div class="qr-logo">△</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1742,6 +1827,23 @@
                             </div>
                         </div>
                         
+                        <!-- 链接 + 二维码 -->
+                        <div class="daily-poster-link-row">
+                            <div class="poster-link-section poster-link-section-daily">
+                                <div class="poster-link-info">
+                                    <div class="poster-link-label">立即体验</div>
+                                    <div class="poster-link-url">www.playdeltaforce.com/events/hq</div>
+                                </div>
+                                <div class="poster-qrcode" aria-label="QR Code">
+                                    <div class="qr-grid"></div>
+                                    <div class="qr-corner qr-corner-tl"></div>
+                                    <div class="qr-corner qr-corner-tr"></div>
+                                    <div class="qr-corner qr-corner-bl"></div>
+                                    <div class="qr-logo">△</div>
+                                </div>
+                            </div>
+                        </div>
+                        
                         <!-- 海报底部 -->
                         <div class="daily-poster-footer">
                             <span class="daily-poster-watermark">Delta Force Tracker</span>
@@ -1866,5 +1968,6 @@
 
     <script src="../shared/gun-detail-mock.js?v=1"></script>
     <script src="main.js?v=25"></script>
+    <script src="bookmark-widget.js?v=1" defer></script>
 </body>
 </html>

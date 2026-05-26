@@ -7622,3 +7622,559 @@ body {
     font-size: 0.84rem;
     grid-column: 1 / -1;
 }
+
+/* ============================================
+   大红藏馆海报 — 横版重构
+   ============================================ */
+.poster-modal-landscape {
+    width: 95%;
+    max-width: 960px;
+    border-radius: 0;
+}
+
+.poster-modal-landscape .poster-preview-area {
+    padding: 1.5rem;
+}
+
+.poster-placeholder-landscape {
+    width: 100%;
+    max-width: 880px;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #102826 0%, #061214 100%);
+    border-radius: 0;
+    border: 1px solid rgba(0, 212, 170, 0.45);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    position: relative;
+}
+
+.poster-placeholder-landscape::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 18% 28%, rgba(0, 212, 170, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 88% 80%, rgba(36, 244, 178, 0.12) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.poster-content-landscape {
+    width: 100%;
+    height: 100%;
+    padding: 1.1rem 1.4rem 0.9rem;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 1;
+}
+
+/* 顶栏 */
+.poster-content-landscape .poster-top-bar {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding-bottom: 0.6rem;
+    margin-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(0, 212, 170, 0.25);
+}
+
+.poster-content-landscape .poster-logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.95rem;
+    color: #00d4aa;
+    letter-spacing: 2px;
+    margin-bottom: 0;
+}
+
+.poster-content-landscape .poster-title-text {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 6px;
+    text-align: right;
+}
+
+/* 主内容：左右布局 */
+.poster-main-row {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.1rem;
+    min-height: 0;
+}
+
+/* 左侧：最高价值大红 */
+.poster-hero-area {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    background: rgba(6, 18, 20, 0.7);
+    border: 1px solid rgba(0, 212, 170, 0.18);
+    padding: 0.85rem;
+}
+
+.poster-hero-image {
+    flex: 1;
+    min-height: 130px;
+    background: linear-gradient(135deg, rgba(0, 212, 170, 0.18), rgba(36, 244, 178, 0.05) 60%, rgba(255, 215, 0, 0.12));
+    border: 1px solid rgba(255, 215, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.poster-hero-image::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px dashed rgba(255, 255, 255, 0.12);
+    pointer-events: none;
+}
+
+.poster-hero-icon {
+    font-size: 3.4rem;
+    filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.55));
+}
+
+.poster-hero-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.poster-hero-tag {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 2px 8px;
+    background: linear-gradient(90deg, #ffd700, #ffaa00);
+    color: #1a1a1a;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.poster-hero-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: 1px;
+}
+
+.poster-hero-desc {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.45;
+    margin: 0.15rem 0 0.3rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.poster-hero-value {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+    font-family: 'Orbitron', monospace;
+}
+
+.poster-hero-value .value-icon {
+    font-size: 0.85rem;
+}
+
+.poster-hero-value .value-num {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffd700;
+}
+
+.poster-hero-value .value-unit {
+    font-size: 0.7rem;
+    color: rgba(255, 215, 0, 0.7);
+    letter-spacing: 1px;
+}
+
+/* 右侧：数据概览 + 链接二维码 */
+.poster-side-area {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    min-height: 0;
+}
+
+.poster-overview-section {
+    background: rgba(6, 18, 20, 0.7);
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    padding: 0.85rem 0.95rem;
+}
+
+.poster-overview-title {
+    font-size: 0.75rem;
+    color: #00d4aa;
+    letter-spacing: 2px;
+    margin-bottom: 0.65rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.poster-overview-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.35rem;
+}
+
+.poster-overview-stats .poster-stat {
+    text-align: center;
+    padding: 0.3rem 0.2rem;
+    border-right: 1px solid rgba(0, 212, 170, 0.12);
+}
+
+.poster-overview-stats .poster-stat:last-child {
+    border-right: none;
+}
+
+.poster-overview-stats .poster-stat-value {
+    display: block;
+    font-family: 'Orbitron', monospace;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #24f4b2;
+    line-height: 1.05;
+    margin-bottom: 0.18rem;
+}
+
+.poster-overview-stats .poster-stat-label {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.65);
+    letter-spacing: 0.5px;
+}
+
+/* 链接 + 二维码（公共结构） */
+.poster-link-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.85rem;
+    background: rgba(6, 18, 20, 0.7);
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    padding: 0.7rem 0.85rem;
+    flex: 1;
+    min-height: 0;
+}
+
+.poster-link-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+    flex: 1;
+}
+
+.poster-link-label {
+    font-size: 0.7rem;
+    color: #00d4aa;
+    letter-spacing: 2px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.poster-link-url {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.78rem;
+    color: #ffffff;
+    word-break: break-all;
+    line-height: 1.3;
+}
+
+/* 模拟二维码 */
+.poster-qrcode {
+    position: relative;
+    width: 72px;
+    height: 72px;
+    background: #ffffff;
+    padding: 4px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+.qr-grid {
+    width: 100%;
+    height: 100%;
+    background-image:
+        radial-gradient(circle at 20% 20%, #000 0 1.2px, transparent 1.5px),
+        radial-gradient(circle at 60% 20%, #000 0 1.2px, transparent 1.5px),
+        radial-gradient(circle at 90% 30%, #000 0 1.2px, transparent 1.5px),
+        radial-gradient(circle at 30% 50%, #000 0 1.2px, transparent 1.5px),
+        radial-gradient(circle at 70% 60%, #000 0 1.2px, transparent 1.5px),
+        radial-gradient(circle at 50% 80%, #000 0 1.2px, transparent 1.5px),
+        radial-gradient(circle at 85% 85%, #000 0 1.2px, transparent 1.5px),
+        repeating-linear-gradient(
+            0deg,
+            #000 0 2px,
+            transparent 2px 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            #000 0 2px,
+            transparent 2px 4px
+        );
+    background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 4px 4px, 4px 4px;
+    -webkit-mask:
+        radial-gradient(circle at center, #000 0 32%, transparent 33%),
+        linear-gradient(#000, #000);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    opacity: 0.78;
+}
+
+.qr-corner {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 3px solid #000;
+    background: #fff;
+}
+
+.qr-corner::after {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    background: #000;
+}
+
+.qr-corner-tl { top: 4px; left: 4px; }
+.qr-corner-tr { top: 4px; right: 4px; }
+.qr-corner-bl { bottom: 4px; left: 4px; }
+
+.qr-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 22px;
+    height: 22px;
+    background: #00d4aa;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px #000;
+}
+
+/* 横版海报底栏覆写 */
+.poster-content-landscape .poster-footer-section {
+    padding-top: 0.5rem;
+    margin-top: 0.6rem;
+    border-top: 1px solid rgba(0, 212, 170, 0.18);
+}
+
+.poster-content-landscape .poster-date,
+.poster-content-landscape .poster-watermark {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* 大红海报内 button hover 不要继承默认圆角 */
+.poster-modal-landscape .poster-share-actions {
+    border-radius: 0;
+}
+
+/* ============================================
+   日报海报 — 链接 + 二维码（右下角小浮层）
+   ============================================ */
+/* 海报容器作为定位上下文 */
+.daily-poster-placeholder {
+    position: relative;
+}
+
+/* 浮在海报右下角，不挤占主体布局 */
+.daily-poster-link-row {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    margin: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.poster-link-section-daily {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 4px 6px 4px 10px;
+    background: rgba(6, 18, 20, 0.78);
+    border: 1px solid rgba(0, 212, 170, 0.35);
+    border-radius: 0;
+    backdrop-filter: blur(2px);
+    pointer-events: auto;
+}
+
+.poster-link-section-daily .poster-link-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    min-width: 0;
+}
+
+.poster-link-section-daily .poster-link-label {
+    display: none;
+}
+
+.poster-link-section-daily .poster-link-url {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.2;
+    white-space: nowrap;
+    letter-spacing: 0.3px;
+}
+
+/* 缩小后的二维码 */
+.poster-link-section-daily .poster-qrcode {
+    width: 42px;
+    height: 42px;
+    padding: 2px;
+}
+
+.poster-link-section-daily .qr-corner {
+    width: 10px;
+    height: 10px;
+    border-width: 2px;
+}
+
+.poster-link-section-daily .qr-corner-tl { top: 2px; left: 2px; }
+.poster-link-section-daily .qr-corner-tr { top: 2px; right: 2px; }
+.poster-link-section-daily .qr-corner-bl { bottom: 2px; left: 2px; }
+
+.poster-link-section-daily .qr-corner::after {
+    inset: 2px;
+}
+
+.poster-link-section-daily .qr-logo {
+    width: 13px;
+    height: 13px;
+    font-size: 8px;
+    border-width: 1px;
+}
+
+/* ============================================
+   大红海报 — 价值 Top6 高价值藏品
+   ============================================ */
+.poster-top-items-section {
+    flex: 1;
+    background: rgba(6, 18, 20, 0.7);
+    border: 1px solid rgba(0, 212, 170, 0.2);
+    padding: 0.65rem 0.75rem 0.7rem;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.poster-top-items-title {
+    font-size: 0.72rem;
+    color: #00d4aa;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.poster-top-items-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 0.4rem;
+    min-height: 0;
+}
+
+.poster-top-item {
+    position: relative;
+    background: rgba(0, 212, 170, 0.05);
+    border: 1px solid rgba(0, 212, 170, 0.15);
+    padding: 0.35rem 0.3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    min-width: 0;
+}
+
+/* 左上角 TOP 排名角标 */
+.poster-top-rank {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 1px 5px 1px 4px;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.55rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #031816;
+    background: linear-gradient(135deg, #24f4b2 0%, #00d4aa 100%);
+    line-height: 1.2;
+    z-index: 1;
+}
+
+/* Top1 金色高亮 */
+.poster-top-item:nth-child(1) {
+    border-color: rgba(255, 215, 0, 0.45);
+    background: rgba(255, 215, 0, 0.06);
+}
+
+.poster-top-item:nth-child(1) .poster-top-rank {
+    background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+}
+
+.poster-top-item-img {
+    width: 26px;
+    height: 26px;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.18), rgba(0, 212, 170, 0.12));
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.poster-top-item-name {
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.poster-top-item-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #ffd700;
+    letter-spacing: 0.3px;
+}
+
+/* ============================================
+   大红海报 — 链接 + 二维码（右下角小浮层）
+   ============================================ */
+.poster-link-row-floating {
+    position: absolute;
+    right: 14px;
+    bottom: 12px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.poster-link-row-floating .poster-link-section-daily {
+    pointer-events: auto;
+}
+

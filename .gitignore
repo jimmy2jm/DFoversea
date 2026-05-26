@@ -1,0 +1,26 @@
+# macOS 系统文件
+.DS_Store
+**/.DS_Store
+
+# Excel/Office 临时文件
+~$*
+*.tmp
+*.xlsx.tmp
+
+# IDE / 编辑器
+.vscode/
+.idea/
+*.swp
+
+# 项目内部缓存
+.codebuddy/.DS_Store
+.workbuddy/.DS_Store
+.playwright-cli/
+
+# Node / 构建产物（预留）
+node_modules/
+dist/
+build/
+
+# 日志
+*.log
