@@ -164,12 +164,37 @@
   },
   "tabs": {
     "recentMatches": "Aktuelle Spielergebnisse",
+    "recentRounds": "Aktuelle Runden",
+    "operationalData": "Einsatzdaten",
     "collection": "Sammlergalerie"
   },
   "battle": {
     "netProfit": "Nettogewinn",
     "profit": "Einnahmen",
     "kills": "Eliminierungen"
+  },
+  "operational": {
+    "mapData": "Kartendaten",
+    "operatorData": "Operatordaten",
+    "weaponData": "Waffendaten",
+    "seasonS8": "S8",
+    "allSeason": "Alle Saisons",
+    "allDifficulty": "Alle Stufen",
+    "normal": "Normal",
+    "confidential": "Geheim",
+    "topSecret": "Streng geheim",
+    "byMatches": "Nach Matches",
+    "byProfit": "Nach Gewinn",
+    "byExtraction": "Nach Extraktion",
+    "byProfitLoss": "Nach G/V",
+    "byKills": "Nach Kills",
+    "matches": "Matches",
+    "rounds": "Runden",
+    "kills": "Kills",
+    "netProfit": "Netto",
+    "extractionRate": "Extraktion",
+    "lossRatio": "V/B",
+    "profitLossRatio": "G/V"
   },
   "guide": {
     "guideRecommend": "Anleitungsempfehlungen",

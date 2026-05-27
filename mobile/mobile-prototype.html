@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Delta Force - Mobile Prototype</title>
-    <link rel="stylesheet" href="main.css?v=23">
+    <link rel="stylesheet" href="main.css?v=26">
     <script src="i18n.js" defer></script>
 </head>
 <body>
@@ -1179,14 +1179,11 @@
             <div class="profile-content-area">
                 <!-- ===== 战绩页内容 ===== -->
                 <div class="profile-tab-content" id="tab-battle">
-                    <!-- V1.0 隐藏战绩子Tab -->
-                    <!--
-                    <div class="battle-sub-tabs">
-                        <button class="battle-sub-tab active">👥 最近对局</button>
-                        <button class="battle-sub-tab">📊 作战统计</button>
-                        <button class="battle-sub-tab">📋 更多记录</button>
+                    <!-- 战绩二级 Tab：最近对局 / 作战数据 -->
+                    <div class="battle-sub-tabs battle-data-tabs">
+                        <button class="battle-sub-tab active" data-battle-sub="recent" data-i18n="tabs.recentRounds">最近对局</button>
+                        <button class="battle-sub-tab" data-battle-sub="operational" data-i18n="tabs.operationalData">作战数据</button>
                     </div>
-                    -->
                     
                     <div class="battle-filter-row">
                         <select class="battle-filter-select">
@@ -1197,7 +1194,7 @@
                         <span class="battle-profit-label"><span data-i18n="battle.netProfit">净收益</span>: <input type="checkbox" style="vertical-align: middle;"></span>
                     </div>
                     
-                    <div class="battle-record-list">
+                    <div class="battle-record-list" id="battle-recent-panel">
                         <div class="battle-record-item">
                             <div class="battle-record-avatar">🎖️</div>
                             <div class="battle-record-info">
@@ -1247,6 +1244,139 @@
                                 <div class="battle-result-kills">💀 2</div>
                             </div>
                             <span class="battle-record-arrow">›</span>
+                        </div>
+                    </div>
+
+                    <div class="battle-operational-panel" id="battle-operational-panel" style="display: none;">
+                        <div class="mobile-combat-stack">
+                            <!-- 地图数据 -->
+                            <section class="mobile-combat-section">
+                                <div class="mobile-combat-section-header">
+                                    <div>
+                                        <div class="mobile-combat-kicker">MAP DATA</div>
+                                        <div class="mobile-combat-title" data-i18n="operational.mapData">地图数据</div>
+                                    </div>
+                                    <div class="mobile-combat-filters">
+                                        <select class="mobile-combat-select" aria-label="赛季">
+                                            <option data-i18n="operational.seasonS8">S8赛季</option>
+                                            <option data-i18n="operational.allSeason">全部赛季</option>
+                                        </select>
+                                        <select class="mobile-combat-select" aria-label="地图难度">
+                                            <option data-i18n="operational.allDifficulty">全部难度</option>
+                                            <option data-i18n="operational.normal">普通</option>
+                                            <option data-i18n="operational.confidential">机密</option>
+                                            <option data-i18n="operational.topSecret">绝密</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="mobile-map-card-scroll" aria-label="地图数据列表">
+                                    <button class="mobile-map-card active" type="button" data-name="零号大坝" data-matches="212" data-profit="+37.2M" data-profit-class="positive" data-extract="51.6%" data-loss="0.62" data-ratio="1.92">
+                                        <span class="mobile-map-name">零号大坝</span>
+                                        <span class="mobile-map-profit positive">+37.2M</span>
+                                        <span class="mobile-map-meta">212 <span data-i18n="operational.matches">对局</span> · 51.6%</span>
+                                    </button>
+                                    <button class="mobile-map-card" type="button" data-name="长弓溪谷" data-matches="13" data-profit="+3.2M" data-profit-class="positive" data-extract="42.8%" data-loss="0.76" data-ratio="1.48">
+                                        <span class="mobile-map-name">长弓溪谷</span>
+                                        <span class="mobile-map-profit positive">+3.2M</span>
+                                        <span class="mobile-map-meta">13 <span data-i18n="operational.matches">对局</span> · 42.8%</span>
+                                    </button>
+                                    <button class="mobile-map-card" type="button" data-name="航天基地" data-matches="11" data-profit="-2.1M" data-profit-class="negative" data-extract="18.2%" data-loss="1.72" data-ratio="0.58">
+                                        <span class="mobile-map-name">航天基地</span>
+                                        <span class="mobile-map-profit negative">-2.1M</span>
+                                        <span class="mobile-map-meta">11 <span data-i18n="operational.matches">对局</span> · 18.2%</span>
+                                    </button>
+                                    <button class="mobile-map-card" type="button" data-name="潮汐监狱" data-matches="1" data-profit="-786.8K" data-profit-class="negative" data-extract="0%" data-loss="2.18" data-ratio="0.12">
+                                        <span class="mobile-map-name">潮汐监狱</span>
+                                        <span class="mobile-map-profit negative">-786.8K</span>
+                                        <span class="mobile-map-meta">1 <span data-i18n="operational.matches">对局</span> · 0%</span>
+                                    </button>
+                                    <button class="mobile-map-card" type="button" data-name="巴克什" data-matches="0" data-profit="0" data-profit-class="neutral" data-extract="0%" data-loss="-" data-ratio="-">
+                                        <span class="mobile-map-name">巴克什</span>
+                                        <span class="mobile-map-profit">0</span>
+                                        <span class="mobile-map-meta">0 <span data-i18n="operational.matches">对局</span> · 0%</span>
+                                    </button>
+                                </div>
+
+                                <div class="mobile-map-detail-card">
+                                    <div class="mobile-map-detail-title" id="mobile-map-detail-name">零号大坝</div>
+                                    <div class="mobile-map-detail-grid">
+                                        <div><span data-i18n="operational.matches">对局</span><strong id="mobile-map-detail-matches">212</strong></div>
+                                        <div><span data-i18n="operational.netProfit">净收益</span><strong id="mobile-map-detail-profit" class="positive">+37.2M</strong></div>
+                                        <div><span data-i18n="operational.extractionRate">撤离率</span><strong id="mobile-map-detail-extract">51.6%</strong></div>
+                                        <div><span data-i18n="operational.lossRatio">战损比</span><strong id="mobile-map-detail-loss">0.62</strong></div>
+                                        <div><span data-i18n="operational.profitLossRatio">赚损比</span><strong id="mobile-map-detail-ratio">1.92</strong></div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- 干员数据 -->
+                            <section class="mobile-combat-section">
+                                <div class="mobile-combat-section-header">
+                                    <div>
+                                        <div class="mobile-combat-kicker">OPERATOR DATA</div>
+                                        <div class="mobile-combat-title" data-i18n="operational.operatorData">干员数据</div>
+                                    </div>
+                                    <div class="mobile-combat-filters">
+                                        <select class="mobile-combat-select"><option data-i18n="operational.seasonS8">S8赛季</option><option data-i18n="operational.allSeason">全部赛季</option></select>
+                                        <select class="mobile-combat-select mobile-operator-sort" aria-label="干员排序方式">
+                                            <option value="matches" data-i18n="operational.byMatches">按对局数</option>
+                                            <option value="profit" data-i18n="operational.byProfit">按净收益</option>
+                                            <option value="extraction" data-i18n="operational.byExtraction">按撤离率</option>
+                                            <option value="profitLoss" data-i18n="operational.byProfitLoss">按赚损比</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mobile-rank-list mobile-operator-rank-list">
+                                    <div class="mobile-rank-card" data-name="威龙" data-matches="526" data-profit="+18.6M" data-profit-num="18.6" data-extraction="42.6%" data-extraction-num="42.6" data-loss="0.74" data-profit-loss="1.82" data-profit-loss-num="1.82">
+                                        <div class="mobile-rank-main"><div class="mobile-rank-entity"><span class="mobile-rank-no">#1</span><span class="mobile-rank-avatar">🛡️</span><span class="mobile-rank-name">威龙</span></div><div class="mobile-rank-primary"></div></div>
+                                        <div class="mobile-rank-meta"></div>
+                                        <div class="mobile-rank-meta"></div>
+                                    </div>
+                                    <div class="mobile-rank-card" data-name="骇爪" data-matches="344" data-profit="+9.8M" data-profit-num="9.8" data-extraction="39.1%" data-extraction-num="39.1" data-loss="0.86" data-profit-loss="1.36" data-profit-loss-num="1.36">
+                                        <div class="mobile-rank-main"><div class="mobile-rank-entity"><span class="mobile-rank-no">#2</span><span class="mobile-rank-avatar">⚡</span><span class="mobile-rank-name">骇爪</span></div><div class="mobile-rank-primary"></div></div>
+                                        <div class="mobile-rank-meta"></div>
+                                        <div class="mobile-rank-meta"></div>
+                                    </div>
+                                    <div class="mobile-rank-card" data-name="露娜" data-matches="218" data-profit="+7.2M" data-profit-num="7.2" data-extraction="46.3%" data-extraction-num="46.3" data-loss="0.69" data-profit-loss="1.54" data-profit-loss-num="1.54">
+                                        <div class="mobile-rank-main"><div class="mobile-rank-entity"><span class="mobile-rank-no">#3</span><span class="mobile-rank-avatar">🎯</span><span class="mobile-rank-name">露娜</span></div><div class="mobile-rank-primary"></div></div>
+                                        <div class="mobile-rank-meta"></div>
+                                        <div class="mobile-rank-meta"></div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <!-- 枪械数据 -->
+                            <section class="mobile-combat-section">
+                                <div class="mobile-combat-section-header">
+                                    <div>
+                                        <div class="mobile-combat-kicker">WEAPON DATA</div>
+                                        <div class="mobile-combat-title" data-i18n="operational.weaponData">枪械数据</div>
+                                    </div>
+                                    <div class="mobile-combat-filters">
+                                        <select class="mobile-combat-select"><option data-i18n="operational.seasonS8">S8赛季</option><option data-i18n="operational.allSeason">全部赛季</option></select>
+                                        <select class="mobile-combat-select mobile-weapon-sort" aria-label="枪械排序方式">
+                                            <option value="kills" data-i18n="operational.byKills">按击杀数</option>
+                                            <option value="matches" data-i18n="operational.byMatches">按对局数</option>
+                                            <option value="extraction" data-i18n="operational.byExtraction">按撤离率</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mobile-rank-list mobile-weapon-rank-list">
+                                    <div class="mobile-rank-card weapon" data-name="K416" data-matches="286" data-kills="1,284" data-kills-num="1284" data-extraction="43.8%" data-extraction-num="43.8">
+                                        <div class="mobile-rank-main"><div class="mobile-rank-entity"><span class="mobile-rank-no">#1</span><span class="mobile-rank-avatar weapon">K</span><span class="mobile-rank-name">K416</span></div><div class="mobile-rank-primary"></div></div>
+                                        <div class="mobile-rank-meta"></div>
+                                    </div>
+                                    <div class="mobile-rank-card weapon" data-name="M4A1" data-matches="212" data-kills="936" data-kills-num="936" data-extraction="47.2%" data-extraction-num="47.2">
+                                        <div class="mobile-rank-main"><div class="mobile-rank-entity"><span class="mobile-rank-no">#2</span><span class="mobile-rank-avatar weapon">M</span><span class="mobile-rank-name">M4A1</span></div><div class="mobile-rank-primary"></div></div>
+                                        <div class="mobile-rank-meta"></div>
+                                    </div>
+                                    <div class="mobile-rank-card weapon" data-name="PKM" data-matches="145" data-kills="612" data-kills-num="612" data-extraction="38.5%" data-extraction-num="38.5">
+                                        <div class="mobile-rank-main"><div class="mobile-rank-entity"><span class="mobile-rank-no">#3</span><span class="mobile-rank-avatar weapon">P</span><span class="mobile-rank-name">PKM</span></div><div class="mobile-rank-primary"></div></div>
+                                        <div class="mobile-rank-meta"></div>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
                     </div>
                 </div>
@@ -1566,7 +1696,7 @@
     
     <!-- 引入主JS文件 -->
     <script src="../shared/gun-detail-mock.js?v=1"></script>
-    <script src="main.js?v=9"></script>
-    <script src="bookmark-widget.js?v=1" defer></script>
+    <script src="main.js?v=13"></script>
+    <script src="bookmark-widget.js?v=3" defer></script>
 </body>
 </html>

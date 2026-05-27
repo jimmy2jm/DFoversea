@@ -216,6 +216,7 @@
   "tabs": {
     "overview": "Übersicht",
     "matches": "Spielverlauf",
+    "operationalData": "Einsatzdaten",
     "weapons": "Waffendaten",
     "operators": "Operatordaten",
     "maps": "Kartendaten"

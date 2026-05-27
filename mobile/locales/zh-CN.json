@@ -188,12 +188,37 @@
   },
   "tabs": {
     "recentMatches": "最近战绩",
+    "recentRounds": "最近对局",
+    "operationalData": "作战数据",
     "collection": "大红藏馆"
   },
   "battle": {
     "netProfit": "净收益",
     "profit": "收益",
     "kills": "击杀"
+  },
+  "operational": {
+    "mapData": "地图数据",
+    "operatorData": "干员数据",
+    "weaponData": "枪械数据",
+    "seasonS8": "S8赛季",
+    "allSeason": "全部赛季",
+    "allDifficulty": "全部难度",
+    "normal": "普通",
+    "confidential": "机密",
+    "topSecret": "绝密",
+    "byMatches": "按对局数",
+    "byProfit": "按净收益",
+    "byExtraction": "按撤离率",
+    "byProfitLoss": "按赚损比",
+    "byKills": "按击杀数",
+    "matches": "对局",
+    "rounds": "场次",
+    "kills": "击杀",
+    "netProfit": "净收益",
+    "extractionRate": "撤离率",
+    "lossRatio": "战损比",
+    "profitLossRatio": "赚损比"
   },
   "guide": {
     "guideRecommend": "攻略推荐",

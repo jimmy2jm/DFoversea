@@ -1383,6 +1383,363 @@
         .placeholder-text {
             font-size: 1rem;
         }
+
+        /* 作战数据聚合页 */
+        .combat-data-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .combat-data-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+
+        .combat-section-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .combat-section-header.compact {
+            align-items: center;
+        }
+
+        .combat-section-kicker {
+            display: inline-block;
+            margin-bottom: 0.25rem;
+            font-family: 'Orbitron', monospace;
+            font-size: 0.68rem;
+            color: var(--accent-cyan);
+            letter-spacing: 0.18em;
+        }
+
+        .combat-section-title-group h3 {
+            margin: 0;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+        }
+
+        .combat-section-title-group p {
+            margin: 0.35rem 0 0;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        .combat-filter-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .combat-filter-item {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            color: var(--text-secondary);
+            font-size: 0.76rem;
+            white-space: nowrap;
+        }
+
+        .combat-filter-item select {
+            height: 32px;
+            min-width: 112px;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 0 0.7rem;
+            outline: none;
+        }
+
+        .combat-filter-item select:focus {
+            border-color: var(--accent-cyan);
+        }
+
+        /* 地图全貌模拟图 */
+        .combat-map-board {
+            position: relative;
+            height: 360px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 204, 0.26);
+            border-radius: 10px;
+            background:
+                linear-gradient(135deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 18px),
+                radial-gradient(circle at 28% 28%, rgba(115, 161, 177, 0.38), transparent 25%),
+                radial-gradient(circle at 68% 20%, rgba(115, 161, 177, 0.24), transparent 20%),
+                radial-gradient(circle at 48% 66%, rgba(44, 76, 88, 0.44), transparent 32%),
+                linear-gradient(145deg, #1d3340 0%, #142632 42%, #1b1c28 72%, #101820 100%);
+            box-shadow: inset 0 0 35px rgba(0, 0, 0, 0.45);
+        }
+
+        .combat-map-board::before {
+            content: '';
+            position: absolute;
+            inset: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            pointer-events: none;
+        }
+
+        .combat-map-board::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(18deg, transparent 0 40%, rgba(215, 82, 90, 0.08) 41% 56%, transparent 57%),
+                linear-gradient(130deg, transparent 0 48%, rgba(255,255,255,0.06) 49% 51%, transparent 52%),
+                radial-gradient(circle at 85% 18%, rgba(255,255,255,0.08), transparent 18%);
+            pointer-events: none;
+        }
+
+        .combat-map-sim-label {
+            position: absolute;
+            top: 18px;
+            left: 20px;
+            z-index: 1;
+            color: rgba(255, 255, 255, 0.38);
+            font-family: 'Orbitron', monospace;
+            font-size: 0.66rem;
+            letter-spacing: 0.08em;
+        }
+
+        .combat-map-marker {
+            position: absolute;
+            z-index: 3;
+            transform: translate(-50%, -50%);
+            background: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            color: var(--text-primary);
+            font: inherit;
+        }
+
+        .combat-marker-dot {
+            display: block;
+            width: 16px;
+            height: 16px;
+            margin: 0 auto 6px;
+            border: 2px solid rgba(255,255,255,0.85);
+            background: var(--accent-cyan);
+            box-shadow: 0 0 0 5px rgba(0, 255, 204, 0.16), 0 0 18px rgba(0, 255, 204, 0.55);
+            transform: rotate(45deg);
+        }
+
+        .combat-marker-label {
+            display: inline-block;
+            padding: 2px 8px;
+            background: rgba(0, 0, 0, 0.38);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            font-size: 0.78rem;
+            color: rgba(255,255,255,0.92);
+            text-shadow: 0 1px 4px rgba(0,0,0,0.7);
+            white-space: nowrap;
+        }
+
+        .combat-map-popover {
+            position: absolute;
+            left: 50%;
+            bottom: calc(100% + 16px);
+            width: 170px;
+            transform: translateX(-50%) translateY(6px);
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.28rem;
+            padding: 0.75rem 0.85rem;
+            background: rgba(6, 12, 16, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 24px rgba(0,0,0,0.42);
+            text-align: left;
+            transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s ease;
+        }
+
+        .combat-map-popover.align-left {
+            left: auto;
+            right: 0;
+            transform: translateY(6px);
+        }
+
+        .combat-map-popover strong {
+            color: var(--text-primary);
+            font-size: 0.86rem;
+            margin-bottom: 0.1rem;
+        }
+
+        .combat-map-popover span {
+            color: var(--text-secondary);
+            font-size: 0.74rem;
+            white-space: nowrap;
+        }
+
+        .combat-map-marker:hover .combat-map-popover,
+        .combat-map-marker:focus .combat-map-popover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .combat-map-marker:hover .combat-map-popover.align-left,
+        .combat-map-marker:focus .combat-map-popover.align-left {
+            transform: translateY(0);
+        }
+
+        .marker-valley { left: 23%; top: 28%; }
+        .marker-dam { left: 73%; top: 26%; }
+        .marker-bakshi { left: 18%; top: 69%; }
+        .marker-prison { left: 49%; top: 73%; }
+        .marker-space { left: 86%; top: 66%; }
+
+        .positive { color: #24f4b2 !important; }
+        .negative { color: #ff5c5c !important; }
+
+        /* 干员 / 枪械数据列表 */
+        .combat-data-table {
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.12);
+        }
+
+        .combat-table-row {
+            display: grid;
+            align-items: center;
+            gap: 0.75rem;
+            min-height: 56px;
+            padding: 0 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--text-secondary);
+            font-size: 0.82rem;
+        }
+
+        .combat-table-row:last-child {
+            border-bottom: none;
+        }
+
+        .operator-data-table .combat-table-row {
+            grid-template-columns: minmax(180px, 1.6fr) repeat(5, minmax(86px, 1fr));
+        }
+
+        .weapon-data-table .combat-table-row {
+            grid-template-columns: minmax(180px, 2fr) repeat(3, minmax(110px, 1fr));
+        }
+
+        .combat-table-head {
+            min-height: 42px;
+            background: rgba(0, 255, 204, 0.08);
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+        }
+
+        .combat-entity-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .entity-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(0, 255, 204, 0.16), rgba(255,255,255,0.05));
+            border: 1px solid rgba(0, 255, 204, 0.22);
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .entity-avatar.weapon {
+            font-family: 'Orbitron', monospace;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        /* 作战数据 - DESIGN GUIDE 归正：直角、品牌绿、统一面板层级 */
+        .combat-data-section,
+        .combat-map-board,
+        .combat-filter-item select,
+        .combat-marker-label,
+        .combat-map-popover,
+        .combat-data-table,
+        .entity-avatar {
+            border-radius: 0 !important;
+        }
+
+        .combat-data-section {
+            background: rgba(18, 38, 42, 0.9) !important;
+            border-color: rgba(84, 112, 118, 0.56) !important;
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.18);
+        }
+
+        .combat-section-kicker,
+        .combat-filter-item select:focus,
+        .entity-avatar.weapon {
+            color: #00d4aa !important;
+        }
+
+        .combat-filter-item select {
+            background: rgba(6, 18, 20, 0.66) !important;
+            border-color: rgba(42, 72, 78, 0.75) !important;
+            color: rgba(255, 255, 255, 0.86) !important;
+        }
+
+        .combat-filter-item select:focus {
+            border-color: #00d4aa !important;
+        }
+
+        .combat-map-board {
+            border-color: rgba(84, 112, 118, 0.56) !important;
+            background:
+                linear-gradient(135deg, rgba(255,255,255,0.055) 0 1px, transparent 1px 18px),
+                radial-gradient(circle at 28% 28%, rgba(74, 92, 96, 0.45), transparent 25%),
+                radial-gradient(circle at 68% 20%, rgba(74, 92, 96, 0.3), transparent 20%),
+                radial-gradient(circle at 48% 66%, rgba(18, 38, 42, 0.7), transparent 32%),
+                linear-gradient(145deg, rgba(18, 38, 42, 0.92) 0%, rgba(6, 18, 20, 0.96) 100%) !important;
+        }
+
+        .combat-marker-dot {
+            background: #00d4aa !important;
+            box-shadow: 0 0 0 5px rgba(0, 212, 170, 0.16), 0 0 18px rgba(0, 212, 170, 0.48) !important;
+        }
+
+        .combat-marker-label,
+        .combat-map-popover,
+        .combat-data-table,
+        .combat-table-row,
+        .entity-avatar {
+            background: rgba(6, 18, 20, 0.66) !important;
+            border-color: rgba(42, 72, 78, 0.75) !important;
+        }
+
+        .combat-map-popover {
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.38) !important;
+        }
+
+        .combat-table-head {
+            background: rgba(10, 32, 35, 0.84) !important;
+            color: rgba(0, 212, 170, 0.92) !important;
+        }
+
+        .combat-table-row {
+            border-bottom-color: rgba(42, 72, 78, 0.75) !important;
+        }
+
+        .positive { color: #24f4b2 !important; }
+        .negative { color: #ff5c5c !important; }
         
         /* ============================================
            战绩页样式
@@ -2831,9 +3188,7 @@
             <div class="profile-tabs">
                 <button class="profile-tab active" data-tab="overview" data-i18n="tabs.overview">总览</button>
                 <button class="profile-tab" data-tab="matches" data-i18n="tabs.matches">战绩</button>
-                <button class="profile-tab" data-tab="weapons" data-i18n="tabs.weapons">枪械数据</button>
-                <button class="profile-tab" data-tab="operators" data-i18n="tabs.operators">干员数据</button>
-                <button class="profile-tab" data-tab="maps" data-i18n="tabs.maps">地图数据</button>
+                <button class="profile-tab" data-tab="operational" data-i18n="tabs.operationalData">作战数据</button>
             </div>
         </section>
         
@@ -3240,27 +3595,191 @@
             </div>
         </div>
         
-        <!-- 枪械数据 Tab -->
-        <div class="tab-content" id="tab-weapons">
-            <div class="placeholder-content">
-                <div class="placeholder-icon">🔫</div>
-                <div class="placeholder-text" data-i18n="placeholder.weaponsLoading">枪械数据加载中...</div>
-            </div>
-        </div>
-        
-        <!-- 干员数据 Tab -->
-        <div class="tab-content" id="tab-operators">
-            <div class="placeholder-content">
-                <div class="placeholder-icon">👤</div>
-                <div class="placeholder-text" data-i18n="placeholder.operatorsLoading">干员数据加载中...</div>
-            </div>
-        </div>
-        
-        <!-- 地图数据 Tab -->
-        <div class="tab-content" id="tab-maps">
-            <div class="placeholder-content">
-                <div class="placeholder-icon">🗺️</div>
-                <div class="placeholder-text" data-i18n="placeholder.mapsLoading">地图数据加载中...</div>
+        <!-- 作战数据 Tab：地图 / 干员 / 枪械数据聚合 -->
+        <div class="tab-content" id="tab-operational">
+            <div class="combat-data-stack">
+                <!-- 地图数据 -->
+                <section class="combat-data-section combat-map-section">
+                    <div class="combat-section-header">
+                        <div class="combat-section-title-group">
+                            <span class="combat-section-kicker">MAP DATA</span>
+                            <h3>地图数据</h3>
+                            <p>五张地图全貌与关键收益标点，悬浮标点查看地图维度表现。</p>
+                        </div>
+                        <div class="combat-filter-group">
+                            <label class="combat-filter-item">
+                                <span>赛季</span>
+                                <select>
+                                    <option>S8赛季</option>
+                                    <option>S7赛季</option>
+                                    <option>全部赛季</option>
+                                </select>
+                            </label>
+                            <label class="combat-filter-item">
+                                <span>地图难度</span>
+                                <select>
+                                    <option>全部难度</option>
+                                    <option>普通</option>
+                                    <option>机密</option>
+                                    <option>绝密</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="combat-map-board" aria-label="烽火地带地图数据总览">
+                        <div class="combat-map-sim-label">@image:image.f4ff77cecf.png</div>
+                        <button class="combat-map-marker marker-valley" type="button">
+                            <span class="combat-marker-dot"></span>
+                            <span class="combat-marker-label">长弓溪谷</span>
+                            <span class="combat-map-popover">
+                                <strong>长弓溪谷</strong>
+                                <span>对局数：13</span>
+                                <span>净收益：<em class="positive">+3.2M</em></span>
+                                <span>撤离率：42.8%</span>
+                                <span>战损比：0.76</span>
+                                <span>赚损比：1.48</span>
+                            </span>
+                        </button>
+                        <button class="combat-map-marker marker-dam" type="button">
+                            <span class="combat-marker-dot"></span>
+                            <span class="combat-marker-label">零号大坝</span>
+                            <span class="combat-map-popover">
+                                <strong>零号大坝</strong>
+                                <span>对局数：212</span>
+                                <span>净收益：<em class="positive">+37.2M</em></span>
+                                <span>撤离率：51.6%</span>
+                                <span>战损比：0.62</span>
+                                <span>赚损比：1.92</span>
+                            </span>
+                        </button>
+                        <button class="combat-map-marker marker-bakshi" type="button">
+                            <span class="combat-marker-dot"></span>
+                            <span class="combat-marker-label">巴克什</span>
+                            <span class="combat-map-popover">
+                                <strong>巴克什</strong>
+                                <span>对局数：0</span>
+                                <span>净收益：0</span>
+                                <span>撤离率：0%</span>
+                                <span>战损比：-</span>
+                                <span>赚损比：-</span>
+                            </span>
+                        </button>
+                        <button class="combat-map-marker marker-prison" type="button">
+                            <span class="combat-marker-dot"></span>
+                            <span class="combat-marker-label">潮汐监狱</span>
+                            <span class="combat-map-popover">
+                                <strong>潮汐监狱</strong>
+                                <span>对局数：1</span>
+                                <span>净收益：<em class="negative">-786.8K</em></span>
+                                <span>撤离率：0%</span>
+                                <span>战损比：2.18</span>
+                                <span>赚损比：0.12</span>
+                            </span>
+                        </button>
+                        <button class="combat-map-marker marker-space" type="button">
+                            <span class="combat-marker-dot"></span>
+                            <span class="combat-marker-label">航天基地</span>
+                            <span class="combat-map-popover align-left">
+                                <strong>航天基地</strong>
+                                <span>对局数：11</span>
+                                <span>净收益：<em class="negative">-2.1M</em></span>
+                                <span>撤离率：18.2%</span>
+                                <span>战损比：1.72</span>
+                                <span>赚损比：0.58</span>
+                            </span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- 干员数据 -->
+                <section class="combat-data-section">
+                    <div class="combat-section-header compact">
+                        <div class="combat-section-title-group">
+                            <span class="combat-section-kicker">OPERATOR DATA</span>
+                            <h3>干员数据</h3>
+                        </div>
+                        <div class="combat-filter-group">
+                            <label class="combat-filter-item">
+                                <span>赛季</span>
+                                <select>
+                                    <option>S8赛季</option>
+                                    <option>全部赛季</option>
+                                </select>
+                            </label>
+                            <label class="combat-filter-item">
+                                <span>排序方式</span>
+                                <select>
+                                    <option>按对局数</option>
+                                    <option>按净收益</option>
+                                    <option>按撤离率</option>
+                                    <option>按赚损比</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="combat-data-table operator-data-table">
+                        <div class="combat-table-row combat-table-head">
+                            <div>干员</div><div>战局数</div><div>撤离率</div><div>净收益</div><div>战损比</div><div>赚损比</div>
+                        </div>
+                        <div class="combat-table-row">
+                            <div class="combat-entity-cell"><span class="entity-avatar">🛡️</span><span>威龙</span></div><div>526</div><div>42.6%</div><div class="positive">+18.6M</div><div>0.74</div><div>1.82</div>
+                        </div>
+                        <div class="combat-table-row">
+                            <div class="combat-entity-cell"><span class="entity-avatar">⚡</span><span>骇爪</span></div><div>344</div><div>39.1%</div><div class="positive">+9.8M</div><div>0.86</div><div>1.36</div>
+                        </div>
+                        <div class="combat-table-row">
+                            <div class="combat-entity-cell"><span class="entity-avatar">🎯</span><span>露娜</span></div><div>218</div><div>46.3%</div><div class="positive">+7.2M</div><div>0.69</div><div>1.54</div>
+                        </div>
+                        <div class="combat-table-row">
+                            <div class="combat-entity-cell"><span class="entity-avatar">💉</span><span>蜂医</span></div><div>156</div><div>52.8%</div><div class="positive">+4.1M</div><div>0.58</div><div>1.27</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 枪械数据 -->
+                <section class="combat-data-section">
+                    <div class="combat-section-header compact">
+                        <div class="combat-section-title-group">
+                            <span class="combat-section-kicker">WEAPON DATA</span>
+                            <h3>枪械数据</h3>
+                        </div>
+                        <div class="combat-filter-group">
+                            <label class="combat-filter-item">
+                                <span>赛季</span>
+                                <select>
+                                    <option>S8赛季</option>
+                                    <option>全部赛季</option>
+                                </select>
+                            </label>
+                            <label class="combat-filter-item">
+                                <span>排序方式</span>
+                                <select>
+                                    <option>按场次</option>
+                                    <option>按击杀数</option>
+                                    <option>按撤离率</option>
+                                </select>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="combat-data-table weapon-data-table">
+                        <div class="combat-table-row combat-table-head">
+                            <div>枪械</div><div>场次</div><div>击杀数</div><div>撤离率</div>
+                        </div>
+                        <div class="combat-table-row">
+                            <div class="combat-entity-cell"><span class="entity-avatar weapon">K</span><span>K416</span></div><div>286</div><div>1,284</div><div>43.8%</div>
+                        </div>
+                        <div class="combat-table-row">
+                            <div class="combat-entity-cell"><span class="entity-avatar weapon">M</span><span>M4A1</span></div><div>212</div><div>936</div><div>47.2%</div>
+                        </div>
+                        <div class="combat-table-row">
+                            <div class="combat-entity-cell"><span class="entity-avatar weapon">P</span><span>PKM</span></div><div>145</div><div>612</div><div>38.5%</div>
+                        </div>
+                        <div class="combat-table-row">
+                            <div class="combat-entity-cell"><span class="entity-avatar weapon">A</span><span>AS Val</span></div><div>108</div><div>498</div><div>41.7%</div>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
         </div><!-- 结束烽火地带模式内容 -->
@@ -3327,9 +3846,7 @@
                 <div class="profile-tabs zhanchang-tabs">
                     <button class="profile-tab zc-tab active" data-tab="zc-overview" data-i18n="tabs.overview">总览</button>
                     <button class="profile-tab zc-tab" data-tab="zc-matches" data-i18n="tabs.matches">战绩</button>
-                    <button class="profile-tab zc-tab" data-tab="zc-weapons" data-i18n="tabs.weapons">枪械数据</button>
-                    <button class="profile-tab zc-tab" data-tab="zc-operators" data-i18n="tabs.operators">干员数据</button>
-                    <button class="profile-tab zc-tab" data-tab="zc-maps" data-i18n="tabs.maps">地图数据</button>
+                    <button class="profile-tab zc-tab" data-tab="zc-operational" data-i18n="tabs.operationalData">作战数据</button>
                 </div>
             </section>
             
@@ -3697,27 +4214,144 @@
                 </div>
             </div>
             
-            <!-- 枪械数据 Tab - 全面战场 -->
-            <div class="tab-content zc-content" id="tab-zc-weapons">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">🔫</div>
-                    <div class="placeholder-text" data-i18n="placeholder.warfareWeaponsLoading">战场枪械数据加载中...</div>
-                </div>
-            </div>
-            
-            <!-- 干员数据 Tab - 全面战场 -->
-            <div class="tab-content zc-content" id="tab-zc-operators">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">👤</div>
-                    <div class="placeholder-text" data-i18n="placeholder.warfareOperatorsLoading">战场干员数据加载中...</div>
-                </div>
-            </div>
-            
-            <!-- 地图数据 Tab - 全面战场 -->
-            <div class="tab-content zc-content" id="tab-zc-maps">
-                <div class="placeholder-content">
-                    <div class="placeholder-icon">🗺️</div>
-                    <div class="placeholder-text" data-i18n="placeholder.warfareMapsLoading">战场地图数据加载中...</div>
+            <!-- 作战数据 Tab - 全面战场：地图 / 干员 / 枪械数据聚合 -->
+            <div class="tab-content zc-content" id="tab-zc-operational">
+                <div class="combat-data-stack">
+                    <!-- 地图数据 -->
+                    <section class="combat-data-section combat-map-section">
+                        <div class="combat-section-header">
+                            <div class="combat-section-title-group">
+                                <span class="combat-section-kicker">MAP DATA</span>
+                                <h3>地图数据</h3>
+                                <p>五张地图全貌与关键表现标点，悬浮标点查看地图维度数据。</p>
+                            </div>
+                            <div class="combat-filter-group">
+                                <label class="combat-filter-item">
+                                    <span>赛季</span>
+                                    <select>
+                                        <option>S8赛季</option>
+                                        <option>S7赛季</option>
+                                        <option>全部赛季</option>
+                                    </select>
+                                </label>
+                                <label class="combat-filter-item">
+                                    <span>地图难度</span>
+                                    <select>
+                                        <option>全部难度</option>
+                                        <option>普通</option>
+                                        <option>机密</option>
+                                        <option>绝密</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="combat-map-board" aria-label="全面战场地图数据总览">
+                            <div class="combat-map-sim-label">@image:image.f4ff77cecf.png</div>
+                            <button class="combat-map-marker marker-valley" type="button">
+                                <span class="combat-marker-dot"></span>
+                                <span class="combat-marker-label">长弓溪谷</span>
+                                <span class="combat-map-popover">
+                                    <strong>长弓溪谷</strong>
+                                    <span>对局数：32</span>
+                                    <span>净收益：<em class="positive">+1.8M</em></span>
+                                    <span>撤离率：46.9%</span>
+                                    <span>战损比：0.71</span>
+                                    <span>赚损比：1.22</span>
+                                </span>
+                            </button>
+                            <button class="combat-map-marker marker-dam" type="button">
+                                <span class="combat-marker-dot"></span>
+                                <span class="combat-marker-label">零号大坝</span>
+                                <span class="combat-map-popover">
+                                    <strong>零号大坝</strong>
+                                    <span>对局数：168</span>
+                                    <span>净收益：<em class="positive">+12.6M</em></span>
+                                    <span>撤离率：49.4%</span>
+                                    <span>战损比：0.68</span>
+                                    <span>赚损比：1.41</span>
+                                </span>
+                            </button>
+                            <button class="combat-map-marker marker-bakshi" type="button">
+                                <span class="combat-marker-dot"></span>
+                                <span class="combat-marker-label">巴克什</span>
+                                <span class="combat-map-popover">
+                                    <strong>巴克什</strong>
+                                    <span>对局数：26</span>
+                                    <span>净收益：<em class="positive">+860K</em></span>
+                                    <span>撤离率：38.5%</span>
+                                    <span>战损比：0.93</span>
+                                    <span>赚损比：1.05</span>
+                                </span>
+                            </button>
+                            <button class="combat-map-marker marker-prison" type="button">
+                                <span class="combat-marker-dot"></span>
+                                <span class="combat-marker-label">潮汐监狱</span>
+                                <span class="combat-map-popover">
+                                    <strong>潮汐监狱</strong>
+                                    <span>对局数：18</span>
+                                    <span>净收益：<em class="negative">-420K</em></span>
+                                    <span>撤离率：22.2%</span>
+                                    <span>战损比：1.36</span>
+                                    <span>赚损比：0.74</span>
+                                </span>
+                            </button>
+                            <button class="combat-map-marker marker-space" type="button">
+                                <span class="combat-marker-dot"></span>
+                                <span class="combat-marker-label">航天基地</span>
+                                <span class="combat-map-popover align-left">
+                                    <strong>航天基地</strong>
+                                    <span>对局数：54</span>
+                                    <span>净收益：<em class="negative">-1.2M</em></span>
+                                    <span>撤离率：31.5%</span>
+                                    <span>战损比：1.18</span>
+                                    <span>赚损比：0.86</span>
+                                </span>
+                            </button>
+                        </div>
+                    </section>
+
+                    <!-- 干员数据 -->
+                    <section class="combat-data-section">
+                        <div class="combat-section-header compact">
+                            <div class="combat-section-title-group">
+                                <span class="combat-section-kicker">OPERATOR DATA</span>
+                                <h3>干员数据</h3>
+                            </div>
+                            <div class="combat-filter-group">
+                                <label class="combat-filter-item"><span>赛季</span><select><option>S8赛季</option><option>全部赛季</option></select></label>
+                                <label class="combat-filter-item"><span>排序方式</span><select><option>按对局数</option><option>按净收益</option><option>按撤离率</option><option>按赚损比</option></select></label>
+                            </div>
+                        </div>
+                        <div class="combat-data-table operator-data-table">
+                            <div class="combat-table-row combat-table-head"><div>干员</div><div>战局数</div><div>撤离率</div><div>净收益</div><div>战损比</div><div>赚损比</div></div>
+                            <div class="combat-table-row"><div class="combat-entity-cell"><span class="entity-avatar">⚔️</span><span>威龙</span></div><div>188</div><div>45.2%</div><div class="positive">+5.6M</div><div>0.81</div><div>1.26</div></div>
+                            <div class="combat-table-row"><div class="combat-entity-cell"><span class="entity-avatar">🛰️</span><span>红狼</span></div><div>144</div><div>41.8%</div><div class="positive">+3.9M</div><div>0.89</div><div>1.14</div></div>
+                            <div class="combat-table-row"><div class="combat-entity-cell"><span class="entity-avatar">🎯</span><span>露娜</span></div><div>96</div><div>48.1%</div><div class="positive">+2.4M</div><div>0.66</div><div>1.33</div></div>
+                            <div class="combat-table-row"><div class="combat-entity-cell"><span class="entity-avatar">🛠️</span><span>牧羊人</span></div><div>62</div><div>37.5%</div><div class="negative">-260K</div><div>1.12</div><div>0.92</div></div>
+                        </div>
+                    </section>
+
+                    <!-- 枪械数据 -->
+                    <section class="combat-data-section">
+                        <div class="combat-section-header compact">
+                            <div class="combat-section-title-group">
+                                <span class="combat-section-kicker">WEAPON DATA</span>
+                                <h3>枪械数据</h3>
+                            </div>
+                            <div class="combat-filter-group">
+                                <label class="combat-filter-item"><span>赛季</span><select><option>S8赛季</option><option>全部赛季</option></select></label>
+                                <label class="combat-filter-item"><span>排序方式</span><select><option>按场次</option><option>按击杀数</option><option>按撤离率</option></select></label>
+                            </div>
+                        </div>
+                        <div class="combat-data-table weapon-data-table">
+                            <div class="combat-table-row combat-table-head"><div>枪械</div><div>场次</div><div>击杀数</div><div>撤离率</div></div>
+                            <div class="combat-table-row"><div class="combat-entity-cell"><span class="entity-avatar weapon">M</span><span>M4A1</span></div><div>176</div><div>1,420</div><div>46.8%</div></div>
+                            <div class="combat-table-row"><div class="combat-entity-cell"><span class="entity-avatar weapon">K</span><span>K416</span></div><div>132</div><div>1,036</div><div>44.1%</div></div>
+                            <div class="combat-table-row"><div class="combat-entity-cell"><span class="entity-avatar weapon">P</span><span>PKM</span></div><div>86</div><div>724</div><div>39.7%</div></div>
+                            <div class="combat-table-row"><div class="combat-entity-cell"><span class="entity-avatar weapon">A</span><span>AKM</span></div><div>74</div><div>588</div><div>41.2%</div></div>
+                        </div>
+                    </section>
                 </div>
             </div>
         </div><!-- 结束全面战场模式内容 -->
@@ -4780,6 +5414,6 @@
             }
         })();
     </script>
-    <script src="bookmark-widget.js?v=1" defer></script>
+    <script src="bookmark-widget.js?v=2" defer></script>
 </body>
 </html>

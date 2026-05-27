@@ -1697,13 +1697,179 @@ function updateProfileStats(tabName) {
     }
 }
 
-// 战绩页子Tab切换
+// 战绩页子Tab切换：最近对局 / 作战数据
 document.querySelectorAll('.battle-sub-tab').forEach(tab => {
     tab.addEventListener('click', function() {
         document.querySelectorAll('.battle-sub-tab').forEach(t => t.classList.remove('active'));
         this.classList.add('active');
+
+        const subTab = this.dataset.battleSub || 'recent';
+        const filterRow = document.querySelector('#tab-battle .battle-filter-row');
+        const recentPanel = document.getElementById('battle-recent-panel') || document.querySelector('#tab-battle .battle-record-list');
+        const operationalPanel = document.getElementById('battle-operational-panel');
+        const showRecent = subTab === 'recent';
+
+        if (filterRow) filterRow.style.display = showRecent ? 'flex' : 'none';
+        if (recentPanel) recentPanel.style.display = showRecent ? 'flex' : 'none';
+        if (operationalPanel) operationalPanel.style.display = showRecent ? 'none' : 'block';
     });
 });
+
+// 作战数据 - 地图卡片点击切换详情
+function initMobileCombatMapCards() {
+    const cards = document.querySelectorAll('.mobile-map-card');
+    if (!cards.length) return;
+
+    const nameEl = document.getElementById('mobile-map-detail-name');
+    const matchesEl = document.getElementById('mobile-map-detail-matches');
+    const profitEl = document.getElementById('mobile-map-detail-profit');
+    const extractEl = document.getElementById('mobile-map-detail-extract');
+    const lossEl = document.getElementById('mobile-map-detail-loss');
+    const ratioEl = document.getElementById('mobile-map-detail-ratio');
+
+    cards.forEach(card => {
+        card.addEventListener('click', function() {
+            cards.forEach(item => item.classList.remove('active'));
+            this.classList.add('active');
+
+            if (nameEl) nameEl.textContent = this.dataset.name || '';
+            if (matchesEl) matchesEl.textContent = this.dataset.matches || '';
+            if (profitEl) {
+                profitEl.textContent = this.dataset.profit || '';
+                profitEl.classList.remove('positive', 'negative');
+                if (this.dataset.profitClass === 'positive' || this.dataset.profitClass === 'negative') {
+                    profitEl.classList.add(this.dataset.profitClass);
+                }
+            }
+            if (extractEl) extractEl.textContent = this.dataset.extract || '';
+            if (lossEl) lossEl.textContent = this.dataset.loss || '';
+            if (ratioEl) ratioEl.textContent = this.dataset.ratio || '';
+        });
+    });
+}
+
+initMobileCombatMapCards();
+
+// 作战数据 - 干员 / 枪械榜单排序：选中的指标在右侧主视觉展示
+function initMobileCombatRankSorters() {
+    const operatorSort = document.querySelector('.mobile-operator-sort');
+    const operatorList = document.querySelector('.mobile-operator-rank-list');
+    const weaponSort = document.querySelector('.mobile-weapon-sort');
+    const weaponList = document.querySelector('.mobile-weapon-rank-list');
+
+    function setPrimary(card, value, label, className) {
+        const primary = card.querySelector('.mobile-rank-primary');
+        if (!primary) return;
+        primary.classList.remove('positive', 'negative');
+        if (className) primary.classList.add(className);
+        primary.innerHTML = `<span>${value}</span><small>${label}</small>`;
+    }
+
+    function updateRankNumbers(cards) {
+        cards.forEach((card, index) => {
+            const rank = card.querySelector('.mobile-rank-no');
+            if (rank) rank.textContent = `#${index + 1}`;
+        });
+    }
+
+    function sortCards(list, cards, getter) {
+        cards.sort((a, b) => getter(b) - getter(a));
+        cards.forEach(card => list.appendChild(card));
+        updateRankNumbers(cards);
+    }
+
+    function combatLabel(key, zhText, deText) {
+        const translated = t(key);
+        if (translated && translated !== key) return translated;
+        const lang = (window.I18n && window.I18n.currentLang) || localStorage.getItem('df-language') || 'zh-CN';
+        return lang === 'de' ? deText : zhText;
+    }
+
+    function updateOperatorList(metric) {
+        if (!operatorList) return;
+        const cards = Array.from(operatorList.querySelectorAll('.mobile-rank-card'));
+        const labels = {
+            matches: combatLabel('operational.matches', '对局', 'Matches'),
+            profit: combatLabel('operational.netProfit', '净收益', 'Netto'),
+            extraction: combatLabel('operational.extractionRate', '撤离率', 'Extraktion'),
+            profitLoss: combatLabel('operational.profitLossRatio', '赚损比', 'G/V'),
+            loss: combatLabel('operational.lossRatio', '战损比', 'V/B')
+        };
+
+        const getterMap = {
+            matches: card => Number(card.dataset.matches || 0),
+            profit: card => Number(card.dataset.profitNum || 0),
+            extraction: card => Number(card.dataset.extractionNum || 0),
+            profitLoss: card => Number(card.dataset.profitLossNum || 0)
+        };
+        sortCards(operatorList, cards, getterMap[metric] || getterMap.matches);
+
+        cards.forEach(card => {
+            const metas = card.querySelectorAll('.mobile-rank-meta');
+            const profitClass = (card.dataset.profit || '').startsWith('-') ? 'negative' : 'positive';
+            if (metric === 'matches') {
+                setPrimary(card, card.dataset.matches, labels.matches);
+                if (metas[0]) metas[0].innerHTML = `${card.dataset.profit} ${labels.profit} · ${card.dataset.extraction} ${labels.extraction}`;
+                if (metas[1]) metas[1].innerHTML = `${labels.loss} ${card.dataset.loss} · ${labels.profitLoss} ${card.dataset.profitLoss}`;
+            } else if (metric === 'profit') {
+                setPrimary(card, card.dataset.profit, labels.profit, profitClass);
+                if (metas[0]) metas[0].innerHTML = `${card.dataset.matches} ${labels.matches} · ${card.dataset.extraction} ${labels.extraction}`;
+                if (metas[1]) metas[1].innerHTML = `${labels.loss} ${card.dataset.loss} · ${labels.profitLoss} ${card.dataset.profitLoss}`;
+            } else if (metric === 'extraction') {
+                setPrimary(card, card.dataset.extraction, labels.extraction);
+                if (metas[0]) metas[0].innerHTML = `${card.dataset.matches} ${labels.matches} · ${card.dataset.profit} ${labels.profit}`;
+                if (metas[1]) metas[1].innerHTML = `${labels.loss} ${card.dataset.loss} · ${labels.profitLoss} ${card.dataset.profitLoss}`;
+            } else {
+                setPrimary(card, card.dataset.profitLoss, labels.profitLoss);
+                if (metas[0]) metas[0].innerHTML = `${card.dataset.matches} ${labels.matches} · ${card.dataset.extraction} ${labels.extraction}`;
+                if (metas[1]) metas[1].innerHTML = `${card.dataset.profit} ${labels.profit} · ${labels.loss} ${card.dataset.loss}`;
+            }
+        });
+    }
+
+    function updateWeaponList(metric) {
+        if (!weaponList) return;
+        const cards = Array.from(weaponList.querySelectorAll('.mobile-rank-card'));
+        const labels = {
+            kills: combatLabel('operational.kills', '击杀', 'Kills'),
+            rounds: combatLabel('operational.rounds', '场次', 'Runden'),
+            extraction: combatLabel('operational.extractionRate', '撤离率', 'Extraktion')
+        };
+
+        const getterMap = {
+            kills: card => Number(card.dataset.killsNum || 0),
+            matches: card => Number(card.dataset.matches || 0),
+            extraction: card => Number(card.dataset.extractionNum || 0)
+        };
+        sortCards(weaponList, cards, getterMap[metric] || getterMap.kills);
+
+        cards.forEach(card => {
+            const meta = card.querySelector('.mobile-rank-meta');
+            if (metric === 'matches') {
+                setPrimary(card, card.dataset.matches, labels.rounds);
+                if (meta) meta.innerHTML = `${card.dataset.kills} ${labels.kills} · ${card.dataset.extraction} ${labels.extraction}`;
+            } else if (metric === 'extraction') {
+                setPrimary(card, card.dataset.extraction, labels.extraction);
+                if (meta) meta.innerHTML = `${card.dataset.matches} ${labels.rounds} · ${card.dataset.kills} ${labels.kills}`;
+            } else {
+                setPrimary(card, card.dataset.kills, labels.kills);
+                if (meta) meta.innerHTML = `${card.dataset.matches} ${labels.rounds} · ${card.dataset.extraction} ${labels.extraction}`;
+            }
+        });
+    }
+
+    if (operatorSort) {
+        operatorSort.addEventListener('change', () => updateOperatorList(operatorSort.value));
+        updateOperatorList(operatorSort.value || 'matches');
+    }
+
+    if (weaponSort) {
+        weaponSort.addEventListener('change', () => updateWeaponList(weaponSort.value));
+        updateWeaponList(weaponSort.value || 'kills');
+    }
+}
+
+initMobileCombatRankSorters();
 
 // 藏品分类Tab切换
 document.querySelectorAll('.collection-category-tab').forEach(tab => {

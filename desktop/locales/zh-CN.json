@@ -239,6 +239,7 @@
   "tabs": {
     "overview": "总览",
     "matches": "战绩",
+    "operationalData": "作战数据",
     "weapons": "枪械数据",
     "operators": "干员数据",
     "maps": "地图数据"
