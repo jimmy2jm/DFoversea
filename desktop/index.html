@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delta Force - Home</title>
-    <link rel="stylesheet" href="main.css?v=51">
+    <link rel="stylesheet" href="main.css?v=57">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <script src="i18n.js" defer></script>
 </head>
@@ -156,6 +156,7 @@
                         <div class="sub-card-header">
                             <span class="sub-card-title" data-i18n="home.recentStatus">近日战况</span>
                             <span class="header-date">2026/01/29</span>
+                            <span class="view-link asset-calendar-entry-pc">资产周历 ></span>
                             <span class="view-link" onclick="window.location.href='my-data.html?mode=fenghuo'" data-i18n="home.viewMoreStats">查看更多战绩 ></span>
                         </div>
                         <div class="stats-compact">
@@ -652,6 +653,7 @@
                         <div class="sub-card-header">
                             <span class="sub-card-title">近日战况</span>
                             <span class="header-date">2026/01/29</span>
+                            <span class="view-link asset-calendar-entry-pc">资产周历 ></span>
                             <span class="view-link" onclick="window.location.href='my-data.html?mode=zhanchang'">查看更多战绩 ></span>
                         </div>
                         <div class="stats-compact">
@@ -1026,7 +1028,7 @@
                 <!-- 主Tab切换栏：制造详情 / 制造推荐 -->
                 <div class="craft-main-tabs">
                     <button class="craft-main-tab active" data-main-tab="detail" data-i18n="craft.craftDetail">制造详情</button>
-                    <button class="craft-main-tab" data-main-tab="recommend" data-i18n="craft.craftRecommend">制造推荐</button>
+                    <button class="craft-main-tab" data-main-tab="recommend" data-i18n="craft.craftRecommend">更多推荐</button>
                 </div>
                 
                 <!-- 制造详情内容 -->
@@ -1095,7 +1097,7 @@
                     
                     <!-- 下半部分：最优制作推荐 -->
                     <div class="craft-best-recommend">
-                        <div class="best-recommend-grid">
+                        <div class="best-recommend-grid" id="craft-selected-desktop-list">
                             <div class="best-recommend-item" data-station="tech">
                                 <div class="recommend-station-header">
                                     <span class="recommend-station-icon">🔧</span>
@@ -1148,71 +1150,33 @@
                     </div>
                 </div>
                 
-                <!-- 制造推荐内容（原有内容） -->
-                <div class="craft-main-content hidden" id="craft-recommend-content-desktop">
-                    <!-- Tab 切换栏 -->
-                    <div class="craft-tabs">
-                        <button class="craft-tab active" data-craft="tech">技术中心</button>
-                        <button class="craft-tab" data-craft="work">工作台</button>
-                        <button class="craft-tab" data-craft="med">制药台</button>
-                        <button class="craft-tab" data-craft="armor">防具台</button>
+                <!-- 制造推荐内容 -->
+                <div class="craft-main-content hidden craft-recommend-dashboard" id="craft-recommend-content-desktop">
+                    <div class="craft-dept-tabs-desktop" id="craft-dept-tabs-desktop">
+                        <button class="craft-dept-tab active" data-craft="tech">技术中心</button>
+                        <button class="craft-dept-tab" data-craft="work">工作台</button>
+                        <button class="craft-dept-tab" data-craft="med">制药台</button>
+                        <button class="craft-dept-tab" data-craft="armor">防具台</button>
                     </div>
-                    <!-- 推荐物品卡片 -->
-                    <div class="craft-items">
-                        <div class="craft-item-card">
-                            <div class="craft-item-image"></div>
-                            <div class="craft-item-name">OLIGHT Baldr Pro R多功能手电</div>
-                            <div class="craft-item-stats">
-                                <span class="craft-stat-label">每小时收益</span>
-                                <span class="craft-stat-value">18,578</span>
-                            </div>
-                            <div class="craft-item-change positive">
-                                <span class="change-label">涨幅</span>
-                                <span class="change-value">+12.6%↑</span>
-                            </div>
-                        </div>
-                        <div class="craft-item-card">
-                            <div class="craft-item-image"></div>
-                            <div class="craft-item-name">灵眼3/7测距狙击瞄准镜</div>
-                            <div class="craft-item-stats">
-                                <span class="craft-stat-label">每小时收益</span>
-                                <span class="craft-stat-value">8,083</span>
-                            </div>
-                            <div class="craft-item-change positive">
-                                <span class="change-label">涨幅</span>
-                                <span class="change-value">+7.0%↑</span>
-                            </div>
-                        </div>
-                        <div class="craft-item-card">
-                            <div class="craft-item-image"></div>
-                            <div class="craft-item-name">DBAL-X2紫色激光镭指</div>
-                            <div class="craft-item-stats">
-                                <span class="craft-stat-label">每小时收益</span>
-                                <span class="craft-stat-value">7,487</span>
-                            </div>
-                            <div class="craft-item-change negative">
-                                <span class="change-label">涨幅</span>
-                                <span class="change-value">-1.9%↓</span>
-                            </div>
-                        </div>
+
+                    <div class="craft-product-toolbar">
+                        <div class="craft-rec-title">产品详情</div>
+                        <select class="craft-sort-select-desktop" id="craft-sort-select-desktop">
+                            <option value="totalProfit">按总收益</option>
+                            <option value="hourlyProfit">按小时收益</option>
+                            <option value="change">按近期涨幅</option>
+                        </select>
                     </div>
-                    <!-- 展开按钮 -->
-                    <div class="craft-expand">
-                        <span class="expand-arrow">▼</span>
-                    </div>
-                    <!-- 价格走势图 -->
-                    <div class="craft-chart-section">
-                        <div class="chart-legend">
-                            <div class="legend-items">
-                                <span class="legend-item"><i class="legend-dot price"></i>总售价</span>
-                                <span class="legend-item"><i class="legend-dot profit"></i>总收益</span>
-                                <span class="legend-item"><i class="legend-dot cost"></i>总成本</span>
-                            </div>
-                            <span class="chart-update-time">更新于2026-01-30 11:00</span>
+
+                    <div class="craft-product-table-desktop">
+                        <div class="craft-product-head-desktop">
+                            <span>产物</span>
+                            <span>总收益</span>
+                            <span>小时收益</span>
+                            <span>近期涨幅</span>
+                            <span>自选</span>
                         </div>
-                        <div class="craft-chart">
-                            <canvas id="craft-price-chart"></canvas>
-                        </div>
+                        <div class="craft-product-list-desktop" id="craft-product-list-desktop"></div>
                     </div>
                 </div>
                 
@@ -1362,7 +1326,6 @@
                                 <div class="poster-hero-info">
                                     <div class="poster-hero-tag">最高价值大红</div>
                                     <div class="poster-hero-name">赛伊德的怀表</div>
-                                    <div class="poster-hero-desc">古董级稀有藏品，市场价值连城，藏馆中目前价格最高的传奇红色品质物品。</div>
                                     <div class="poster-hero-value">
                                         <span class="value-icon">💰</span>
                                         <span class="value-num">2,888,000</span>
@@ -1653,6 +1616,78 @@
                     <div class="record-item-time">2026-01-05</div>
                     <div class="record-item-location">巴克什-常规</div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 资产周历弹窗 -->
+    <div class="asset-calendar-modal-overlay" id="asset-calendar-modal-overlay">
+        <div class="asset-calendar-modal">
+            <div class="asset-calendar-modal-header">
+                <span class="asset-calendar-modal-title">📅 资产周历</span>
+                <span class="asset-calendar-modal-close" id="asset-calendar-modal-close">✕</span>
+            </div>
+            <div class="asset-calendar-modal-body">
+                <section class="asset-calendar-overview">
+                    <div class="asset-calendar-overview-title">本周收益统计</div>
+                    <div class="asset-calendar-rule">自然周内每日净收益相加；当前周已过 3 天，按 3 天累计。</div>
+                    <div class="asset-calendar-overview-grid">
+                        <div class="asset-calendar-stat"><span>本周总收益</span><strong>2,684,900</strong></div>
+                        <div class="asset-calendar-stat positive"><span>本周净收益</span><strong>+1,246,300</strong></div>
+                    </div>
+                    <div class="asset-calendar-period-meta">数据周期：季度 · 最近 12 周；第 13 周开始最早一周过期</div>
+                </section>
+                <section class="asset-calendar-week-panel">
+                    <div class="asset-calendar-section-title">季度资产周历</div>
+                    <div class="asset-calendar-week-grid">
+                        <div class="asset-calendar-day gain"><span>第1周</span><strong>+2.8M</strong><em>已过期边界</em></div>
+                        <div class="asset-calendar-day gain"><span>第2周</span><strong>+1.6M</strong><em>藏品 3</em></div>
+                        <div class="asset-calendar-day loss"><span>第3周</span><strong>-420K</strong><em>战损偏高</em></div>
+                        <div class="asset-calendar-day gain"><span>第4周</span><strong>+3.4M</strong><em>藏品 6</em></div>
+                        <div class="asset-calendar-day neutral"><span>第5周</span><strong>0</strong><em>暂无数据</em></div>
+                        <div class="asset-calendar-day gain"><span>第6周</span><strong>+860K</strong><em>藏品 1</em></div>
+                        <div class="asset-calendar-day gain"><span>第7周</span><strong>+1.9M</strong><em>藏品 4</em></div>
+                        <div class="asset-calendar-day loss"><span>第8周</span><strong>-210K</strong><em>撤离失败</em></div>
+                        <div class="asset-calendar-day gain"><span>第9周</span><strong>+4.2M</strong><em>藏品 8</em></div>
+                        <div class="asset-calendar-day gain"><span>第10周</span><strong>+2.1M</strong><em>藏品 5</em></div>
+                        <div class="asset-calendar-day gain"><span>第11周</span><strong>+980K</strong><em>藏品 2</em></div>
+                        <div class="asset-calendar-day gain highlight"><span>第12周 · 当前</span><strong>+1.25M</strong><em>已统计3天</em></div>
+                    </div>
+                </section>
+                <section class="asset-calendar-record-panel">
+                    <div class="asset-calendar-section-title">本周藏品带出 <small>至多展示16个</small></div>
+                    <div class="asset-calendar-record-list">
+                        <div class="asset-calendar-record"><span>🔋 动力电池组</span><strong>680K</strong></div>
+                        <div class="asset-calendar-record"><span>💾 加密U盘</span><strong>1.2M</strong></div>
+                        <div class="asset-calendar-record"><span>💎 稀有芯片</span><strong>430K</strong></div>
+                        <div class="asset-calendar-record"><span>🪙 金块</span><strong>320K</strong></div>
+                        <div class="asset-calendar-record"><span>⌚ 名贵机械表</span><strong>210K</strong></div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- 已解锁大红详情弹窗 -->
+    <div class="red-detail-modal-overlay" id="red-detail-modal-overlay">
+        <div class="red-detail-modal">
+            <button class="red-detail-close" id="red-detail-close" type="button" aria-label="关闭">×</button>
+            <div class="red-detail-title" id="red-detail-title">曼德尔超算单元</div>
+            <div class="red-detail-body">
+                <div class="red-detail-left">
+                    <div class="red-detail-item-art" id="red-detail-item-art">▣</div>
+                </div>
+                <div class="red-detail-right">
+                    <div class="red-detail-unlock-date">首次解锁：<span id="red-detail-date">2026-02-14</span></div>
+                    <div class="red-detail-map-shot"></div>
+                    <div class="red-detail-location">解锁地点：<span id="red-detail-location">零号大坝-常规</span></div>
+                </div>
+            </div>
+            <div class="red-detail-record-panel">
+                <div class="red-detail-record-title">出红记录 <span class="red-detail-help">?</span></div>
+                <div class="red-detail-record-line">1.出红时间： <span id="red-detail-record-time">2026-02-14</span></div>
+                <div class="red-detail-record-line indent">出红地点： <span id="red-detail-record-location">零号大坝-常规</span></div>
+                <div class="red-detail-record-note">（仅展示最新解锁的20条记录）</div>
             </div>
         </div>
     </div>
@@ -1967,7 +2002,7 @@
     </div>
 
     <script src="../shared/gun-detail-mock.js?v=1"></script>
-    <script src="main.js?v=25"></script>
-    <script src="bookmark-widget.js?v=2" defer></script>
+    <script src="main.js?v=30"></script>
+    <script src="bookmark-widget.js?v=4" defer></script>
 </body>
 </html>

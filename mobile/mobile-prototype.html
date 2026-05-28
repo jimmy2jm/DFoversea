@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Delta Force - Mobile Prototype</title>
-    <link rel="stylesheet" href="main.css?v=26">
+    <link rel="stylesheet" href="main.css?v=28">
     <script src="i18n.js" defer></script>
 </head>
 <body>
@@ -495,7 +495,8 @@
             </div>
             
             <!-- 操作按钮 -->
-            <div class="action-buttons">
+            <div class="action-buttons asset-calendar-actions-mobile">
+                <button class="action-btn secondary asset-calendar-entry-mobile" type="button">资产周历</button>
                 <button class="action-btn primary" style="flex: 1;" data-i18n="home.openGameViewMore">打开游戏查看更多</button>
             </div>
         </div>
@@ -558,7 +559,8 @@
             </div>
             
             <!-- 操作按钮 -->
-            <div class="action-buttons">
+            <div class="action-buttons asset-calendar-actions-mobile">
+                <button class="action-btn secondary asset-calendar-entry-mobile" type="button">资产周历</button>
                 <button class="action-btn primary" style="flex: 1;" data-i18n="home.openGameViewMore">打开游戏查看更多</button>
             </div>
         </div>
@@ -1677,6 +1679,63 @@
             </div>
         </div>
     </div>
+
+    <!-- ============================================
+         资产周历子页面
+         ============================================ -->
+    <div class="subpage" id="page-asset-calendar">
+        <header class="subpage-header">
+            <span class="subpage-back" id="asset-calendar-back">‹</span>
+            <span class="subpage-title">资产周历</span>
+            <span class="subpage-action"></span>
+        </header>
+        <div class="asset-calendar-page-body">
+            <section class="asset-week-hero">
+                <div class="asset-week-title">本周收益统计</div>
+                <div class="asset-week-rule">自然周内每日净收益相加；当前周已过 3 天，按 3 天累计。</div>
+                <div class="asset-week-summary-grid">
+                    <div class="asset-week-summary-card">
+                        <span>本周总收益</span>
+                        <strong>2,684,900</strong>
+                    </div>
+                    <div class="asset-week-summary-card positive">
+                        <span>本周净收益</span>
+                        <strong>+1,246,300</strong>
+                    </div>
+                </div>
+                <div class="asset-week-period">数据周期：季度 · 最近 12 周；第 13 周开始最早一周过期</div>
+            </section>
+
+            <section class="asset-week-calendar-card">
+                <div class="asset-week-section-title">季度资产周历</div>
+                <div class="asset-week-calendar-grid">
+                    <div class="asset-week-day gain"><span>第1周</span><strong>+2.8M</strong><em>已过期边界</em></div>
+                    <div class="asset-week-day gain"><span>第2周</span><strong>+1.6M</strong><em>藏品 3</em></div>
+                    <div class="asset-week-day loss"><span>第3周</span><strong>-420K</strong><em>战损偏高</em></div>
+                    <div class="asset-week-day gain"><span>第4周</span><strong>+3.4M</strong><em>藏品 6</em></div>
+                    <div class="asset-week-day neutral"><span>第5周</span><strong>0</strong><em>暂无数据</em></div>
+                    <div class="asset-week-day gain"><span>第6周</span><strong>+860K</strong><em>藏品 1</em></div>
+                    <div class="asset-week-day gain"><span>第7周</span><strong>+1.9M</strong><em>藏品 4</em></div>
+                    <div class="asset-week-day loss"><span>第8周</span><strong>-210K</strong><em>撤离失败</em></div>
+                    <div class="asset-week-day gain"><span>第9周</span><strong>+4.2M</strong><em>藏品 8</em></div>
+                    <div class="asset-week-day gain"><span>第10周</span><strong>+2.1M</strong><em>藏品 5</em></div>
+                    <div class="asset-week-day gain"><span>第11周</span><strong>+980K</strong><em>藏品 2</em></div>
+                    <div class="asset-week-day gain highlight"><span>第12周 · 当前</span><strong>+1.25M</strong><em>已统计3天</em></div>
+                </div>
+            </section>
+
+            <section class="asset-week-record-card">
+                <div class="asset-week-section-title">本周藏品带出 <small>至多16个</small></div>
+                <div class="asset-week-record-list">
+                    <div class="asset-week-record"><span>🔋 动力电池组</span><strong>680K</strong></div>
+                    <div class="asset-week-record"><span>💾 加密U盘</span><strong>1.2M</strong></div>
+                    <div class="asset-week-record"><span>💎 稀有芯片</span><strong>430K</strong></div>
+                    <div class="asset-week-record"><span>🪙 金块</span><strong>320K</strong></div>
+                    <div class="asset-week-record"><span>⌚ 名贵机械表</span><strong>210K</strong></div>
+                </div>
+            </section>
+        </div>
+    </div>
     
     <!-- 制造部门弹窗 -->
     <div class="craft-modal-overlay" id="craft-modal-overlay">
@@ -1696,7 +1755,7 @@
     
     <!-- 引入主JS文件 -->
     <script src="../shared/gun-detail-mock.js?v=1"></script>
-    <script src="main.js?v=13"></script>
-    <script src="bookmark-widget.js?v=3" defer></script>
+    <script src="main.js?v=14"></script>
+    <script src="bookmark-widget.js?v=4" defer></script>
 </body>
 </html>

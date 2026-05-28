@@ -8178,3 +8178,557 @@ body {
     pointer-events: auto;
 }
 
+/* ============================================
+   已解锁大红详情弹窗
+   ============================================ */
+.red-detail-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    background: rgba(0, 0, 0, 0.82);
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.red-detail-modal-overlay.active {
+    display: flex;
+}
+
+.red-detail-modal {
+    position: relative;
+    width: min(520px, 90vw);
+    min-height: 320px;
+    padding: 14px 18px 16px;
+    background:
+        linear-gradient(90deg, rgba(80, 28, 28, 0.32), transparent 44%),
+        radial-gradient(circle at 18% 42%, rgba(255, 80, 80, 0.14), transparent 32%),
+        linear-gradient(135deg, rgba(18, 38, 42, 0.96), rgba(6, 18, 20, 0.98));
+    border: 1px solid rgba(84, 112, 118, 0.72);
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.62), inset 0 0 0 1px rgba(0, 212, 170, 0.16);
+    color: var(--text-primary);
+    overflow: hidden;
+}
+
+.red-detail-modal::before {
+    content: '';
+    position: absolute;
+    inset: 7px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    pointer-events: none;
+}
+
+.red-detail-modal::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 7px 7px;
+    opacity: 0.16;
+    pointer-events: none;
+}
+
+.red-detail-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    z-index: 2;
+    width: 28px;
+    height: 28px;
+    background: rgba(6, 18, 20, 0.82);
+    border: 1px solid rgba(84, 112, 118, 0.72);
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 22px;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.red-detail-title {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    margin-bottom: 16px;
+    padding: 5px 14px 6px;
+    border: 1px solid rgba(84, 112, 118, 0.72);
+    color: #24f4b2;
+    font-size: 30px;
+    line-height: 1.05;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(36, 244, 178, 0.24);
+}
+
+.red-detail-body {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    align-items: center;
+    margin-bottom: 14px;
+}
+
+.red-detail-left {
+    min-height: 118px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.red-detail-item-art {
+    width: 122px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(0,212,170,0.08));
+    border: 1px solid rgba(0, 212, 170, 0.28);
+    color: #24f4b2;
+    font-size: 52px;
+    transform: rotate(-12deg);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.42);
+}
+
+.red-detail-right {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.red-detail-unlock-date {
+    align-self: flex-start;
+    padding: 6px 10px;
+    background: rgba(18, 38, 42, 0.9);
+    border: 1px solid rgba(0, 212, 170, 0.55);
+    border-bottom: 2px solid #24f4b2;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.red-detail-map-shot {
+    width: 100%;
+    height: 82px;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    background:
+        linear-gradient(135deg, rgba(255,255,255,0.14), transparent 35%),
+        radial-gradient(circle at 72% 28%, rgba(210,210,210,0.3), transparent 18%),
+        linear-gradient(145deg, #34434a, #1a2428 54%, #6a4e38);
+}
+
+.red-detail-location {
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 12px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.red-detail-record-panel {
+    position: relative;
+    z-index: 1;
+    min-height: 92px;
+    padding: 12px 24px;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(0, 212, 170, 0.55);
+}
+
+.red-detail-record-title {
+    margin-bottom: 8px;
+    color: #24f4b2;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+.red-detail-help {
+    display: inline-flex;
+    width: 16px;
+    height: 16px;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.24);
+    color: rgba(255,255,255,0.8);
+    font-size: 11px;
+}
+
+.red-detail-record-line {
+    color: rgba(255,255,255,0.86);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.red-detail-record-line.indent {
+    padding-left: 12px;
+}
+
+.red-detail-record-note {
+    color: #24f4b2;
+    font-size: 10px;
+    font-weight: 800;
+    text-align: center;
+}
+
+/* ============================================
+   资产周历弹窗
+   ============================================ */
+.asset-calendar-modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1180;
+    background: rgba(0, 0, 0, 0.82);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.asset-calendar-modal-overlay.active {
+    display: flex;
+}
+
+.asset-calendar-modal {
+    width: min(860px, 92vw);
+    background: rgba(18, 38, 42, 0.96);
+    border: 1px solid rgba(84, 112, 118, 0.56);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+    color: var(--text-primary);
+}
+
+.asset-calendar-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    border-bottom: 1px solid rgba(84, 112, 118, 0.4);
+    background: rgba(6, 18, 20, 0.66);
+}
+
+.asset-calendar-modal-title {
+    color: #24f4b2;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+.asset-calendar-modal-close {
+    color: rgba(255, 255, 255, 0.72);
+    cursor: pointer;
+    font-size: 20px;
+    padding: 0 6px;
+}
+
+.asset-calendar-modal-body {
+    padding: 18px;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 16px;
+}
+
+.asset-calendar-overview,
+.asset-calendar-week-panel,
+.asset-calendar-record-panel {
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    padding: 14px;
+}
+
+.asset-calendar-overview {
+    grid-row: span 2;
+}
+
+.asset-calendar-overview-title,
+.asset-calendar-section-title {
+    color: #24f4b2;
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+}
+
+.asset-calendar-rule,
+.asset-calendar-period-meta {
+    color: var(--text-secondary);
+    font-size: 0.76rem;
+    line-height: 1.5;
+    margin-bottom: 12px;
+}
+
+.asset-calendar-period-meta {
+    margin: 12px 0 0;
+    color: var(--text-muted);
+}
+
+.asset-calendar-section-title small {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-weight: 500;
+}
+
+.asset-calendar-overview-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.asset-calendar-stat {
+    padding: 12px;
+    background: rgba(18, 38, 42, 0.9);
+    border: 1px solid rgba(84, 112, 118, 0.56);
+}
+
+.asset-calendar-stat span,
+.asset-calendar-day span,
+.asset-calendar-day em {
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    font-style: normal;
+}
+
+.asset-calendar-stat strong {
+    display: block;
+    margin-top: 6px;
+    font-family: 'Orbitron', monospace;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+}
+
+.asset-calendar-stat.positive strong,
+.asset-calendar-day.gain strong,
+.asset-calendar-record strong {
+    color: #24f4b2;
+}
+
+.asset-calendar-week-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.asset-calendar-day {
+    min-height: 82px;
+    padding: 10px;
+    background: rgba(18, 38, 42, 0.9);
+    border: 1px solid rgba(84, 112, 118, 0.56);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.asset-calendar-day.highlight {
+    border-color: rgba(36, 244, 178, 0.5);
+    background: rgba(36, 244, 178, 0.08);
+}
+
+.asset-calendar-day strong {
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+}
+
+.asset-calendar-day.loss strong {
+    color: #ff5c5c;
+}
+
+.asset-calendar-day.neutral strong {
+    color: var(--text-secondary);
+}
+
+.asset-calendar-record-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.asset-calendar-record {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    background: rgba(18, 38, 42, 0.9);
+    border: 1px solid rgba(84, 112, 118, 0.56);
+    padding: 10px;
+    font-size: 0.78rem;
+}
+
+
+/* ============================================
+   PC 首页特勤处制造推荐改版
+   ============================================ */
+.craft-recommend-dashboard {
+    padding: 10px 12px;
+    max-height: 418px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.craft-dept-tabs-desktop {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border: 1px solid rgba(84, 112, 118, 0.56);
+    background: rgba(6, 18, 20, 0.66);
+    margin-bottom: 10px;
+    flex-shrink: 0;
+}
+
+.craft-dept-tab {
+    height: 36px;
+    background: transparent;
+    border: 0;
+    border-right: 1px solid rgba(84, 112, 118, 0.36);
+    color: rgba(255, 255, 255, 0.58);
+    font-size: 0.9rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.craft-dept-tab:last-child {
+    border-right: 0;
+}
+
+.craft-dept-tab.active {
+    color: #fff;
+    background: rgba(36, 244, 178, 0.12);
+    box-shadow: inset 0 -3px 0 #24f4b2;
+}
+
+.craft-rec-title {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 900;
+    font-size: 1rem;
+    margin: 8px 0 8px;
+}
+
+.craft-product-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.craft-sort-select-desktop {
+    height: 36px;
+    min-width: 140px;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    color: rgba(255,255,255,0.86);
+    padding: 0 10px;
+}
+
+.craft-product-table-desktop {
+    border: 1px solid rgba(84, 112, 118, 0.56);
+    background: rgba(6, 18, 20, 0.42);
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.craft-product-head-desktop,
+.craft-product-row-desktop {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 70px;
+    align-items: center;
+    gap: 12px;
+    padding: 0 14px;
+}
+
+.craft-product-head-desktop {
+    height: 36px;
+    background: rgba(10, 32, 35, 0.84);
+    color: rgba(36, 244, 178, 0.86);
+    font-size: 0.76rem;
+    font-weight: 900;
+    flex-shrink: 0;
+}
+
+.craft-product-list-desktop {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.craft-product-row-desktop {
+    min-height: 56px;
+    border-top: 1px solid rgba(42, 72, 78, 0.5);
+    background: rgba(6, 18, 20, 0.66);
+    color: rgba(255,255,255,0.82);
+    font-size: 0.86rem;
+}
+
+.craft-product-row-desktop:nth-child(even) {
+    background: rgba(18, 38, 42, 0.72);
+}
+
+.craft-product-name-cell {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    font-weight: 800;
+}
+
+.craft-product-image-desktop {
+    width: 52px;
+    height: 30px;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(74, 92, 96, 0.8), rgba(18, 38, 42, 0.86));
+    border: 1px solid rgba(84, 112, 118, 0.56);
+    color: #24f4b2;
+    font-family: 'Orbitron', monospace;
+    font-size: 0.72rem;
+    font-weight: 900;
+}
+
+.craft-product-change-desktop {
+    justify-self: start;
+    min-width: 74px;
+    padding: 4px 8px;
+    text-align: center;
+    font-weight: 900;
+}
+
+.craft-product-change-desktop.positive {
+    color: #24f4b2;
+}
+
+.craft-product-change-desktop.negative {
+    color: #ff5c5c;
+}
+
+.craft-product-toggle-desktop {
+    width: 48px;
+    height: 24px;
+    border: 1px solid rgba(255,255,255,0.38);
+    background: rgba(255,255,255,0.18);
+    position: relative;
+    cursor: pointer;
+}
+
+.craft-product-toggle-desktop::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 16px;
+    height: 16px;
+    background: rgba(255,255,255,0.74);
+    transition: transform .18s ease;
+}
+
+.craft-product-toggle-desktop.active {
+    background: rgba(36, 244, 178, 0.25);
+    border-color: #24f4b2;
+}
+
+.craft-product-toggle-desktop.active::after {
+    transform: translateX(22px);
+    background: #24f4b2;
+}
+
+.selected-craft-item-desktop .recommend-station-name {
+    color: rgba(255,255,255,0.72);
+}

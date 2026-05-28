@@ -2346,10 +2346,9 @@ document.querySelectorAll('.craft-main-tab').forEach(tab => {
         } else {
             detailContent.classList.add('hidden');
             recommendContent.classList.remove('hidden');
-            // 切换到推荐页时刷新数据和图表
+            // 切换到推荐页时刷新部门产物列表
             setTimeout(() => {
-                updateCraftItems(currentCraftTab);
-                drawCraftPriceChart(currentCraftTab, selectedCraftItemIndex);
+                renderCraftRecommendDashboard();
             }, 50);
         }
     });
@@ -2360,79 +2359,120 @@ document.querySelectorAll('.craft-main-tab').forEach(tab => {
 // ============================================
 const craftData = {
     tech: [
-        { name: 'OLIGHT Baldr Pro R多功能手电', profit: 18578, change: 12.6, positive: true },
-        { name: '灵眼3/7测距狙击瞄准镜', profit: 8083, change: 7.0, positive: true },
-        { name: 'DBAL-X2紫色激光镭指', profit: 7487, change: -1.9, positive: false }
+        { id: 'qcc171', name: 'QCQ171冲锋枪', icon: 'SMG', totalProfit: 43274, hourlyProfit: 901, change: 0.0, positive: true },
+        { id: 'svd', name: 'SVD狙击步枪', icon: 'DMR', totalProfit: 38918, hourlyProfit: 2432, change: -1.5, positive: false },
+        { id: 'aug', name: 'AUG突击步枪', icon: 'AR', totalProfit: 35773, hourlyProfit: 1490, change: -0.7, positive: false },
+        { id: 'sr3m', name: 'SR-3M紧凑突击步枪', icon: 'AR', totalProfit: 34158, hourlyProfit: 711, change: -4.1, positive: false },
+        { id: 'sks', name: 'SKS射手步枪', icon: 'DMR', totalProfit: 32794, hourlyProfit: 1024, change: -0.5, positive: false },
+        { id: 'akm', name: 'AKM突击步枪', icon: 'AR', totalProfit: 20808, hourlyProfit: 867, change: -8.0, positive: false },
+        { id: 'psg1', name: 'PSG-1射手步枪', icon: 'DMR', totalProfit: 19007, hourlyProfit: 1187, change: -0.9, positive: false }
     ],
     work: [
-        { name: 'PMAG D-60 5.56弹鼓', profit: 15230, change: 8.3, positive: true },
-        { name: 'Zenit PT-1折叠枪托', profit: 9120, change: 5.2, positive: true },
-        { name: 'Magpul AFG-2前握把', profit: 6540, change: -2.5, positive: false }
+        { id: 'pmag', name: 'PMAG D-60弹鼓', icon: 'MAG', totalProfit: 38240, hourlyProfit: 1912, change: 6.8, positive: true },
+        { id: 'zenit', name: 'Zenit PT-1枪托', icon: 'STK', totalProfit: 31920, hourlyProfit: 1596, change: 2.4, positive: true },
+        { id: 'rk3', name: 'RK-3后握把', icon: 'GRP', totalProfit: 24560, hourlyProfit: 982, change: -1.2, positive: false },
+        { id: 'rail', name: '战术导轨组', icon: 'MOD', totalProfit: 19880, hourlyProfit: 828, change: 0.8, positive: true }
     ],
     med: [
-        { name: '军用急救包', profit: 12450, change: 15.8, positive: true },
-        { name: '肾上腺素注射器', profit: 7890, change: 3.2, positive: true },
-        { name: '高级止痛药', profit: 5670, change: -4.1, positive: false }
+        { id: 'medkit', name: '军用急救包', icon: 'MED', totalProfit: 26840, hourlyProfit: 1342, change: 8.5, positive: true },
+        { id: 'adrenaline', name: '肾上腺素注射器', icon: 'MED', totalProfit: 21690, hourlyProfit: 1446, change: 4.2, positive: true },
+        { id: 'painkiller', name: '高级止痛药', icon: 'PILL', totalProfit: 17520, hourlyProfit: 876, change: -2.1, positive: false },
+        { id: 'suture', name: '野战手术包', icon: 'KIT', totalProfit: 14360, hourlyProfit: 718, change: 1.1, positive: true }
     ],
     armor: [
-        { name: '6级防弹插板', profit: 22340, change: 18.5, positive: true },
-        { name: 'Ops-Core头盔', profit: 11200, change: 6.7, positive: true },
-        { name: 'THORAX防弹背心', profit: 8950, change: -0.8, positive: false }
+        { id: 'plate6', name: '6级防弹插板', icon: 'ARM', totalProfit: 46320, hourlyProfit: 2316, change: 9.4, positive: true },
+        { id: 'opscore', name: 'Ops-Core头盔', icon: 'HEL', totalProfit: 33800, hourlyProfit: 1690, change: 3.7, positive: true },
+        { id: 'thorax', name: 'THORAX背心', icon: 'VST', totalProfit: 28760, hourlyProfit: 1198, change: -0.8, positive: false },
+        { id: 'rig', name: 'DAR突击手胸挂', icon: 'RIG', totalProfit: 22420, hourlyProfit: 934, change: 2.6, positive: true }
     ]
 };
 
-// 当前选中的物品索引
-let selectedCraftItemIndex = 0;
 let currentCraftTab = 'tech';
+let currentCraftSort = 'totalProfit';
+const selectedCraftIds = new Set();
 
-// ============================================
-// 制造推荐 - Tab 切换
-// ============================================
-document.querySelectorAll('#craft-recommend-content-desktop .craft-tab').forEach(tab => {
-    tab.addEventListener('click', function() {
-        document.querySelectorAll('#craft-recommend-content-desktop .craft-tab').forEach(t => t.classList.remove('active'));
-        this.classList.add('active');
-        
-        currentCraftTab = this.dataset.craft;
-        selectedCraftItemIndex = 0;
-        updateCraftItems(currentCraftTab);
-        drawCraftPriceChart(currentCraftTab, selectedCraftItemIndex);
+function formatCraftNumber(value) {
+    return Number(value || 0).toLocaleString();
+}
+
+function getAllCraftItems() {
+    return Object.values(craftData).flat();
+}
+
+function getSortedCraftItems(tabType = currentCraftTab) {
+    const items = craftData[tabType] || [];
+    return [...items].sort((a, b) => {
+        if (currentCraftSort === 'change') return b.change - a.change;
+        if (currentCraftSort === 'hourlyProfit') return b.hourlyProfit - a.hourlyProfit;
+        return b.totalProfit - a.totalProfit;
     });
-});
+}
 
-// ============================================
-// 制造推荐 - 更新物品卡片
-// ============================================
-function updateCraftItems(tabType) {
-    const items = craftData[tabType];
-    const container = document.querySelector('#craft-recommend-content-desktop .craft-items');
-    if (!container || !items) return;
-    
-    container.innerHTML = items.map((item, index) => `
-        <div class="craft-item-card ${index === selectedCraftItemIndex ? 'selected' : ''}" data-index="${index}">
-            <div class="craft-item-image"></div>
-            <div class="craft-item-name">${item.name}</div>
-            <div class="craft-item-stats">
-                <span class="craft-stat-label">每小时收益</span>
-                <span class="craft-stat-value">${item.profit.toLocaleString()}</span>
-            </div>
-            <div class="craft-item-change ${item.positive ? 'positive' : 'negative'}">
-                <span class="change-label">涨幅</span>
-                <span class="change-value">${item.positive ? '+' : ''}${item.change}%${item.positive ? '↑' : '↓'}</span>
-            </div>
-        </div>
-    `).join('');
-    
-    // 绑定点击事件
-    container.querySelectorAll('.craft-item-card').forEach(card => {
-        card.addEventListener('click', function() {
-            container.querySelectorAll('.craft-item-card').forEach(c => c.classList.remove('selected'));
-            this.classList.add('selected');
-            selectedCraftItemIndex = parseInt(this.dataset.index);
-            drawCraftPriceChart(currentCraftTab, selectedCraftItemIndex);
+function renderCraftProductList() {
+    const container = document.getElementById('craft-product-list-desktop');
+    if (!container) return;
+    const items = getSortedCraftItems();
+    container.innerHTML = items.map(item => {
+        const checked = selectedCraftIds.has(item.id);
+        return `
+            <div class="craft-product-row-desktop">
+                <div class="craft-product-name-cell"><span class="craft-product-image-desktop">${item.icon}</span><span>${item.name}</span></div>
+                <div>🪙 ${formatCraftNumber(item.totalProfit)}</div>
+                <div>🪙 ${formatCraftNumber(item.hourlyProfit)}</div>
+                <div class="craft-product-change-desktop ${item.positive ? 'positive' : 'negative'}">${item.change > 0 ? '+' : ''}${item.change.toFixed(1)}% ${item.positive ? '↑' : '↓'}</div>
+                <button class="craft-product-toggle-desktop ${checked ? 'active' : ''}" type="button" data-id="${item.id}" aria-label="自选"></button>
+            </div>`;
+    }).join('');
+    container.querySelectorAll('.craft-product-toggle-desktop').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const id = btn.dataset.id;
+            if (selectedCraftIds.has(id)) selectedCraftIds.delete(id);
+            else selectedCraftIds.add(id);
+            renderCraftProductList();
+            renderCraftSelectedDesktop();
         });
     });
 }
+
+function renderCraftSelectedDesktop() {
+    const container = document.getElementById('craft-selected-desktop-list');
+    if (!container) return;
+    const selectedItems = getAllCraftItems().filter(item => selectedCraftIds.has(item.id));
+    const items = selectedItems.length ? selectedItems : [craftData.tech[0], craftData.work[0], craftData.med[0], craftData.armor[0]];
+    container.innerHTML = items.map(item => `
+        <div class="best-recommend-item selected-craft-item-desktop">
+            <div class="recommend-station-header"><span class="recommend-station-icon">${item.icon}</span><span class="recommend-station-name">自选产物</span></div>
+            <div class="recommend-item-preview gray"></div>
+            <div class="recommend-item-name">${item.name}</div>
+            <div class="recommend-item-profit"><span class="profit-icon">💰</span><span class="profit-value">${formatCraftNumber(item.hourlyProfit)}/h</span></div>
+        </div>`).join('');
+}
+
+function renderCraftRecommendDashboard() {
+    renderCraftProductList();
+    renderCraftSelectedDesktop();
+}
+
+function bindCraftRecommendDashboardEvents() {
+    document.querySelectorAll('#craft-dept-tabs-desktop .craft-dept-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('#craft-dept-tabs-desktop .craft-dept-tab').forEach(item => item.classList.remove('active'));
+            tab.classList.add('active');
+            currentCraftTab = tab.dataset.craft || 'tech';
+            renderCraftRecommendDashboard();
+        });
+    });
+    const sortSelect = document.getElementById('craft-sort-select-desktop');
+    if (sortSelect) {
+        sortSelect.addEventListener('change', () => {
+            currentCraftSort = sortSelect.value || 'totalProfit';
+            renderCraftProductList();
+        });
+    }
+    renderCraftRecommendDashboard();
+}
+
+bindCraftRecommendDashboardEvents();
 
 // ============================================
 // 制造推荐 - 生成随机价格数据
@@ -2786,7 +2826,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 窗口大小变化时重绘
 window.addEventListener('resize', function() {
-    drawCraftPriceChart(currentCraftTab, selectedCraftItemIndex);
+    drawCraftPriceChart(currentCraftTab, 0);
     drawMarketMiniChart();
 });
 
@@ -3225,7 +3265,70 @@ function renderRecordList() {
 document.addEventListener('DOMContentLoaded', () => {
     initRecordModal();
     initPosterModal();
+    initRedDetailModal();
+    initAssetCalendarModal();
 });
+
+// 初始化资产周历弹窗
+function initAssetCalendarModal() {
+    const overlay = document.getElementById('asset-calendar-modal-overlay');
+    const closeBtn = document.getElementById('asset-calendar-modal-close');
+    const entryBtns = document.querySelectorAll('.asset-calendar-entry-pc');
+    if (!overlay || !entryBtns.length) return;
+
+    const openModal = () => overlay.classList.add('active');
+    const closeModal = () => overlay.classList.remove('active');
+
+    entryBtns.forEach(btn => btn.addEventListener('click', openModal));
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) closeModal();
+    });
+}
+
+// 初始化已解锁大红详情弹窗
+function initRedDetailModal() {
+    const overlay = document.getElementById('red-detail-modal-overlay');
+    const closeBtn = document.getElementById('red-detail-close');
+    const collectionGrid = document.querySelector('.collection-grid-mini');
+    if (!overlay || !collectionGrid) return;
+
+    const redDetailData = {
+        '炫彩拉小宅': { icon: '🐱', date: '2026-02-14', location: '零号大坝-常规' },
+        '复苏呼吸机': { icon: '🫁', date: '2026-02-12', location: '零号大坝-机密' },
+        '动力电池组': { icon: '🔋', date: '2026-02-10', location: '航天基地-机密' },
+        '金块': { icon: '🪙', date: '2026-02-09', location: '巴克什-常规' },
+        '加密U盘': { icon: '💾', date: '2026-02-08', location: '长弓溪谷-机密' },
+        '铱星电话': { icon: '📱', date: '2026-02-07', location: '航天基地-常规' }
+    };
+
+    function openModal(name) {
+        const data = redDetailData[name] || { icon: '▣', date: '2026-02-14', location: '零号大坝-常规' };
+        document.getElementById('red-detail-title').textContent = name;
+        document.getElementById('red-detail-item-art').textContent = data.icon;
+        document.getElementById('red-detail-date').textContent = data.date;
+        document.getElementById('red-detail-location').textContent = data.location;
+        document.getElementById('red-detail-record-time').textContent = data.date;
+        document.getElementById('red-detail-record-location').textContent = data.location;
+        overlay.classList.add('active');
+    }
+
+    function closeModal() {
+        overlay.classList.remove('active');
+    }
+
+    collectionGrid.addEventListener('click', (event) => {
+        const item = event.target.closest('.collection-item-mini');
+        if (!item) return;
+        const name = item.querySelector('.collection-name-mini')?.textContent?.trim();
+        if (name) openModal(name);
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) closeModal();
+    });
+}
 
 /* ============================================
    生成海报弹窗
