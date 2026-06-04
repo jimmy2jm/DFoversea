@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>新建更新日志</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="cms-shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark"></span><span>CMS Admin</span></div>
+    <nav class="nav">
+      <div class="nav-item">资源数据库</div>
+      <div class="nav-item">改枪码推荐</div>
+      <div class="nav-item active">更新日志</div>
+      <div class="nav-item">用户反馈</div>
+      <div class="nav-item">操作记录</div>
+    </nav>
+    <div class="sidebar-foot">‹ 收起侧边栏</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="page-title" id="topTitle">新建更新日志</div>
+      <div class="userbar"><span>设置</span><span>jimmmywang</span></div>
+    </header>
+
+    <section class="content">
+      <div class="form-page">
+        <div class="form-head">
+          <a class="back" href="index.html">‹</a>
+          <div>
+            <div class="head-title" id="pageTitle">新建更新日志</div>
+            <div class="head-sub">填写基础信息和多语言内容，发布后生成新的 changelogId</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="section-title">基本信息</div>
+          <div class="form-grid">
+            <div class="field">
+              <label>发布日期<span class="req">*</span></label>
+              <input class="input" id="dateInput" type="date" value="2026-06-03">
+            </div>
+          </div>
+
+          <!-- 必填多语言区域 -->
+          <div class="i18n-section">
+            <div class="i18n-section-head">
+              <span class="section-label">多语言内容（必填）</span>
+              <span class="section-desc">中文与英文为必填语言，其他语言可按需添加</span>
+            </div>
+
+            <!-- 中文 -->
+            <div class="lang-block" data-lang="zh-CN">
+              <div class="lang-header">
+                <span class="lang-tag lang-required">中文</span>
+              </div>
+              <div class="lang-fields">
+                <div class="field full">
+                  <label>更新标题（中文）<span class="req">*</span></label>
+                  <input class="input title-input" data-lang="zh-CN" data-field="title" maxlength="50" placeholder="例如：2026.06.02 功能更新">
+                  <div class="help"><span class="char-count" data-lang="zh-CN" data-field="title-count">0</span>/50</div>
+                </div>
+                <div class="field full">
+                  <label>内容摘要（中文）<span class="req">*</span></label>
+                  <textarea class="textarea summary-textarea" data-lang="zh-CN" data-field="summary" maxlength="500" placeholder="每行填写一条更新内容，例如：&#10;1、新增更新日志红点提醒&#10;2、优化资产周历数据展示&#10;3、修复移动端底部 Tab 点击问题"></textarea>
+                  <div class="help" data-lang="zh-CN" data-field="summary-help">支持换行展示，但不允许空行 · <span class="char-count" data-lang="zh-CN" data-field="summary-count">0</span>/500</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 英文 -->
+            <div class="lang-block" data-lang="en">
+              <div class="lang-header">
+                <span class="lang-tag lang-required">English</span>
+              </div>
+              <div class="lang-fields">
+                <div class="field full">
+                  <label>Update Title (EN)<span class="req">*</span></label>
+                  <input class="input title-input" data-lang="en" data-field="title" maxlength="50" placeholder="e.g. June 2, 2026 Feature Update">
+                  <div class="help"><span class="char-count" data-lang="en" data-field="title-count">0</span>/50</div>
+                </div>
+                <div class="field full">
+                  <label>Content Summary (EN)<span class="req">*</span></label>
+                  <textarea class="textarea summary-textarea" data-lang="en" data-field="summary" maxlength="500" placeholder="One update per line, e.g.:&#10;1. Added changelog notification dot&#10;2. Optimized asset calendar display&#10;3. Fixed mobile tab click issue"></textarea>
+                  <div class="help" data-lang="en" data-field="summary-help">Line breaks allowed, blank lines not permitted · <span class="char-count" data-lang="en" data-field="summary-count">0</span>/500</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 可选多语言标签区域 -->
+            <div class="optional-langs">
+              <div class="optional-head">
+                <span>可选语言</span>
+                <span class="optional-hint">点击添加对应语言的标题和内容输入框</span>
+              </div>
+              <div class="lang-tags" id="langTags">
+                <button class="lang-tag-btn" type="button" data-add-lang="zh-TW">+ 繁體中文</button>
+                <button class="lang-tag-btn" type="button" data-add-lang="de">+ Deutsch</button>
+                <button class="lang-tag-btn" type="button" data-add-lang="ja">+ 日本語</button>
+                <button class="lang-tag-btn" type="button" data-add-lang="ko">+ 한국어</button>
+                <button class="lang-tag-btn" type="button" data-add-lang="fr">+ Français</button>
+                <button class="lang-tag-btn" type="button" data-add-lang="es">+ Español</button>
+                <button class="lang-tag-btn" type="button" data-add-lang="pt">+ Português</button>
+                <button class="lang-tag-btn" type="button" data-add-lang="ru">+ Русский</button>
+                <button class="lang-tag-btn" type="button" data-add-lang="ar">+ العربية</button>
+                <button class="lang-tag-btn" type="button" data-add-lang="th">+ ภาษาไทย</button>
+              </div>
+            </div>
+
+            <!-- 动态添加的语言块容器 -->
+            <div id="extraLangContainer"></div>
+          </div>
+
+          <div class="form-actions">
+            <a class="btn ghost" href="index.html">取消</a>
+            <button class="btn" id="saveDraftBtn" type="button">保存草稿</button>
+            <button class="btn primary" id="publishBtn" type="button">发布更新</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const RECORD_KEY = 'cms_changelog_records';
+const LATEST_KEY = 'df_changelog_latest_config';
+const params = new URLSearchParams(location.search);
+const editId = params.get('id');
+const toast = document.getElementById('toast');
+
+let editingRecord = null;
+
+// 语言配置映射
+const LANG_CONFIG = {
+  'zh-CN': { name: '中文', titleLabel: '更新标题（中文）', summaryLabel: '内容摘要（中文）', titlePh: '例如：2026.06.02 功能更新', summaryPh: '每行填写一条更新内容，例如：\n1、新增更新日志红点提醒\n2、优化资产周历数据展示\n3、修复移动端底部 Tab 点击问题', help: '支持换行展示，但不允许空行' },
+  'en':    { name: 'English', titleLabel: 'Update Title (EN)', summaryLabel: 'Content Summary (EN)', titlePh: 'e.g. June 2, 2026 Feature Update', summaryPh: 'One update per line, e.g.:\n1. Added changelog notification dot\n2. Optimized asset calendar display\n3. Fixed mobile tab click issue', help: 'Line breaks allowed, blank lines not permitted' },
+  'zh-TW':{ name: '繁體中文', titleLabel: '更新標題（繁體中文）', summaryLabel: '內容摘要（繁體中文）', titlePh: '例如：2026.06.02 功能更新', summaryPh: '每行填寫一條更新內容，例如：\n1、新增更新日誌紅點提醒\n2、優化資產曆數據展示\n3、修復移動端底部 Tab 點擊問題', help: '支援換行展示，但不允許空行' },
+  'de':   { name: 'Deutsch', titleLabel: 'Aktualisierungstitel (DE)', summaryLabel: 'Inhaltszusammenfassung (DE)', titlePh: 'z.B. 2. Juni 2026 Funktionsupdate', summaryPh: 'Ein Update pro Zeile, z.B.:\n1. Änderungsprotokoll-Benachrichtigung hinzugefügt\n2. Asset-Kalenderanzeige optimiert\n3. Mobile Tab-Klickproblem behoben', help: 'Zeilenumbrüche erlaubt, Leerzeilen nicht erlaubt' },
+  'ja':   { name: '日本語', titleLabel: 'アップデートタイトル (日本語)', summaryLabel: '内容の要約 (日本語)', titlePh: '例：2026年6月2日 機能アップデート', summaryPh: '1行に1つの更新内容を記入してください。\n例：\n1. 変更ログ通知ドットを追加\n2. アセットカレンダー表示の最適化\n3. モバイルタブクリック問題の修正', help: '改行は可能ですが、空行は禁止されています' },
+  'ko':   { name: '한국어', titleLabel: '업데이트 제목 (한국어)', summaryLabel: '내용 요약 (한국어)', titlePh: '예: 2026년 6월 2일 기능 업데이트', summaryPh: '줄마다 하나의 업데이트 내용을 작성하세요.\n예:\n1. 변경 로그 알림 도트 추가\n2. 자산 캘린더 표시 최적화\n3. 모바일 탭 클릭 문제 수정', help: '줄 바꿈은 가능하지만 빈 줄은 허용되지 않습니다' },
+  'fr':   { name: 'Français', titreLabel: "Titre de mise à jour (FR)", summaryLabel: 'Résumé du contenu (FR)', titlePh: 'ex. Mise à jour des fonctionnalités du 2 juin 2026', summaryPh: 'Une mise à jour par ligne, ex.:\n1. Ajout d\'une notification de journal des modifications\n2. Optimisation de l\'affichage du calendrier d\'actifs\n3. Correction du problème de clic sur l\'onglet mobile', help: 'Les sauts de ligne sont autorisés, les lignes vides ne le sont pas' },
+  'es':   { name: 'Español', titleLabel: 'Título de actualización (ES)', summaryLabel: 'Resumen de contenido (ES)', titlePh: 'ej. Actualización de funciones del 2 de junio de 2026', summaryPh: 'Una actualización por línea, ej.:\n1. Añadido punto de notificación de registro de cambios\n2. Optimizada visualización de calendario de activos\n3. Corregido problema de clic en pestaña móvil', help: 'Se permiten saltos de línea, no se permiten líneas vacías' },
+  'pt':   { name: 'Português', titleLabel: 'Título da atualização (PT)', summaryLabel: 'Resumo do conteúdo (PT)', titlePh: 'ex. Atualização de funcionalidades em 2 de junho de 2026', summaryPh: 'Uma atualização por linha, ex.:\n1. Adicionado ponto de notificação do changelog\n2. Otimizada exibição do calendário de ativos\n3. Corrigido problema de clique na aba móvel', help: 'Quebras de linha permitidas, linhas vazias não são permitidas' },
+  'ru':   { name: 'Русский', titleLabel: 'Заголовок обновления (RU)', summaryLabel: 'Сводка содержимого (RU)', titlePh: 'напр. Обновление функций от 2 июня 2026 г.', summaryPh: 'Одно обновление на строку, напр.:\n1. Добавлено уведомление о журнале изменений\n2. Оптимизировано отображение календаря активов\n3. Исправлена проблема с кликом по вкладке на мобильном', help: 'Переносы строк разрешены, пустые строки запрещены' },
+  'ar':   { name: 'العربية', titleLabel: 'عنوان التحديث (AR)', summaryLabel: 'ملخص المحتوى (AR)', titlePh: 'مثال: تحديث الميزات 2 يونيو 2026', summaryPh: 'تحديث واحد في كل سطر، مثال:\n1. إضافة نقطة إشعار سجل التغييرات\n2. تحسين عرض تقويم الأصول\n3. إصلاح مشكلة النقر على علامة التبويب المحمولة', help: 'يُسمح بأسطر جديدة، لا يُسمح بالأسطر الفارغة' },
+  'th':   { name: 'ภาษาไทย', titleLabel: 'ชื่อเรื่องอัปเดต (TH)', summaryLabel: 'สรุปเนื้อหา (TH)', titlePh: 'ตัวอย่าง: อัปเดตฟีเจอร์ 2 มิถุนายน 2026', summaryPh: 'หนึ่งรายการอัปเดตต่อบรรทัด ตัวอย่าง:\n1. เพิ่มจุดแจ้งเตือน changelog\n2. ปรับปรุงการแสดงผลปฏิทินสินทรัพย์\n3. แก้ไขปัญหาการคลิกแท็บมือถือ', help: 'อนุญาตให้ขึ้นบรรทัดใหม่ ไม่อนุญาตให้เว้นบรรทัดว่าง' }
+};
+
+// 已添加的可选语言
+const addedLangs = new Set();
+
+function getRecords() {
+  try { return JSON.parse(localStorage.getItem(RECORD_KEY) || '[]'); } catch { return []; }
+}
+function saveRecords(records) { localStorage.setItem(RECORD_KEY, JSON.stringify(records)); }
+function formatDate(value) { return value ? value.replaceAll('-', '.') : new Date().toISOString().slice(0,10).replaceAll('-', '.'); }
+function toDateInput(value) { return value ? value.replaceAll('.', '-') : new Date().toISOString().slice(0,10); }
+function createId() {
+  const now = new Date();
+  const pad = value => String(value).padStart(2, '0');
+  return `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+}
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => toast.classList.remove('show'), 1400);
+}
+
+// 获取指定语言的输入元素
+function getInput(lang, field) {
+  return document.querySelector(`[data-lang="${lang}"][data-field="${field}"]`);
+}
+function getCharCount(lang, field) {
+  return document.querySelector(`[data-lang="${lang}"][data-field="${field}-count"]`);
+}
+function getSummaryHelp(lang) {
+  return document.querySelector(`[data-lang="${lang}"][data-field="summary-help"]`);
+}
+
+// 更新字数统计
+function updateCharCount(inputEl) {
+  const lang = inputEl.dataset.lang;
+  const field = inputEl.dataset.field;
+  const countEl = getCharCount(lang, field + '-count');
+  if (countEl) countEl.textContent = inputEl.value.length;
+}
+
+// 绑定所有已有输入框的字数统计
+function bindCharCounts() {
+  document.querySelectorAll('.title-input, .summary-textarea').forEach(el => {
+    el.addEventListener('input', () => updateCharCount(el));
+    updateCharCount(el);
+  });
+}
+
+// 内容摘要标准化（去空行）
+function normalizeSummary(value) {
+  return value.replace(/\r\n?/g, '\n').split('\n').map(line => line.trim()).join('\n').trim();
+}
+
+// 检查是否有空行
+function hasBlankLine(value) {
+  return value.split('\n').some(line => line.trim() === '');
+}
+
+// 更新某个语言块的摘要错误状态
+function updateSummaryErrorState(lang) {
+  const input = getInput(lang, 'summary');
+  const help = getSummaryHelp(lang);
+  if (!input || !help) return true;
+  const hasError = Boolean(input.value.trim()) && hasBlankLine(normalizeSummary(input.value));
+  input.classList.toggle('invalid', hasError);
+  help.classList.toggle('error-text', hasError);
+  return !hasError;
+}
+
+// 收集所有语言的数据
+function collectLangData() {
+  const i18n = {};
+  // 必填语言
+  ['zh-CN', 'en'].forEach(lang => {
+    const titleEl = getInput(lang, 'title');
+    const summaryEl = getInput(lang, 'summary');
+    i18n[lang] = {
+      title: (titleEl ? titleEl.value.trim() : ''),
+      summary: summaryEl ? normalizeSummary(summaryEl.value) : ''
+    };
+  });
+  // 可选语言
+  addedLangs.forEach(lang => {
+    const titleEl = getInput(lang, 'title');
+    const summaryEl = getInput(lang, 'summary');
+    i18n[lang] = {
+      title: (titleEl ? titleEl.value.trim() : ''),
+      summary: summaryEl ? normalizeSummary(summaryEl.value) : ''
+    };
+  });
+  return i18n;
+}
+
+// 构建记录对象
+function getRecord(status) {
+  const recordId = editingRecord ? editingRecord.id : createId();
+  return {
+    id: recordId,
+    date: formatDate(document.getElementById('dateInput').value),
+    i18n: collectLangData(),
+    // 兼容字段：默认取中文
+    title: (getInput('zh-CN', 'title') || {}).value?.trim() || '',
+    summary: normalizeSummary((getInput('zh-CN', 'summary') || {}).value || ''),
+    status
+  };
+}
+
+// 提交校验
+function submit(status) {
+  // 校验所有已添加语言的摘要空行
+  const allLangs = ['zh-CN', 'en', ...Array.from(addedLangs)];
+  for (const lang of allLangs) {
+    const summaryEl = getInput(lang, 'summary');
+    if (summaryEl) {
+      summaryEl.value = normalizeSummary(summaryEl.value);
+      updateCharCount(summaryEl);
+    }
+    if (!updateSummaryErrorState(lang)) {
+      showToast(`${LANG_CONFIG[lang]?.name || lang} 的内容摘要不允许出现空行`);
+      return;
+    }
+  }
+
+  const record = getRecord(status);
+
+  // 校验必填项
+  const zhTitle = record.i18n['zh-CN']?.title || '';
+  const enTitle = record.i18n['en']?.title || '';
+  const zhSummary = record.i18n['zh-CN']?.summary || '';
+  const enSummary = record.i18n['en']?.summary || '';
+
+  if (!zhTitle || !enTitle || !zhSummary || !enSummary) {
+    showToast('请完善中文和英文的标题与内容摘要');
+    return;
+  }
+
+  const records = getRecords().filter(item => item.id !== record.id);
+  records.unshift(record);
+  saveRecords(records);
+
+  if (status === '已发布') {
+    localStorage.setItem(LATEST_KEY, JSON.stringify({
+      changelogId: record.id,
+      date: record.date,
+      i18n: record.i18n,
+      title: record.title,
+      summary: record.summary,
+      contentLines: record.summary.split('\n').map(line => line.trim()).filter(Boolean)
+    }));
+  }
+
+  showToast(status === '已发布' ? '发布成功' : '草稿已保存');
+  setTimeout(() => { location.href = 'index.html'; }, 700);
+}
+
+// 动态添加语言块
+function addLanguageBlock(langCode) {
+  if (addedLangs.has(langCode)) return;
+  const config = LANG_CONFIG[langCode];
+  if (!config) return;
+
+  addedLangs.add(langCode);
+
+  const container = document.getElementById('extraLangContainer');
+  const block = document.createElement('div');
+  block.className = 'lang-block extra-lang';
+  block.dataset.lang = langCode;
+
+  block.innerHTML = `
+    <div class="lang-header">
+      <span class="lang-tag">${config.name}</span>
+      <button class="remove-lang-btn" type="button" data-remove="${langCode}" title="移除此语言">×</button>
+    </div>
+    <div class="lang-fields">
+      <div class="field full">
+        <label>${config.titleLabel}<span class="req">*</span></label>
+        <input class="input title-input" data-lang="${langCode}" data-field="title" maxlength="50" placeholder="${config.titlePh}">
+        <div class="help"><span class="char-count" data-lang="${langCode}" data-field="title-count">0</span>/50</div>
+      </div>
+      <div class="field full">
+        <label>${config.summaryLabel}<span class="req">*</span></label>
+        <textarea class="textarea summary-textarea" data-lang="${langCode}" data-field="summary" maxlength="500" placeholder="${config.summaryPh}"></textarea>
+        <div class="help" data-lang="${langCode}" data-field="summary-help">${config.help} · <span class="char-count" data-lang="${langCode}" data-field="summary-count">0</span>/500</div>
+      </div>
+    </div>
+  `;
+
+  container.appendChild(block);
+
+  // 绑定事件
+  block.querySelectorAll('.title-input, .summary-textarea').forEach(el => {
+    el.addEventListener('input', () => {
+      updateCharCount(el);
+      if (el.dataset.field === 'summary') updateSummaryErrorState(langCode);
+    });
+    el.addEventListener('blur', () => {
+      if (el.dataset.field === 'summary') {
+        el.value = normalizeSummary(el.value);
+        updateCharCount(el);
+        updateSummaryErrorState(langCode);
+      }
+    });
+    updateCharCount(el);
+  });
+
+  // 移除按钮
+  block.querySelector('.remove-lang-btn').addEventListener('click', () => removeLanguageBlock(langCode));
+
+  // 标记按钮为已选中状态
+  const btn = document.querySelector(`[data-add-lang="${langCode}"]`);
+  if (btn) btn.classList.add('active');
+
+  // 动画入场
+  block.style.opacity = '0';
+  block.style.transform = 'translateY(-8px)';
+  requestAnimationFrame(() => {
+    block.style.transition = 'opacity 0.25s, transform 0.25s';
+    block.style.opacity = '1';
+    block.style.transform = 'translateY(0)';
+  });
+}
+
+// 移除语言块
+function removeLanguageBlock(langCode) {
+  addedLangs.delete(langCode);
+  const block = document.querySelector(`.lang-block[data-lang="${langCode}"]`);
+  if (block) {
+    block.style.transition = 'opacity 0.2s, transform 0.2s, max-height 0.3s, margin 0.3s, padding 0.3s';
+    block.style.opacity = '0';
+    block.style.transform = 'translateY(-8px)';
+    block.style.maxHeight = '0';
+    block.style.marginTop = '0';
+    block.style.marginBottom = '0';
+    block.style.paddingTop = '0';
+    block.style.paddingBottom = '0';
+    block.style.overflow = 'hidden';
+    setTimeout(() => block.remove(), 300);
+  }
+  const btn = document.querySelector(`[data-add-lang="${langCode}"]`);
+  if (btn) btn.classList.remove('active');
+}
+
+// 编辑模式初始化
+function initEdit() {
+  if (!editId) return;
+  editingRecord = getRecords().find(record => record.id === editId);
+  if (!editingRecord) return;
+
+  document.getElementById('topTitle').textContent = '编辑更新日志';
+  document.getElementById('pageTitle').textContent = '编辑更新日志';
+  document.getElementById('dateInput').value = toDateInput(editingRecord.date);
+
+  // 填充多语言数据
+  const i18n = editingRecord.i18n || {};
+  Object.keys(i18n).forEach(lang => {
+    const config = LANG_CONFIG[lang];
+    if (!config) return;
+
+    // 如果是可选语言，先添加块
+    if (!['zh-CN', 'en'].includes(lang) && !addedLangs.has(lang)) {
+      addLanguageBlock(lang);
+    }
+
+    const titleEl = getInput(lang, 'title');
+    const summaryEl = getInput(lang, 'summary');
+    if (titleEl) {
+      titleEl.value = i18n[lang].title || '';
+      updateCharCount(titleEl);
+    }
+    if (summaryEl) {
+      summaryEl.value = i18n[lang].summary || '';
+      updateCharCount(summaryEl);
+    }
+  });
+}
+
+// 初始化事件绑定
+function initEvents() {
+  // 必填语言的事件绑定
+  ['zh-CN', 'en'].forEach(lang => {
+    const titleEl = getInput(lang, 'title');
+    const summaryEl = getInput(lang, 'summary');
+    if (titleEl) {
+      titleEl.addEventListener('input', () => updateCharCount(titleEl));
+    }
+    if (summaryEl) {
+      summaryEl.addEventListener('input', () => {
+        updateCharCount(summaryEl);
+        updateSummaryErrorState(lang);
+      });
+      summaryEl.addEventListener('blur', () => {
+        summaryEl.value = normalizeSummary(summaryEl.value);
+        updateCharCount(summaryEl);
+        updateSummaryErrorState(lang);
+      });
+    }
+  });
+
+  // 语言标签点击
+  document.querySelectorAll('[data-add-lang]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      addLanguageBlock(btn.dataset.addLang);
+    });
+  });
+
+  document.getElementById('saveDraftBtn').addEventListener('click', () => submit('草稿'));
+  document.getElementById('publishBtn').addEventListener('click', () => submit('已发布'));
+}
+
+initEvents();
+initEdit();
+bindCharCounts();
+</script>
+</body>
+</html>

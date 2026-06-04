@@ -11,7 +11,27 @@ document.addEventListener('DOMContentLoaded', () => {
     initCollectionItems();
     initGunModeTabs(); // 新增：改枪推荐页模式切换
     initDailyPosterModal(); // 日报分享弹窗
+    initChangelogModal(); // 更新日志弹窗
 });
+
+/**
+ * 更新日志弹窗
+ */
+function initChangelogModal() {
+    const trigger = document.getElementById('changelog-entry-btn');
+    const overlay = document.getElementById('changelog-modal-overlay');
+    const closeBtn = document.getElementById('changelog-modal-close');
+    if (!trigger || !overlay) return;
+
+    const openModal = () => overlay.classList.add('active');
+    const closeModal = () => overlay.classList.remove('active');
+
+    trigger.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) closeModal();
+    });
+}
 
 /**
  * Navigation - 多页面跳转模式

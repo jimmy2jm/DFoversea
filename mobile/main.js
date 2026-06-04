@@ -1688,11 +1688,122 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     safeRun('bindMarketDetailEvents', bindMarketDetailEvents);
     safeRun('bindAssetCalendarEvents', bindAssetCalendarEvents);
+    safeRun('bindMobileBottomNav', bindMobileBottomNav);
     safeRun('bindMobileGunSchemeModule', bindMobileGunSchemeModule);
     safeRun('bindGunSchemeDetailEvents', bindGunSchemeDetailEvents);
     safeRun('bindHomeBuildCardDetailEvents', bindHomeBuildCardDetailEvents);
     safeRun('initLoginSystem', initLoginSystem);
+    safeRun('initMobileChangelogModal', initMobileChangelogModal);
+    safeRun('initMobileRedDetailModal', initMobileRedDetailModal);
 });
+
+function bindMobileBottomNav() {
+    document.querySelectorAll('.bottom-nav .nav-item').forEach(item => {
+        if (item.dataset.bound === '1') return;
+        item.dataset.bound = '1';
+        item.addEventListener('click', function() {
+            document.querySelectorAll('.bottom-nav .nav-item').forEach(nav => nav.classList.remove('active'));
+            this.classList.add('active');
+            showMobilePage(this.dataset.page || '首页');
+        });
+    });
+}
+
+function showMobilePage(pageName) {
+    const pageMap = {
+        '首页': 'page-home',
+        '工具': 'page-tools',
+        'Wiki': 'page-guides',
+        '我的': 'page-profile'
+    };
+    document.querySelectorAll('.page-content').forEach(page => {
+        page.style.display = 'none';
+    });
+    const targetPage = document.getElementById(pageMap[pageName] || 'page-home');
+    if (targetPage) targetPage.style.display = 'block';
+
+    if (pageName === '工具') {
+        setTimeout(() => {
+            if (typeof updateCraftItemsMobile === 'function') updateCraftItemsMobile(currentCraftTypeMobile);
+            if (typeof initMarketPriceMobile === 'function') initMarketPriceMobile();
+        }, 50);
+    }
+}
+
+function initMobileChangelogModal() {
+    const trigger = document.getElementById('mobile-changelog-entry-btn');
+    const overlay = document.getElementById('mobile-changelog-modal-overlay');
+    const closeBtn = document.getElementById('mobile-changelog-modal-close');
+    if (!trigger || !overlay) return;
+
+    const openModal = () => overlay.classList.add('active');
+    const closeModal = () => overlay.classList.remove('active');
+
+    trigger.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) closeModal();
+    });
+}
+
+function initMobileRedDetailModal() {
+    const overlay = document.getElementById('mobile-red-detail-overlay');
+    const closeBtn = document.getElementById('mobile-red-detail-close');
+    const grid = document.querySelector('#tab-collection .collection-grid');
+    if (!overlay || !grid) return;
+
+    const detailData = {
+        '动力电池组': { icon: '▣', date: '2026-02-10', location: '航天基地-机密' },
+        '克劳迪乌斯半身像': { icon: '◈', date: '2026-02-08', location: '巴克什-机密' },
+        '呼吸机': { icon: '⬡', date: '2026-02-12', location: '零号大坝-机密' },
+        '黄金瞪羚': { icon: '◇', date: '2026-02-06', location: '长弓溪谷-常规' },
+        '棘龙爪化石': { icon: '△', date: '2026-02-03', location: '潮汐监狱-机密' },
+        '奥莉薇娅香槟': { icon: '⬢', date: '2026-01-30', location: '零号大坝-常规' }
+    };
+
+    function setText(id, value) {
+        const el = document.getElementById(id);
+        if (el) el.textContent = value;
+    }
+
+    function openModal(name) {
+        const data = detailData[name] || { icon: '▣', date: '2026-02-10', location: '航天基地-机密' };
+        setText('mobile-red-detail-title', name);
+        setText('mobile-red-detail-art', data.icon);
+        setText('mobile-red-detail-date', data.date);
+        setText('mobile-red-detail-location', data.location);
+        setText('mobile-red-record-time', data.date);
+        setText('mobile-red-record-location', data.location);
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    grid.addEventListener('click', (event) => {
+        const item = event.target.closest('.collection-item');
+        if (!item) return;
+        const name = item.dataset.redName || item.querySelector('.collection-item-tag')?.textContent?.trim();
+        if (name) openModal(name);
+    });
+
+    grid.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        const item = event.target.closest('.collection-item');
+        if (!item) return;
+        event.preventDefault();
+        const name = item.dataset.redName || item.querySelector('.collection-item-tag')?.textContent?.trim();
+        if (name) openModal(name);
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) closeModal();
+    });
+}
 
 /* ============================================
    改枪方案详情子页面

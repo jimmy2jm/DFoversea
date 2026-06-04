@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>更新日志管理端</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="cms-shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark"></span><span>CMS Admin</span></div>
+    <nav class="nav">
+      <div class="nav-item">资源数据库</div>
+      <div class="nav-item">改枪码推荐</div>
+      <div class="nav-item active">更新日志</div>
+      <div class="nav-item">用户反馈</div>
+      <div class="nav-item">操作记录</div>
+    </nav>
+    <div class="sidebar-foot">‹ 收起侧边栏</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="page-title">更新日志</div>
+      <div class="userbar"><span>设置</span><span>jimmmywang</span></div>
+    </header>
+
+    <section class="content wide">
+      <div class="head-row">
+        <div>
+          <div class="breadcrumb">更新日志列表</div>
+          <div class="head-sub">共 <span id="totalCount">0</span> 条记录</div>
+        </div>
+        <a class="btn primary" href="create.html">+ 新建更新</a>
+      </div>
+
+      <div class="panel slim">
+        <div class="table-toolbar">
+          <div class="toolbar-left">
+            <input class="control search" id="searchInput" placeholder="搜索标题 / 内容">
+            <input class="control" id="idInput" placeholder="ID 精确搜索">
+            <select class="control" id="statusFilter">
+              <option value="">全部状态</option>
+              <option value="已发布">已发布</option>
+              <option value="草稿">草稿</option>
+            </select>
+            <button class="btn primary" id="queryBtn" type="button">查询</button>
+            <button class="btn ghost" id="resetBtn" type="button">重置</button>
+          </div>
+          <div class="toolbar-right">
+            <button class="btn" id="refreshBtn" type="button">刷新</button>
+            <button class="btn" id="exportBtn" type="button">导出 JSON</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>更新ID</th>
+                <th>发布日期</th>
+                <th>更新标题（中文）</th>
+                <th>内容摘要（中文）</th>
+                <th>语言数</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const RECORD_KEY = 'cms_changelog_records';
+const tableBody = document.getElementById('tableBody');
+const toast = document.getElementById('toast');
+
+const sampleRecords = [
+  {
+    id: '20260602001',
+    date: '2026.06.02',
+    i18n: {
+      'zh-CN': {
+        title: '2026.06.02 功能更新',
+        summary: '1、新增更新日志红点提醒，管理端发布后用户端刷新页面会重新判断。\n2、优化资产周历数据展示，支持查看本周总收益和净收益。\n3、修复移动端底部 Tab 点击无反应问题。'
+      },
+      'en': {
+        title: 'June 2, 2026 Feature Update',
+        summary: '1. Added changelog notification dot — users will re-evaluate after admin publishes.\n2. Optimized asset calendar display with weekly total and net revenue.\n3. Fixed mobile bottom tab click issue.'
+      }
+    },
+    title: '2026.06.02 功能更新',
+    summary: '1、新增更新日志红点提醒，管理端发布后用户端刷新页面会重新判断。\n2、优化资产周历数据展示，支持查看本周总收益和净收益。\n3、修复移动端底部 Tab 点击无反应问题。',
+    status: '已发布'
+  },
+  {
+    id: '20260530001',
+    date: '2026.05.30',
+    i18n: {
+      'zh-CN': { title: '资产周历上线', summary: '1、新增自然周收益统计。\n2、支持按周查看收益变化。' },
+      'en': { title: 'Asset Calendar Released', summary: '1. Added natural week revenue statistics.\n2. Support for weekly revenue view.' },
+      'zh-TW': { title: '資產曆上線', summary: '1、新增加自然週收益統計。\n2、支援按週查看收益變化。' }
+    },
+    title: '资产周历上线',
+    summary: '1、新增自然周收益统计。\n2、支持按周查看收益变化。',
+    status: '已发布'
+  },
+  {
+    id: '20260522001',
+    date: '2026.05.22',
+    i18n: {
+      'zh-CN': { title: '作战数据补充', summary: '1、我的数据页补充地图维度统计。\n2、补充干员、枪械维度的数据聚合。' },
+      'en': { title: 'Combat Data Enhancement', summary: '1. Added map dimension stats to My Data page.\n2. Added operator and weapon data aggregation.' }
+    },
+    title: '作战数据补充',
+    summary: '1、我的数据页补充地图维度统计。\n2、补充干员、枪械维度的数据聚合。',
+    status: '草稿'
+  }
+];
+
+function normalizeRecords(records) {
+  return records.map(record => {
+    const i18n = record.i18n || {};
+    // 兼容旧数据：如果有多语言数据则保留，否则用 title/summary 构造中文
+    if (!i18n['zh-CN'] && (record.title || record.summary)) {
+      i18n['zh-CN'] = { title: record.title || '', summary: record.summary || '' };
+    }
+    return {
+      id: record.id,
+      date: record.date,
+      i18n,
+      title: i18n['zh-CN']?.title || record.title || '',
+      summary: i18n['zh-CN']?.summary || record.summary || (record.items || []).map((item, index) => `${index + 1}、${item.title || item.content}`).join('\n'),
+      operator: record.operator,
+      status: record.status
+    };
+  });
+}
+function getRecords() {
+  const saved = localStorage.getItem(RECORD_KEY);
+  if (!saved) {
+    localStorage.setItem(RECORD_KEY, JSON.stringify(sampleRecords));
+    return sampleRecords;
+  }
+  try { return normalizeRecords(JSON.parse(saved)); } catch { return sampleRecords; }
+}
+function saveRecords(records) {
+  localStorage.setItem(RECORD_KEY, JSON.stringify(records));
+}
+function escapeHtml(value) {
+  return String(value || '').replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+}
+function showToast(message) {
+  toast.textContent = message;
+  toast.classList.add('show');
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => toast.classList.remove('show'), 1600);
+}
+function getFilteredRecords() {
+  const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+  const id = document.getElementById('idInput').value.trim();
+  const status = document.getElementById('statusFilter').value;
+  return getRecords().filter(record => {
+    const matchKeyword = !keyword || `${record.title} ${record.summary}`.toLowerCase().includes(keyword);
+    const matchId = !id || record.id === id;
+    const matchStatus = !status || record.status === status;
+    return matchKeyword && matchId && matchStatus;
+  });
+}
+function renderTable() {
+  const records = getFilteredRecords();
+  document.getElementById('totalCount').textContent = records.length;
+  if (!records.length) {
+    tableBody.innerHTML = '<tr><td class="empty" colspan="7">暂无数据</td></tr>';
+    return;
+  }
+  tableBody.innerHTML = records.map(record => {
+    const i18n = record.i18n || {};
+    const langCount = Object.keys(i18n).length || 1;
+    const zhTitle = (i18n['zh-CN']?.title) || record.title || '-';
+    const zhSummary = (i18n['zh-CN']?.summary) || record.summary || '-';
+    return `
+    <tr>
+      <td class="col-id">${escapeHtml(record.id)}</td>
+      <td>${escapeHtml(record.date)}</td>
+      <td class="title-cell">${escapeHtml(zhTitle)}</td>
+      <td class="summary-cell">${escapeHtml(zhSummary)}</td>
+      <td><span class="tag">${langCount} 语言</span></td>
+      <td><span class="tag ${record.status === '草稿' ? 'draft' : ''}">${escapeHtml(record.status)}</span></td>
+      <td><div class="action-links"><a href="create.html?id=${encodeURIComponent(record.id)}">编辑</a><button class="btn danger" data-delete="${escapeHtml(record.id)}" type="button">删除</button></div></td>
+    </tr>
+  `;
+}).join('');
+}
+
+document.getElementById('queryBtn').addEventListener('click', renderTable);
+document.getElementById('refreshBtn').addEventListener('click', () => { renderTable(); showToast('列表已刷新'); });
+document.getElementById('resetBtn').addEventListener('click', () => {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('idInput').value = '';
+  document.getElementById('statusFilter').value = '';
+  renderTable();
+});
+document.getElementById('exportBtn').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(getFilteredRecords(), null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'changelog-records.json';
+  link.click();
+  URL.revokeObjectURL(url);
+});
+tableBody.addEventListener('click', event => {
+  const id = event.target.dataset.delete;
+  if (!id) return;
+  saveRecords(getRecords().filter(record => record.id !== id));
+  renderTable();
+  showToast('已删除记录');
+});
+
+renderTable();
+</script>
+</body>
+</html>
