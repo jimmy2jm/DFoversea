@@ -1300,13 +1300,16 @@
         }
         
         .battle-result-profit {
-            font-size: 0.8rem;
-            font-weight: 600;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.05rem;
+            font-weight: 800;
             color: var(--text-primary);
+            letter-spacing: 0.02em;
         }
         
         .battle-result-profit.positive {
-            color: var(--accent-green);
+            color: #24f4b2;
+            text-shadow: 0 0 10px rgba(36, 244, 178, 0.28);
         }
         
         .battle-result-profit.negative {
@@ -3124,6 +3127,105 @@
                 radial-gradient(ellipse at 30% 50%, rgba(36, 244, 178, 0.12) 0%, transparent 50%),
                 radial-gradient(ellipse at 70% 30%, rgba(36, 244, 178, 0.06) 0%, transparent 40%) !important;
         }
+
+        /* ── 日期聚合分组（最近对局 / 战绩列表） ── */
+        /* 让 list 容器不再产生间距，改由 date-group 卡片自身分隔 */
+        .battle-record-list {
+            gap: 0 !important;
+        }
+        /* 每个日期 = 一个独立卡片模块（外边框 + 阴影 + 品牌绿顶饰） */
+        .date-group {
+            border: 1px solid rgba(84, 112, 118, 0.52);
+            background: rgba(9, 24, 26, 0.55);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            margin-bottom: 18px;
+        }
+        .date-group:last-child {
+            margin-bottom: 0;
+        }
+        /* 组头：品牌绿色带 + 顶部高亮线，强化「这是一天的汇总」 */
+        .date-group-head {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 13px 16px;
+            background: linear-gradient(180deg, rgba(36, 244, 178, 0.14) 0%, rgba(36, 244, 178, 0.05) 100%);
+            border-top: 2px solid #24f4b2;
+            border-bottom: 1px solid rgba(84, 112, 118, 0.52);
+            font-size: 0.82rem;
+        }
+        .date-group-label {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.05rem;
+            font-weight: 900;
+            color: #24f4b2;
+            letter-spacing: 0.04em;
+            text-shadow: 0 0 12px rgba(36, 244, 178, 0.24);
+        }
+        .date-group-count {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+            padding: 2px 8px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(6, 18, 20, 0.5);
+        }
+        .date-group-wl {
+            font-family: 'Orbitron', monospace;
+            font-weight: 800;
+            font-size: 0.88rem;
+            letter-spacing: 0.04em;
+        }
+        .date-group-wl .w { color: #24f4b2; }
+        .date-group-wl .sep { color: var(--text-muted); margin: 0 4px; font-weight: 400; }
+        .date-group-wl .l { color: var(--accent-red); }
+        .date-group-avg {
+            margin-left: auto;
+            display: flex;
+            gap: 18px;
+        }
+        .date-group-avg-item {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+        }
+        .date-group-avg-item .k {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .date-group-avg-item .v {
+            font-family: 'Orbitron', monospace;
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.92);
+        }
+        .date-group-avg-item .v.pos { color: #24f4b2; }
+        .date-group-avg-item .v.neg { color: var(--accent-red); }
+
+        /* 组内战绩行：去掉独立卡片外观，改为平铺行 + 内分隔线，形成模块内整体性 */
+        .date-group .battle-record-item,
+        .date-group .match-record-item {
+            background: transparent !important;
+            border: none !important;
+            border-bottom: 1px solid rgba(84, 112, 118, 0.22) !important;
+            margin: 0 !important;
+        }
+        .date-group .battle-record-item {
+            padding: 0.7rem 1rem;
+        }
+        .date-group .battle-record-item:last-child,
+        .date-group .match-record-item:last-child {
+            border-bottom: none !important;
+        }
+        .date-group .battle-record-item:hover,
+        .date-group .match-record-item:hover {
+            background: rgba(36, 244, 178, 0.06) !important;
+            border-color: transparent !important;
+            border-bottom-color: rgba(36, 244, 178, 0.3) !important;
+        }
     </style>
 </head>
 <body>
@@ -3368,6 +3470,16 @@
                 </div>
                 
                 <div class="battle-record-list">
+                    <!-- 日期聚合：02-03 -->
+                    <div class="date-group">
+                        <div class="date-group-head">
+                            <span class="date-group-label">02-03</span>
+                            <span class="date-group-count">5 场</span>
+                            <span class="date-group-wl"><span class="w">2W</span><span class="sep">/</span><span class="l">3L</span></span>
+                            <div class="date-group-avg">
+                                <div class="date-group-avg-item"><span class="k">当日净收益</span><span class="v pos">+628,804</span></div>
+                            </div>
+                        </div>
                     <div class="battle-record-item">
                         <div class="battle-record-avatar">🎖️</div>
                         <div class="battle-record-info">
@@ -3452,7 +3564,18 @@
                         </div>
                         <span class="battle-record-arrow">›</span>
                     </div>
+                    </div><!-- /date-group 02-03 -->
 
+                    <!-- 日期聚合：02-02 -->
+                    <div class="date-group">
+                        <div class="date-group-head">
+                            <span class="date-group-label">02-02</span>
+                            <span class="date-group-count">5 场</span>
+                            <span class="date-group-wl"><span class="w">4W</span><span class="sep">/</span><span class="l">1L</span></span>
+                            <div class="date-group-avg">
+                                <div class="date-group-avg-item"><span class="k">当日净收益</span><span class="v pos">+2,208,000</span></div>
+                            </div>
+                        </div>
                     <div class="battle-record-item">
                         <div class="battle-record-avatar">⚔️</div>
                         <div class="battle-record-info">
@@ -3537,6 +3660,7 @@
                         </div>
                         <span class="battle-record-arrow">›</span>
                     </div>
+                    </div><!-- /date-group 02-02 -->
                 </div>
 
                 <div class="recent-matches-footer">
@@ -3577,6 +3701,16 @@
                 </div>
                 
                 <div class="matches-full-list" id="fenghuo-matches-list">
+                    <!-- 日期聚合：02-03 -->
+                    <div class="date-group">
+                        <div class="date-group-head">
+                            <span class="date-group-label">02-03</span>
+                            <span class="date-group-count">6 场</span>
+                            <span class="date-group-wl"><span class="w">3W</span><span class="sep">/</span><span class="l">3L</span></span>
+                            <div class="date-group-avg">
+                                <div class="date-group-avg-item"><span class="k">当日净收益</span><span class="v pos">+1,701,304</span></div>
+                            </div>
+                        </div>
                     <!-- 对局1 - 撤离失败 -->
                     <div class="match-record-item" data-map="dam" data-profit="68304" data-loss="245000" data-net="-176696">
                         <div class="match-record-avatar">🎖️</div>
@@ -3709,6 +3843,18 @@
                         <span class="match-record-arrow">›</span>
                     </div>
                     
+                    </div><!-- /date-group 02-03 -->
+
+                    <!-- 日期聚合：02-02 -->
+                    <div class="date-group">
+                        <div class="date-group-head">
+                            <span class="date-group-label">02-02</span>
+                            <span class="date-group-count">2 场</span>
+                            <span class="date-group-wl"><span class="w">1W</span><span class="sep">/</span><span class="l">1L</span></span>
+                            <div class="date-group-avg">
+                                <div class="date-group-avg-item"><span class="k">当日净收益</span><span class="v pos">+515,000</span></div>
+                            </div>
+                        </div>
                     <!-- 对局7 - 撤离失败 (小额正收益) -->
                     <div class="match-record-item" data-map="valley" data-profit="185000" data-loss="150000" data-net="35000">
                         <div class="match-record-avatar">🎖️</div>
@@ -3752,6 +3898,7 @@
                         </div>
                         <span class="match-record-arrow">›</span>
                     </div>
+                    </div><!-- /date-group 02-02 -->
                 </div>
             </div>
         </div>
@@ -4139,6 +4286,16 @@
                     </div>
                     
                     <div class="battle-record-list">
+                        <!-- 日期聚合：02-03 -->
+                        <div class="date-group">
+                            <div class="date-group-head">
+                                <span class="date-group-label">02-03</span>
+                                <span class="date-group-count">5 场</span>
+                                <span class="date-group-wl"><span class="w">3W</span><span class="sep">/</span><span class="l">2L</span></span>
+                                <div class="date-group-avg">
+                                    <div class="date-group-avg-item"><span class="k">当日总得分</span><span class="v pos">13,700</span></div>
+                                </div>
+                            </div>
                         <div class="battle-record-item">
                             <div class="battle-record-avatar">🎖️</div>
                             <div class="battle-record-info">
@@ -4218,7 +4375,18 @@
                             </div>
                             <span class="battle-record-arrow">›</span>
                         </div>
+                        </div><!-- /date-group 02-03 -->
 
+                        <!-- 日期聚合：02-02 -->
+                        <div class="date-group">
+                            <div class="date-group-head">
+                                <span class="date-group-label">02-02</span>
+                                <span class="date-group-count">5 场</span>
+                                <span class="date-group-wl"><span class="w">3W</span><span class="sep">/</span><span class="l">2L</span></span>
+                                <div class="date-group-avg">
+                                    <div class="date-group-avg-item"><span class="k">当日总得分</span><span class="v pos">13,510</span></div>
+                                </div>
+                            </div>
                         <div class="battle-record-item">
                             <div class="battle-record-avatar">⚔️</div>
                             <div class="battle-record-info">
@@ -4298,6 +4466,7 @@
                             </div>
                             <span class="battle-record-arrow">›</span>
                         </div>
+                        </div><!-- /date-group 02-02 -->
                     </div>
 
                     <div class="recent-matches-footer">
@@ -4332,6 +4501,16 @@
                     </div>
                     
                     <div class="matches-full-list" id="zhanchang-matches-list">
+                        <!-- 日期聚合：02-03 -->
+                        <div class="date-group">
+                            <div class="date-group-head">
+                                <span class="date-group-label">02-03</span>
+                                <span class="date-group-count">6 场</span>
+                                <span class="date-group-wl"><span class="w">3W</span><span class="sep">/</span><span class="l">3L</span></span>
+                                <div class="date-group-avg">
+                                    <div class="date-group-avg-item"><span class="k">当日总得分</span><span class="v pos">15,270</span></div>
+                                </div>
+                            </div>
                         <!-- 对局1 - 失败 -->
                         <div class="match-record-item" data-map="linjiedian">
                             <div class="match-record-avatar">🎖️</div>
@@ -4440,6 +4619,18 @@
                             <span class="match-record-arrow">›</span>
                         </div>
                         
+                        </div><!-- /date-group 02-03 -->
+
+                        <!-- 日期聚合：02-02 -->
+                        <div class="date-group">
+                            <div class="date-group-head">
+                                <span class="date-group-label">02-02</span>
+                                <span class="date-group-count">2 场</span>
+                                <span class="date-group-wl"><span class="w">1W</span><span class="sep">/</span><span class="l">1L</span></span>
+                                <div class="date-group-avg">
+                                    <div class="date-group-avg-item"><span class="k">当日总得分</span><span class="v pos">4,900</span></div>
+                                </div>
+                            </div>
                         <!-- 对局7 - 胜利 -->
                         <div class="match-record-item" data-map="linjiedian">
                             <div class="match-record-avatar">🎖️</div>
@@ -4475,6 +4666,7 @@
                             </div>
                             <span class="match-record-arrow">›</span>
                         </div>
+                        </div><!-- /date-group 02-02 -->
                     </div>
                 </div>
             </div>

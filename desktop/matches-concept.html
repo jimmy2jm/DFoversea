@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>战绩列表 · 日期聚合版（基于原版微调）</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800;900&family=Noto+Sans+SC:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-page: #07191a;
+    --bg-card: rgba(18, 38, 42, 0.9);
+    --bg-elev: rgba(6, 18, 20, 0.66);
+    --border-main: rgba(84, 112, 118, 0.52);
+    --border-sub: rgba(42, 72, 78, 0.75);
+    --border-light: rgba(84, 112, 118, 0.28);
+    --text-primary: rgba(255, 255, 255, 0.92);
+    --text-secondary: rgba(255, 255, 255, 0.66);
+    --text-muted: rgba(255, 255, 255, 0.46);
+    --accent-green: #24f4b2;
+    --accent-green-dim: rgba(36, 244, 178, 0.5);
+    --accent-green-bg: rgba(36, 244, 178, 0.16);
+    --accent-red: #ff5d6c;
+    --accent-amber: #f7b955;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; border-radius: 0; }
+  body {
+    font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: radial-gradient(circle at 64% 0%, rgba(126, 146, 139, 0.18) 0, transparent 30%),
+                linear-gradient(180deg, #0b2022 0%, #071c1e 50%, #07191a 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 32px 24px 80px;
+  }
+  .page { max-width: 900px; margin: 0 auto; }
+
+  /* ---- Page head ---- */
+  .page-head { border-bottom: 1px solid var(--border-light); padding-bottom: 18px; margin-bottom: 28px; }
+  .page-kicker { font-family: 'Orbitron', monospace; font-size: 0.72rem; color: var(--accent-green); letter-spacing: 0.18em; margin-bottom: 6px; }
+  .page-title { font-size: 1.6rem; font-weight: 800; }
+  .page-sub { margin-top: 8px; font-size: 0.84rem; color: var(--text-secondary); line-height: 1.7; }
+  .page-sub b { color: var(--accent-green); }
+  .page-sub code { font-family: 'Orbitron', monospace; background: var(--bg-elev); border: 1px solid var(--border-sub); padding: 1px 6px; color: var(--accent-green); font-size: 0.76rem; }
+
+  .mode-block { margin-bottom: 40px; }
+  .mode-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .mode-name { font-size: 1rem; font-weight: 800; }
+  .mode-tag { font-family: 'Orbitron', monospace; font-size: 0.66rem; color: var(--text-muted); letter-spacing: 0.14em; padding: 2px 6px; border: 1px solid var(--border-sub); }
+
+  /* ---- Panel (原 recent-matches-card 结构) ---- */
+  .matches-panel { background: var(--bg-card); border: 1px solid var(--border-main); box-shadow: 0 18px 60px rgba(0,0,0,0.18); }
+  .matches-panel-head { display: flex; align-items: center; justify-content: space-between; padding: 8px 14px; background: rgba(92,112,114,0.48); border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .matches-panel-title { font-size: 0.88rem; font-weight: 800; }
+  .matches-panel-link { font-size: 0.74rem; color: var(--accent-green); text-decoration: none; }
+  .matches-panel-link:hover { text-decoration: underline; }
+  .matches-panel-body { padding: 10px 14px 14px; }
+
+  /* ---- 日期聚合头（新增，唯一结构性改动） ---- */
+  .date-group {}
+  .date-group + .date-group { margin-top: 4px; }
+  .date-group-head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 7px 4px;
+    margin-top: 10px;
+    border-bottom: 1px dashed var(--border-light);
+    font-size: 0.78rem;
+  }
+  .date-group:first-child .date-group-head { margin-top: 0; }
+  .date-label { font-family: 'Orbitron', monospace; font-size: 0.86rem; font-weight: 800; color: var(--text-primary); }
+  .date-count { font-family: 'Orbitron', monospace; font-size: 0.64rem; color: var(--text-muted); }
+  .date-wl { font-family: 'Orbitron', monospace; font-weight: 800; letter-spacing: 0.04em; }
+  .date-wl .w { color: var(--accent-green); }
+  .date-wl .sep { color: var(--text-muted); margin: 0 3px; font-weight: 400; }
+  .date-wl .l { color: var(--accent-red); }
+  .date-avg { margin-left: auto; display: flex; gap: 16px; }
+  .date-avg-item { display: flex; align-items: baseline; gap: 5px; }
+  .date-avg-item .k { font-size: 0.6rem; color: var(--text-muted); letter-spacing: 0.06em; }
+  .date-avg-item .v { font-family: 'Orbitron', monospace; font-size: 0.78rem; font-weight: 700; color: var(--text-primary); }
+  .date-avg-item .v.pos { color: var(--accent-green); }
+
+  /* ---- 战绩列表项（保留原版 battle-record-item 结构，仅调整核心数据视觉权重） ---- */
+  .battle-record-list { display: flex; flex-direction: column; gap: 0.6rem; margin-top: 0.6rem; }
+  .battle-record-item {
+    display: flex; align-items: center;
+    background: var(--bg-elev);
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--border-sub);
+    cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .battle-record-item:hover { border-color: var(--accent-green-dim); background: rgba(36,244,178,0.04); }
+
+  .battle-record-avatar {
+    width: 44px; height: 44px;
+    background: linear-gradient(135deg, rgba(74,92,96,0.8), rgba(18,38,42,0.86));
+    border: 1px solid var(--border-sub);
+    margin-right: 0.85rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.25rem; flex-shrink: 0;
+  }
+
+  .battle-record-info { flex: 1; min-width: 0; }
+  .battle-record-status { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; }
+  .battle-status-tag { font-size: 0.62rem; font-weight: 700; padding: 0.14rem 0.4rem; border: 1px solid transparent; letter-spacing: 0.02em; }
+  .battle-status-tag.success { background: rgba(36,244,178,0.1); color: var(--accent-green); border-color: rgba(36,244,178,0.35); }
+  .battle-status-tag.fail    { background: rgba(255,93,108,0.1); color: var(--accent-red);   border-color: rgba(255,93,108,0.35); }
+  .battle-status-tag.victory { background: rgba(247,185,85,0.12); color: var(--accent-amber); border-color: rgba(247,185,85,0.35); }
+  .battle-operator-name { font-size: 0.8rem; font-weight: 700; color: var(--text-primary); }
+  .battle-record-map { font-size: 0.7rem; color: var(--text-secondary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .battle-record-time { font-size: 0.64rem; color: var(--text-muted); margin-top: 0.1rem; }
+
+  /* 核心改动：收益/得分 视觉突出（放大字号 + Orbitron + 发光，呼应 design.md「关键数值微光」规范） */
+  .battle-record-result { text-align: right; margin-right: 0.7rem; min-width: 96px; }
+  .battle-result-profit {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.05rem; font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+  }
+  .battle-result-profit.positive { color: var(--accent-green); text-shadow: 0 0 10px rgba(36,244,178,0.28); }
+  .battle-result-profit.negative { color: var(--accent-red); }
+  .battle-result-kills { font-size: 0.68rem; color: var(--text-muted); margin-top: 2px; }
+
+  .battle-record-arrow { color: var(--text-muted); font-size: 1rem; margin-left: 0.2rem; }
+
+  .matches-panel-foot { display: flex; justify-content: center; padding: 12px 14px; border-top: 1px solid var(--border-light); }
+  .view-all-btn {
+    width: 100%; max-width: 320px; padding: 9px 18px;
+    background: rgba(36,244,178,0.06); border: 1px solid var(--accent-green-dim);
+    color: var(--accent-green); font-size: 0.84rem; font-weight: 700; letter-spacing: 0.04em;
+    cursor: pointer; transition: all 0.15s ease;
+  }
+  .view-all-btn:hover { background: var(--accent-green); color: #031816; }
+
+  .note {
+    margin-top: 32px; padding: 14px 16px;
+    background: var(--bg-elev); border: 1px solid var(--border-sub);
+    font-size: 0.78rem; color: var(--text-secondary); line-height: 1.7;
+  }
+  .note b { color: var(--accent-green); }
+
+  /* ---- D1 详情弹窗（沿用原弹窗风格，不改） ---- */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.65); backdrop-filter: blur(6px); display: none; align-items: flex-start; justify-content: center; z-index: 1000; padding: 40px 20px; overflow-y: auto; }
+  .modal-overlay.is-open { display: flex; }
+  .modal { background: var(--bg-card); border: 1px solid var(--border-main); width: 640px; max-width: 100%; box-shadow: 0 24px 80px rgba(0,0,0,0.45); }
+  .modal-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: rgba(92,112,114,0.5); border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .modal-title { font-size: 0.9rem; font-weight: 800; display: flex; gap: 8px; align-items: center; }
+  .modal-close { cursor: pointer; color: var(--text-muted); font-size: 1.2rem; padding: 0 6px; background: none; border: none; }
+  .modal-close:hover { color: var(--text-primary); }
+  .modal-body { padding: 16px; font-size: 0.8rem; color: var(--text-secondary); line-height: 1.7; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="page-head">
+    <div class="page-kicker">MATCH LIST · DATE-GROUPED (BASED ON CURRENT LIVE VERSION)</div>
+    <h1 class="page-title">战绩列表 · 在原版结构上加日期聚合</h1>
+    <p class="page-sub">
+      调整说明：<b>结构完全沿用当前线上 <code>battle-record-item</code></b>（头像左侧 + 状态/干员/地图/时间 + 右侧结果），<b>不新增字段、不展示玩家昵称</b>。
+      唯一改动：① 收益 / 得分 字号放大 + 发光，作为每行最先被看到的核心数据；② 按日期分组，组头显示当日场次数 / 胜负 / 场均核心数据。
+      点击整行沿用原有的战绩详情弹窗（D1，未改动）。
+    </p>
+  </header>
+
+  <!-- ============= 烽火地带 ============= -->
+  <section class="mode-block">
+    <div class="mode-head">
+      <span class="mode-name">🔥 烽火地带</span>
+      <span class="mode-tag">核心数据：收益</span>
+    </div>
+
+    <div class="matches-panel">
+      <div class="matches-panel-head">
+        <span class="matches-panel-title">⚔️ 最近对局</span>
+        <a href="#" class="matches-panel-link">查看更多 ›</a>
+      </div>
+      <div class="matches-panel-body">
+
+        <div class="date-group">
+          <div class="date-group-head">
+            <span class="date-label">02-03</span>
+            <span class="date-count">5 场</span>
+            <span class="date-wl"><span class="w">2W</span><span class="sep">/</span><span class="l">3L</span></span>
+            <div class="date-avg">
+              <div class="date-avg-item"><span class="k">场均收益</span><span class="v pos">+125,760</span></div>
+              <div class="date-avg-item"><span class="k">场均击败</span><span class="v">4.2</span></div>
+            </div>
+          </div>
+          <div class="battle-record-list">
+            <div class="battle-record-item" data-open-modal="1">
+              <div class="battle-record-avatar">🎖️</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag fail">撤离失败</span>
+                  <span class="battle-operator-name">威龙</span>
+                </div>
+                <div class="battle-record-map">烽火地带 | 零号大坝-机密</div>
+                <div class="battle-record-time">10:52</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit">💰 68,304</div>
+                <div class="battle-result-kills">💀 4</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">⚔️</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag success">撤离成功</span>
+                  <span class="battle-operator-name">骇爪</span>
+                </div>
+                <div class="battle-record-map">烽火地带 | 长弓溪谷-普通</div>
+                <div class="battle-record-time">10:30</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit positive">💰 520,000</div>
+                <div class="battle-result-kills">💀 7</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🛡️</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag fail">撤离失败</span>
+                  <span class="battle-operator-name">威龙</span>
+                </div>
+                <div class="battle-record-map">烽火地带 | 航天基地-机密</div>
+                <div class="battle-record-time">09:45</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit negative">💰 -180,000</div>
+                <div class="battle-result-kills">💀 2</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🎯</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag success">撤离成功</span>
+                  <span class="battle-operator-name">骇爪</span>
+                </div>
+                <div class="battle-record-map">烽火地带 | 巴克什-普通</div>
+                <div class="battle-record-time">09:10</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit positive">💰 312,500</div>
+                <div class="battle-result-kills">💀 5</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🚁</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag fail">撤离失败</span>
+                  <span class="battle-operator-name">威龙</span>
+                </div>
+                <div class="battle-record-map">烽火地带 | 零号大坝-机密</div>
+                <div class="battle-record-time">08:38</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit negative">💰 -92,000</div>
+                <div class="battle-result-kills">💀 3</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="date-group">
+          <div class="date-group-head">
+            <span class="date-label">02-02</span>
+            <span class="date-count">5 场</span>
+            <span class="date-wl"><span class="w">4W</span><span class="sep">/</span><span class="l">1L</span></span>
+            <div class="date-avg">
+              <div class="date-avg-item"><span class="k">场均收益</span><span class="v pos">+441,600</span></div>
+              <div class="date-avg-item"><span class="k">场均击败</span><span class="v">5.6</span></div>
+            </div>
+          </div>
+          <div class="battle-record-list">
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">⚔️</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag success">撤离成功</span>
+                  <span class="battle-operator-name">暗刃</span>
+                </div>
+                <div class="battle-record-map">烽火地带 | 长弓溪谷-机密</div>
+                <div class="battle-record-time">22:50</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit positive">💰 845,000</div>
+                <div class="battle-result-kills">💀 9</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🛡️</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag success">撤离成功</span>
+                  <span class="battle-operator-name">骇爪</span>
+                </div>
+                <div class="battle-record-map">烽火地带 | 巴克什-机密</div>
+                <div class="battle-record-time">22:15</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit positive">💰 228,000</div>
+                <div class="battle-result-kills">💀 6</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🎖️</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag fail">撤离失败</span>
+                  <span class="battle-operator-name">威龙</span>
+                </div>
+                <div class="battle-record-map">烽火地带 | 航天基地-普通</div>
+                <div class="battle-record-time">21:40</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit">💰 45,000</div>
+                <div class="battle-result-kills">💀 1</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🎯</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag success">撤离成功</span>
+                  <span class="battle-operator-name">暗刃</span>
+                </div>
+                <div class="battle-record-map">烽火地带 | 零号大坝-机密</div>
+                <div class="battle-record-time">20:55</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit positive">💰 678,000</div>
+                <div class="battle-result-kills">💀 8</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🚁</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag success">撤离成功</span>
+                  <span class="battle-operator-name">骇爪</span>
+                </div>
+                <div class="battle-record-map">烽火地带 | 长弓溪谷-普通</div>
+                <div class="battle-record-time">20:20</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit positive">💰 412,000</div>
+                <div class="battle-result-kills">💀 4</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="matches-panel-foot"><button class="view-all-btn">查看全部 1,932 场对局</button></div>
+    </div>
+  </section>
+
+  <!-- ============= 全面战场 ============= -->
+  <section class="mode-block">
+    <div class="mode-head">
+      <span class="mode-name">⚔️ 全面战场</span>
+      <span class="mode-tag">核心数据：得分</span>
+    </div>
+
+    <div class="matches-panel">
+      <div class="matches-panel-head">
+        <span class="matches-panel-title">⚔️ 最近对局</span>
+        <a href="#" class="matches-panel-link">查看更多 ›</a>
+      </div>
+      <div class="matches-panel-body">
+
+        <div class="date-group">
+          <div class="date-group-head">
+            <span class="date-label">02-03</span>
+            <span class="date-count">5 场</span>
+            <span class="date-wl"><span class="w">3W</span><span class="sep">/</span><span class="l">2L</span></span>
+            <div class="date-avg">
+              <div class="date-avg-item"><span class="k">场均得分</span><span class="v pos">2,740</span></div>
+            </div>
+          </div>
+          <div class="battle-record-list">
+            <div class="battle-record-item" data-open-modal="2">
+              <div class="battle-record-avatar">🎖️</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag fail">失败</span>
+                  <span class="battle-operator-name">威龙</span>
+                </div>
+                <div class="battle-record-map">全面战场 | 临界点-攻防</div>
+                <div class="battle-record-time">10:52</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit">🏆 1,850</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">⚔️</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag victory">胜利</span>
+                  <span class="battle-operator-name">骇爪</span>
+                </div>
+                <div class="battle-record-map">全面战场 | 风暴眼-攻防</div>
+                <div class="battle-record-time">10:30</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit positive">🏆 3,520</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🛡️</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag fail">失败</span>
+                  <span class="battle-operator-name">威龙</span>
+                </div>
+                <div class="battle-record-map">全面战场 | 幻影要塞-攻防</div>
+                <div class="battle-record-time">09:45</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit">🏆 1,280</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🎯</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag victory">胜利</span>
+                  <span class="battle-operator-name">骇爪</span>
+                </div>
+                <div class="battle-record-map">全面战场 | 贯穿-攻防</div>
+                <div class="battle-record-time">09:10</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit positive">🏆 4,100</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🚁</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag victory">胜利</span>
+                  <span class="battle-operator-name">暗刃</span>
+                </div>
+                <div class="battle-record-map">全面战场 | 攀升-攻防</div>
+                <div class="battle-record-time">08:38</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit positive">🏆 2,950</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="date-group">
+          <div class="date-group-head">
+            <span class="date-label">02-02</span>
+            <span class="date-count">5 场</span>
+            <span class="date-wl"><span class="w">3W</span><span class="sep">/</span><span class="l">2L</span></span>
+            <div class="date-avg">
+              <div class="date-avg-item"><span class="k">场均得分</span><span class="v pos">2,702</span></div>
+            </div>
+          </div>
+          <div class="battle-record-list">
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">⚔️</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag fail">失败</span>
+                  <span class="battle-operator-name">威龙</span>
+                </div>
+                <div class="battle-record-map">全面战场 | 堑壕战-攻防</div>
+                <div class="battle-record-time">22:50</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit">🏆 1,640</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🛡️</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag victory">胜利</span>
+                  <span class="battle-operator-name">骇爪</span>
+                </div>
+                <div class="battle-record-map">全面战场 | 断轨-攻防</div>
+                <div class="battle-record-time">22:15</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit positive">🏆 3,890</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🎖️</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag fail">失败</span>
+                  <span class="battle-operator-name">威龙</span>
+                </div>
+                <div class="battle-record-map">全面战场 | 临界点-攻防</div>
+                <div class="battle-record-time">21:40</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit">🏆 980</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🎯</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag victory">胜利</span>
+                  <span class="battle-operator-name">暗刃</span>
+                </div>
+                <div class="battle-record-map">全面战场 | 风暴眼-攻防</div>
+                <div class="battle-record-time">20:55</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit positive">🏆 4,680</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+
+            <div class="battle-record-item">
+              <div class="battle-record-avatar">🚁</div>
+              <div class="battle-record-info">
+                <div class="battle-record-status">
+                  <span class="battle-status-tag victory">胜利</span>
+                  <span class="battle-operator-name">骇爪</span>
+                </div>
+                <div class="battle-record-map">全面战场 | 幻影要塞-攻防</div>
+                <div class="battle-record-time">20:20</div>
+              </div>
+              <div class="battle-record-result">
+                <div class="battle-result-profit positive">🏆 2,320</div>
+              </div>
+              <span class="battle-record-arrow">›</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="matches-panel-foot"><button class="view-all-btn">查看全部 526 场对局</button></div>
+    </div>
+  </section>
+
+  <div class="note">
+    <p><b>本版和原版的差异只有两点：</b></p>
+    <p>1. 收益 / 得分 从原来 <code>font-size: 0.8rem</code> 放大到 <code>1.05rem</code> + Orbitron 字体 + 品牌绿发光（正收益态），作为整行视觉重心；负收益保持红色但不加发光，避免视觉过载。</p>
+    <p>2. 列表按「日期」插入聚合条：当日场次数 / 胜负 (W/L) / 场均核心数据（烽火=场均收益+场均击败；战场=场均得分）。数据来自当前已展示的 10 条真实示例数据算出，非新增字段。</p>
+    <p style="margin-top:8px;color:var(--text-muted);font-size:0.72rem">昵称、干员、地图、时间、击败数等字段与当前线上版本完全一致，未增未减；行内容仍点击后打开原有战绩详情弹窗。</p>
+  </div>
+
+</div>
+
+<!-- ============= D1 详情弹窗（沿用原弹窗，占位） ============= -->
+<div class="modal-overlay" id="d1-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div class="modal-title"><span>📋</span><span>对局详情（沿用原有弹窗，未改动）</span></div>
+      <button class="modal-close" id="d1-close">×</button>
+    </div>
+    <div class="modal-body">
+      点击列表行后打开的仍是当前线上 <code style="color:var(--accent-green)">match-detail-modal</code>（3 人全队 player-card，含昵称/生存时长/击败干员/其他敌方/救助复活等完整字段），本次不涉及弹窗改动，故此处仅作占位提示。
+    </div>
+  </div>
+</div>
+
+<script>
+  const modal = document.getElementById('d1-modal');
+  document.querySelectorAll('[data-open-modal]').forEach(row => {
+    row.addEventListener('click', () => modal.classList.add('is-open'));
+  });
+  document.getElementById('d1-close').addEventListener('click', () => modal.classList.remove('is-open'));
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('is-open'); });
+</script>
+</body>
+</html>

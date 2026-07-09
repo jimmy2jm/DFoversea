@@ -1,0 +1,9 @@
+---
+description: 
+alwaysApply: true
+enabled: true
+updatedAt: 2026-06-04T07:25:25.577Z
+provider: 
+---
+
+完成前端代码编写后，不要打开devchrome做验证，效率很低，直接把执行结果发给我人工验证即可

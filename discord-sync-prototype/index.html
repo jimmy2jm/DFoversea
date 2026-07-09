@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>改枪码推荐管理端</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="cms-shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark"></span><span>CMS Admin</span></div>
+    <nav class="nav">
+      <div class="nav-item">资源数据库</div>
+      <div class="nav-item active">改枪码推荐</div>
+      <div class="nav-item">更新日志</div>
+      <div class="nav-item">用户反馈</div>
+      <div class="nav-item">操作记录</div>
+    </nav>
+    <div class="sidebar-foot">‹ 收起侧边栏</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="page-title">改枪码推荐</div>
+      <div class="userbar"><span>设置</span><span>jimmmywang</span></div>
+    </header>
+
+    <section class="content">
+      <div class="head-row">
+        <div>
+          <div class="breadcrumb">改枪方案列表</div>
+          <div class="head-sub">共 <span id="totalCount">0</span> 条方案</div>
+        </div>
+        <div class="head-actions">
+          <a class="btn primary" href="#">+ 新建方案</a>
+          <a class="btn discord" href="sync-manager.html">
+            <svg width="14" height="14" viewBox="0 0 127 96" fill="none"><path d="M107.7 8.1A105 105 0 0081.4 0a73 73 0 00-3.4 7.1 98.7 98.7 0 00-29.1 0A72.5 72.5 0 0045.6 0 104.7 104.7 0 0019.3 8.1C2.8 33.3-.7 57.8.2 82c11 8.2 21.7 13.2 32.1 16.5a76.9 76.9 0 006.6-10.8 70.3 70.3 0 01-10.4-5.1c.9-.6 1.7-1.3 2.5-2a72.3 72.3 0 0062 0c.9.7 1.7 1.4 2.5 2a70.3 70.3 0 01-10.4 5.1 76.9 76.9 0 006.6 10.8c10.4-3.3 21.1-8.3 32.1-16.5 1.1-28-1.9-52.4-8.2-73.9zM42.5 67.1c-6.3 0-11.4-5.9-11.4-13s5-13 11.4-13 11.6 5.9 11.4 13-5 13-11.4 13zm42 0c-6.3 0-11.4-5.9-11.4-13s5-13 11.4-13 11.6 5.9 11.4 13-5 13-11.4 13z" fill="#fff"/></svg>
+            Discord 同步管理
+          </a>
+        </div>
+      </div>
+
+      <div class="panel slim">
+        <div class="table-toolbar">
+          <div class="toolbar-left">
+            <input class="control search" id="searchInput" placeholder="搜索枪械 / 方案名 / 改枪码">
+            <select class="control" id="syncFilter">
+              <option value="">全部状态</option>
+              <option value="synced">已同步</option>
+              <option value="not_synced">未同步</option>
+            </select>
+            <button class="btn primary" id="queryBtn" type="button">查询</button>
+            <button class="btn ghost" id="resetBtn" type="button">重置</button>
+          </div>
+          <div class="toolbar-right">
+            <span style="color:var(--muted);font-size:11px;display:flex;align-items:center;gap:4px">
+              <span class="dot synced" style="width:6px;height:6px;border-radius:50%;background:var(--green)"></span>已同步
+              <span class="dot not" style="width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.18)"></span>未同步
+            </span>
+            <button class="btn" id="refreshBtn" type="button">刷新</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="col-id">方案ID</th>
+                <th class="col-gun">枪械 / 方案名</th>
+                <th class="col-mode">模式</th>
+                <th class="col-code">改枪码</th>
+                <th class="col-sync">Discord 同步</th>
+                <th class="col-op">操作</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const STORE_KEY = 'cms_gun_builds';
+const TASKS_KEY = 'cms_sync_tasks';
+
+const sampleData = [
+  { id:'GB001',weapon:'M4A1',name:'沙漠猎鹰', mode:'多人', code:'AK3F-M4R1-7X2P-QW9N', stats:'🎯82 🏃64 📏75 🔒91 ⚡60', sync:null },
+  { id:'GB002',weapon:'M4A1',name:'极速突袭', mode:'多人', code:'FP8T-M4R1-2K5V-RL3X', stats:'🎯65 🏃92 📏50 🔒68 ⚡88', sync:null },
+  { id:'GB003',weapon:'M4A1',name:'远程精准', mode:'多人', code:'GN6W-M4R1-9J4D-SH7Y', stats:'🎯94 🏃45 📏92 🔒95 ⚡52', sync:'2026-06-01T14:30' },
+  { id:'GB004',weapon:'AK-47',name:'暴风突击', mode:'多人', code:'BV7K-AK47-3D8M-HJ5L', stats:'🎯63 🏃72 📏80 🔒65 ⚡70', sync:'2026-05-28T10:00' },
+  { id:'GB005',weapon:'AK-47',name:'钢铁风暴', mode:'战役', code:'LQ9V-AK47-2F6X-NR4P', stats:'🎯71 🏃58 📏86 🔒77 ⚡62', sync:null },
+  { id:'GB006',weapon:'MP5',name:'闪电突袭', mode:'多人', code:'CX9R-MP55-1F6W-YT4E', stats:'🎯90 🏃93 📏42 🔒85 ⚡95', sync:null },
+  { id:'GB007',weapon:'MP5',name:'巷战之王', mode:'战役', code:'HR3D-MP55-7W2K-GF9M', stats:'🎯88 🏃95 📏38 🔒82 ⚡92', sync:null },
+  { id:'GB008',weapon:'SR-25',name:'沉默猎手', mode:'多人', code:'DZ2L-SR25-8G3K-NB7P', stats:'🎯74 🏃45 📏98 🔒93 ⚡35', sync:null },
+  { id:'GB009',weapon:'VECTOR',name:'毒蜂乱舞', mode:'多人', code:'EW5N-VE09-4H1J-MC8Q', stats:'🎯73 🏃95 📏30 🔒68 ⚡100', sync:null },
+  { id:'GB010',weapon:'SCAR-H',name:'暗夜潜行者', mode:'战役', code:'KT6M-SCH1-5P3L-VY8R', stats:'🎯82 🏃55 📏82 🔒81 ⚡52', sync:null },
+];
+
+function getBuilds() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return sampleData;
+    const arr = JSON.parse(raw);
+    return (Array.isArray(arr) && arr.length > 0) ? arr : sampleData;
+  } catch { return sampleData; }
+}
+
+function escapeHtml(v) {
+  return String(v||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+}
+
+const toast = document.getElementById('toast');
+function showToast(m) {
+  toast.textContent=m; toast.classList.add('show');
+  clearTimeout(showToast.t); showToast.t=setTimeout(()=>toast.classList.remove('show'),1600);
+}
+
+function renderTable() {
+  const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+  const syncF = document.getElementById('syncFilter').value;
+  let rows = getBuilds();
+  if (keyword) rows = rows.filter(r => `${r.weapon} ${r.name} ${r.code} ${r.mode}`.toLowerCase().includes(keyword));
+  if (syncF === 'synced') rows = rows.filter(r => r.sync);
+  if (syncF === 'not_synced') rows = rows.filter(r => !r.sync);
+
+  document.getElementById('totalCount').textContent = rows.length;
+  const tbody = document.getElementById('tableBody');
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td class="empty" colspan="6">暂无数据</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(r => {
+    const synced = !!r.sync;
+    return `
+    <tr>
+      <td class="col-id">${escapeHtml(r.id)}</td>
+      <td class="col-gun"><span class="weapon-cell">${escapeHtml(r.weapon)}</span><br><span class="build-name">${escapeHtml(r.name)}</span></td>
+      <td class="col-mode">${escapeHtml(r.mode)}</td>
+      <td class="col-code"><span class="code-cell">${escapeHtml(r.code)}</span></td>
+      <td class="col-sync"><span class="sync-badge"><span class="dot ${synced ? 'synced' : 'idle'}"></span>${synced ? '已同步 ' + r.sync.slice(0,10) : '未同步'}</span></td>
+      <td class="col-op"><div class="action-links"><a href="#">编辑</a><button class="btn danger" data-delete="${escapeHtml(r.id)}" type="button">删除</button></div></td>
+    </tr>`;
+  }).join('');
+}
+
+document.getElementById('queryBtn').addEventListener('click', renderTable);
+document.getElementById('resetBtn').addEventListener('click', () => { document.getElementById('searchInput').value=''; document.getElementById('syncFilter').value=''; renderTable(); });
+document.getElementById('refreshBtn').addEventListener('click', () => { renderTable(); showToast('列表已刷新'); });
+document.getElementById('tableBody').addEventListener('click', e => {
+  const id = e.target.dataset.delete;
+  if (!id) return;
+  const builds = getBuilds().filter(b => b.id !== id);
+  localStorage.setItem(STORE_KEY, JSON.stringify(builds));
+  renderTable();
+  showToast('已删除方案');
+});
+
+// 初始化 — 强制确保示例数据存在
+(function init() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    let data = null;
+    if (raw) { try { data = JSON.parse(raw); } catch(e) {} }
+    if (!Array.isArray(data) || data.length === 0) {
+      localStorage.setItem(STORE_KEY, JSON.stringify(sampleData));
+    }
+  } catch(e) {
+    console.warn('localStorage 不可用，使用内存数据');
+  }
+})();
+renderTable();
+</script>
+</body>
+</html>

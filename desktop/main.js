@@ -1398,9 +1398,6 @@ function renderSchemeBuildCard(gun, build, _index, mode) {
            </span>`
         : '';
 
-    // 分享码
-    const codeHtml = build.code ? `<span class="scheme-code-tag" title="分享码">${build.code}</span>` : '';
-
     return `
         <div class="build-card scheme-list-card scheme-list-card-v2 is-clickable"
              data-code="${build.code}" data-gun-id="${build.gunId || gun.id}" data-cost="${build.cost || ''}" data-name="${build.name}" data-mode="${mode}">
@@ -1418,9 +1415,6 @@ function renderSchemeBuildCard(gun, build, _index, mode) {
                 <div class="scheme-card-left">
                     <div class="build-gun-image">
                         ${gunPriceOverlayHtml}
-                    </div>
-                    <div class="scheme-card-code-row">
-                        ${codeHtml}
                     </div>
                 </div>
                 <div class="scheme-card-stats">

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discord 同步管理</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="cms-shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark"></span><span>CMS Admin</span></div>
+    <nav class="nav">
+      <div class="nav-item">资源数据库</div>
+      <div class="nav-item active">改枪码推荐</div>
+      <div class="nav-item">更新日志</div>
+      <div class="nav-item">用户反馈</div>
+      <div class="nav-item">操作记录</div>
+    </nav>
+    <div class="sidebar-foot">‹ 收起侧边栏</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="page-title">Discord 同步管理</div>
+      <div class="userbar"><span>设置</span><span>jimmmywang</span></div>
+    </header>
+
+    <section class="content sync-manager">
+      <!-- 面包屑 -->
+      <div class="form-head" style="margin-bottom:14px">
+        <a class="back" href="index.html">‹</a>
+        <div>
+          <div class="head-title">Discord Bot 同步</div>
+          <div class="head-sub">选择改枪方案并配置发布到 Discord 频道</div>
+        </div>
+      </div>
+
+      <!-- ====== Tab 栏 ====== -->
+      <div class="sync-tabs" id="syncTabs">
+        <button class="sync-tab active" type="button" data-tab="fenghuo">烽火方案 <span class="tab-count">0</span></button>
+        <button class="sync-tab" type="button" data-tab="battlefield">战场方案 <span class="tab-count">0</span></button>
+        <button class="sync-tab" type="button" data-tab="history">发帖历史 <span class="tab-count">0</span></button>
+        <div class="tab-actions">
+          <span style="color:var(--muted);font-size:11px">已选 <span id="buildSelected">0</span> 条</span>
+          <button class="btn" id="autoSelectBtn" type="button">⚡ 一键选择未发布</button>
+        </div>
+      </div>
+
+      <!-- ====== 方案表格面板 ====== -->
+      <div class="panel slim" id="tablePanel">
+        <div class="table-toolbar" id="tableToolbar">
+          <div class="toolbar-left">
+            <span class="section-title" style="margin-bottom:0;padding-bottom:0;border:none" id="tabTitle">烽火方案</span>
+            <span style="color:var(--muted);font-size:11px">共 <span id="buildTotal">0</span> 条</span>
+          </div>
+          <div class="toolbar-right">
+            <label class="radio-item" style="color:rgba(255,255,255,.52);font-size:11px">
+              <input class="checkbox" id="selectAll" type="checkbox"> 全选
+            </label>
+          </div>
+        </div>
+        <!-- 筛选区 -->
+        <div class="filter-bar" id="filterBar">
+          <input class="control filter-input" id="filterName" placeholder="方案名称">
+          <input class="control filter-input" id="filterId" placeholder="方案ID">
+          <button class="btn primary" id="filterBtn" type="button">筛选</button>
+          <button class="btn ghost" id="filterResetBtn" type="button">重置</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="col-chk-sync"><input class="checkbox" id="selectAllHeader" type="checkbox"></th>
+                <th class="col-id">方案ID</th>
+                <th class="col-thumb">预览图</th>
+                <th class="col-name">方案名称</th>
+                <th class="col-weapon">关联枪械</th>
+                <th class="col-code">改枪码</th>
+                <th class="col-price">价格</th>
+                <th class="col-tags">标签</th>
+                <th class="col-author">作者</th>
+                <th class="col-editor">最后编辑人</th>
+                <th class="col-updated">更新时间</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ====== 发帖历史面板 ====== -->
+      <div class="panel slim sync-history-panel" id="historyPanel" style="display:none">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>任务ID</th>
+                <th>频道</th>
+                <th>方案</th>
+                <th>方案ID</th>
+                <th>发送时间</th>
+                <th>Discord 消息链接</th>
+                <th>👍 点赞</th>
+                <th>💬 评论</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="historyBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ====== 底部操作 ====== -->
+      <div class="form-actions" style="margin-top:16px">
+        <a class="btn ghost" href="index.html">返回列表</a>
+        <button class="btn discord" id="publishBtn" type="button" disabled>
+          <svg width="14" height="14" viewBox="0 0 127 96" fill="none"><path d="M107.7 8.1A105 105 0 0081.4 0a73 73 0 00-3.4 7.1 98.7 98.7 0 00-29.1 0A72.5 72.5 0 0045.6 0 104.7 104.7 0 0019.3 8.1C2.8 33.3-.7 57.8.2 82c11 8.2 21.7 13.2 32.1 16.5a76.9 76.9 0 006.6-10.8 70.3 70.3 0 01-10.4-5.1c.9-.6 1.7-1.3 2.5-2a72.3 72.3 0 0062 0c.9.7 1.7 1.4 2.5 2a70.3 70.3 0 01-10.4 5.1 76.9 76.9 0 006.6 10.8c10.4-3.3 21.1-8.3 32.1-16.5 1.1-28-1.9-52.4-8.2-73.9zM42.5 67.1c-6.3 0-11.4-5.9-11.4-13s5-13 11.4-13 11.6 5.9 11.4 13-5 13-11.4 13zm42 0c-6.3 0-11.4-5.9-11.4-13s5-13 11.4-13 11.6 5.9 11.4 13-5 13-11.4 13z" fill="#fff"/></svg>
+          发布到 Discord
+        </button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ============ 确认发布弹窗 ============ -->
+<div class="overlay" id="confirmOverlay">
+  <div class="modal confirm-modal">
+    <div class="modal-head">
+      <span class="modal-title">确认发布到 Discord</span>
+      <button class="modal-close" id="closeOverlay" type="button">×</button>
+    </div>
+    <div class="modal-body">
+      <!-- 频道选择 -->
+      <div class="confirm-channel-row">
+        <label style="font-weight:800;font-size:12px;margin-bottom:8px;display:block">目标 Discord 频道<span class="req">*</span></label>
+        <div class="channel-tags" id="modalChannelTags">
+          <button class="channel-tag active" type="button" data-channel="global">
+            <span class="channel-dot global"></span>Global
+          </button>
+          <button class="channel-tag active" type="button" data-channel="japan">
+            <span class="channel-dot japan"></span>Japan
+          </button>
+        </div>
+      </div>
+      <!-- 日语缺失提醒 -->
+      <div class="confirm-warning" id="japanWarning" style="display:none">
+        <span class="warning-icon">⚠️</span> 以下方案缺失日语多语言配置，无法发布到 Japan 频道：<strong id="japanMissingNames"></strong>
+      </div>
+      <!-- 重新发布提醒 -->
+      <div id="republishWarning"></div>
+      <!-- 消息总数 -->
+      <div class="confirm-summary">
+        <span class="confirm-count">共 <span id="confirmMsgCount">0</span> 条消息</span>
+        <span class="confirm-channels" id="confirmChannels"></span>
+      </div>
+      <!-- 预览滚动区 -->
+      <div class="confirm-scroll" id="confirmScroll">
+        <div class="confirm-empty">正在加载…</div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost" id="cancelPublish" type="button">取消</button>
+      <button class="btn discord" id="confirmPublish" type="button">
+        <svg width="14" height="14" viewBox="0 0 127 96" fill="none"><path d="M107.7 8.1A105 105 0 0081.4 0a73 73 0 00-3.4 7.1 98.7 98.7 0 00-29.1 0A72.5 72.5 0 0045.6 0 104.7 104.7 0 0019.3 8.1C2.8 33.3-.7 57.8.2 82c11 8.2 21.7 13.2 32.1 16.5a76.9 76.9 0 006.6-10.8 70.3 70.3 0 01-10.4-5.1c.9-.6 1.7-1.3 2.5-2a72.3 72.3 0 0062 0c.9.7 1.7 1.4 2.5 2a70.3 70.3 0 01-10.4 5.1 76.9 76.9 0 006.6 10.8c10.4-3.3 21.1-8.3 32.1-16.5 1.1-28-1.9-52.4-8.2-73.9zM42.5 67.1c-6.3 0-11.4-5.9-11.4-13s5-13 11.4-13 11.6 5.9 11.4 13-5 13-11.4 13zm42 0c-6.3 0-11.4-5.9-11.4-13s5-13 11.4-13 11.6 5.9 11.4 13-5 13-11.4 13z" fill="#fff"/></svg>
+        确认并发布
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const STORE_KEY = 'cms_gun_builds';
+const TASKS_KEY = 'cms_sync_tasks';
+
+const sampleData = [
+  { id:'GB001',weapon:'M4A1',name:'沙漠猎鹰', mode:'烽火', code:'AK3F-M4R1-7X2P-QW9N', stats:'后坐力82 操控64 射程75 稳定91 射速60', price:'¥128', tags:['高稳定','中远距离'], author:'jimmmywang', editor:'运营同学', updatedAt:'2026.06.02', sync:null, jp:false },
+  { id:'GB002',weapon:'M4A1',name:'极速突袭', mode:'烽火', code:'FP8T-M4R1-2K5V-RL3X', stats:'后坐力65 操控92 射程50 稳定68 射速88', price:'¥98', tags:['近战速攻'], author:'almondwang', editor:'jimmmywang', updatedAt:'2026.06.01', sync:null, jp:false },
+  { id:'GB003',weapon:'M4A1',name:'远程精准', mode:'烽火', code:'GN6W-M4R1-9J4D-SH7Y', stats:'后坐力94 操控45 射程92 稳定95 射速52', price:'¥168', tags:['远距压枪'], author:'运营同学', editor:'运营同学', updatedAt:'2026.05.30', sync:'2026-06-01T14:30', jp:false },
+  { id:'GB004',weapon:'AK-47',name:'暴风突击', mode:'烽火', code:'BV7K-AK47-3D8M-HJ5L', stats:'后坐力63 操控72 射程80 稳定65 射速70', price:'¥138', tags:['高射程','输出型'], author:'jimmmywang', editor:'almondwang', updatedAt:'2026.05.28', sync:'2026-05-28T10:00', jp:true },
+  { id:'GB005',weapon:'AK-47',name:'钢铁风暴', mode:'烽火', code:'LQ9V-AK47-2F6X-NR4P', stats:'后坐力71 操控58 射程86 稳定77 射速62', price:'¥148', tags:['均衡'], author:'almondwang', editor:'jimmmywang', updatedAt:'2026.05.25', sync:null, jp:true },
+  { id:'GB006',weapon:'MP5',name:'闪电突袭', mode:'烽火', code:'CX9R-MP55-1F6W-YT4E', stats:'后坐力90 操控93 射程42 稳定85 射速95', price:'¥88', tags:['CQB无敌'], author:'运营同学', editor:'运营同学', updatedAt:'2026.05.22', sync:null, jp:false },
+  { id:'GB007',weapon:'MP5',name:'巷战之王', mode:'烽火', code:'HR3D-MP55-7W2K-GF9M', stats:'后坐力88 操控95 射程38 稳定82 射速92', price:'¥88', tags:['室内清点'], author:'jimmmywang', editor:'almondwang', updatedAt:'2026.05.20', sync:null, jp:true },
+  { id:'GB008',weapon:'SR-25',name:'沉默猎手', mode:'战场', code:'DZ2L-SR25-8G3K-NB7P', stats:'后坐力74 操控45 射程98 稳定93 射速35', price:'¥198', tags:['远距离','狙击'], author:'almondwang', editor:'jimmmywang', updatedAt:'2026.05.18', sync:null, jp:false },
+  { id:'GB009',weapon:'VECTOR',name:'毒蜂乱舞', mode:'战场', code:'EW5N-VE09-4H1J-MC8Q', stats:'后坐力73 操控95 射程30 稳定68 射速100', price:'¥108', tags:['暴力输出','极速'], author:'运营同学', editor:'运营同学', updatedAt:'2026.05.15', sync:null, jp:true },
+  { id:'GB010',weapon:'SCAR-H',name:'暗夜潜行者', mode:'战场', code:'KT6M-SCH1-5P3L-VY8R', stats:'后坐力82 操控55 射程82 稳定81 射速52', price:'¥158', tags:['全能'], author:'jimmmywang', editor:'almondwang', updatedAt:'2026.05.12', sync:null, jp:false },
+];
+
+function getBuilds() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (!raw) return sampleData;
+    const arr = JSON.parse(raw);
+    return (Array.isArray(arr) && arr.length > 0) ? arr : sampleData;
+  } catch { return sampleData; }
+}
+function saveBuilds(data) { localStorage.setItem(STORE_KEY, JSON.stringify(data)); }
+function getTasks() {
+  try { return JSON.parse(localStorage.getItem(TASKS_KEY) || '[]'); } catch { return []; }
+}
+function saveTasks(tasks) { localStorage.setItem(TASKS_KEY, JSON.stringify(tasks)); }
+
+const CHANNEL_MAP = { global: '🌐 Global', japan: '🇯🇵 Japan' };
+const TAB_MAP = { fenghuo: { title: '烽火方案', mode: '烽火' }, battlefield: { title: '战场方案', mode: '战场' }, history: { title: '发帖历史' } };
+
+const sampleTasks = [
+  { id:'SYNC20260603_global_GB003', buildIds:['GB003'], channel:'global', msgLink:'https://discord.com/channels/xxx/yyy/111', reactionCount:12, commentCount:3, executeAt:'2026-06-03T14:30:00.000Z', status:'done', createdAt:'2026-06-03T14:30:00.000Z' },
+  { id:'SYNC20260603_japan_GB003', buildIds:['GB003'], channel:'japan', msgLink:'https://discord.com/channels/xxx/zzz/112', reactionCount:8, commentCount:2, executeAt:'2026-06-03T14:30:00.000Z', status:'done', createdAt:'2026-06-03T14:30:00.000Z' },
+  { id:'SYNC20260601_global_GB001', buildIds:['GB001'], channel:'global', msgLink:'https://discord.com/channels/xxx/yyy/109', reactionCount:24, commentCount:7, executeAt:'2026-06-01T10:00:00.000Z', status:'done', createdAt:'2026-06-01T10:00:00.000Z' },
+  { id:'SYNC20260601_japan_GB001', buildIds:['GB001'], channel:'japan', msgLink:'https://discord.com/channels/xxx/zzz/110', reactionCount:15, commentCount:5, executeAt:'2026-06-01T10:00:00.000Z', status:'done', createdAt:'2026-06-01T10:00:00.000Z' },
+  { id:'SYNC20260601_global_GB004', buildIds:['GB004'], channel:'global', executeAt:'2026-06-01T09:30:00.000Z', status:'executing', createdAt:'2026-06-01T09:30:00.000Z' },
+];
+
+function escapeHtml(v) {
+  return String(v||'').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+}
+
+const toast = document.getElementById('toast');
+function showToast(m) {
+  toast.textContent=m; toast.classList.add('show');
+  clearTimeout(showToast.t); showToast.t=setTimeout(()=>toast.classList.remove('show'),1600);
+}
+
+// -- 频道选择（弹窗内） ------------------------------------------
+const selectedChannels = new Set(['global', 'japan']);
+
+function getSelectedChannels() { return Array.from(selectedChannels); }
+
+function toggleModalChannel(channel) {
+  if (selectedChannels.has(channel)) selectedChannels.delete(channel); else selectedChannels.add(channel);
+  updateModalChannelTags();
+  updateModalContent();
+}
+
+function updateModalChannelTags() {
+  document.querySelectorAll('#modalChannelTags .channel-tag').forEach(btn => {
+    btn.classList.toggle('active', selectedChannels.has(btn.dataset.channel));
+  });
+}
+
+// -- Tab 切换 ----------------------------------------------------
+let activeTab = 'fenghuo';
+
+function switchTab(tabName) {
+  activeTab = tabName;
+  document.querySelectorAll('.sync-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tabName));
+  const isHistory = tabName === 'history';
+  document.getElementById('tablePanel').style.display = isHistory ? 'none' : '';
+  document.getElementById('tableToolbar').style.display = isHistory ? 'none' : '';
+  document.getElementById('filterBar').style.display = isHistory ? 'none' : '';
+  document.getElementById('historyPanel').style.display = isHistory ? '' : 'none';
+  document.getElementById('autoSelectBtn').style.display = isHistory ? 'none' : '';
+  if (isHistory) {
+    renderHistory();
+    document.getElementById('buildSelected').textContent = '0';
+    document.getElementById('tabTitle').textContent = '发帖历史';
+  } else {
+    document.getElementById('tabTitle').textContent = TAB_MAP[tabName].title;
+    renderTable();
+  }
+  updatePublishBtn();
+}
+
+// -- 获取已选方案 ------------------------------------------------
+function getVisibleBuilds() {
+  if (activeTab === 'history') return [];
+  return getBuilds().filter(b => b.mode === TAB_MAP[activeTab].mode);
+}
+
+function getAllSelectedBuilds() {
+  return getBuilds().filter(b => {
+    const cb = document.querySelector(`.build-row-check[data-id="${b.id}"]`);
+    return cb && cb.checked;
+  });
+}
+
+function getVisibleSelected() {
+  return getVisibleBuilds().filter(b => document.querySelector(`.build-row-check[data-id="${b.id}"]`)?.checked);
+}
+
+function updatePublishBtn() {
+  const allSelected = getAllSelectedBuilds().length;
+  document.getElementById('publishBtn').disabled = allSelected === 0;
+}
+
+function updateCounts() {
+  const visible = getVisibleBuilds();
+  const selected = getVisibleSelected();
+  const allSelected = getAllSelectedBuilds();
+  document.getElementById('buildTotal').textContent = visible.length;
+  document.getElementById('buildSelected').textContent = allSelected.length;
+  document.getElementById('selectAll').checked = selected.length > 0 && selected.length === visible.length;
+  updatePublishBtn();
+
+  document.querySelectorAll('.sync-tab').forEach(tab => {
+    const countEl = tab.querySelector('.tab-count');
+    const tabName = tab.dataset.tab;
+    if (tabName === 'history') {
+      countEl.textContent = getTasks().length;
+    } else {
+      countEl.textContent = getBuilds().filter(b => b.mode === TAB_MAP[tabName].mode).length;
+    }
+  });
+}
+
+// -- 筛选逻辑 ----------------------------------------------------
+let currentFilter = { name: '', id: '' };
+
+function getFilteredBuilds() {
+  let builds = getVisibleBuilds();
+  if (currentFilter.name) {
+    const kw = currentFilter.name.toLowerCase();
+    builds = builds.filter(b => b.name.toLowerCase().includes(kw));
+  }
+  if (currentFilter.id) {
+    const kw = currentFilter.id.toLowerCase();
+    builds = builds.filter(b => b.id.toLowerCase().includes(kw));
+  }
+  return builds;
+}
+
+function applyFilter() {
+  currentFilter.name = document.getElementById('filterName').value.trim();
+  currentFilter.id = document.getElementById('filterId').value.trim();
+  renderTable();
+}
+
+function resetFilter() {
+  document.getElementById('filterName').value = '';
+  document.getElementById('filterId').value = '';
+  currentFilter = { name: '', id: '' };
+  renderTable();
+}
+
+// -- 渲染表格 ----------------------------------------------------
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  const builds = getFilteredBuilds();
+  document.getElementById('buildTotal').textContent = builds.length;
+  tbody.innerHTML = builds.map(b => {
+    const synced = !!b.sync;
+    const tagsHtml = (b.tags || []).map(t => `<span class="tag tag-sm">${escapeHtml(t)}</span>`).join('');
+    return `
+    <tr class="build-row ${synced ? 'row-synced' : ''}" data-id="${b.id}">
+      <td class="col-chk-sync"><input class="checkbox build-row-check" type="checkbox" data-id="${b.id}" ${synced ? '' : 'checked'}></td>
+      <td class="col-id">${escapeHtml(b.id)}</td>
+      <td class="col-thumb"><div class="thumb-placeholder">🔫</div></td>
+      <td class="col-name"><span class="name-cell">${escapeHtml(b.name)}</span>${synced ? '<span class="synced-dot" title="已同步"></span>' : ''}</td>
+      <td class="col-weapon">${escapeHtml(b.weapon)}</td>
+      <td class="col-code"><span class="code-cell">${escapeHtml(b.code)}</span></td>
+      <td class="col-price">${escapeHtml(b.price)}</td>
+      <td class="col-tags">${tagsHtml || '<span style="color:var(--muted)">-</span>'}</td>
+      <td class="col-author">${escapeHtml(b.author)}</td>
+      <td class="col-editor">${escapeHtml(b.editor)}</td>
+      <td class="col-updated">${escapeHtml(b.updatedAt)}</td>
+    </tr>`;
+  }).join('');
+  updateCounts();
+}
+
+// -- 发帖历史 ----------------------------------------------------
+function renderHistory() {
+  const tbody = document.getElementById('historyBody');
+  const tasks = getTasks();
+  document.querySelector('#syncTabs .sync-tab[data-tab="history"] .tab-count').textContent = tasks.length;
+  if (!tasks.length) {
+    tbody.innerHTML = '<tr><td class="empty" colspan="10">暂无发帖记录</td></tr>';
+    return;
+  }
+  tbody.innerHTML = tasks.map(t => {
+    const chName = CHANNEL_MAP[t.channel] || t.channel;
+    const stLabel = t.status === 'done' ? '已完成' : t.status === 'executing' ? '执行中' : '待执行';
+    const stCls = t.status === 'done' ? 'green' : t.status === 'executing' ? 'orange' : '';
+    const buildInfo = (t.buildIds || []).map(id => {
+      const b = getBuilds().find(x => x.id === id);
+      return b ? `${b.weapon} · ${b.name}` : id;
+    }).join('<br>');
+    return `
+    <tr data-task-id="${escapeHtml(t.id)}">
+      <td class="col-id" style="width:auto">${escapeHtml(t.id)}</td>
+      <td>${escapeHtml(chName)}</td>
+      <td style="font-size:11px;line-height:1.4">${buildInfo}</td>
+      <td>${(t.buildIds || []).join(', ')}</td>
+      <td>${escapeHtml(t.executeAt.slice(0,16).replace('T',' '))}</td>
+      <td>${t.msgLink ? `<a href="#" style="color:var(--blue);font-size:11px">消息链接</a>` : '<span style="color:var(--muted)">-</span>'}</td>
+      <td style="text-align:center">${t.reactionCount != null ? `<span style="color:var(--orange)">${t.reactionCount}</span>` : '-'}</td>
+      <td style="text-align:center">${t.commentCount != null ? t.commentCount : '-'}</td>
+      <td><span class="tag ${stCls}">${stLabel}</span></td>
+      <td><button class="btn danger" data-delete-task="${escapeHtml(t.id)}" type="button">删除</button></td>
+    </tr>`;
+  }).join('');
+}
+
+// -- 确认弹窗 ----------------------------------------------------
+function updateModalContent() {
+  const selected = getAllSelectedBuilds();
+  const channels = getSelectedChannels();
+  if (!selected.length || !channels.length) return;
+
+  // 日语缺失提醒（仅作信息提示，不改变按钮状态）
+  const japanOn = selectedChannels.has('japan');
+  const missingJp = japanOn ? selected.filter(b => !b.jp) : [];
+  const jpWarning = document.getElementById('japanWarning');
+  if (japanOn && missingJp.length) {
+    jpWarning.style.display = '';
+    jpWarning.querySelector('#japanMissingNames').textContent = missingJp.map(b => b.name).join('、');
+  } else {
+    jpWarning.style.display = 'none';
+  }
+
+  // 重新发布提醒
+  const republish = selected.filter(b => b.sync);
+  document.getElementById('republishWarning').innerHTML = republish.length
+    ? `<div class="confirm-warning"><span class="warning-icon">⚠️</span> 选中方案中包含 <strong>${republish.length} 条</strong>已发布过的方案（${republish.map(b => b.name).join('、')}），确认发布后将在 Discord 上创建新的帖子。</div>`
+    : '';
+
+  // 消息数和预览（始终展示所有选中频道）
+  const totalMessages = selected.length * channels.length;
+  document.getElementById('confirmMsgCount').textContent = totalMessages;
+  document.getElementById('confirmChannels').innerHTML = channels.map(ch =>
+    `<span class="confirm-channel-tag">${CHANNEL_MAP[ch]}</span>`
+  ).join('');
+
+  const scroll = document.getElementById('confirmScroll');
+  scroll.innerHTML = channels.map(ch => `
+    <div class="confirm-channel-group">
+      <div class="confirm-channel-header">
+        ${CHANNEL_MAP[ch]} <span style="font-weight:400;font-size:10px;color:var(--muted)">${selected.length} 条消息</span>
+      </div>
+      ${selected.map((b, i) => `
+        <div class="confirm-msg-card ${b.sync ? 'republish' : ''}">
+          <div class="confirm-msg-num">#${i + 1}</div>
+          <div class="confirm-msg-right">
+            <div class="confirm-msg-title">🔫 ${escapeHtml(b.weapon)} ·「${escapeHtml(b.name)}」${b.sync ? '<span class="tag orange" style="height:16px;font-size:9px;padding:0 4px;vertical-align:middle">已发布</span>' : ''}</div>
+            <div class="confirm-msg-body">
+              <div class="confirm-msg-text">
+                <span class="code-cell" style="display:block;margin-bottom:4px">${escapeHtml(b.code)}</span>
+                <span class="confirm-msg-price">${escapeHtml(b.price)}</span>
+                ${(b.tags || []).map(t => `<span class="tag tag-sm">${escapeHtml(t)}</span>`).join('')}
+              </div>
+              <div class="confirm-msg-thumb">🔫</div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+}
+
+function openConfirmModal() {
+  const selected = getAllSelectedBuilds();
+  if (!selected.length) return;
+  // 重置频道为全选
+  selectedChannels.clear();
+  selectedChannels.add('global');
+  selectedChannels.add('japan');
+  updateModalChannelTags();
+  updateModalContent();
+  document.getElementById('confirmOverlay').classList.add('active');
+}
+
+function closeConfirmModal() {
+  document.getElementById('confirmOverlay').classList.remove('active');
+}
+
+function doPublish(channels) {
+  const selected = getAllSelectedBuilds();
+  if (!selected.length || !channels.length) return;
+
+  const executeAt = new Date().toISOString();
+
+  selected.forEach(b => {
+    channels.forEach(ch => {
+      const task = {
+        id: 'SYNC' + Date.now() + '_' + ch + '_' + b.id,
+        buildIds: [b.id],
+        channel: ch,
+        executeAt,
+        status: 'executing',
+        createdAt: new Date().toISOString()
+      };
+      const tasks = getTasks();
+      tasks.unshift(task);
+      saveTasks(tasks);
+    });
+  });
+
+  const builds = getBuilds();
+  selected.forEach(s => {
+    const b = builds.find(x => x.id === s.id);
+    if (b) b.sync = executeAt;
+  });
+  saveBuilds(builds);
+}
+
+function confirmPublish() {
+  const channels = getSelectedChannels();
+  const selected = getAllSelectedBuilds();
+
+  // 日语缺失检查：勾选 Japan 且有方案缺失日语配置 → 弹窗确认
+  if (channels.includes('japan')) {
+    const missingJp = selected.filter(b => !b.jp);
+    if (missingJp.length) {
+      const names = missingJp.map(b => b.name).join('、');
+      const goGlobal = confirm(
+        `以下 ${missingJp.length} 条方案缺失日语多语言配置，无法发布到 Japan：\n\n${names}\n\n是否仅发布到 Global？\n\n点击「确定」仅发布到 Global\n点击「取消」返回修改`
+      );
+      if (!goGlobal) return;
+      // 用户选择仅发布 Global
+      doPublish(['global']);
+      closeConfirmModal();
+      renderAll();
+      showToast(`已创建 ${selected.length} 条同步任务（仅 Global），Bot 将立即执行`);
+      return;
+    }
+  }
+
+  doPublish(channels);
+  closeConfirmModal();
+  renderAll();
+  showToast(`已创建 ${selected.length * channels.length} 条同步任务，Bot 将立即执行`);
+}
+
+function renderAll() {
+  if (activeTab === 'history') {
+    renderHistory();
+    updatePublishBtn();
+  } else {
+    renderTable();
+  }
+}
+
+// -- 操作按钮 ----------------------------------------------------
+function autoSelectUnsynced() {
+  document.querySelectorAll('.build-row-check').forEach(cb => {
+    const id = cb.dataset.id;
+    const build = getBuilds().find(b => b.id === id);
+    cb.checked = !build?.sync;
+  });
+  document.getElementById('selectAll').checked = false;
+  updateCounts();
+}
+
+function initData() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    let data = null;
+    if (raw) { try { data = JSON.parse(raw); } catch(e) {} }
+    if (!Array.isArray(data) || data.length === 0) saveBuilds(sampleData);
+    const taskRaw = localStorage.getItem(TASKS_KEY);
+    let taskData = null;
+    if (taskRaw) { try { taskData = JSON.parse(taskRaw); } catch(e) {} }
+    if (!Array.isArray(taskData) || taskData.length === 0) saveTasks(sampleTasks);
+  } catch(e) {
+    console.warn('localStorage 不可用，使用内存数据');
+  }
+}
+
+function deleteTask(taskId) {
+  const tasks = getTasks().filter(t => t.id !== taskId);
+  saveTasks(tasks);
+  renderHistory();
+  showToast('已删除发帖记录');
+}
+
+// -- 事件绑定 ----------------------------------------------------
+// 弹窗内频道标签
+document.getElementById('modalChannelTags').addEventListener('click', e => {
+  const btn = e.target.closest('.channel-tag');
+  if (!btn) return;
+  toggleModalChannel(btn.dataset.channel);
+});
+document.getElementById('syncTabs').addEventListener('click', e => {
+  const tab = e.target.closest('.sync-tab');
+  if (!tab) return;
+  switchTab(tab.dataset.tab);
+});
+document.getElementById('selectAll').addEventListener('change', () => {
+  const all = document.getElementById('selectAll').checked;
+  document.querySelectorAll('.build-row-check').forEach(cb => { cb.checked = all; });
+  updateCounts();
+});
+document.getElementById('tableBody').addEventListener('change', updateCounts);
+document.getElementById('autoSelectBtn').addEventListener('click', autoSelectUnsynced);
+document.getElementById('filterBtn').addEventListener('click', applyFilter);
+document.getElementById('filterResetBtn').addEventListener('click', resetFilter);
+document.getElementById('publishBtn').addEventListener('click', openConfirmModal);
+document.getElementById('closeOverlay').addEventListener('click', closeConfirmModal);
+document.getElementById('cancelPublish').addEventListener('click', closeConfirmModal);
+document.getElementById('confirmPublish').addEventListener('click', confirmPublish);
+document.getElementById('historyBody').addEventListener('click', e => {
+  const id = e.target.dataset.deleteTask;
+  if (id) deleteTask(id);
+});
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeConfirmModal(); });
+
+initData();
+switchTab('fenghuo');
+</script>
+</body>
+</html>
