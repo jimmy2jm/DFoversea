@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>改枪方案页优化 · 三种版式示意</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+        --brand: #24f4b2;
+        --panel: rgba(18, 38, 42, 0.9);
+        --panel-head: rgba(92, 112, 114, 0.52);
+        --sub: rgba(6, 18, 20, 0.66);
+        --border: rgba(84, 112, 118, 0.52);
+        --border-soft: rgba(84, 112, 118, 0.3);
+        --txt: rgba(255, 255, 255, 0.88);
+        --txt2: rgba(255, 255, 255, 0.55);
+        --txt3: rgba(255, 255, 255, 0.38);
+        --gold: #f5b942;
+        --purple: #b98cff;
+        --red: #ef4444;
+        --orange: #f59e0b;
+    }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(180deg, #0b2022, #071c1e 60%, #07191a); color: var(--txt); min-height: 100vh; padding: 40px 20px 80px; }
+    .wrap { max-width: 1080px; margin: 0 auto; }
+    .page-title { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; }
+    .page-title .brand { color: var(--brand); }
+    .page-sub { color: var(--txt2); font-size: 0.86rem; margin-bottom: 36px; line-height: 1.7; }
+    .page-sub b { color: var(--brand); }
+    .info-list { background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--brand); padding: 14px 18px; margin-bottom: 40px; font-size: 0.8rem; color: var(--txt2); line-height: 1.9; }
+    .info-list b { color: var(--brand); }
+
+    .concept { margin-bottom: 56px; }
+    .concept-tag { display: inline-block; font-family: 'Orbitron', monospace; font-size: 0.72rem; font-weight: 700; color: #031816; background: var(--brand); padding: 3px 10px; letter-spacing: 1px; margin-bottom: 10px; }
+    .concept-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 6px; }
+    .concept-desc { color: var(--txt2); font-size: 0.84rem; margin-bottom: 18px; line-height: 1.7; }
+    .concept-desc b { color: var(--brand); }
+
+    /* ===== shared ===== */
+    .section-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--panel-head); border: 1px solid var(--border); border-bottom: none; gap: 10px; flex-wrap: wrap; }
+    .section-title { font-weight: 800; font-size: 0.92rem; }
+    .panel { background: var(--panel); border: 1px solid var(--border); }
+
+    /* filter bar */
+    .filter-bar { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); flex-wrap: wrap; }
+    .filter-group { display: flex; align-items: center; gap: 6px; }
+    .filter-group label { font-size: 0.72rem; color: var(--txt2); white-space: nowrap; }
+    .filter-group select { background: var(--sub); border: 1px solid var(--border-soft); color: var(--txt); padding: 5px 8px; font-size: 0.76rem; font-family: inherit; }
+    .filter-stat { font-family: 'Orbitron', monospace; font-size: 0.74rem; color: var(--txt2); }
+    .filter-stat b { color: var(--brand); }
+    .filter-spacer { flex: 1; }
+    .sort-select { background: var(--sub); border: 1px solid var(--border-soft); color: var(--txt); padding: 5px 8px; font-size: 0.76rem; }
+
+    /* shared chip */
+    .tag { font-size: 0.64rem; padding: 1px 7px; border: 1px solid var(--border-soft); color: var(--txt2); white-space: nowrap; }
+    .tag.premium { border-color: rgba(185,140,255,0.5); color: var(--purple); }
+    .tag.budget { border-color: rgba(36,244,178,0.5); color: var(--brand); }
+    .tag.newbie { border-color: rgba(245,185,66,0.5); color: var(--gold); }
+
+    .avatar { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, var(--brand), #0d6b52); display: inline-flex; align-items: center; justify-content: center; font-size: 0.66rem; color: #031816; font-weight: 800; flex-shrink: 0; }
+    .avatar.purple { background: linear-gradient(135deg, var(--purple), #5b2b9e); }
+    .author-name { font-size: 0.7rem; color: var(--txt2); }
+    .metrics { display: flex; gap: 10px; align-items: center; }
+    .metric { font-size: 0.66rem; color: var(--txt3); display: inline-flex; align-items: center; gap: 3px; }
+    .metric b { font-family: 'Orbitron', monospace; color: var(--txt2); }
+
+    .copy-btn { background: transparent; border: 1px solid rgba(36,244,178,0.5); color: var(--brand); font-size: 0.66rem; font-weight: 700; padding: 4px 12px; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+    .copy-btn:hover { background: var(--brand); color: #031816; }
+
+    /* radar placeholder */
+    .radar-ph { width: 90px; height: 90px; border-radius: 50%; background: radial-gradient(circle, rgba(36,244,178,0.15) 0%, transparent 70%); display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: var(--brand); border: 1px solid var(--border-soft); }
+
+    /* att slot */
+    .att-slot { width: 28px; height: 28px; border: 1px solid var(--border-soft); display: inline-flex; align-items: center; justify-content: center; font-size: 0.72rem; background: rgba(255,255,255,0.03); }
+
+    /* ============================================================
+       版式一：武器库网格 + 点击展开方案（card-per-gun）
+       ============================================================ */
+    .v1-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 16px; }
+    .v1-card { background: var(--sub); border: 1px solid var(--border-soft); border-top: 2px solid var(--brand); position: relative; cursor: pointer; transition: 0.2s; }
+    .v1-card:hover { border-color: var(--brand); }
+    .v1-card.expanded { border-color: var(--brand); }
+    .v1-head { display: flex; align-items: flex-start; justify-content: space-between; padding: 10px 12px 6px; gap: 8px; }
+    .v1-badge { font-family: 'Orbitron', monospace; font-size: 0.56rem; font-weight: 700; padding: 2px 6px; background: rgba(36,244,178,0.16); color: var(--brand); }
+    .v1-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 1rem; margin-top: 2px; }
+    .v1-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+    .v1-price { text-align: right; flex-shrink: 0; }
+    .v1-price b { font-family: 'Orbitron', monospace; color: var(--brand); font-size: 0.95rem; }
+    .v1-price span { display: block; font-size: 0.56rem; color: var(--txt3); }
+    .v1-img { height: 50px; margin: 4px 12px; background: linear-gradient(135deg, rgba(74,92,96,0.5), rgba(18,38,42,0.7)); display: flex; align-items: center; justify-content: center; font-size: 1.6rem; }
+    .v1-stats { display: flex; gap: 10px; padding: 0 12px 8px; }
+    .v1-stat { flex: 1; }
+    .v1-stat .lbl { font-size: 0.56rem; color: var(--txt3); }
+    .v1-stat .bar { height: 3px; background: rgba(255,255,255,0.08); margin-top: 2px; }
+    .v1-stat .bar i { display: block; height: 100%; background: var(--brand); }
+    .v1-foot { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-top: 1px solid var(--border-soft); }
+    .v1-scheme-count { font-size: 0.68rem; color: var(--txt2); }
+    .v1-scheme-count b { color: var(--brand); font-family: 'Orbitron', monospace; }
+    /* 展开的方案区 */
+    .v1-schemes { display: none; padding: 0 12px 12px; border-top: 1px solid var(--border-soft); margin-top: 0; }
+    .v1-card.expanded .v1-schemes { display: block; }
+    .v1-scheme-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(84,112,118,0.18); }
+    .v1-scheme-row:last-child { border-bottom: none; }
+    .v1-scheme-info { flex: 1; min-width: 0; }
+    .v1-scheme-name { font-size: 0.78rem; font-weight: 700; }
+    .v1-scheme-tags { display: flex; gap: 4px; margin-top: 3px; }
+    .v1-scheme-price { font-family: 'Orbitron', monospace; font-size: 0.82rem; color: var(--brand); }
+    .v1-scheme-code { font-family: 'Orbitron', monospace; font-size: 0.62rem; color: var(--txt3); letter-spacing: 1px; }
+    .v1-scheme-author { display: flex; align-items: center; gap: 5px; }
+
+    /* ============================================================
+       版式二：方案列表（每行=一套方案，含完整信息）
+       ============================================================ */
+    .v2-list { padding: 8px 16px 16px; }
+    .v2-row { display: grid; grid-template-columns: 70px 1fr 110px 120px; gap: 14px; align-items: center; background: var(--sub); border: 1px solid var(--border-soft); border-left: 3px solid var(--brand); padding: 12px 14px; margin-bottom: 8px; cursor: pointer; transition: 0.2s; }
+    .v2-row.premium { border-left-color: var(--purple); }
+    .v2-row:hover { border-color: var(--brand); }
+    .v2-img { height: 48px; background: linear-gradient(135deg, rgba(74,92,96,0.5), rgba(18,38,42,0.7)); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+    .v2-main { min-width: 0; }
+    .v2-gun-line { display: flex; align-items: baseline; gap: 6px; }
+    .v2-gun-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.95rem; }
+    .v2-gun-type { font-size: 0.62rem; color: var(--txt3); }
+    .v2-scheme-name { font-size: 0.76rem; color: var(--txt2); margin-top: 2px; }
+    .v2-tags { display: flex; gap: 4px; margin-top: 4px; flex-wrap: wrap; }
+    .v2-desc { font-size: 0.68rem; color: var(--txt3); margin-top: 4px; line-height: 1.4; }
+    .v2-price-code { text-align: center; }
+    .v2-price-code b { font-family: 'Orbitron', monospace; font-size: 1.05rem; color: var(--brand); display: block; }
+    .v2-price-code .v2-code { font-family: 'Orbitron', monospace; font-size: 0.6rem; color: var(--txt3); letter-spacing: 1px; }
+    .v2-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+    .v2-author { display: flex; align-items: center; gap: 5px; }
+    .v2-atts { display: flex; gap: 3px; }
+
+    /* ============================================================
+       版式三：枪械分组卡 + 内嵌方案（按类型分组，枪卡内含所有方案）
+       ============================================================ */
+    .v3-group { margin-bottom: 20px; }
+    .v3-group-head { display: flex; align-items: center; gap: 10px; padding: 8px 16px; background: var(--panel-head); border: 1px solid var(--border); border-bottom: none; }
+    .v3-group-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.92rem; }
+    .v3-group-count { font-size: 0.7rem; color: var(--txt2); }
+    .v3-group-count b { color: var(--brand); font-family: 'Orbitron', monospace; }
+    .v3-guns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; border: 1px solid var(--border); border-top: none; }
+    .v3-gun-card { background: var(--sub); border: 1px solid var(--border-soft); }
+    .v3-gun-head { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-bottom: 1px solid var(--border-soft); }
+    .v3-gun-img { width: 50px; height: 36px; background: linear-gradient(135deg, rgba(74,92,96,0.5), rgba(18,38,42,0.7)); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; flex-shrink: 0; }
+    .v3-gun-info { flex: 1; }
+    .v3-gun-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.92rem; }
+    .v3-gun-tags { display: flex; gap: 4px; margin-top: 2px; }
+    .v3-gun-price { font-family: 'Orbitron', monospace; font-size: 0.72rem; color: var(--brand); }
+    .v3-gun-price span { font-size: 0.56rem; color: var(--txt3); display: block; }
+    .v3-scheme { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-bottom: 1px solid rgba(84,112,118,0.18); }
+    .v3-scheme:last-child { border-bottom: none; }
+    .v3-scheme-info { flex: 1; min-width: 0; }
+    .v3-scheme-name { font-size: 0.74rem; font-weight: 600; }
+    .v3-scheme-tags { display: flex; gap: 3px; margin-top: 2px; }
+    .v3-scheme-price { font-family: 'Orbitron', monospace; font-size: 0.78rem; color: var(--brand); }
+    .v3-scheme-foot { display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: rgba(0,0,0,0.15); }
+    .v3-radar { width: 44px; height: 44px; border-radius: 50%; background: radial-gradient(circle, rgba(36,244,178,0.15), transparent 70%); border: 1px solid var(--border-soft); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.5rem; color: var(--brand); }
+
+    .note { font-size: 0.74rem; color: var(--txt3); margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="page-title">改枪方案页优化 · <span class="brand">三种版式示意</span></div>
+    <div class="page-sub">
+        三种版式供对比选择。<b>所有现有信息均完整保留</b>，未做删减。
+    </div>
+
+    <div class="info-list">
+        <b>示意中包含的全部信息字段（不可缺漏）：</b><br>
+        <b>枪本身</b>：枪名、类型(AR/SMG/SR…)、裸枪价(仅烽火)、枪标签、icon<br>
+        <b>方案</b>：方案名、方案类型(性价比/满改)、方案总价、方案标签、分享码、方案描述(summary)、配件清单(配件名+效果+价格+属性影响)、作者(名+头像)、点赞数、复制数、雷达图属性(伤害/射程/后坐力/操控/稳定/腰射)<br>
+        <b>筛选器</b>：类型筛选、名称筛选、价格筛选 + 排序 + 结果统计
+    </div>
+
+    <!-- ===================== 版式一 ===================== -->
+    <div class="concept">
+        <span class="concept-tag">版式一</span>
+        <div class="concept-title">武器库网格 + 点击展开方案</div>
+        <div class="concept-desc">
+            主区是<b>枪械卡网格</b>（每张卡=一把枪），展示枪的特点：类别徽标、裸枪价、标签、关键属性条、方案数。<br>
+            <b>点击卡片展开</b>该枪的所有方案（方案名/标签/价格/分享码/作者/点赞/复制数），再点方案进详情弹窗看完整配件+雷达图。<br>
+            优点：筛选器意义清晰——筛完看到的是"同类枪对比"；枪的特点一目了然。
+        </div>
+        <div class="panel">
+            <div class="filter-bar">
+                <div class="filter-group"><label>类型</label><select><option>全部</option><option>突击步枪</option><option>冲锋枪</option><option>狙击枪</option></select></div>
+                <div class="filter-group"><label>枪械</label><select><option>全部枪械</option><option>AKM</option><option>M4A1</option></select></div>
+                <div class="filter-group"><label>价格</label><select><option>全部</option><option>8w↓</option><option>8-12w</option><option>12-16w</option><option>16w↑</option></select></div>
+                <span class="filter-spacer"></span>
+                <span class="filter-stat">筛出 <b>6</b> 把枪 · <b>12</b> 套方案</span>
+                <select class="sort-select"><option>热度优先</option><option>价格↑</option><option>价格↓</option></select>
+            </div>
+            <div class="v1-grid">
+                <!-- 卡1：AKM（展开态） -->
+                <div class="v1-card expanded">
+                    <div class="v1-head">
+                        <div><span class="v1-badge">AR</span><div class="v1-name">AKM</div><div class="v1-tags"><span class="tag">高伤害</span><span class="tag">中远距离</span></div></div>
+                        <div class="v1-price"><b>125K</b><span>裸枪价</span></div>
+                    </div>
+                    <div class="v1-img">🔫</div>
+                    <div class="v1-stats">
+                        <div class="v1-stat"><div class="lbl">伤害</div><div class="bar"><i style="width:82%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">射程</div><div class="bar"><i style="width:70%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">机动</div><div class="bar"><i style="width:48%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">稳定</div><div class="bar"><i style="width:55%"></i></div></div>
+                    </div>
+                    <div class="v1-foot"><span class="v1-scheme-count"><b>3</b> 套方案</span><span style="font-size:0.64rem;color:var(--txt3)">点击收起 ▲</span></div>
+                    <div class="v1-schemes">
+                        <div class="v1-scheme-row">
+                            <div class="v1-scheme-info"><div class="v1-scheme-name">究极满改100w方案</div><div class="v1-scheme-tags"><span class="tag premium">满改</span></div></div>
+                            <span class="v1-scheme-price">100K</span>
+                            <span class="v1-scheme-code">AKM-PRE-001</span>
+                            <button class="copy-btn">复制</button>
+                        </div>
+                        <div class="v1-scheme-row">
+                            <div class="v1-scheme-info"><div class="v1-scheme-name">性价比压枪方案</div><div class="v1-scheme-tags"><span class="tag budget">性价比</span><span class="tag newbie">新手推荐</span></div></div>
+                            <span class="v1-scheme-price">68K</span>
+                            <span class="v1-scheme-code">AKM-BUD-001</span>
+                            <button class="copy-btn">复制</button>
+                        </div>
+                        <div class="v1-scheme-row">
+                            <div class="v1-scheme-info"><div class="v1-scheme-name">远距离狙击方案</div><div class="v1-scheme-tags"><span class="tag">远距离</span></div></div>
+                            <span class="v1-scheme-price">85K</span>
+                            <span class="v1-scheme-code">AKM-SNP-001</span>
+                            <button class="copy-btn">复制</button>
+                        </div>
+                        <div class="v1-scheme-row" style="border:none;padding-top:8px">
+                            <div class="v1-scheme-author"><span class="avatar">T</span><span class="author-name">Tactical_K</span></div>
+                            <div class="metrics"><span class="metric">👍 <b>1.2k</b></span><span class="metric">📋 <b>3.4k</b></span></div>
+                            <span style="font-size:0.6rem;color:var(--txt3)">点方案进详情 →</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- 卡2：M4A1（收起态） -->
+                <div class="v1-card">
+                    <div class="v1-head">
+                        <div><span class="v1-badge">AR</span><div class="v1-name">M4A1</div><div class="v1-tags"><span class="tag">全能</span><span class="tag">通用</span></div></div>
+                        <div class="v1-price"><b>105K</b><span>裸枪价</span></div>
+                    </div>
+                    <div class="v1-img">🔫</div>
+                    <div class="v1-stats">
+                        <div class="v1-stat"><div class="lbl">伤害</div><div class="bar"><i style="width:65%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">射程</div><div class="bar"><i style="width:62%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">机动</div><div class="bar"><i style="width:72%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">稳定</div><div class="bar"><i style="width:68%"></i></div></div>
+                    </div>
+                    <div class="v1-foot"><span class="v1-scheme-count"><b>2</b> 套方案</span><span style="font-size:0.64rem;color:var(--txt3)">点击展开 ▼</span></div>
+                </div>
+                <!-- 卡3：SCAR-H -->
+                <div class="v1-card">
+                    <div class="v1-head">
+                        <div><span class="v1-badge">AR</span><div class="v1-name">SCAR-H</div><div class="v1-tags"><span class="tag">高伤害</span><span class="tag">远距离</span></div></div>
+                        <div class="v1-price"><b>145K</b><span>裸枪价</span></div>
+                    </div>
+                    <div class="v1-img">🔫</div>
+                    <div class="v1-stats">
+                        <div class="v1-stat"><div class="lbl">伤害</div><div class="bar"><i style="width:88%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">射程</div><div class="bar"><i style="width:80%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">机动</div><div class="bar"><i style="width:40%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">稳定</div><div class="bar"><i style="width:50%"></i></div></div>
+                    </div>
+                    <div class="v1-foot"><span class="v1-scheme-count"><b>2</b> 套方案</span><span style="font-size:0.64rem;color:var(--txt3)">点击展开 ▼</span></div>
+                </div>
+                <!-- 卡4：MP5 -->
+                <div class="v1-card">
+                    <div class="v1-head">
+                        <div><span class="v1-badge">SMG</span><div class="v1-name">MP5</div><div class="v1-tags"><span class="tag">精准</span><span class="tag">中近距离</span></div></div>
+                        <div class="v1-price"><b>72K</b><span>裸枪价</span></div>
+                    </div>
+                    <div class="v1-img">🔫</div>
+                    <div class="v1-stats">
+                        <div class="v1-stat"><div class="lbl">伤害</div><div class="bar"><i style="width:45%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">射程</div><div class="bar"><i style="width:38%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">机动</div><div class="bar"><i style="width:88%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">稳定</div><div class="bar"><i style="width:75%"></i></div></div>
+                    </div>
+                    <div class="v1-foot"><span class="v1-scheme-count"><b>2</b> 套方案</span><span style="font-size:0.64rem;color:var(--txt3)">点击展开 ▼</span></div>
+                </div>
+                <!-- 卡5：SVD -->
+                <div class="v1-card">
+                    <div class="v1-head">
+                        <div><span class="v1-badge">SR</span><div class="v1-name">SVD</div><div class="v1-tags"><span class="tag">半自动</span><span class="tag">远距离</span></div></div>
+                        <div class="v1-price"><b>165K</b><span>裸枪价</span></div>
+                    </div>
+                    <div class="v1-img">🎯</div>
+                    <div class="v1-stats">
+                        <div class="v1-stat"><div class="lbl">伤害</div><div class="bar"><i style="width:90%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">射程</div><div class="bar"><i style="width:92%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">机动</div><div class="bar"><i style="width:25%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">稳定</div><div class="bar"><i style="width:60%"></i></div></div>
+                    </div>
+                    <div class="v1-foot"><span class="v1-scheme-count"><b>2</b> 套方案</span><span style="font-size:0.64rem;color:var(--txt3)">点击展开 ▼</span></div>
+                </div>
+                <!-- 卡6：M249 -->
+                <div class="v1-card">
+                    <div class="v1-head">
+                        <div><span class="v1-badge">LMG</span><div class="v1-name">M249</div><div class="v1-tags"><span class="tag">持续火力</span></div></div>
+                        <div class="v1-price"><b>195K</b><span>裸枪价</span></div>
+                    </div>
+                    <div class="v1-img">💥</div>
+                    <div class="v1-stats">
+                        <div class="v1-stat"><div class="lbl">伤害</div><div class="bar"><i style="width:60%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">射程</div><div class="bar"><i style="width:55%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">机动</div><div class="bar"><i style="width:20%"></i></div></div>
+                        <div class="v1-stat"><div class="lbl">稳定</div><div class="bar"><i style="width:70%"></i></div></div>
+                    </div>
+                    <div class="v1-foot"><span class="v1-scheme-count"><b>2</b> 套方案</span><span style="font-size:0.64rem;color:var(--txt3)">点击展开 ▼</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="note">※ 点方案进入详情弹窗（现有弹窗保留），内含：方案描述、完整配件清单（名+效果+价格+属性影响）、雷达图、作者、点赞、复制数、分享码。此处不重复画弹窗。</div>
+    </div>
+
+    <!-- ===================== 版式二 ===================== -->
+    <div class="concept">
+        <span class="concept-tag">版式二</span>
+        <div class="concept-title">方案列表流（每行=一套完整方案）</div>
+        <div class="concept-desc">
+            以<b>方案</b>为主角，每行直接展示一套方案的<b>全部信息</b>：枪图+枪名·类型+方案名+标签+描述+价格+分享码+作者+点赞+复制数+配件预览。<br>
+            筛选器直接筛方案。优点：信息密度高、一屏看多套方案；缺点：同类枪不聚合，横向对比枪本身稍弱。
+        </div>
+        <div class="panel">
+            <div class="filter-bar">
+                <div class="filter-group"><label>类型</label><select><option>全部</option><option>突击步枪</option></select></div>
+                <div class="filter-group"><label>枪械</label><select><option>全部</option></select></div>
+                <div class="filter-group"><label>价格</label><select><option>全部</option><option>8w↓</option><option>8-12w</option></select></div>
+                <span class="filter-spacer"></span>
+                <span class="filter-stat"><b>12</b> 套方案</span>
+                <select class="sort-select"><option>最热门</option><option>最新</option><option>价格↑</option></select>
+            </div>
+            <div class="v2-list">
+                <div class="v2-row">
+                    <div class="v2-img">🔫</div>
+                    <div class="v2-main">
+                        <div class="v2-gun-line"><span class="v2-gun-name">AKM</span><span class="v2-gun-type">突击步枪 · 裸枪 125K</span></div>
+                        <div class="v2-scheme-name">究极满改100w方案</div>
+                        <div class="v2-tags"><span class="tag premium">满改</span></div>
+                        <div class="v2-desc">150K 成本实现近乎零后坐力，弹药消耗低，身体击杀效率高</div>
+                    </div>
+                    <div class="v2-price-code"><b>100K</b><span class="v2-code">AKM-PRE-001</span></div>
+                    <div class="v2-right">
+                        <div class="v2-author"><span class="avatar">T</span><span class="author-name">Tactical_K</span></div>
+                        <div class="metrics"><span class="metric">👍 <b>1.2k</b></span><span class="metric">📋 <b>3.4k</b></span></div>
+                        <div class="v2-atts"><span class="att-slot">消</span><span class="att-slot">瞄</span><span class="att-slot">握</span><span class="att-slot">弹</span><span class="att-slot">托</span></div>
+                        <button class="copy-btn">复制码</button>
+                    </div>
+                </div>
+                <div class="v2-row premium">
+                    <div class="v2-img">🔫</div>
+                    <div class="v2-main">
+                        <div class="v2-gun-line"><span class="v2-gun-name">M4A1</span><span class="v2-gun-type">突击步枪 · 裸枪 105K</span></div>
+                        <div class="v2-scheme-name">全能满改方案</div>
+                        <div class="v2-tags"><span class="tag premium">满改</span><span class="tag newbie">新手推荐</span></div>
+                        <div class="v2-desc">157K 满改，长距离高精准，全距离稳定</div>
+                    </div>
+                    <div class="v2-price-code"><b>157K</b><span class="v2-code">M4-PRE-001</span></div>
+                    <div class="v2-right">
+                        <div class="v2-author"><span class="avatar purple">G</span><span class="author-name">GhostTeam</span></div>
+                        <div class="metrics"><span class="metric">👍 <b>860</b></span><span class="metric">📋 <b>1.2k</b></span></div>
+                        <div class="v2-atts"><span class="att-slot">消</span><span class="att-slot">瞄</span><span class="att-slot">握</span><span class="att-slot">弹</span><span class="att-slot">托</span></div>
+                        <button class="copy-btn">复制码</button>
+                    </div>
+                </div>
+                <div class="v2-row">
+                    <div class="v2-img">🔫</div>
+                    <div class="v2-main">
+                        <div class="v2-gun-line"><span class="v2-gun-name">MP5</span><span class="v2-gun-type">冲锋枪 · 裸枪 72K</span></div>
+                        <div class="v2-scheme-name">经典腰射构建</div>
+                        <div class="v2-tags"><span class="tag budget">性价比</span></div>
+                        <div class="v2-desc">经典腰射构建，一体式消音管性价比极高</div>
+                    </div>
+                    <div class="v2-price-code"><b>65K</b><span class="v2-code">MP5-BUD-001</span></div>
+                    <div class="v2-right">
+                        <div class="v2-author"><span class="avatar">C</span><span class="author-name">CQB_Master</span></div>
+                        <div class="metrics"><span class="metric">👍 <b>980</b></span><span class="metric">📋 <b>2.1k</b></span></div>
+                        <div class="v2-atts"><span class="att-slot">管</span><span class="att-slot">瞄</span><span class="att-slot">握</span><span class="att-slot">弹</span><span class="att-slot">托</span></div>
+                        <button class="copy-btn">复制码</button>
+                    </div>
+                </div>
+                <div class="v2-row">
+                    <div class="v2-img">🎯</div>
+                    <div class="v2-main">
+                        <div class="v2-gun-line"><span class="v2-gun-name">SVD</span><span class="v2-gun-type">狙击步枪 · 裸枪 165K</span></div>
+                        <div class="v2-scheme-name">高精准远距离方案</div>
+                        <div class="v2-tags"><span class="tag premium">满改</span></div>
+                        <div class="v2-desc">65m 四枪爆头（4BTK）王牌</div>
+                    </div>
+                    <div class="v2-price-code"><b>185K</b><span class="v2-code">SVD-PRE-001</span></div>
+                    <div class="v2-right">
+                        <div class="v2-author"><span class="avatar">D</span><span class="author-name">DeltaPro_Lin</span></div>
+                        <div class="metrics"><span class="metric">👍 <b>750</b></span><span class="metric">📋 <b>980</b></span></div>
+                        <div class="v2-atts"><span class="att-slot">管</span><span class="att-slot">退</span><span class="att-slot">握</span><span class="att-slot">弹</span><span class="att-slot">托</span></div>
+                        <button class="copy-btn">复制码</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="note">※ 每行点开进入详情弹窗看完整配件+雷达图（行内配件格为预览缩略）。</div>
+    </div>
+
+    <!-- ===================== 版式三 ===================== -->
+    <div class="concept">
+        <span class="concept-tag">版式三</span>
+        <div class="concept-title">按类型分组 + 枪卡内嵌全部方案</div>
+        <div class="concept-desc">
+            筛选后按<b>武器类型分组</b>，每组内是<b>枪械卡（2列）</b>，每张枪卡内直接<b>内嵌该枪所有方案</b>（方案名/标签/价格/分享码/作者/点赞/复制+小雷达+配件）。<br>
+            优点：同类型枪可横向对比，且每把枪的方案完整展开，信息一步到位；缺点：页面较高需滚动。
+        </div>
+        <div class="panel">
+            <div class="filter-bar">
+                <div class="filter-group"><label>类型</label><select><option>全部</option></select></div>
+                <div class="filter-group"><label>枪械</label><select><option>全部</option></select></div>
+                <div class="filter-group"><label>价格</label><select><option>全部</option></select></div>
+                <span class="filter-spacer"></span>
+                <span class="filter-stat"><b>2</b> 类型 · <b>4</b> 把枪 · <b>8</b> 套方案</span>
+            </div>
+            <div class="v3-group">
+                <div class="v3-group-head"><span class="v3-group-name">突击步枪 AR</span><span class="v3-group-count"><b>2</b> 把 · <b>5</b> 套方案</span></div>
+                <div class="v3-guns">
+                    <div class="v3-gun-card">
+                        <div class="v3-gun-head">
+                            <div class="v3-gun-img">🔫</div>
+                            <div class="v3-gun-info"><div class="v3-gun-name">AKM</div><div class="v3-gun-tags"><span class="tag">高伤害</span><span class="tag">中远距离</span></div></div>
+                            <div class="v3-gun-price">125K<span>裸枪价</span></div>
+                        </div>
+                        <div class="v3-scheme">
+                            <div class="v3-scheme-info"><div class="v3-scheme-name">究极满改100w方案</div><div class="v3-scheme-tags"><span class="tag premium">满改</span></div></div>
+                            <span class="v3-scheme-price">100K</span>
+                            <button class="copy-btn">复制</button>
+                        </div>
+                        <div class="v3-scheme">
+                            <div class="v3-scheme-info"><div class="v3-scheme-name">性价比压枪方案</div><div class="v3-scheme-tags"><span class="tag budget">性价比</span><span class="tag newbie">新手推荐</span></div></div>
+                            <span class="v3-scheme-price">68K</span>
+                            <button class="copy-btn">复制</button>
+                        </div>
+                        <div class="v3-scheme-foot">
+                            <div class="v3-radar">雷达</div>
+                            <div style="flex:1">
+                                <div style="font-size:0.6rem;color:var(--txt3);margin-bottom:3px">分享码 AKM-PRE-001 · AKM-BUD-001</div>
+                                <div class="metrics"><span class="metric">👍 <b>1.2k</b></span><span class="metric">📋 <b>3.4k</b></span><span class="metric" style="margin-left:6px"><span class="avatar" style="width:16px;height:16px;font-size:0.5rem">T</span> Tactical_K</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="v3-gun-card">
+                        <div class="v3-gun-head">
+                            <div class="v3-gun-img">🔫</div>
+                            <div class="v3-gun-info"><div class="v3-gun-name">M4A1</div><div class="v3-gun-tags"><span class="tag">全能</span><span class="tag">通用</span></div></div>
+                            <div class="v3-gun-price">105K<span>裸枪价</span></div>
+                        </div>
+                        <div class="v3-scheme">
+                            <div class="v3-scheme-info"><div class="v3-scheme-name">全能满改方案</div><div class="v3-scheme-tags"><span class="tag premium">满改</span><span class="tag newbie">新手推荐</span></div></div>
+                            <span class="v3-scheme-price">157K</span>
+                            <button class="copy-btn">复制</button>
+                        </div>
+                        <div class="v3-scheme">
+                            <div class="v3-scheme-info"><div class="v3-scheme-name">入门通用方案</div><div class="v3-scheme-tags"><span class="tag budget">性价比</span></div></div>
+                            <span class="v3-scheme-price">85K</span>
+                            <button class="copy-btn">复制</button>
+                        </div>
+                        <div class="v3-scheme-foot">
+                            <div class="v3-radar">雷达</div>
+                            <div style="flex:1">
+                                <div style="font-size:0.6rem;color:var(--txt3);margin-bottom:3px">分享码 M4-PRE-001 · M4-BUD-001</div>
+                                <div class="metrics"><span class="metric">👍 <b>860</b></span><span class="metric">📋 <b>1.2k</b></span><span class="metric" style="margin-left:6px"><span class="avatar purple" style="width:16px;height:16px;font-size:0.5rem">G</span> GhostTeam</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="v3-group">
+                <div class="v3-group-head"><span class="v3-group-name">冲锋枪 SMG</span><span class="v3-group-count"><b>2</b> 把 · <b>3</b> 套方案</span></div>
+                <div class="v3-guns">
+                    <div class="v3-gun-card">
+                        <div class="v3-gun-head">
+                            <div class="v3-gun-img">🔫</div>
+                            <div class="v3-gun-info"><div class="v3-gun-name">MP5</div><div class="v3-gun-tags"><span class="tag">精准</span><span class="tag">中近距离</span></div></div>
+                            <div class="v3-gun-price">72K<span>裸枪价</span></div>
+                        </div>
+                        <div class="v3-scheme">
+                            <div class="v3-scheme-info"><div class="v3-scheme-name">经典腰射构建</div><div class="v3-scheme-tags"><span class="tag budget">性价比</span></div></div>
+                            <span class="v3-scheme-price">65K</span>
+                            <button class="copy-btn">复制</button>
+                        </div>
+                        <div class="v3-scheme-foot">
+                            <div class="v3-radar">雷达</div>
+                            <div style="flex:1">
+                                <div style="font-size:0.6rem;color:var(--txt3)">分享码 MP5-BUD-001</div>
+                                <div class="metrics"><span class="metric">👍 <b>980</b></span><span class="metric">📋 <b>2.1k</b></span><span class="metric" style="margin-left:6px"><span class="avatar" style="width:16px;height:16px;font-size:0.5rem">C</span> CQB_Master</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="v3-gun-card">
+                        <div class="v3-gun-head">
+                            <div class="v3-gun-img">🔫</div>
+                            <div class="v3-gun-info"><div class="v3-gun-name">Vector</div><div class="v3-gun-tags"><span class="tag">超高射速</span><span class="tag">近战</span></div></div>
+                            <div class="v3-gun-price">88K<span>裸枪价</span></div>
+                        </div>
+                        <div class="v3-scheme">
+                            <div class="v3-scheme-info"><div class="v3-scheme-name">极速满配方案</div><div class="v3-scheme-tags"><span class="tag premium">满改</span></div></div>
+                            <span class="v3-scheme-price">120K</span>
+                            <button class="copy-btn">复制</button>
+                        </div>
+                        <div class="v3-scheme-foot">
+                            <div class="v3-radar">雷达</div>
+                            <div style="flex:1">
+                                <div style="font-size:0.6rem;color:var(--txt3)">分享码 VEC-PRE-001</div>
+                                <div class="metrics"><span class="metric">👍 <b>540</b></span><span class="metric">📋 <b>760</b></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="note">※ 点方案进详情弹窗看完整配件+描述。枪卡底部小雷达+分享码+作者+点赞为概览。</div>
+    </div>
+
+</div>
+<script>
+    document.querySelectorAll('.v1-card').forEach(c => {
+        c.addEventListener('click', e => {
+            if (e.target.closest('.copy-btn, .v1-schemes')) return;
+            c.classList.toggle('expanded');
+            const hint = c.querySelector('.v1-foot span:last-child');
+            if (hint) hint.textContent = c.classList.contains('expanded') ? '点击收起 ▲' : '点击展开 ▼';
+        });
+    });
+</script>
+</body>
+</html>

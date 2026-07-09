@@ -29,8 +29,11 @@
   },
   "home": {
     "recentStatus": "Aktuelle Kampfstatistiken",
-    "viewMoreStats": "Mehr Statistiken anzeigen >",
-    "highValueItems": "Aktuelle Hochwertige Gegenstände",
+    "combatStats": "Kampfdaten",
+    "combatBrief": "Gestern · Kampfdaten",
+    "highlightMatch": "Highlight-Match",
+    "viewMoreStats": "Vollständige Statistiken →",
+    "highValueItems": "Hochwertige Gegenstände",
     "dailyPassword": "Tägliches Passwort",
     "passwordGuide": "Passwortraum-Anleitung",
     "todayPassword": "Heutiges Passwort",
@@ -45,7 +48,8 @@
     "matches": "Spiele",
     "kills": "Eliminierungen",
     "winRate": "Siegesrate",
-    "kd": "K/D"
+    "kd": "K/D",
+    "scoreUnit": "Pkt."
   },
   "maps": {
     "dam": "Zero-Damm",
@@ -53,6 +57,7 @@
     "bakshi": "Brakkesh",
     "space": "Space City",
     "prison": "Gezeitengefängnis",
+    "az3": "AZ3",
     "jinqu": "Aschenzone",
     "pansheng": "Aufstieg",
     "linjiedian": "Kritischer Punkt",

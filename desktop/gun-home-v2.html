@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>首页改枪区 · 贴近官方「署名方案卡」版</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+        --brand: #24f4b2;
+        --panel: rgba(18, 38, 42, 0.9);
+        --panel-head: rgba(92, 112, 114, 0.52);
+        --sub: rgba(6, 18, 20, 0.66);
+        --border: rgba(84, 112, 118, 0.52);
+        --border-soft: rgba(84, 112, 118, 0.3);
+        --txt: rgba(255, 255, 255, 0.88);
+        --txt2: rgba(255, 255, 255, 0.55);
+        --txt3: rgba(255, 255, 255, 0.38);
+        --gold: #f5b942;
+        --purple: #b98cff;
+    }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: linear-gradient(180deg, #0b2022, #071c1e 60%, #07191a); color: var(--txt); min-height: 100vh; padding: 40px 20px 80px; }
+    .wrap { max-width: 1060px; margin: 0 auto; }
+    .page-title { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; }
+    .page-title .brand { color: var(--brand); }
+    .page-sub { color: var(--txt2); font-size: 0.88rem; margin-bottom: 32px; line-height: 1.7; }
+    .page-sub b { color: var(--brand); }
+
+    .section-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--panel-head); border: 1px solid var(--border); border-bottom: none; gap: 12px; flex-wrap: wrap; }
+    .section-title { font-weight: 800; font-size: 0.95rem; }
+    .sh-filters { display: flex; gap: 8px; align-items: center; margin-left: auto; }
+    .sh-filters select { background: var(--sub); border: 1px solid var(--border-soft); color: var(--txt); padding: 4px 8px; font-size: 0.74rem; font-family: inherit; }
+    .view-link { color: var(--brand); font-size: 0.78rem; cursor: pointer; }
+    .panel { background: var(--panel); border: 1px solid var(--border); padding: 14px; }
+
+    /* 枪械精选 tab（保留5枪，信息化） */
+    .gun-selector { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px; }
+    .gun-tab { position: relative; background: var(--sub); border: 1px solid var(--border-soft); padding: 10px 8px; cursor: pointer; transition: 0.2s; overflow: hidden; }
+    .gun-tab:hover { transform: translateY(-3px); border-color: rgba(36,244,178,0.5); }
+    .gun-tab.active { border-color: var(--brand); background: rgba(36,244,178,0.08); }
+    .gun-tab.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--brand); box-shadow: 0 0 10px rgba(36,244,178,0.5); }
+    .gt-badge { position: absolute; top: 0; left: 0; font-family: 'Orbitron', monospace; font-size: 0.54rem; font-weight: 700; padding: 2px 5px; background: rgba(245,185,66,0.16); color: var(--gold); }
+    .gt-img { height: 40px; margin: 14px 4px 6px; background: linear-gradient(135deg, rgba(74,92,96,0.5), rgba(18,38,42,0.7)); display: flex; align-items: center; justify-content: center; font-size: 1.3rem; }
+    .gt-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.82rem; text-align: center; }
+    .gt-role { font-size: 0.6rem; color: var(--txt2); text-align: center; margin-top: 1px; }
+
+    /* ===== 核心：署名方案内容卡 ===== */
+    .builds { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .plan-card { position: relative; background: var(--sub); border: 1px solid var(--border-soft); border-top: 2px solid var(--brand); transition: 0.2s; display: flex; flex-direction: column; }
+    .plan-card.premium { border-top-color: var(--purple); }
+    .plan-card:hover { border-color: rgba(36,244,178,0.5); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+
+    /* 头部：武器名 + 定位 + 价格档 + 复制按钮 */
+    .pc-head { display: flex; align-items: flex-start; justify-content: space-between; padding: 12px 14px 10px; gap: 10px; }
+    .pc-head-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .pc-gun { font-family: 'Orbitron', sans-serif; font-weight: 800; font-size: 1.05rem; letter-spacing: 0.5px; }
+    .pc-roles { display: flex; gap: 5px; margin-top: 5px; flex-wrap: wrap; }
+    .pc-role { font-size: 0.62rem; color: var(--txt2); border: 1px solid var(--border-soft); padding: 1px 7px; }
+    .pc-tier { text-align: right; flex-shrink: 0; }
+    .pc-tier b { font-family: 'Orbitron', monospace; font-size: 1.05rem; color: var(--brand); }
+    .premium .pc-tier b { color: var(--purple); }
+    .pc-tier span { display: block; font-size: 0.6rem; color: var(--txt3); }
+
+    /* 方案描述文案 */
+    .pc-desc { padding: 0 14px 10px; font-size: 0.76rem; color: var(--txt2); line-height: 1.55; }
+
+    /* 分享码行 */
+    .pc-code { display: flex; align-items: center; gap: 8px; margin: 0 14px 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-soft); padding: 8px 10px; }
+    .pc-code .lbl { font-size: 0.62rem; color: var(--txt3); }
+    .pc-code .val { font-family: 'Orbitron', monospace; font-size: 0.9rem; color: var(--brand); letter-spacing: 2px; flex: 1; }
+    .premium .pc-code .val { color: var(--purple); }
+    .code-copy { background: transparent; border: 1px solid rgba(36,244,178,0.5); color: var(--brand); font-size: 0.66rem; font-weight: 700; padding: 4px 12px; cursor: pointer; transition: 0.2s; white-space: nowrap; }
+    .premium .code-copy { border-color: rgba(185,140,255,0.6); color: var(--purple); }
+    .code-copy:hover { background: var(--brand); color: #031816; }
+    .premium .code-copy:hover { background: var(--purple); color: #031816; }
+    .code-copy.copied { background: transparent; color: var(--brand); }
+
+    /* 配件清单（文字 chips） */
+    .pc-atts { padding: 0 14px 12px; }
+    .pc-atts .atts-title { font-size: 0.62rem; color: var(--txt3); margin-bottom: 6px; }
+    .atts-list { display: flex; flex-wrap: wrap; gap: 5px; }
+    .att-chip { font-size: 0.64rem; color: var(--txt); background: rgba(255,255,255,0.04); border: 1px solid var(--border-soft); padding: 2px 7px; }
+
+    /* 底部：作者 + 点赞 + 复制热度 */
+    .pc-foot { margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-top: 1px solid var(--border-soft); background: rgba(0,0,0,0.15); }
+    .author { display: flex; align-items: center; gap: 7px; }
+    .author-avatar { width: 22px; height: 22px; border-radius: 50%; background: linear-gradient(135deg, var(--brand), #0d6b52); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: #031816; font-weight: 800; }
+    .author-name { font-size: 0.7rem; color: var(--txt2); }
+    .author-src { font-size: 0.58rem; color: var(--brand); border: 1px solid rgba(36,244,178,0.4); padding: 0 5px; margin-left: 2px; }
+    .pc-metrics { display: flex; gap: 12px; }
+    .metric { display: flex; align-items: center; gap: 4px; font-size: 0.68rem; color: var(--txt3); cursor: pointer; transition: 0.2s; }
+    .metric:hover { color: var(--brand); }
+    .metric b { font-family: 'Orbitron', monospace; color: var(--txt2); }
+
+    .tips { margin-top: 14px; background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--brand); padding: 14px 16px; font-size: 0.82rem; color: var(--txt2); line-height: 1.9; }
+    .tips b { color: var(--brand); }
+    .note { font-size: 0.75rem; color: var(--txt3); margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="page-title">首页改枪区 · <span class="brand">署名方案卡版（贴近官方）</span></div>
+    <div class="page-sub">
+        参考官方 HQ 的做法：把每个改枪方案做成<b>「署名内容卡」</b>——带方案描述、分享码、作者、点赞与复制热度，像一份份可信攻略。<br>
+        仍保留<b>精选 5 枪 + 每枪 1~2 方案</b>的结构，但方案卡从"参数图"升级为"内容卡"，同时加入<b>类型/价格筛选</b>与库入口。
+    </div>
+
+    <div class="section-header">
+        <span class="section-title">🔧 改枪方案推荐 · 烽火地带</span>
+        <div class="sh-filters">
+            <select><option>全部类型</option><option>突击步枪</option><option>冲锋枪</option><option>狙击枪</option></select>
+            <select><option>全部价格</option><option>85K 以内</option><option>85K–160K</option></select>
+        </div>
+        <span class="view-link">查看完整武器库 →</span>
+    </div>
+    <div class="panel">
+        <!-- 精选枪 tab -->
+        <div class="gun-selector">
+            <div class="gun-tab active"><span class="gt-badge">🔥 T0</span><div class="gt-img">🔫</div><div class="gt-name">SCAR-H</div><div class="gt-role">万金油</div></div>
+            <div class="gun-tab"><div class="gt-img">🔫</div><div class="gt-name">M4A1</div><div class="gt-role">中远距离</div></div>
+            <div class="gun-tab"><div class="gt-img">🔫</div><div class="gt-name">AK-74M</div><div class="gt-role">高伤害</div></div>
+            <div class="gun-tab"><div class="gt-img">🔫</div><div class="gt-name">MP5</div><div class="gt-role">近战之王</div></div>
+            <div class="gun-tab"><div class="gt-img">🎯</div><div class="gt-name">VSS</div><div class="gt-role">静音突袭</div></div>
+        </div>
+
+        <!-- 署名方案内容卡 -->
+        <div class="builds">
+            <!-- 性价比 -->
+            <div class="plan-card budget">
+                <div class="pc-head">
+                    <div>
+                        <div class="pc-gun">SCAR-H</div>
+                        <div class="pc-roles"><span class="pc-role">中近距离</span><span class="pc-role">满腰射</span></div>
+                    </div>
+                    <div class="pc-head-right">
+                        <div class="pc-tier"><b>85K</b><span>💰 性价比</span></div>
+                        <button class="code-copy" onclick="doCopy(this)">复制码</button>
+                    </div>
+                </div>
+                <div class="pc-desc">腰射流派构筑，集成消焰与轻量化配件，机动性拉满，撤离近距离遭遇战爆发力强，高性价比首选。</div>
+                <div class="pc-code">
+                    <span class="lbl">分享码</span>
+                    <span class="val">8834 5521</span>
+                </div>
+                <div class="pc-atts">
+                    <div class="atts-title">配件 · 6 件</div>
+                    <div class="atts-list">
+                        <span class="att-chip">消焰器</span><span class="att-chip">红点瞄具</span><span class="att-chip">前握把</span>
+                        <span class="att-chip">扩容弹匣</span><span class="att-chip">轻型枪托</span><span class="att-chip">激光指示</span>
+                    </div>
+                </div>
+                <div class="pc-foot">
+                    <div class="author"><span class="author-avatar">官</span><span class="author-name">官方推荐</span><span class="author-src">OFFICIAL</span></div>
+                    <div class="pc-metrics">
+                        <span class="metric">👍 <b>1.2k</b></span>
+                        <span class="metric">📋 <b>3.4k</b></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 满改 -->
+            <div class="plan-card premium">
+                <div class="pc-head">
+                    <div>
+                        <div class="pc-gun">SCAR-H</div>
+                        <div class="pc-roles"><span class="pc-role">长距离</span><span class="pc-role">高精准</span></div>
+                    </div>
+                    <div class="pc-head-right">
+                        <div class="pc-tier"><b>157K</b><span>💎 满改</span></div>
+                        <button class="code-copy" onclick="doCopy(this)">复制码</button>
+                    </div>
+                </div>
+                <div class="pc-desc">中远距离精准压制流派，补偿器+4x 瞄具+重弹匣，后坐力控制与稳定性顶级，适合守点与中距离对枪。</div>
+                <div class="pc-code">
+                    <span class="lbl">分享码</span>
+                    <span class="val">2077 9163</span>
+                </div>
+                <div class="pc-atts">
+                    <div class="atts-title">配件 · 8 件</div>
+                    <div class="atts-list">
+                        <span class="att-chip">补偿器</span><span class="att-chip">4x 瞄具</span><span class="att-chip">垂直握把</span>
+                        <span class="att-chip">重弹匣</span><span class="att-chip">精准枪托</span><span class="att-chip">长护木</span>
+                        <span class="att-chip">激光指示</span><span class="att-chip">战术握把</span>
+                    </div>
+                </div>
+                <div class="pc-foot">
+                    <div class="author"><span class="author-avatar" style="background:linear-gradient(135deg,#b98cff,#5b2b9e)">阿</span><span class="author-name">主播·老鸟阿姆</span><span class="author-src" style="color:var(--purple);border-color:rgba(185,140,255,0.5)">主播</span></div>
+                    <div class="pc-metrics">
+                        <span class="metric">👍 <b>860</b></span>
+                        <span class="metric">📋 <b>1.2k</b></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tips">
+        <b>相比原版 / 我上一版，这一版的核心改动：</b><br>
+        ① <b>方案 = 署名内容卡</b>：新增<b>方案描述文案</b>（一句话讲清流派与适用场景）+ <b>作者/来源</b>（官方 / 主播 / 社区）+ <b>👍点赞</b> + <b>📋复制热度</b>，像一份可信攻略，而非冷参数图。<br>
+        ② <b>分享码前置</b>：单独一行醒目展示分享码 + 复制，贴合官方"分享码推荐"逻辑。<br>
+        ③ <b>配件改为文字清单</b>：直接列出配件名（消焰器/红点/前握把…），比哑图标更实用。<br>
+        ④ <b>库入口</b>：顶部加<b>类型/价格筛选</b> + "查看完整武器库 →"，暗示背后是可检索的大库。<br>
+        ⑤ 精选枪 tab 精简保留（热度角标 + 定位），不喧宾夺主。
+    </div>
+    <div class="note">※ 纯静态示意，数据/作者/分享码均为占位。若认可，可把「雷达图/硬指标」作为方案卡的可展开详情（点击卡片展开），兼顾内容感与参数深度。</div>
+</div>
+
+<script>
+    document.querySelectorAll('.gun-tab').forEach(t => t.addEventListener('click', () => {
+        document.querySelectorAll('.gun-tab').forEach(x => x.classList.remove('active'));
+        t.classList.add('active');
+    }));
+    function doCopy(btn) {
+        const old = btn.textContent;
+        btn.classList.add('copied'); btn.textContent = '已复制 ✓';
+        setTimeout(() => { btn.classList.remove('copied'); btn.textContent = old; }, 1500);
+    }
+</script>
+</body>
+</html>

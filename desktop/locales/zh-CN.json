@@ -52,8 +52,11 @@
   },
   "home": {
     "recentStatus": "近日战况",
-    "viewMoreStats": "查看更多战绩 >",
-    "highValueItems": "近日高价值物品",
+    "combatStats": "战斗数据",
+    "combatBrief": "昨日 · 战斗数据",
+    "highlightMatch": "精彩对局",
+    "viewMoreStats": "查看完整战绩 →",
+    "highValueItems": "高价值物品",
     "dailyPassword": "每日密码",
     "passwordGuide": "密码房指引",
     "todayPassword": "今日密码",
@@ -68,7 +71,8 @@
     "matches": "场数",
     "kills": "击杀次数",
     "winRate": "胜率",
-    "kd": "K/D"
+    "kd": "K/D",
+    "scoreUnit": "分"
   },
   "maps": {
     "dam": "零号大坝",
@@ -76,6 +80,7 @@
     "bakshi": "巴克什",
     "space": "航天基地",
     "prison": "潮汐监狱",
+    "az3": "AZ3",
     "jinqu": "烬区",
     "pansheng": "攀升",
     "linjiedian": "临界点",

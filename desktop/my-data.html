@@ -412,12 +412,62 @@
             animation: fadeIn 0.3s ease;
         }
         
-        /* Overview Tab - 总览 双列布局 */
+        /* Overview Tab - 总览 双列布局（段位窄 + 综合数据宽） */
         .overview-layout,
         .zhanchang-overview-layout {
             display: grid;
-            grid-template-columns: 280px 1fr;
+            grid-template-columns: 320px 1fr;
             gap: 1.5rem;
+            align-items: stretch;
+        }
+
+        /* 段位卡与综合数据卡上下对齐：等高拉伸 */
+        .overview-sidebar,
+        .overview-main {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .overview-sidebar .rank-card,
+        .overview-main .stats-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        /* 综合数据卡内部三列撑满 */
+        .overview-main .stats-card .stats-three-columns {
+            flex: 1;
+        }
+
+        /* 全宽最近对局区 */
+        .recent-matches-card.recent-matches-full {
+            margin-top: 1.5rem;
+            width: 100%;
+        }
+
+        /* 查看全部按钮区：按钮与列表等宽 */
+        .recent-matches-footer {
+            padding: 1.25rem 0 0.25rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 1rem;
+        }
+        .view-all-btn {
+            display: block;
+            width: 100%;
+            padding: 0.7rem 2rem;
+            background: transparent;
+            border: 1px solid var(--accent-cyan, #24f4b2);
+            color: var(--accent-cyan, #24f4b2);
+            font-size: 0.875rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            border-radius: 0;
+            cursor: pointer;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+        .view-all-btn:hover {
+            background: var(--accent-cyan, #24f4b2);
+            color: #031816;
         }
         
         /* 左侧栏 - 段位信息 */
@@ -3222,18 +3272,6 @@
                             <div class="peak-rank-season">S1</div>
                         </div>
                     </div>
-                    
-                    <!-- 数据总览雷达图 -->
-                    <div class="radar-overview-card">
-                        <div class="radar-overview-header">
-                            <span class="radar-overview-title" data-i18n="profile.abilityOverview">能力总览</span>
-                        </div>
-                        <div class="radar-container">
-                            <svg class="radar-svg" viewBox="0 0 200 200" id="ability-radar">
-                                <!-- 由JS动态生成 -->
-                            </svg>
-                        </div>
-                    </div>
                 </div>
                 
                 <!-- 右侧栏 - 聚合数据 -->
@@ -3319,67 +3357,190 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- 最近战绩模块 -->
-                    <div class="recent-matches-card">
-                        <div class="recent-matches-header">
-                            <span class="recent-matches-title">⚔️ <span data-i18n="match.recentMatches">最近对局</span></span>
-                            <a href="#" class="recent-matches-link" data-i18n="common.viewAll">查看全部 ›</a>
+                </div>
+            </div>
+            
+            <!-- 最近战绩模块 - 全宽 -->
+            <div class="recent-matches-card recent-matches-full">
+                <div class="recent-matches-header">
+                    <span class="recent-matches-title">⚔️ <span data-i18n="match.recentMatches">最近对局</span></span>
+                    <a href="#" class="recent-matches-link" data-i18n="common.viewAll">查看更多 ›</a>
+                </div>
+                
+                <div class="battle-record-list">
+                    <div class="battle-record-item">
+                        <div class="battle-record-avatar">🎖️</div>
+                        <div class="battle-record-info">
+                            <div class="battle-record-status">
+                                <span class="battle-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
+                                <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                            </div>
+                            <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.dam">零号大坝</span>-<span data-i18n="maps.secret">机密</span></div>
+                            <div class="battle-record-time">02-03 10:52</div>
                         </div>
-                        
-                        <div class="battle-record-list">
-                            <div class="battle-record-item">
-                                <div class="battle-record-avatar">🎖️</div>
-                                <div class="battle-record-info">
-                                    <div class="battle-record-status">
-                                        <span class="battle-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
-                                        <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
-                                    </div>
-                                    <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.dam">零号大坝</span>-<span data-i18n="maps.secret">机密</span></div>
-                                    <div class="battle-record-time">02-03 10:52</div>
-                                </div>
-                                <div class="battle-record-result">
-                                    <div class="battle-result-profit">💰 68,304</div>
-                                    <div class="battle-result-kills">💀 4</div>
-                                </div>
-                                <span class="battle-record-arrow">›</span>
-                            </div>
-                            
-                            <div class="battle-record-item">
-                                <div class="battle-record-avatar">⚔️</div>
-                                <div class="battle-record-info">
-                                    <div class="battle-record-status">
-                                        <span class="battle-status-tag success" data-i18n="match.extractionSuccess">撤离成功</span>
-                                        <span class="battle-operator-name" data-i18n="operators.haizhua">骇爪</span>
-                                    </div>
-                                    <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.valley">长弓溪谷</span>-<span data-i18n="maps.normal">普通</span></div>
-                                    <div class="battle-record-time">02-03 10:30</div>
-                                </div>
-                                <div class="battle-record-result">
-                                    <div class="battle-result-profit positive">💰 520,000</div>
-                                    <div class="battle-result-kills">💀 7</div>
-                                </div>
-                                <span class="battle-record-arrow">›</span>
-                            </div>
-                            
-                            <div class="battle-record-item">
-                                <div class="battle-record-avatar">🛡️</div>
-                                <div class="battle-record-info">
-                                    <div class="battle-record-status">
-                                        <span class="battle-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
-                                        <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
-                                    </div>
-                                    <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.space">航天基地</span>-<span data-i18n="maps.secret">机密</span></div>
-                                    <div class="battle-record-time">02-03 09:45</div>
-                                </div>
-                                <div class="battle-record-result">
-                                    <div class="battle-result-profit negative">💰 -180,000</div>
-                                    <div class="battle-result-kills">💀 2</div>
-                                </div>
-                                <span class="battle-record-arrow">›</span>
-                            </div>
+                        <div class="battle-record-result">
+                            <div class="battle-result-profit">💰 68,304</div>
+                            <div class="battle-result-kills">💀 4</div>
                         </div>
+                        <span class="battle-record-arrow">›</span>
                     </div>
+                    
+                    <div class="battle-record-item">
+                        <div class="battle-record-avatar">⚔️</div>
+                        <div class="battle-record-info">
+                            <div class="battle-record-status">
+                                <span class="battle-status-tag success" data-i18n="match.extractionSuccess">撤离成功</span>
+                                <span class="battle-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                            </div>
+                            <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.valley">长弓溪谷</span>-<span data-i18n="maps.normal">普通</span></div>
+                            <div class="battle-record-time">02-03 10:30</div>
+                        </div>
+                        <div class="battle-record-result">
+                            <div class="battle-result-profit positive">💰 520,000</div>
+                            <div class="battle-result-kills">💀 7</div>
+                        </div>
+                        <span class="battle-record-arrow">›</span>
+                    </div>
+                    
+                    <div class="battle-record-item">
+                        <div class="battle-record-avatar">🛡️</div>
+                        <div class="battle-record-info">
+                            <div class="battle-record-status">
+                                <span class="battle-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
+                                <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                            </div>
+                            <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.space">航天基地</span>-<span data-i18n="maps.secret">机密</span></div>
+                            <div class="battle-record-time">02-03 09:45</div>
+                        </div>
+                        <div class="battle-record-result">
+                            <div class="battle-result-profit negative">💰 -180,000</div>
+                            <div class="battle-result-kills">💀 2</div>
+                        </div>
+                        <span class="battle-record-arrow">›</span>
+                    </div>
+
+                    <div class="battle-record-item">
+                        <div class="battle-record-avatar">🎯</div>
+                        <div class="battle-record-info">
+                            <div class="battle-record-status">
+                                <span class="battle-status-tag success" data-i18n="match.extractionSuccess">撤离成功</span>
+                                <span class="battle-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                            </div>
+                            <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.bakshi">巴克什</span>-<span data-i18n="maps.normal">普通</span></div>
+                            <div class="battle-record-time">02-03 09:10</div>
+                        </div>
+                        <div class="battle-record-result">
+                            <div class="battle-result-profit positive">💰 312,500</div>
+                            <div class="battle-result-kills">💀 5</div>
+                        </div>
+                        <span class="battle-record-arrow">›</span>
+                    </div>
+
+                    <div class="battle-record-item">
+                        <div class="battle-record-avatar">🚁</div>
+                        <div class="battle-record-info">
+                            <div class="battle-record-status">
+                                <span class="battle-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
+                                <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                            </div>
+                            <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.dam">零号大坝</span>-<span data-i18n="maps.secret">机密</span></div>
+                            <div class="battle-record-time">02-03 08:38</div>
+                        </div>
+                        <div class="battle-record-result">
+                            <div class="battle-result-profit negative">💰 -92,000</div>
+                            <div class="battle-record-kills">💀 3</div>
+                        </div>
+                        <span class="battle-record-arrow">›</span>
+                    </div>
+
+                    <div class="battle-record-item">
+                        <div class="battle-record-avatar">⚔️</div>
+                        <div class="battle-record-info">
+                            <div class="battle-record-status">
+                                <span class="battle-status-tag success" data-i18n="match.extractionSuccess">撤离成功</span>
+                                <span class="battle-operator-name" data-i18n="operators.anren">暗刃</span>
+                            </div>
+                            <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.valley">长弓溪谷</span>-<span data-i18n="maps.secret">机密</span></div>
+                            <div class="battle-record-time">02-02 22:50</div>
+                        </div>
+                        <div class="battle-record-result">
+                            <div class="battle-result-profit positive">💰 845,000</div>
+                            <div class="battle-record-kills">💀 9</div>
+                        </div>
+                        <span class="battle-record-arrow">›</span>
+                    </div>
+
+                    <div class="battle-record-item">
+                        <div class="battle-record-avatar">🛡️</div>
+                        <div class="battle-record-info">
+                            <div class="battle-record-status">
+                                <span class="battle-status-tag success" data-i18n="match.extractionSuccess">撤离成功</span>
+                                <span class="battle-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                            </div>
+                            <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.bakshi">巴克什</span>-<span data-i18n="maps.secret">机密</span></div>
+                            <div class="battle-record-time">02-02 22:15</div>
+                        </div>
+                        <div class="battle-record-result">
+                            <div class="battle-result-profit positive">💰 228,000</div>
+                            <div class="battle-record-kills">💀 6</div>
+                        </div>
+                        <span class="battle-record-arrow">›</span>
+                    </div>
+
+                    <div class="battle-record-item">
+                        <div class="battle-record-avatar">🎖️</div>
+                        <div class="battle-record-info">
+                            <div class="battle-record-status">
+                                <span class="battle-status-tag fail" data-i18n="match.extractionFailed">撤离失败</span>
+                                <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                            </div>
+                            <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.space">航天基地</span>-<span data-i18n="maps.normal">普通</span></div>
+                            <div class="battle-record-time">02-02 21:40</div>
+                        </div>
+                        <div class="battle-record-result">
+                            <div class="battle-result-profit">💰 45,000</div>
+                            <div class="battle-record-kills">💀 1</div>
+                        </div>
+                        <span class="battle-record-arrow">›</span>
+                    </div>
+
+                    <div class="battle-record-item">
+                        <div class="battle-record-avatar">🎯</div>
+                        <div class="battle-record-info">
+                            <div class="battle-record-status">
+                                <span class="battle-status-tag success" data-i18n="match.extractionSuccess">撤离成功</span>
+                                <span class="battle-operator-name" data-i18n="operators.anren">暗刃</span>
+                            </div>
+                            <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.dam">零号大坝</span>-<span data-i18n="maps.secret">机密</span></div>
+                            <div class="battle-record-time">02-02 20:55</div>
+                        </div>
+                        <div class="battle-record-result">
+                            <div class="battle-result-profit positive">💰 678,000</div>
+                            <div class="battle-record-kills">💀 8</div>
+                        </div>
+                        <span class="battle-record-arrow">›</span>
+                    </div>
+
+                    <div class="battle-record-item">
+                        <div class="battle-record-avatar">🚁</div>
+                        <div class="battle-record-info">
+                            <div class="battle-record-status">
+                                <span class="battle-status-tag success" data-i18n="match.extractionSuccess">撤离成功</span>
+                                <span class="battle-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                            </div>
+                            <div class="battle-record-map"><span data-i18n="gameMode.fenghuo">烽火地带</span> | <span data-i18n="maps.valley">长弓溪谷</span>-<span data-i18n="maps.normal">普通</span></div>
+                            <div class="battle-record-time">02-02 20:20</div>
+                        </div>
+                        <div class="battle-record-result">
+                            <div class="battle-result-profit positive">💰 412,000</div>
+                            <div class="battle-record-kills">💀 4</div>
+                        </div>
+                        <span class="battle-record-arrow">›</span>
+                    </div>
+                </div>
+
+                <div class="recent-matches-footer">
+                    <button class="view-all-btn" data-i18n="common.viewAll">查看全部</button>
                 </div>
             </div>
         </div>
@@ -3881,18 +4042,6 @@
                                 <div class="peak-rank-season">S1</div>
                             </div>
                         </div>
-                        
-                        <!-- 能力雷达图 -->
-                        <div class="radar-overview-card">
-                            <div class="radar-overview-header">
-                                <span class="radar-overview-title" data-i18n="profile.abilityOverview">能力总览</span>
-                            </div>
-                            <div class="radar-container">
-                                <svg class="radar-svg" viewBox="0 0 200 200" id="ability-radar-zc">
-                                    <!-- 由JS动态生成 -->
-                                </svg>
-                            </div>
-                        </div>
                     </div>
                     
                     <!-- 右侧主内容区 -->
@@ -3979,64 +4128,180 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- 最近对局 - 全面战场 -->
-                        <div class="recent-matches-card">
-                            <div class="recent-matches-header">
-                                <span class="recent-matches-title">⚔️ <span data-i18n="match.recentMatches">最近对局</span></span>
-                                <a href="#" class="recent-matches-link" data-i18n="common.viewAll">查看全部 ›</a>
+                    </div>
+                </div>
+                
+                <!-- 最近对局 - 全面战场 - 全宽 -->
+                <div class="recent-matches-card recent-matches-full">
+                    <div class="recent-matches-header">
+                        <span class="recent-matches-title">⚔️ <span data-i18n="match.recentMatches">最近对局</span></span>
+                        <a href="#" class="recent-matches-link" data-i18n="common.viewAll">查看更多 ›</a>
+                    </div>
+                    
+                    <div class="battle-record-list">
+                        <div class="battle-record-item">
+                            <div class="battle-record-avatar">🎖️</div>
+                            <div class="battle-record-info">
+                                <div class="battle-record-status">
+                                    <span class="battle-status-tag fail" data-i18n="match.defeat">失败</span>
+                                    <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                                </div>
+                                <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.linjiedian">临界点</span>-攻防</div>
+                                <div class="battle-record-time">02-03 10:52</div>
                             </div>
-                            
-                            <div class="battle-record-list">
-                                <div class="battle-record-item">
-                                    <div class="battle-record-avatar">🎖️</div>
-                                    <div class="battle-record-info">
-                                        <div class="battle-record-status">
-                                            <span class="battle-status-tag fail" data-i18n="match.defeat">失败</span>
-                                            <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
-                                        </div>
-                                        <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.linjiedian">临界点</span>-攻防</div>
-                                        <div class="battle-record-time">02-03 10:52</div>
-                                    </div>
-                                    <div class="battle-record-result">
-                                        <div class="battle-result-profit">🏆 1,850</div>
-                                    </div>
-                                    <span class="battle-record-arrow">›</span>
-                                </div>
-                                
-                                <div class="battle-record-item">
-                                    <div class="battle-record-avatar">⚔️</div>
-                                    <div class="battle-record-info">
-                                        <div class="battle-record-status">
-                                            <span class="battle-status-tag victory" data-i18n="match.victory">胜利</span>
-                                            <span class="battle-operator-name" data-i18n="operators.haizhua">骇爪</span>
-                                        </div>
-                                        <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.fengyanyan">风暴眼</span>-攻防</div>
-                                        <div class="battle-record-time">02-03 10:30</div>
-                                    </div>
-                                    <div class="battle-record-result">
-                                        <div class="battle-result-profit positive">🏆 3,520</div>
-                                    </div>
-                                    <span class="battle-record-arrow">›</span>
-                                </div>
-                                
-                                <div class="battle-record-item">
-                                    <div class="battle-record-avatar">🛡️</div>
-                                    <div class="battle-record-info">
-                                        <div class="battle-record-status">
-                                            <span class="battle-status-tag fail" data-i18n="match.defeat">失败</span>
-                                            <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
-                                        </div>
-                                        <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.huanyingbaolei">幻影要塞</span>-攻防</div>
-                                        <div class="battle-record-time">02-03 09:45</div>
-                                    </div>
-                                    <div class="battle-record-result">
-                                        <div class="battle-result-profit">🏆 1,280</div>
-                                    </div>
-                                    <span class="battle-record-arrow">›</span>
-                                </div>
+                            <div class="battle-record-result">
+                                <div class="battle-result-profit">🏆 1,850</div>
                             </div>
+                            <span class="battle-record-arrow">›</span>
                         </div>
+                        
+                        <div class="battle-record-item">
+                            <div class="battle-record-avatar">⚔️</div>
+                            <div class="battle-record-info">
+                                <div class="battle-record-status">
+                                    <span class="battle-status-tag victory" data-i18n="match.victory">胜利</span>
+                                    <span class="battle-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                                </div>
+                                <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.fengyanyan">风暴眼</span>-攻防</div>
+                                <div class="battle-record-time">02-03 10:30</div>
+                            </div>
+                            <div class="battle-record-result">
+                                <div class="battle-result-profit positive">🏆 3,520</div>
+                            </div>
+                            <span class="battle-record-arrow">›</span>
+                        </div>
+                        
+                        <div class="battle-record-item">
+                            <div class="battle-record-avatar">🛡️</div>
+                            <div class="battle-record-info">
+                                <div class="battle-record-status">
+                                    <span class="battle-status-tag fail" data-i18n="match.defeat">失败</span>
+                                    <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                                </div>
+                                <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.huanyingbaolei">幻影要塞</span>-攻防</div>
+                                <div class="battle-record-time">02-03 09:45</div>
+                            </div>
+                            <div class="battle-record-result">
+                                <div class="battle-result-profit">🏆 1,280</div>
+                            </div>
+                            <span class="battle-record-arrow">›</span>
+                        </div>
+
+                        <div class="battle-record-item">
+                            <div class="battle-record-avatar">🎯</div>
+                            <div class="battle-record-info">
+                                <div class="battle-record-status">
+                                    <span class="battle-status-tag victory" data-i18n="match.victory">胜利</span>
+                                    <span class="battle-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                                </div>
+                                <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.guanchuan">贯穿</span>-攻防</div>
+                                <div class="battle-record-time">02-03 09:10</div>
+                            </div>
+                            <div class="battle-record-result">
+                                <div class="battle-result-profit positive">🏆 4,100</div>
+                            </div>
+                            <span class="battle-record-arrow">›</span>
+                        </div>
+
+                        <div class="battle-record-item">
+                            <div class="battle-record-avatar">🚁</div>
+                            <div class="battle-record-info">
+                                <div class="battle-record-status">
+                                    <span class="battle-status-tag victory" data-i18n="match.victory">胜利</span>
+                                    <span class="battle-operator-name" data-i18n="operators.anren">暗刃</span>
+                                </div>
+                                <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.pansheng">攀升</span>-攻防</div>
+                                <div class="battle-record-time">02-03 08:38</div>
+                            </div>
+                            <div class="battle-record-result">
+                                <div class="battle-result-profit positive">🏆 2,950</div>
+                            </div>
+                            <span class="battle-record-arrow">›</span>
+                        </div>
+
+                        <div class="battle-record-item">
+                            <div class="battle-record-avatar">⚔️</div>
+                            <div class="battle-record-info">
+                                <div class="battle-record-status">
+                                    <span class="battle-status-tag fail" data-i18n="match.defeat">失败</span>
+                                    <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                                </div>
+                                <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.qianhaozhan">堑壕战</span>-攻防</div>
+                                <div class="battle-record-time">02-02 22:50</div>
+                            </div>
+                            <div class="battle-record-result">
+                                <div class="battle-result-profit">🏆 1,640</div>
+                            </div>
+                            <span class="battle-record-arrow">›</span>
+                        </div>
+
+                        <div class="battle-record-item">
+                            <div class="battle-record-avatar">🛡️</div>
+                            <div class="battle-record-info">
+                                <div class="battle-record-status">
+                                    <span class="battle-status-tag victory" data-i18n="match.victory">胜利</span>
+                                    <span class="battle-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                                </div>
+                                <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.duangui">断轨</span>-攻防</div>
+                                <div class="battle-record-time">02-02 22:15</div>
+                            </div>
+                            <div class="battle-record-result">
+                                <div class="battle-result-profit positive">🏆 3,890</div>
+                            </div>
+                            <span class="battle-record-arrow">›</span>
+                        </div>
+
+                        <div class="battle-record-item">
+                            <div class="battle-record-avatar">🎖️</div>
+                            <div class="battle-record-info">
+                                <div class="battle-record-status">
+                                    <span class="battle-status-tag fail" data-i18n="match.defeat">失败</span>
+                                    <span class="battle-operator-name" data-i18n="operators.weilong">威龙</span>
+                                </div>
+                                <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.linjiedian">临界点</span>-攻防</div>
+                                <div class="battle-record-time">02-02 21:40</div>
+                            </div>
+                            <div class="battle-record-result">
+                                <div class="battle-result-profit">🏆 980</div>
+                            </div>
+                            <span class="battle-record-arrow">›</span>
+                        </div>
+
+                        <div class="battle-record-item">
+                            <div class="battle-record-avatar">🎯</div>
+                            <div class="battle-record-info">
+                                <div class="battle-record-status">
+                                    <span class="battle-status-tag victory" data-i18n="match.victory">胜利</span>
+                                    <span class="battle-operator-name" data-i18n="operators.anren">暗刃</span>
+                                </div>
+                                <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.fengyanyan">风暴眼</span>-攻防</div>
+                                <div class="battle-record-time">02-02 20:55</div>
+                            </div>
+                            <div class="battle-record-result">
+                                <div class="battle-result-profit positive">🏆 4,680</div>
+                            </div>
+                            <span class="battle-record-arrow">›</span>
+                        </div>
+
+                        <div class="battle-record-item">
+                            <div class="battle-record-avatar">🚁</div>
+                            <div class="battle-record-info">
+                                <div class="battle-record-status">
+                                    <span class="battle-status-tag victory" data-i18n="match.victory">胜利</span>
+                                    <span class="battle-operator-name" data-i18n="operators.haizhua">骇爪</span>
+                                </div>
+                                <div class="battle-record-map"><span data-i18n="gameMode.zhanchang">全面战场</span> | <span data-i18n="maps.huanyingbaolei">幻影要塞</span>-攻防</div>
+                                <div class="battle-record-time">02-02 20:20</div>
+                            </div>
+                            <div class="battle-record-result">
+                                <div class="battle-result-profit positive">🏆 2,320</div>
+                            </div>
+                            <span class="battle-record-arrow">›</span>
+                        </div>
+                    </div>
+
+                    <div class="recent-matches-footer">
+                        <button class="view-all-btn" data-i18n="common.viewAll">查看全部</button>
                     </div>
                 </div>
             </div>

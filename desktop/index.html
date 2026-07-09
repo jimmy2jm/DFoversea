@@ -156,95 +156,87 @@
 
             <!-- 烽火日报 Content -->
             <div class="report-content" id="fenguo-content">
-                <!-- Top Row: Stats + High Value Items -->
-                <div class="report-top-row">
-                    <!-- Left: Core Stats -->
-                    <div class="sub-card stats-card">
-                        <div class="sub-card-header">
-                            <span class="sub-card-title" data-i18n="home.recentStatus">近日战况</span>
-                            <span class="header-date">2026/01/29</span>
-                            <span class="view-link asset-calendar-entry-pc">资产周历 ></span>
-                            <span class="view-link" onclick="window.location.href='my-data.html?mode=fenghuo'" data-i18n="home.viewMoreStats">查看更多战绩 ></span>
+                <!-- Top focus: hero combat data (centered) -->
+                <div class="report-focus">
+                    <span class="focus-kicker" data-i18n="home.combatBrief">昨日 · 战斗数据</span>
+                    <span class="cell-link focus-link" onclick="window.location.href='my-data.html?mode=fenghuo'" data-i18n="home.viewMoreStats">查看完整战绩 →</span>
+                    <div class="focus-primary">
+                        <span class="focus-value">13,141,314</span>
+                        <span class="focus-unit">HC</span>
+                    </div>
+                    <div class="focus-stats">
+                        <span class="stat-inline"><b>33</b><i data-i18n="stats.operatorKills">击杀干员数</i></span>
+                        <span class="stat-inline"><b>27%</b><i data-i18n="stats.extractionRate">撤离率</i></span>
+                        <span class="stat-inline"><b>20</b><i data-i18n="stats.matches">场数</i></span>
+                        <span class="stat-inline"><b>2.1</b><i data-i18n="stats.kd">K/D</i></span>
+                    </div>
+                </div>
+
+                <!-- Lower row: high-value items (left) + daily password (right) -->
+                <div class="report-lower-row">
+                    <!-- Left: High Value Items -->
+                    <div class="dossier-cell lower-cell">
+                        <div class="cell-header">
+                            <span class="cell-marker"></span>
+                            <span class="cell-label"><span data-i18n="home.highValueItems">高价值物品</span></span>
+                            <span class="cell-link asset-calendar-entry-pc">资产周历 →</span>
                         </div>
-                        <div class="stats-compact">
-                            <div class="primary-stat">
-                                <span class="stat-label" data-i18n="stats.earnings">收益</span>
-                                <span class="stat-value highlight">13,141,314</span>
-                                <span class="stat-unit">HC</span>
+                        <div class="items-list-inline">
+                            <div class="item-chip">
+                                <div class="item-chip-thumb red-tier"></div>
+                                <span class="item-chip-name" data-i18n="items.powerBattery">动力电池组</span>
                             </div>
-                            <div class="secondary-stats-compact">
-                                <div class="stat-item">
-                                    <span class="stat-number">33</span>
-                                    <span class="stat-name" data-i18n="stats.operatorKills">击杀干员数</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">27%</span>
-                                    <span class="stat-name" data-i18n="stats.extractionRate">撤离率</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">20</span>
-                                    <span class="stat-name" data-i18n="stats.matches">场数</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">2.1</span>
-                                    <span class="stat-name" data-i18n="stats.kd">K/D</span>
-                                </div>
+                            <div class="item-chip">
+                                <div class="item-chip-thumb red-tier"></div>
+                                <span class="item-chip-name" data-i18n="items.goldBar">金块</span>
+                            </div>
+                            <div class="item-chip">
+                                <div class="item-chip-thumb red-tier"></div>
+                                <span class="item-chip-name" data-i18n="items.encryptedUSB">加密U盘</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Right: High Value Items -->
-                    <div class="sub-card items-card">
-                        <div class="sub-card-header">
-                            <span class="sub-card-title"><span data-i18n="home.highValueItems">🎁 近日高价值物品</span></span>
+                    <!-- Right: Daily Password (two rows, 3+3) -->
+                    <div class="dossier-cell password-panel">
+                        <div class="cell-header">
+                            <span class="cell-marker"></span>
+                            <span class="cell-label"><span data-i18n="home.dailyPassword">🔐 每日密码</span></span>
+                            <button class="password-guide-btn" id="password-guide-btn" data-i18n="home.passwordGuide">密码房指引</button>
                         </div>
-                        <div class="items-grid-compact">
-                            <div class="item-card">
-                                <div class="item-image red-tier"></div>
-                                <span class="item-name" data-i18n="items.powerBattery">动力电池组</span>
+                        <div class="password-grid">
+                            <div class="pw-item">
+                                <span class="pw-map" data-i18n="maps.dam">零号大坝</span>
+                                <span class="pw-code">2119</span>
                             </div>
-                            <div class="item-card">
-                                <div class="item-image red-tier"></div>
-                                <span class="item-name" data-i18n="items.goldBar">金块</span>
+                            <div class="pw-item">
+                                <span class="pw-map" data-i18n="maps.valley">长弓溪谷</span>
+                                <span class="pw-code">0750</span>
                             </div>
-                            <div class="item-card">
-                                <div class="item-image red-tier"></div>
-                                <span class="item-name" data-i18n="items.encryptedUSB">加密U盘</span>
+                            <div class="pw-item">
+                                <span class="pw-map" data-i18n="maps.bakshi">巴克什</span>
+                                <span class="pw-code">1605</span>
+                            </div>
+                            <div class="pw-item">
+                                <span class="pw-map" data-i18n="maps.space">航天基地</span>
+                                <span class="pw-code">6009</span>
+                            </div>
+                            <div class="pw-item">
+                                <span class="pw-map" data-i18n="maps.prison">潮汐监狱</span>
+                                <span class="pw-code">1029</span>
+                            </div>
+                            <div class="pw-item">
+                                <span class="pw-map" data-i18n="maps.az3">AZ3</span>
+                                <span class="pw-code">3307</span>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bottom Row: Daily Codes (Horizontal) -->
-                <div class="codes-bar">
-                    <span class="codes-bar-title"><span data-i18n="home.dailyPassword">🔐 每日密码</span></span>
-                    <div class="codes-inline">
-                        <div class="code-inline-item">
-                            <span class="code-map" data-i18n="maps.dam">零号大坝</span>
-                            <span class="code-value">2119</span>
-                        </div>
-                        <span class="code-divider">|</span>
-                        <div class="code-inline-item">
-                            <span class="code-map" data-i18n="maps.valley">长弓溪谷</span>
-                            <span class="code-value">0750</span>
-                        </div>
-                        <span class="code-divider">|</span>
-                        <div class="code-inline-item">
-                            <span class="code-map" data-i18n="maps.bakshi">巴克什</span>
-                            <span class="code-value">1605</span>
-                        </div>
-                        <span class="code-divider">|</span>
-                        <div class="code-inline-item">
-                            <span class="code-map" data-i18n="maps.space">航天基地</span>
-                            <span class="code-value">6009</span>
-                        </div>
-                        <span class="code-divider">|</span>
-                        <div class="code-inline-item">
-                            <span class="code-map" data-i18n="maps.prison">潮汐监狱</span>
-                            <span class="code-value">1029</span>
-                        </div>
-                    </div>
-                    <button class="password-guide-btn" id="password-guide-btn" data-i18n="home.passwordGuide">密码房指引</button>
+                <!-- Report Signature Footer -->
+                <div class="report-signature">
+                    <span class="report-signature-id">№ FH-0091</span>
+                    <span class="report-signature-time">更新于 23:59</span>
                 </div>
             </div>
 
@@ -653,82 +645,67 @@
 
             <!-- 战场日报 Content -->
             <div class="report-content hidden" id="zhanchang-content">
-                <!-- Top Row: Stats + Support -->
-                <div class="report-top-row">
-                    <!-- Left: Core Stats -->
-                    <div class="sub-card stats-card">
-                        <div class="sub-card-header">
-                            <span class="sub-card-title">近日战况</span>
-                            <span class="header-date">2026/01/29</span>
-                            <span class="view-link asset-calendar-entry-pc">资产周历 ></span>
-                            <span class="view-link" onclick="window.location.href='my-data.html?mode=zhanchang'">查看更多战绩 ></span>
+                <!-- Top focus: hero combat data (centered) -->
+                <div class="report-focus">
+                    <span class="focus-kicker" data-i18n="home.combatBrief">昨日 · 战斗数据</span>
+                    <span class="cell-link focus-link" onclick="window.location.href='my-data.html?mode=zhanchang'" data-i18n="home.viewMoreStats">查看完整战绩 →</span>
+                    <div class="focus-primary">
+                        <span class="focus-value">38,888</span>
+                        <span class="focus-unit" data-i18n="stats.scoreUnit">分</span>
+                    </div>
+                    <div class="focus-stats">
+                        <span class="stat-inline"><b>200</b><i data-i18n="stats.kills">击杀次数</i></span>
+                        <span class="stat-inline"><b>42%</b><i data-i18n="stats.winRate">胜率</i></span>
+                        <span class="stat-inline"><b>6</b><i data-i18n="stats.matches">场数</i></span>
+                    </div>
+                </div>
+
+                <!-- Lower row: position support (left) + highlight match (right) -->
+                <div class="report-lower-row">
+                    <!-- Left: Position Support -->
+                    <div class="dossier-cell lower-cell">
+                        <div class="cell-header">
+                            <span class="cell-marker"></span>
+                            <span class="cell-label" data-i18n="warfare.positionSupport">阵地支援</span>
                         </div>
-                        <div class="stats-compact">
-                            <div class="primary-stat">
-                                <span class="stat-label">最高得分</span>
-                                <span class="stat-value highlight">38,888</span>
-                                <span class="stat-unit">分</span>
+                        <div class="items-list-inline">
+                            <div class="item-chip">
+                                <span class="item-chip-emoji">🚀</span>
+                                <span class="item-chip-name"><span data-i18n="warfare.guidedMissile">制导导弹</span> ×1</span>
                             </div>
-                            <div class="secondary-stats-compact warfare">
-                                <div class="stat-item">
-                                    <span class="stat-number">200</span>
-                                    <span class="stat-name">击杀次数</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">42%</span>
-                                    <span class="stat-name">胜率</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-number">6</span>
-                                    <span class="stat-name">场数</span>
-                                </div>
+                            <div class="item-chip">
+                                <span class="item-chip-emoji">📡</span>
+                                <span class="item-chip-name"><span data-i18n="warfare.beacon">信标</span> ×1</span>
+                            </div>
+                            <div class="item-chip">
+                                <span class="item-chip-emoji">💥</span>
+                                <span class="item-chip-name"><span data-i18n="warfare.artilleryBarrage">炮兵齐射</span> ×1</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Right: Support Equipment -->
-                    <div class="sub-card support-card">
-                        <div class="sub-card-header">
-                            <span class="sub-card-title">🎯 阵地支援</span>
+                    <!-- Right: Highlight Match -->
+                    <div class="dossier-cell highlight-panel">
+                        <div class="cell-header">
+                            <span class="cell-marker"></span>
+                            <span class="cell-label" data-i18n="home.highlightMatch">精彩对局</span>
+                            <span class="cell-link" onclick="window.location.href='my-data.html?mode=zhanchang'" data-i18n="home.viewMoreStats">查看完整战绩 →</span>
                         </div>
-                        <div class="support-grid">
-                            <div class="support-item">
-                                <div class="support-icon mortar"></div>
-                                <span class="support-count">×1</span>
-                                <span class="support-name">制导导弹</span>
-                            </div>
-                            <div class="support-item">
-                                <div class="support-icon turret"></div>
-                                <span class="support-count">×1</span>
-                                <span class="support-name">信标</span>
-                            </div>
-                            <div class="support-item">
-                                <div class="support-icon drone"></div>
-                                <span class="support-count">×1</span>
-                                <span class="support-name">炮兵齐射</span>
-                            </div>
+                        <div class="highlight-body">
+                            <span class="highlight-strip-operator" data-i18n="operators.haizhua">骇爪</span>
+                            <span class="highlight-strip-status victory" data-i18n="match.victory">胜利</span>
+                            <span class="highlight-strip-map" data-i18n="maps.pansheng">攀升</span>
+                            <span class="highlight-strip-spacer"></span>
+                            <span class="highlight-strip-stat"><b>15,320</b>得分</span>
+                            <span class="highlight-strip-stat"><b>45</b>击杀</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Bottom Row: Vehicles (Horizontal) -->
-                <div class="vehicle-bar">
-                    <span class="vehicle-bar-title">🚁 载具数据</span>
-                    <div class="vehicles-inline">
-                        <div class="vehicle-inline-item">
-                            <div class="vehicle-icon-inline helicopter"></div>
-                            <span class="vehicle-name">侦查直升机</span>
-                            <span class="vehicle-stat">击败 <em>123</em></span>
-                            <span class="vehicle-stat">驾驶 <em>10min</em></span>
-                        </div>
-                        <span class="vehicle-divider">|</span>
-                        <div class="vehicle-inline-item">
-                            <div class="vehicle-icon-inline tank"></div>
-                            <span class="vehicle-name">主战坦克</span>
-                            <span class="vehicle-stat">击败 <em>45</em></span>
-                            <span class="vehicle-stat">驾驶 <em>8min</em></span>
-                        </div>
-                    </div>
+                <!-- Report Signature Footer -->
+                <div class="report-signature">
+                    <span class="report-signature-id">№ ZC-0091</span>
+                    <span class="report-signature-time">更新于 23:59</span>
                 </div>
             </div>
         </section>

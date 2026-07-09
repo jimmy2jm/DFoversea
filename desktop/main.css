@@ -1556,20 +1556,25 @@ body {
     gap: 0.75rem;
 }
 
-/* 复制按钮：全宽块级，位于 .build-header 下方 */
+/* 复制按钮：移动到标题栏右侧（绝对定位于卡片右上角，与 build-header 对齐） */
 .copy-code-btn-float {
-    display: block;
-    width: 100%;
-    padding: 0.55rem 1rem;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: auto;
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 16px;
     background: transparent;
     border: 1px solid var(--accent-cyan);
     color: var(--accent-cyan);
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.04em;
-    border-radius: 4px;
+    border-radius: 0;
     cursor: pointer;
     transition: all 0.2s ease;
+    z-index: 2;
 }
 
 .copy-code-btn-float:hover {
@@ -5605,8 +5610,33 @@ body {
 }
 
 .report-header {
-    margin-bottom: 12px;
+    margin-bottom: 16px;
     justify-content: flex-start;
+    position: relative;
+}
+
+/* Newspaper masthead: double rule under the tab header */
+.report-header::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -9px;
+    height: 3px;
+    border-top: 1px solid rgba(84, 112, 118, 0.5);
+    border-bottom: 1px solid rgba(84, 112, 118, 0.5);
+}
+
+.report-header::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -9px;
+    width: 64px;
+    height: 3px;
+    background: #24f4b2;
+    box-shadow: 0 0 10px rgba(36, 244, 178, 0.4);
+    z-index: 1;
 }
 
 .report-tabs-inner {
@@ -5780,6 +5810,509 @@ body {
 .codes-bar .password-guide-btn:hover {
     background: rgba(36, 244, 178, 0.12);
     color: #24f4b2;
+}
+
+/* ============================================
+   HQ tactical dossier layout - daily report
+   ============================================ */
+
+/* Asymmetric two-column row (3:2 ratio) */
+.report-top-row {
+    grid-template-columns: 3fr 2fr;
+}
+
+/* Dossier cell - transparent, no card chrome */
+.dossier-cell {
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.dossier-cell.primary-cell::after {
+    content: '';
+    position: absolute;
+    top: 4px;
+    right: 0;
+    bottom: 4px;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.07);
+}
+
+/* Cell header: hatched marker + label + link */
+.cell-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    min-height: 28px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    gap: 10px;
+}
+
+/* Hatched green section marker (like the reference newspaper heads) */
+.cell-marker {
+    width: 16px;
+    height: 11px;
+    flex-shrink: 0;
+    margin-right: 4px;
+    background: repeating-linear-gradient(-45deg, #24f4b2 0, #24f4b2 2px, transparent 2px, transparent 4px);
+    opacity: 0.85;
+}
+
+.cell-index {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    color: rgba(36, 244, 178, 0.55);
+    letter-spacing: 0.5px;
+    margin-right: 6px;
+}
+
+.cell-label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 0.1em;
+    margin-right: auto;
+}
+
+.cell-link {
+    font-size: 0.64rem;
+    color: rgba(255, 255, 255, 0.35);
+    cursor: pointer;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+}
+
+.cell-link:hover {
+    color: #24f4b2;
+}
+
+/* Primary stat row - narrative, left aligned */
+.cell-primary-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 12px 20px 2px 20px;
+    flex-wrap: wrap;
+}
+
+.cell-primary-label {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.42);
+    font-weight: 600;
+}
+
+.cell-primary-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.9rem;
+    font-weight: 800;
+    color: #24f4b2;
+    letter-spacing: 0.5px;
+    text-shadow: 0 0 12px rgba(36, 244, 178, 0.26);
+    line-height: 1.1;
+}
+
+.cell-primary-unit {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.40);
+}
+
+/* Secondary stats - flowing text line, not boxed */
+.secondary-stats-inline {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px 0;
+    padding: 6px 20px 16px 20px;
+    flex: 1;
+}
+
+.stat-inline {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    font-size: 0.74rem;
+    color: rgba(255, 255, 255, 0.40);
+    white-space: nowrap;
+    padding-right: 12px;
+    position: relative;
+}
+
+.stat-inline + .stat-inline::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 0.15em;
+    bottom: 0.15em;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.14);
+}
+
+.stat-inline b {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.92rem;
+    font-weight: 800;
+    color: #24f4b2;
+    letter-spacing: 0.3px;
+}
+
+.stat-inline i {
+    font-style: normal;
+}
+
+/* Items / support - inline chip list, not card grid */
+.items-list-inline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px 16px 18px;
+    flex: 1;
+}
+
+.item-chip {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.item-chip-thumb {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, rgba(74, 92, 96, 0.75), rgba(18, 38, 42, 0.85));
+    border-left: 2px solid transparent;
+    flex-shrink: 0;
+}
+
+.item-chip-thumb.red-tier {
+    border-left-color: #ef4444;
+    box-shadow: -1px 0 6px rgba(239, 68, 68, 0.3);
+}
+
+.item-chip-emoji {
+    font-size: 1rem;
+    line-height: 1;
+    width: 24px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.item-chip-name {
+    font-size: 0.72rem;
+    color: rgba(255, 255, 255, 0.65);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* ============================================
+   Highlight strip - single-line intel entry
+   ============================================ */
+.highlight-strip {
+    margin-top: 10px;
+    background: rgba(18, 38, 42, 0.9);
+    border: 1px solid rgba(84, 112, 118, 0.56);
+    border-left: 3px solid rgba(36, 244, 178, 0.55);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 11px 16px;
+}
+
+.highlight-strip-tag {
+    font-size: 0.66rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.42);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+}
+
+.highlight-strip-operator {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.88);
+}
+
+.highlight-strip-status {
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 1px 7px;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+.highlight-strip-status.victory {
+    color: #24f4b2;
+    background: rgba(36, 244, 178, 0.10);
+}
+
+.highlight-strip-status.fail {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.10);
+}
+
+.highlight-strip-map {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.55);
+    font-weight: 600;
+}
+
+.highlight-strip-spacer {
+    flex: 1;
+    min-width: 4px;
+}
+
+.highlight-strip-stat {
+    font-size: 0.74rem;
+    color: rgba(255, 255, 255, 0.45);
+    white-space: nowrap;
+}
+
+.highlight-strip-stat b {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.90rem;
+    font-weight: 800;
+    color: #24f4b2;
+    letter-spacing: 0.3px;
+    margin-right: 3px;
+}
+
+/* ============================================
+   Report signature footer
+   ============================================ */
+.report-signature {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 20px 0 20px;
+    margin-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.report-signature-id,
+.report-signature-time {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.60rem;
+    color: rgba(255, 255, 255, 0.22);
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+}
+
+/* ============================================
+   Editorial hero layout - focus on top, split below
+   ============================================ */
+
+/* Top focus block: hero combat data, centered */
+.report-focus {
+    position: relative;
+    text-align: center;
+    padding: 4px 0 16px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid rgba(84, 112, 118, 0.4);
+}
+
+.focus-kicker {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    color: rgba(255, 255, 255, 0.45);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.focus-link {
+    position: absolute;
+    top: 2px;
+    right: 0;
+}
+
+.focus-primary {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 12px;
+    margin: 2px 0 8px;
+}
+
+.focus-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.9rem;
+    font-weight: 800;
+    color: #24f4b2;
+    letter-spacing: 1px;
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(36, 244, 178, 0.3);
+    border-bottom: 3px solid rgba(36, 244, 178, 0.5);
+    padding-bottom: 8px;
+}
+
+.focus-unit {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: rgba(36, 244, 178, 0.72);
+    letter-spacing: 1px;
+}
+
+.focus-stats {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px 0;
+}
+
+/* Lower split row: items/support (left) + password/highlight (right) */
+.report-lower-row {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 14px;
+    align-items: stretch;
+    margin-bottom: 4px;
+}
+
+.lower-cell {
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    border: none;
+    min-height: 0;
+}
+
+/* Items / support as centered thumbnails with name below */
+.lower-cell .items-list-inline {
+    justify-content: space-around;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 14px 12px 8px;
+    flex: 1;
+}
+
+.lower-cell .item-chip {
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    text-align: center;
+    max-width: 33%;
+}
+
+.lower-cell .item-chip-thumb {
+    width: 48px;
+    height: 42px;
+}
+
+.lower-cell .item-chip-emoji {
+    font-size: 1.5rem;
+    width: auto;
+}
+
+.lower-cell .item-chip-name {
+    white-space: normal;
+    line-height: 1.3;
+}
+
+/* Daily password panel: green-framed box, two rows x three */
+.password-panel {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(36, 244, 178, 0.4);
+    background: rgba(10, 32, 35, 0.5);
+    min-height: 0;
+}
+
+.password-panel .cell-header {
+    background: rgba(36, 244, 178, 0.08);
+    border-bottom: 1px solid rgba(36, 244, 178, 0.25);
+}
+
+.password-panel .password-guide-btn {
+    padding: 3px 10px;
+    background: rgba(36, 244, 178, 0.08);
+    border: 1px solid rgba(36, 244, 178, 0.45);
+    color: #24f4b2;
+    font-size: 0.66rem;
+    font-weight: 700;
+    border-radius: 0;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.password-panel .password-guide-btn:hover {
+    background: #24f4b2;
+    color: #031816;
+}
+
+.password-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    flex: 1;
+}
+
+.pw-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 10px 6px;
+    border-left: 1px solid rgba(84, 112, 118, 0.28);
+    border-top: 1px solid rgba(84, 112, 118, 0.28);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.pw-item:hover {
+    background: rgba(36, 244, 178, 0.06);
+}
+
+.pw-item:nth-child(3n + 1) {
+    border-left: none;
+}
+
+.pw-item:nth-child(-n + 3) {
+    border-top: none;
+}
+
+.pw-map {
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.55);
+    white-space: nowrap;
+}
+
+.pw-code {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #24f4b2;
+    letter-spacing: 1.5px;
+    text-shadow: 0 0 10px rgba(36, 244, 178, 0.24);
+}
+
+/* Highlight match panel (zhanchang) */
+.highlight-panel {
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+    border: none;
+    min-height: 0;
+}
+
+.highlight-body {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 16px 14px;
+    flex: 1;
 }
 
 .gun-builds-section,
@@ -7478,6 +8011,14 @@ body {
     font-size: 0.78rem;
 }
 
+/* 点赞/复制数嵌入作者行时：靠作者名称右侧，去掉自身分隔线 */
+.scheme-author .scheme-stats {
+    margin: 0 0 0 auto;
+    padding: 0;
+    border-top: none;
+    flex-shrink: 0;
+}
+
 .scheme-stats .scheme-stat {
     display: inline-flex;
     align-items: center;
@@ -7584,15 +8125,9 @@ body {
 }
 
 .scheme-list-content {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-}
-
-@media (max-width: 1100px) {
-    .scheme-list-content {
-        grid-template-columns: 1fr;
-    }
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 /* 列表卡片主标题下方的副标题：枪名 · 类型 */
@@ -7638,6 +8173,201 @@ body {
 .scheme-list-card .build-gun-price-value {
     font-family: 'Orbitron', monospace;
     font-variant-numeric: tabular-nums;
+}
+
+/* ============================================
+   改枪方案页 — 版式二：方案列表流
+   ============================================ */
+
+/* v2 卡片：去掉原有 flex-direction:column / gap，改自定义结构 */
+.scheme-list-card-v2 {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    min-height: 200px;
+}
+
+/* 标题栏 */
+.scheme-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 14px;
+    background: rgba(92, 112, 114, 0.32);
+    border-bottom: 1px solid rgba(84, 112, 118, 0.4);
+}
+.scheme-card-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    min-width: 0;
+}
+.scheme-card-gun-name {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.92);
+    letter-spacing: 0.5px;
+}
+.scheme-card-type-tag {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: rgba(36, 244, 178, 0.8);
+    border: 1px solid rgba(36, 244, 178, 0.35);
+    padding: 1px 6px;
+    letter-spacing: 0.5px;
+}
+.scheme-card-price {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.92rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+.scheme-card-price.budget-type { color: #24f4b2; }
+.scheme-card-price.premium-type { color: #b98cff; }
+.scheme-card-price.single-type { color: #f59e0b; }
+.scheme-card-tags {
+    display: inline-flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+/* 标题栏右侧复制按钮：不再绝对定位 */
+.scheme-list-card-v2 .copy-code-btn-float {
+    position: static;
+    top: auto;
+    right: auto;
+    flex-shrink: 0;
+}
+
+/* 主内容区：左枪图 右属性条 */
+.scheme-card-body {
+    display: flex;
+    gap: 20px;
+    padding: 18px 16px;
+}
+.scheme-card-left {
+    flex-shrink: 0;
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.scheme-list-card-v2 .build-gun-image {
+    height: 140px !important;
+    min-height: 140px;
+    background: linear-gradient(135deg, rgba(74, 92, 96, 0.5), rgba(18, 38, 42, 0.7));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+.scheme-card-code-row {
+    text-align: center;
+}
+.scheme-code-tag {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.64rem;
+    color: rgba(255, 255, 255, 0.4);
+    letter-spacing: 1px;
+}
+
+/* 六条属性进度条（压缩） */
+.scheme-card-stats {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px 16px;
+    align-content: center;
+}
+.scheme-stat-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+.scheme-stat-icon {
+    font-size: 0.78rem;
+    flex-shrink: 0;
+    width: 18px;
+    text-align: center;
+}
+.scheme-stat-label {
+    font-size: 0.62rem;
+    color: rgba(255, 255, 255, 0.5);
+    width: 52px;
+    flex-shrink: 0;
+}
+.scheme-stat-track {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.08);
+    overflow: hidden;
+}
+.scheme-stat-track i {
+    display: block;
+    height: 100%;
+    background: #24f4b2;
+    box-shadow: 0 0 6px rgba(36, 244, 178, 0.3);
+    transition: width 0.3s ease;
+}
+.scheme-stat-num {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.75);
+    width: 22px;
+    text-align: right;
+    flex-shrink: 0;
+}
+
+/* 底部 footer：作者 + 点赞/复制数同行 */
+.scheme-card-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-top: 1px solid rgba(84, 112, 118, 0.32);
+    background: rgba(0, 0, 0, 0.12);
+}
+.scheme-list-card-v2 .scheme-author {
+    margin: 0;
+    padding: 0;
+    border: none;
+}
+/* 点赞/复制数嵌在 footer 内：去掉自身分隔线、margin、padding */
+.scheme-list-card-v2 .scheme-card-footer .scheme-stats {
+    margin: 0 0 0 auto;
+    padding: 0;
+    border: none;
+}
+
+/* "登录以复制"按钮：明显描边 */
+.copy-code-btn-float.gun-copy-login-required {
+    border: 1px solid rgba(36, 244, 178, 0.5);
+    color: rgba(36, 244, 178, 0.6);
+    background: rgba(36, 244, 178, 0.05);
+    opacity: 1;
+}
+.copy-code-btn-float.gun-copy-login-required:hover {
+    border-color: #24f4b2;
+    color: #24f4b2;
+    background: rgba(36, 244, 178, 0.12);
+}
+
+/* 响应式：窄屏属性条改单列 */
+@media (max-width: 768px) {
+    .scheme-card-body {
+        flex-direction: column;
+    }
+    .scheme-card-left {
+        width: 100%;
+    }
+    .scheme-card-stats {
+        grid-template-columns: 1fr 1fr;
+    }
 }
 
 /* 列表容器空状态 */

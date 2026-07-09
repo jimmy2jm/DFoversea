@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>改枪区域优化 · 版式示意</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+        --brand: #24f4b2;
+        --panel: rgba(18, 38, 42, 0.9);
+        --panel-head: rgba(92, 112, 114, 0.52);
+        --sub: rgba(6, 18, 20, 0.66);
+        --border: rgba(84, 112, 118, 0.52);
+        --border-soft: rgba(84, 112, 118, 0.3);
+        --txt: rgba(255, 255, 255, 0.88);
+        --txt2: rgba(255, 255, 255, 0.55);
+        --txt3: rgba(255, 255, 255, 0.38);
+        --red: #ef4444;
+        --gold: #f5b942;
+        --purple: #a855f7;
+        --blue: #3b82f6;
+    }
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: linear-gradient(180deg, #0b2022 0%, #071c1e 60%, #07191a 100%);
+        color: var(--txt);
+        min-height: 100vh;
+        padding: 40px 20px 80px;
+    }
+    .wrap { max-width: 1060px; margin: 0 auto; }
+
+    /* page intro */
+    .page-title { font-family: 'Orbitron', sans-serif; font-size: 1.6rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; }
+    .page-title .brand { color: var(--brand); }
+    .page-sub { color: var(--txt2); font-size: 0.9rem; margin-bottom: 40px; line-height: 1.6; }
+
+    /* concept block */
+    .concept { margin-bottom: 56px; }
+    .concept-tag {
+        display: inline-block; font-family: 'Orbitron', monospace; font-size: 0.72rem; font-weight: 700;
+        color: #031816; background: var(--brand); padding: 3px 10px; letter-spacing: 1px; margin-bottom: 10px;
+    }
+    .concept-title { font-size: 1.15rem; font-weight: 800; margin-bottom: 6px; }
+    .concept-desc { color: var(--txt2); font-size: 0.85rem; margin-bottom: 18px; line-height: 1.6; }
+    .concept-desc b { color: var(--brand); font-weight: 700; }
+
+    /* generic panel */
+    .panel { background: var(--panel); border: 1px solid var(--border); }
+
+    /* ============ shared toolbar (方案A) ============ */
+    .lib-toolbar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 16px; border-bottom: 1px solid var(--border-soft); }
+    .lib-stat { font-family: 'Orbitron', monospace; font-size: 0.78rem; color: var(--txt2); }
+    .lib-stat b { color: var(--brand); font-weight: 800; margin: 0 2px; }
+    .lib-spacer { flex: 1; }
+    .lib-search {
+        display: flex; align-items: center; gap: 6px; background: var(--sub); border: 1px solid var(--border-soft);
+        padding: 6px 10px; color: var(--txt3); font-size: 0.8rem; min-width: 160px;
+    }
+    .filter-chips { display: flex; gap: 6px; flex-wrap: wrap; padding: 12px 16px; border-bottom: 1px solid var(--border-soft); }
+    .chip {
+        font-size: 0.76rem; font-weight: 600; padding: 5px 12px; border: 1px solid var(--border-soft);
+        color: var(--txt2); cursor: pointer; transition: 0.2s; background: rgba(255,255,255,0.02);
+    }
+    .chip:hover { border-color: var(--brand); color: var(--brand); }
+    .chip.active { background: var(--brand); border-color: var(--brand); color: #031816; }
+    .lib-sort { margin-left: auto; font-size: 0.78rem; color: var(--txt2); display: flex; align-items: center; gap: 6px; }
+    .lib-sort select { background: var(--sub); border: 1px solid var(--border-soft); color: var(--txt); padding: 5px 8px; font-family: inherit; }
+
+    /* weapon grid */
+    .weapon-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 16px; }
+    .weapon-card { background: var(--sub); border: 1px solid var(--border-soft); position: relative; cursor: pointer; transition: 0.2s; }
+    .weapon-card:hover { border-color: var(--brand); transform: translateY(-2px); }
+    .wc-class { position: absolute; top: 0; left: 0; font-family: 'Orbitron', monospace; font-size: 0.6rem; font-weight: 700; padding: 2px 6px; background: rgba(36,244,178,0.16); color: var(--brand); }
+    .wc-plans { position: absolute; top: 0; right: 0; font-size: 0.62rem; padding: 2px 6px; color: var(--txt3); }
+    .wc-img { height: 76px; margin: 22px 10px 6px; background: linear-gradient(135deg, rgba(74,92,96,0.5), rgba(18,38,42,0.7)); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; opacity: 0.85; }
+    .wc-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.95rem; padding: 4px 10px 2px; letter-spacing: 0.5px; }
+    .wc-role { font-size: 0.72rem; color: var(--txt2); padding: 0 10px 8px; }
+    .wc-heat { padding: 0 10px 12px; }
+    .wc-heat-label { display: flex; justify-content: space-between; font-size: 0.62rem; color: var(--txt3); margin-bottom: 3px; }
+    .wc-heat-label span:last-child { font-family: 'Orbitron', monospace; color: var(--brand); }
+    .wc-heat-bar { height: 3px; background: rgba(255,255,255,0.08); }
+    .wc-heat-fill { height: 100%; background: var(--brand); box-shadow: 0 0 8px rgba(36,244,178,0.4); }
+
+    /* ============ 方案B Tier List ============ */
+    .tier-row { display: flex; align-items: stretch; border-bottom: 1px solid var(--border-soft); }
+    .tier-row:last-child { border-bottom: none; }
+    .tier-badge { width: 64px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 800; color: #031816; }
+    .tier-s { background: linear-gradient(135deg, #f5b942, #ef4444); }
+    .tier-a { background: var(--purple); }
+    .tier-b { background: var(--blue); }
+    .tier-guns { display: flex; gap: 10px; flex-wrap: wrap; padding: 12px; flex: 1; background: var(--sub); }
+    .tier-gun { display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-soft); padding: 6px 10px; min-width: 150px; cursor: pointer; transition: 0.2s; }
+    .tier-gun:hover { border-color: var(--brand); }
+    .tg-img { width: 34px; height: 24px; background: linear-gradient(135deg, rgba(74,92,96,0.6), rgba(18,38,42,0.8)); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+    .tg-info { flex: 1; }
+    .tg-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.82rem; }
+    .tg-meta { font-size: 0.64rem; color: var(--txt3); }
+    .tg-trend { font-family: 'Orbitron', monospace; font-size: 0.72rem; font-weight: 700; }
+    .trend-up { color: var(--brand); }
+    .trend-down { color: var(--red); }
+    .trend-flat { color: var(--txt3); }
+
+    /* ============ 方案C Build Library ============ */
+    .build-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 16px; }
+    .build-item { background: var(--sub); border: 1px solid var(--border-soft); position: relative; cursor: pointer; transition: 0.2s; }
+    .build-item:hover { border-color: var(--brand); }
+    .bi-top { display: flex; align-items: center; gap: 10px; padding: 12px; border-bottom: 1px solid var(--border-soft); }
+    .bi-img { width: 52px; height: 34px; background: linear-gradient(135deg, rgba(74,92,96,0.6), rgba(18,38,42,0.8)); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+    .bi-gun { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.95rem; }
+    .bi-role { font-size: 0.68rem; color: var(--txt2); }
+    .bi-price { margin-left: auto; text-align: right; }
+    .bi-price b { font-family: 'Orbitron', monospace; color: var(--brand); font-size: 0.95rem; }
+    .bi-price span { display: block; font-size: 0.6rem; color: var(--txt3); }
+    .bi-tags { display: flex; gap: 6px; flex-wrap: wrap; padding: 10px 12px; }
+    .bi-tag { font-size: 0.66rem; color: var(--txt2); border: 1px solid var(--border-soft); padding: 2px 8px; }
+    .bi-foot { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-top: 1px solid var(--border-soft); font-size: 0.68rem; color: var(--txt3); }
+    .bi-foot .copies { font-family: 'Orbitron', monospace; color: var(--brand); }
+    .bi-copy { background: rgba(36,244,178,0.1); border: 1px solid rgba(36,244,178,0.45); color: var(--brand); font-size: 0.66rem; font-weight: 700; padding: 3px 12px; cursor: pointer; }
+
+    /* ============ 首页橱窗示意 ============ */
+    .showcase-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--panel-head); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .showcase-head .t { font-weight: 800; font-size: 0.95rem; }
+    .showcase-head .more { color: var(--brand); font-size: 0.78rem; cursor: pointer; }
+    .showcase-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 16px; }
+
+    .note { font-size: 0.75rem; color: var(--txt3); margin-top: 10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="page-title">改枪区域优化 · <span class="brand">版式示意</span></div>
+    <div class="page-sub">
+        下面用真实风格实现了三种版式方案，供你直观对比。所有数据均为示意占位。<br>
+        目标：把"选枪 tab + 详情"的僵硬结构，升级为有"武器库 / 方案库"感的浏览体验。
+    </div>
+
+    <!-- ===================== 方案 A ===================== -->
+    <div class="concept">
+        <span class="concept-tag">方案 A</span>
+        <div class="concept-title">武器库网格 Arsenal Grid</div>
+        <div class="concept-desc">
+            顶部 <b>统计条 + 分类筛选 + 排序 + 搜索</b>，主区是可浏览的<b>武器卡网格</b>：每张卡带类别、定位、热度条、方案数。
+            一眼就有"库很大、可以逛、可以筛"的感觉。适合作为<b>改枪页主结构</b>。
+        </div>
+        <div class="panel">
+            <div class="lib-toolbar">
+                <span class="lib-stat">武器库 <b>32</b> 把 · 方案 <b>78</b> 套</span>
+                <span class="lib-spacer"></span>
+                <span class="lib-search">🔍 搜索武器 / 方案…</span>
+            </div>
+            <div class="filter-chips">
+                <span class="chip active">全部</span>
+                <span class="chip">突击步枪</span>
+                <span class="chip">冲锋枪</span>
+                <span class="chip">狙击枪</span>
+                <span class="chip">射手步枪</span>
+                <span class="chip">轻机枪</span>
+                <span class="chip">霰弹枪</span>
+                <span class="lib-sort">排序 <select><option>热度</option><option>版本强度</option><option>价格</option></select></span>
+            </div>
+            <div class="weapon-grid">
+                <div class="weapon-card">
+                    <span class="wc-class">AR</span><span class="wc-plans">3 套方案</span>
+                    <div class="wc-img">🔫</div>
+                    <div class="wc-name">M4A1</div>
+                    <div class="wc-role">万金油 · 中远距离</div>
+                    <div class="wc-heat"><div class="wc-heat-label"><span>使用率</span><span>92%</span></div><div class="wc-heat-bar"><div class="wc-heat-fill" style="width:92%"></div></div></div>
+                </div>
+                <div class="weapon-card">
+                    <span class="wc-class">AR</span><span class="wc-plans">2 套方案</span>
+                    <div class="wc-img">🔫</div>
+                    <div class="wc-name">AK-74M</div>
+                    <div class="wc-role">高伤害 · 中近距离</div>
+                    <div class="wc-heat"><div class="wc-heat-label"><span>使用率</span><span>81%</span></div><div class="wc-heat-bar"><div class="wc-heat-fill" style="width:81%"></div></div></div>
+                </div>
+                <div class="weapon-card">
+                    <span class="wc-class">SMG</span><span class="wc-plans">4 套方案</span>
+                    <div class="wc-img">🔫</div>
+                    <div class="wc-name">MP5</div>
+                    <div class="wc-role">近战之王 · 满腰射</div>
+                    <div class="wc-heat"><div class="wc-heat-label"><span>使用率</span><span>76%</span></div><div class="wc-heat-bar"><div class="wc-heat-fill" style="width:76%"></div></div></div>
+                </div>
+                <div class="weapon-card">
+                    <span class="wc-class">SR</span><span class="wc-plans">2 套方案</span>
+                    <div class="wc-img">🎯</div>
+                    <div class="wc-name">SVD</div>
+                    <div class="wc-role">一枪流 · 远距离</div>
+                    <div class="wc-heat"><div class="wc-heat-label"><span>使用率</span><span>64%</span></div><div class="wc-heat-bar"><div class="wc-heat-fill" style="width:64%"></div></div></div>
+                </div>
+                <div class="weapon-card">
+                    <span class="wc-class">AR</span><span class="wc-plans">3 套方案</span>
+                    <div class="wc-img">🔫</div>
+                    <div class="wc-name">SCAR-H</div>
+                    <div class="wc-role">高稳定 · 中远距离</div>
+                    <div class="wc-heat"><div class="wc-heat-label"><span>使用率</span><span>58%</span></div><div class="wc-heat-bar"><div class="wc-heat-fill" style="width:58%"></div></div></div>
+                </div>
+                <div class="weapon-card">
+                    <span class="wc-class">MR</span><span class="wc-plans">2 套方案</span>
+                    <div class="wc-img">🎯</div>
+                    <div class="wc-name">VSS</div>
+                    <div class="wc-role">静音突袭 · 中距离</div>
+                    <div class="wc-heat"><div class="wc-heat-label"><span>使用率</span><span>49%</span></div><div class="wc-heat-bar"><div class="wc-heat-fill" style="width:49%"></div></div></div>
+                </div>
+                <div class="weapon-card">
+                    <span class="wc-class">SMG</span><span class="wc-plans">2 套方案</span>
+                    <div class="wc-img">🔫</div>
+                    <div class="wc-name">Vector</div>
+                    <div class="wc-role">高射速 · 近距离</div>
+                    <div class="wc-heat"><div class="wc-heat-label"><span>使用率</span><span>44%</span></div><div class="wc-heat-bar"><div class="wc-heat-fill" style="width:44%"></div></div></div>
+                </div>
+                <div class="weapon-card">
+                    <span class="wc-class">LMG</span><span class="wc-plans">1 套方案</span>
+                    <div class="wc-img">🔫</div>
+                    <div class="wc-name">M249</div>
+                    <div class="wc-role">压制火力 · 阵地</div>
+                    <div class="wc-heat"><div class="wc-heat-label"><span>使用率</span><span>31%</span></div><div class="wc-heat-bar"><div class="wc-heat-fill" style="width:31%"></div></div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== 方案 B ===================== -->
+    <div class="concept">
+        <span class="concept-tag">方案 B</span>
+        <div class="concept-title">版本强度榜 Tier List</div>
+        <div class="concept-desc">
+            按 <b>T0 / T1 / T2</b> 分级排布武器，每把带 <b>使用率 + 本周趋势 ↑↓</b>。突出<b>时效性与权威性</b>——这是工具站最有价值、最"活"的内容。
+            适合放<b>首页作为看点</b>，或改枪页顶部的"当前版本 meta"。
+        </div>
+        <div class="panel">
+            <div class="showcase-head"><span class="t">🏆 本周版本强度榜</span><span class="more">更新于 07-08 · 每周刷新</span></div>
+            <div class="tier-row">
+                <div class="tier-badge tier-s">S</div>
+                <div class="tier-guns">
+                    <div class="tier-gun"><div class="tg-img">🔫</div><div class="tg-info"><div class="tg-name">M4A1</div><div class="tg-meta">使用率 92% · 胜率 58%</div></div><span class="tg-trend trend-up">↑2</span></div>
+                    <div class="tier-gun"><div class="tg-img">🔫</div><div class="tg-info"><div class="tg-name">MP5</div><div class="tg-meta">使用率 76% · 胜率 55%</div></div><span class="tg-trend trend-flat">—</span></div>
+                    <div class="tier-gun"><div class="tg-img">🎯</div><div class="tg-info"><div class="tg-name">SVD</div><div class="tg-meta">使用率 64% · 胜率 61%</div></div><span class="tg-trend trend-up">↑5</span></div>
+                </div>
+            </div>
+            <div class="tier-row">
+                <div class="tier-badge tier-a">A</div>
+                <div class="tier-guns">
+                    <div class="tier-gun"><div class="tg-img">🔫</div><div class="tg-info"><div class="tg-name">AK-74M</div><div class="tg-meta">使用率 81% · 胜率 52%</div></div><span class="tg-trend trend-down">↓1</span></div>
+                    <div class="tier-gun"><div class="tg-img">🔫</div><div class="tg-info"><div class="tg-name">SCAR-H</div><div class="tg-meta">使用率 58% · 胜率 53%</div></div><span class="tg-trend trend-up">↑1</span></div>
+                    <div class="tier-gun"><div class="tg-img">🔫</div><div class="tg-info"><div class="tg-name">HK416</div><div class="tg-meta">使用率 47% · 胜率 51%</div></div><span class="tg-trend trend-flat">—</span></div>
+                </div>
+            </div>
+            <div class="tier-row">
+                <div class="tier-badge tier-b">B</div>
+                <div class="tier-guns">
+                    <div class="tier-gun"><div class="tg-img">🎯</div><div class="tg-info"><div class="tg-name">VSS</div><div class="tg-meta">使用率 49% · 胜率 49%</div></div><span class="tg-trend trend-down">↓3</span></div>
+                    <div class="tier-gun"><div class="tg-img">🔫</div><div class="tg-info"><div class="tg-name">Vector</div><div class="tg-meta">使用率 44% · 胜率 50%</div></div><span class="tg-trend trend-up">↑2</span></div>
+                    <div class="tier-gun"><div class="tg-img">🔫</div><div class="tg-info"><div class="tg-name">M249</div><div class="tg-meta">使用率 31% · 胜率 47%</div></div><span class="tg-trend trend-flat">—</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== 方案 C ===================== -->
+    <div class="concept">
+        <span class="concept-tag">方案 C</span>
+        <div class="concept-title">方案库 Build Library</div>
+        <div class="concept-desc">
+            把<b>"改枪方案"当作可浏览的内容流</b>：每个卡片 = 枪 + 定位 + 价格 + 来源 + 复制热度，可按价格 / 距离 / 定位筛选。
+            强调"这里有很多套方案可挑"，弱化"先选枪"。适合作为改枪页的<b>另一种进入视角</b>。
+        </div>
+        <div class="panel">
+            <div class="filter-chips">
+                <span class="chip active">全部方案</span>
+                <span class="chip">性价比 85K</span>
+                <span class="chip">满改 157K</span>
+                <span class="chip">近距离</span>
+                <span class="chip">中远距离</span>
+                <span class="lib-sort">排序 <select><option>最热门</option><option>最新</option><option>价格</option></select></span>
+            </div>
+            <div class="build-grid">
+                <div class="build-item">
+                    <div class="bi-top"><div class="bi-img">🔫</div><div><div class="bi-gun">M4A1</div><div class="bi-role">万金油</div></div><div class="bi-price"><b>157K</b><span>满改方案</span></div></div>
+                    <div class="bi-tags"><span class="bi-tag">长距离</span><span class="bi-tag">高精准</span><span class="bi-tag">低后坐</span></div>
+                    <div class="bi-foot"><span>来源 · 官方推荐</span><span class="copies">1.2k 复制</span><span class="bi-copy">复制码</span></div>
+                </div>
+                <div class="build-item">
+                    <div class="bi-top"><div class="bi-img">🔫</div><div><div class="bi-gun">MP5</div><div class="bi-role">近战之王</div></div><div class="bi-price"><b>85K</b><span>性价比</span></div></div>
+                    <div class="bi-tags"><span class="bi-tag">中近距离</span><span class="bi-tag">满腰射</span></div>
+                    <div class="bi-foot"><span>来源 · 主播实战</span><span class="copies">3.4k 复制</span><span class="bi-copy">复制码</span></div>
+                </div>
+                <div class="build-item">
+                    <div class="bi-top"><div class="bi-img">🎯</div><div><div class="bi-gun">SVD</div><div class="bi-role">一枪流</div></div><div class="bi-price"><b>132K</b><span>满改方案</span></div></div>
+                    <div class="bi-tags"><span class="bi-tag">远距离</span><span class="bi-tag">高伤害</span></div>
+                    <div class="bi-foot"><span>来源 · 社区高赞</span><span class="copies">890 复制</span><span class="bi-copy">复制码</span></div>
+                </div>
+                <div class="build-item">
+                    <div class="bi-top"><div class="bi-img">🔫</div><div><div class="bi-gun">AK-74M</div><div class="bi-role">高伤害</div></div><div class="bi-price"><b>85K</b><span>性价比</span></div></div>
+                    <div class="bi-tags"><span class="bi-tag">中近距离</span><span class="bi-tag">爆发</span></div>
+                    <div class="bi-foot"><span>来源 · 官方推荐</span><span class="copies">2.1k 复制</span><span class="bi-copy">复制码</span></div>
+                </div>
+                <div class="build-item">
+                    <div class="bi-top"><div class="bi-img">🔫</div><div><div class="bi-gun">SCAR-H</div><div class="bi-role">高稳定</div></div><div class="bi-price"><b>168K</b><span>满改方案</span></div></div>
+                    <div class="bi-tags"><span class="bi-tag">中远距离</span><span class="bi-tag">高稳定</span></div>
+                    <div class="bi-foot"><span>来源 · 主播实战</span><span class="copies">760 复制</span><span class="bi-copy">复制码</span></div>
+                </div>
+                <div class="build-item">
+                    <div class="bi-top"><div class="bi-img">🔫</div><div><div class="bi-gun">Vector</div><div class="bi-role">高射速</div></div><div class="bi-price"><b>92K</b><span>性价比</span></div></div>
+                    <div class="bi-tags"><span class="bi-tag">近距离</span><span class="bi-tag">突进</span></div>
+                    <div class="bi-foot"><span>来源 · 社区高赞</span><span class="copies">540 复制</span><span class="bi-copy">复制码</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===================== 首页橱窗 ===================== -->
+    <div class="concept">
+        <span class="concept-tag">首页橱窗</span>
+        <div class="concept-title">首页改枪区 = 引流入口（不放完整选择器）</div>
+        <div class="concept-desc">
+            首页不再放"选枪 tab + 详情"，改成<b>精选热门 TOP 卡片 + "查看完整武器库 →"</b>入口。
+            首页负责"勾人进去逛"，检索与浏览交给改枪页。下面是用方案 A 的武器卡做的橱窗示意。
+        </div>
+        <div class="panel">
+            <div class="showcase-head"><span class="t">🔧 本周热门改枪</span><span class="more">查看完整武器库 →</span></div>
+            <div class="showcase-row">
+                <div class="weapon-card">
+                    <span class="wc-class">AR</span><span class="wc-plans">3 套方案</span>
+                    <div class="wc-img">🔫</div><div class="wc-name">M4A1</div><div class="wc-role">万金油 · 中远距离</div>
+                    <div class="wc-heat"><div class="wc-heat-label"><span>使用率</span><span>92%</span></div><div class="wc-heat-bar"><div class="wc-heat-fill" style="width:92%"></div></div></div>
+                </div>
+                <div class="weapon-card">
+                    <span class="wc-class">SMG</span><span class="wc-plans">4 套方案</span>
+                    <div class="wc-img">🔫</div><div class="wc-name">MP5</div><div class="wc-role">近战之王 · 满腰射</div>
+                    <div class="wc-heat"><div class="wc-heat-label"><span>使用率</span><span>76%</span></div><div class="wc-heat-bar"><div class="wc-heat-fill" style="width:76%"></div></div></div>
+                </div>
+                <div class="weapon-card">
+                    <span class="wc-class">SR</span><span class="wc-plans">2 套方案</span>
+                    <div class="wc-img">🎯</div><div class="wc-name">SVD</div><div class="wc-role">一枪流 · 远距离</div>
+                    <div class="wc-heat"><div class="wc-heat-label"><span>使用率</span><span>64%</span></div><div class="wc-heat-bar"><div class="wc-heat-fill" style="width:64%"></div></div></div>
+                </div>
+            </div>
+        </div>
+        <div class="note">※ 本页为纯静态示意，数据与图标均为占位；确定方向后再接入真实数据、i18n 与雷达图详情。</div>
+    </div>
+</div>
+</body>
+</html>

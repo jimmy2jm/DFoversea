@@ -97,23 +97,21 @@ function initReportTabs() {
  * Copy Buttons
  */
 function initCopyButtons() {
-    // Individual code copy (inline items)
-    const codeItems = document.querySelectorAll('.code-inline-item');
+    // Individual code copy (password grid items)
+    const codeItems = document.querySelectorAll('.pw-item');
     codeItems.forEach(item => {
         item.addEventListener('click', () => {
-            const mapName = item.querySelector('.code-map').textContent;
-            const code = item.querySelector('.code-value').textContent;
+            const mapName = item.querySelector('.pw-map').textContent;
+            const code = item.querySelector('.pw-code').textContent;
             
             copyToClipboard(`${code}`);
             showToast(`已复制: ${mapName} ${code}`);
             
             // Visual feedback
-            item.style.background = 'var(--accent-cyan)';
-            item.querySelectorAll('span').forEach(s => s.style.color = 'var(--bg-dark)');
+            item.style.background = 'rgba(36, 244, 178, 0.16)';
             
             setTimeout(() => {
                 item.style.background = '';
-                item.querySelectorAll('span').forEach(s => s.style.color = '');
             }, 300);
         });
     });
@@ -1363,17 +1361,36 @@ function renderSchemeBuildCard(gun, build, _index, mode) {
     // 标签去重：剔除已由"方案总价"表达的成本档
     const filteredTags = (build.tags || []).filter(t => !/^(Budget|Balanced|High-end)$/i.test(t));
 
-    // 顶部价格/方案名描述（与推荐方案一致："💰 85K 性价比改法"）
-    const priceText = build.price ? `${formatBuildPrice(build.price)} ` : '';
+    // 标题栏价格：六位数字（模拟），不使用 K 简写
+    const priceNum = build.price || Math.floor(80000 + Math.random() * 120000);
+    const priceText = String(priceNum).padStart(6, '0');
     const costClass = build.cost === 'budget' ? 'budget-type'
         : build.cost === 'highend' ? 'premium-type'
         : 'single-type';
-    const costIcon = build.cost === 'budget' ? '💰'
-        : build.cost === 'highend' ? '💎'
-        : '🎯';
-    const buildTypeText = build.name.replace(gun.name, '').replace(/^\s*·?\s*/, '').trim() || build.name;
 
-    // 枪图左下角：裸枪价（仅烽火）- 显示完整数字 + 硬币 icon
+    // 六维属性条数据（与雷达图 mockValues 一致）
+    const seedMap = { budget: 0, balanced: 1, highend: 2 };
+    const seedIndex = seedMap[build.cost] ?? 1;
+    const radarLabels = ['基础伤害', '优势射程', '后坐力控制', '操控速度', '武器稳定性', '腰射精度'];
+    const radarIcons = ['💥', '📏', '📉', '⚡', '🛡️', '🎯'];
+    const mockValues = [
+        [0.78, 0.65, 0.85, 0.7, 0.6, 0.72],
+        [0.6, 0.55, 0.7, 0.82, 0.78, 0.6],
+        [0.82, 0.88, 0.7, 0.62, 0.7, 0.55]
+    ];
+    const statValues = mockValues[seedIndex % mockValues.length];
+
+    const statsBarsHtml = radarLabels.map((label, i) => {
+        const pct = Math.round(statValues[i] * 100);
+        return `<div class="scheme-stat-bar">
+            <span class="scheme-stat-icon">${radarIcons[i]}</span>
+            <span class="scheme-stat-label">${label}</span>
+            <span class="scheme-stat-track"><i style="width:${pct}%"></i></span>
+            <span class="scheme-stat-num">${pct}</span>
+        </div>`;
+    }).join('');
+
+    // 枪图左下角：裸枪价（仅烽火）
     const gunPriceOverlayHtml = (mode === 'fh' && gun.price)
         ? `<span class="build-gun-price" title="裸枪价">
                 <svg class="build-gun-price-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9 9.5a2.5 2.5 0 0 1 5 0c0 2-2.5 2-2.5 3.5"/><path d="M12 16.5h.01"/></svg>
@@ -1381,22 +1398,40 @@ function renderSchemeBuildCard(gun, build, _index, mode) {
            </span>`
         : '';
 
+    // 分享码
+    const codeHtml = build.code ? `<span class="scheme-code-tag" title="分享码">${build.code}</span>` : '';
+
     return `
-        <div class="build-card scheme-list-card is-clickable"
+        <div class="build-card scheme-list-card scheme-list-card-v2 is-clickable"
              data-code="${build.code}" data-gun-id="${build.gunId || gun.id}" data-cost="${build.cost || ''}" data-name="${build.name}" data-mode="${mode}">
-            <div class="build-header">
-                <span class="build-type ${costClass}">${costIcon} ${priceText}${buildTypeText}</span>
-                <span class="build-card-gun-sub">${gun.name} · ${getTypeName(gun.type)}</span>
-                ${filteredTags.length ? `<div class="build-tags">
-                    ${filteredTags.map(tag => `<span class="build-tag">${tag}</span>`).join('')}
-                </div>` : ''}
+            <!-- 标题栏：左枪名+价格+标签，右复制按钮 -->
+            <div class="scheme-card-header">
+                <div class="scheme-card-header-left">
+                    <span class="scheme-card-gun-name">${gun.name}</span>
+                    <span class="scheme-card-price ${costClass}">${priceText}</span>
+                    ${filteredTags.length ? `<span class="scheme-card-tags">${filteredTags.map(tag => `<span class="build-tag">${tag}</span>`).join('')}</span>` : ''}
+                </div>
+                <button class="copy-code-btn-float" type="button" data-code="${build.code}" data-name="${build.name}">复制</button>
             </div>
-            <button class="copy-code-btn-float" type="button" data-code="${build.code}" data-name="${build.name}">复制</button>
-            <div class="build-gun-image">
-                ${gunPriceOverlayHtml}
+            <!-- 主内容：左枪图，右六条属性条 -->
+            <div class="scheme-card-body">
+                <div class="scheme-card-left">
+                    <div class="build-gun-image">
+                        ${gunPriceOverlayHtml}
+                    </div>
+                    <div class="scheme-card-code-row">
+                        ${codeHtml}
+                    </div>
+                </div>
+                <div class="scheme-card-stats">
+                    ${statsBarsHtml}
+                </div>
             </div>
-            ${authorHtml}
-            ${statsHtml}
+            <!-- 底部：作者 + 点赞/复制数（同行，右侧） -->
+            <div class="scheme-card-footer">
+                ${authorHtml}
+                ${statsHtml}
+            </div>
         </div>
     `;
 }
@@ -2028,18 +2063,25 @@ function mountSchemeAuthorOnCard(card, meta) {
 
     const author = window.getGunSchemeAuthor(meta);
     const authorHtml = renderSchemeAuthor(author);
+    let authorEl = null;
     if (authorHtml) {
         const tpl = document.createElement('div');
         tpl.innerHTML = authorHtml.trim();
-        card.appendChild(tpl.firstElementChild);
+        authorEl = tpl.firstElementChild;
+        card.appendChild(authorEl);
     }
 
-    // 点赞 + 复制次数（卡片底部，左 2/3 点赞、右 1/3 复制次数）
+    // 点赞 + 复制次数：紧随作者名称右侧（嵌入作者行内）
     const statsHtml = renderSchemeStats(meta);
     if (statsHtml) {
         const tpl2 = document.createElement('div');
         tpl2.innerHTML = statsHtml.trim();
-        card.appendChild(tpl2.firstElementChild);
+        const statsEl = tpl2.firstElementChild;
+        if (authorEl) {
+            authorEl.appendChild(statsEl);
+        } else {
+            card.appendChild(statsEl);
+        }
     }
 
     // 整卡可点击：游标 + 提示

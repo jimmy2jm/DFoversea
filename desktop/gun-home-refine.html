@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>首页改枪区 · 细节 & 交互迭代示意</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+        --brand: #24f4b2;
+        --panel: rgba(18, 38, 42, 0.9);
+        --panel-head: rgba(92, 112, 114, 0.52);
+        --sub: rgba(6, 18, 20, 0.66);
+        --border: rgba(84, 112, 118, 0.52);
+        --border-soft: rgba(84, 112, 118, 0.3);
+        --txt: rgba(255, 255, 255, 0.88);
+        --txt2: rgba(255, 255, 255, 0.55);
+        --txt3: rgba(255, 255, 255, 0.38);
+        --gold: #f5b942;
+        --purple: #b98cff;
+        --red: #ef4444;
+    }
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        background: linear-gradient(180deg, #0b2022 0%, #071c1e 60%, #07191a 100%);
+        color: var(--txt); min-height: 100vh; padding: 40px 20px 80px;
+    }
+    .wrap { max-width: 1060px; margin: 0 auto; }
+    .page-title { font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 8px; }
+    .page-title .brand { color: var(--brand); }
+    .page-sub { color: var(--txt2); font-size: 0.88rem; margin-bottom: 32px; line-height: 1.7; }
+    .page-sub b { color: var(--brand); }
+
+    .section-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 14px; background: var(--panel-head); border: 1px solid var(--border); border-bottom: none; }
+    .section-title { font-weight: 800; font-size: 0.95rem; }
+    .view-link { color: var(--brand); font-size: 0.78rem; cursor: pointer; }
+    .panel { background: var(--panel); border: 1px solid var(--border); padding: 14px; }
+
+    /* ===== 优化点1：信息化枪 Tab ===== */
+    .gun-selector { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 14px; }
+    .gun-tab {
+        position: relative; background: var(--sub); border: 1px solid var(--border-soft);
+        padding: 12px 8px 10px; cursor: pointer; transition: transform 0.2s, border-color 0.2s, background 0.2s; overflow: hidden;
+    }
+    .gun-tab:hover { transform: translateY(-3px); border-color: rgba(36,244,178,0.5); }
+    .gun-tab.active { border-color: var(--brand); background: rgba(36,244,178,0.08); }
+    .gun-tab.active::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--brand); box-shadow: 0 0 10px rgba(36,244,178,0.5); }
+    .gt-badge { position: absolute; top: 0; left: 0; font-family: 'Orbitron', monospace; font-size: 0.56rem; font-weight: 700; padding: 2px 6px; background: rgba(36,244,178,0.16); color: var(--brand); letter-spacing: 0.5px; }
+    .gt-badge.hot { background: rgba(245,185,66,0.16); color: var(--gold); }
+    .gt-plans { position: absolute; top: 4px; right: 6px; font-size: 0.6rem; color: var(--txt3); }
+    .gt-img { height: 46px; margin: 16px 4px 8px; background: linear-gradient(135deg, rgba(74,92,96,0.5), rgba(18,38,42,0.7)); display: flex; align-items: center; justify-content: center; font-size: 1.4rem; transition: 0.2s; }
+    .gun-tab:hover .gt-img, .gun-tab.active .gt-img { opacity: 1; }
+    .gt-name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 0.86rem; text-align: center; letter-spacing: 0.5px; }
+    .gt-role { font-size: 0.62rem; color: var(--txt2); text-align: center; margin-top: 2px; }
+    .gt-heat { height: 3px; background: rgba(255,255,255,0.08); margin-top: 8px; }
+    .gt-heat-fill { height: 100%; background: var(--brand); }
+
+    /* ===== 优化点2：重点化方案卡 ===== */
+    .builds { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .build-card {
+        position: relative; background: var(--sub); border: 1px solid var(--border-soft);
+        border-left: 3px solid var(--brand); padding: 14px 14px 12px; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .build-card.premium { border-left-color: var(--purple); }
+    .build-card:hover { border-color: rgba(36,244,178,0.5); box-shadow: 0 0 0 1px rgba(36,244,178,0.15), 0 10px 30px rgba(0,0,0,0.25); }
+    .build-card.premium:hover { border-color: rgba(185,140,255,0.6); box-shadow: 0 0 0 1px rgba(185,140,255,0.15), 0 10px 30px rgba(0,0,0,0.25); }
+
+    .bh { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+    .bh-left .bh-type { display: flex; align-items: baseline; gap: 8px; }
+    .bh-price { font-family: 'Orbitron', monospace; font-size: 1.35rem; font-weight: 800; color: var(--brand); text-shadow: 0 0 10px rgba(36,244,178,0.24); }
+    .premium .bh-price { color: var(--purple); text-shadow: 0 0 10px rgba(185,140,255,0.24); }
+    .bh-label { font-size: 0.72rem; font-weight: 700; color: var(--txt2); }
+    .bh-tags { display: flex; gap: 5px; margin-top: 6px; }
+    .bh-tag { font-size: 0.64rem; color: var(--txt2); border: 1px solid var(--border-soft); padding: 1px 7px; }
+    .bh-fav { color: var(--txt3); font-size: 1rem; cursor: pointer; transition: 0.2s; }
+    .bh-fav:hover { color: var(--gold); }
+
+    .bmid { display: flex; gap: 12px; align-items: center; padding: 6px 0 10px; }
+    .b-gun-img { flex: 1; height: 60px; background: linear-gradient(135deg, rgba(74,92,96,0.5), rgba(18,38,42,0.7)); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; opacity: 0.9; }
+    /* 优化点：关键属性硬指标条 */
+    .b-stats { flex: 1.1; display: flex; flex-direction: column; gap: 5px; }
+    .b-stat { display: flex; align-items: center; gap: 8px; font-size: 0.66rem; color: var(--txt2); }
+    .b-stat .lbl { width: 42px; flex-shrink: 0; }
+    .b-stat .bar { flex: 1; height: 4px; background: rgba(255,255,255,0.08); }
+    .b-stat .bar i { display: block; height: 100%; background: var(--brand); }
+    .premium .b-stat .bar i { background: var(--purple); }
+    .b-stat .val { font-family: 'Orbitron', monospace; font-size: 0.62rem; color: var(--txt); width: 22px; text-align: right; }
+
+    /* 优化点：可交互配件行（hover 出名称） */
+    .b-atts { display: flex; gap: 5px; padding-top: 10px; border-top: 1px solid var(--border-soft); }
+    .att {
+        position: relative; flex: 1; aspect-ratio: 1; background: rgba(255,255,255,0.04); border: 1px solid var(--border-soft);
+        display: flex; align-items: center; justify-content: center; font-size: 0.8rem; cursor: pointer; transition: 0.2s;
+    }
+    .att:hover { border-color: var(--brand); background: rgba(36,244,178,0.1); }
+    .att[data-name]:hover::after {
+        content: attr(data-name); position: absolute; bottom: 115%; left: 50%; transform: translateX(-50%);
+        background: #05181a; border: 1px solid var(--brand); color: var(--brand); font-size: 0.6rem; padding: 3px 7px; white-space: nowrap; z-index: 5;
+    }
+
+    /* 优化点：复制反馈 + 复制数 */
+    .b-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+    .b-copies { font-size: 0.66rem; color: var(--txt3); }
+    .b-copies b { font-family: 'Orbitron', monospace; color: var(--brand); }
+    .copy-btn {
+        background: var(--brand); border: none; color: #031816; font-size: 0.74rem; font-weight: 700;
+        padding: 6px 20px; cursor: pointer; transition: 0.2s; letter-spacing: 0.5px;
+    }
+    .premium .copy-btn { background: var(--purple); }
+    .copy-btn:hover { filter: brightness(1.1); }
+    .copy-btn.copied { background: transparent; border: 1px solid var(--brand); color: var(--brand); }
+
+    .tips { margin-top: 14px; background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--brand); padding: 14px 16px; font-size: 0.82rem; color: var(--txt2); line-height: 1.9; }
+    .tips b { color: var(--brand); }
+    .note { font-size: 0.75rem; color: var(--txt3); margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+    <div class="page-title">首页改枪区 · <span class="brand">细节 &amp; 交互迭代</span></div>
+    <div class="page-sub">
+        <b>结构不变</b>：仍是 5 把枪 + 每把 1~2 个方案。只在<b>展示细节</b>和<b>交互反馈</b>上迭代，弱化僵硬感。<br>
+        鼠标可试：hover 枪卡会上浮、hover 配件格会弹出名称、点"复制码"有反馈。
+    </div>
+
+    <div class="section-header">
+        <span class="section-title">🔧 改枪码推荐 · 烽火地带</span>
+        <span class="view-link">查看完整武器库 →</span>
+    </div>
+    <div class="panel">
+        <!-- 优化点1：信息化枪 Tab -->
+        <div class="gun-selector">
+            <div class="gun-tab active">
+                <span class="gt-badge hot">🔥 T0</span><span class="gt-plans">3套</span>
+                <div class="gt-img">🔫</div>
+                <div class="gt-name">M4A1</div>
+                <div class="gt-role">万金油</div>
+                <div class="gt-heat"><div class="gt-heat-fill" style="width:92%"></div></div>
+            </div>
+            <div class="gun-tab">
+                <span class="gt-badge">AR</span><span class="gt-plans">2套</span>
+                <div class="gt-img">🔫</div>
+                <div class="gt-name">AK-74M</div>
+                <div class="gt-role">高伤害</div>
+                <div class="gt-heat"><div class="gt-heat-fill" style="width:81%"></div></div>
+            </div>
+            <div class="gun-tab">
+                <span class="gt-badge">SMG</span><span class="gt-plans">2套</span>
+                <div class="gt-img">🔫</div>
+                <div class="gt-name">MP5</div>
+                <div class="gt-role">近战之王</div>
+                <div class="gt-heat"><div class="gt-heat-fill" style="width:76%"></div></div>
+            </div>
+            <div class="gun-tab">
+                <span class="gt-badge">AR</span><span class="gt-plans">2套</span>
+                <div class="gt-img">🔫</div>
+                <div class="gt-name">SCAR-H</div>
+                <div class="gt-role">高稳定</div>
+                <div class="gt-heat"><div class="gt-heat-fill" style="width:58%"></div></div>
+            </div>
+            <div class="gun-tab">
+                <span class="gt-badge">MR</span><span class="gt-plans">1套</span>
+                <div class="gt-img">🎯</div>
+                <div class="gt-name">VSS</div>
+                <div class="gt-role">静音突袭</div>
+                <div class="gt-heat"><div class="gt-heat-fill" style="width:49%"></div></div>
+            </div>
+        </div>
+
+        <!-- 优化点2：重点化方案卡 -->
+        <div class="builds">
+            <!-- 性价比 -->
+            <div class="build-card budget">
+                <div class="bh">
+                    <div class="bh-left">
+                        <div class="bh-type"><span class="bh-price">85K</span><span class="bh-label">💰 性价比改法</span></div>
+                        <div class="bh-tags"><span class="bh-tag">中近距离</span><span class="bh-tag">满腰射</span></div>
+                    </div>
+                    <span class="bh-fav" title="收藏">☆</span>
+                </div>
+                <div class="bmid">
+                    <div class="b-gun-img">🔫</div>
+                    <div class="b-stats">
+                        <div class="b-stat"><span class="lbl">伤害</span><span class="bar"><i style="width:70%"></i></span><span class="val">70</span></div>
+                        <div class="b-stat"><span class="lbl">射程</span><span class="bar"><i style="width:55%"></i></span><span class="val">55</span></div>
+                        <div class="b-stat"><span class="lbl">机动</span><span class="bar"><i style="width:82%"></i></span><span class="val">82</span></div>
+                        <div class="b-stat"><span class="lbl">稳定</span><span class="bar"><i style="width:60%"></i></span><span class="val">60</span></div>
+                    </div>
+                </div>
+                <div class="b-atts">
+                    <div class="att" data-name="消焰器">🔩</div>
+                    <div class="att" data-name="红点瞄具">🎯</div>
+                    <div class="att" data-name="前握把">✊</div>
+                    <div class="att" data-name="扩容弹匣">📦</div>
+                    <div class="att" data-name="轻型枪托">🔧</div>
+                    <div class="att" data-name="护木">🛠️</div>
+                    <div class="att" data-name="激光指示">🔦</div>
+                    <div class="att" data-name="战术握把">🖐️</div>
+                </div>
+                <div class="b-foot">
+                    <span class="b-copies"><b>3.4k</b> 人已复制</span>
+                    <button class="copy-btn" onclick="doCopy(this)">复制改枪码</button>
+                </div>
+            </div>
+
+            <!-- 满改 -->
+            <div class="build-card premium">
+                <div class="bh">
+                    <div class="bh-left">
+                        <div class="bh-type"><span class="bh-price">157K</span><span class="bh-label">💎 满改方案</span></div>
+                        <div class="bh-tags"><span class="bh-tag">长距离</span><span class="bh-tag">高精准</span></div>
+                    </div>
+                    <span class="bh-fav" title="收藏">☆</span>
+                </div>
+                <div class="bmid">
+                    <div class="b-gun-img">🔫</div>
+                    <div class="b-stats">
+                        <div class="b-stat"><span class="lbl">伤害</span><span class="bar"><i style="width:78%"></i></span><span class="val">78</span></div>
+                        <div class="b-stat"><span class="lbl">射程</span><span class="bar"><i style="width:88%"></i></span><span class="val">88</span></div>
+                        <div class="b-stat"><span class="lbl">机动</span><span class="bar"><i style="width:52%"></i></span><span class="val">52</span></div>
+                        <div class="b-stat"><span class="lbl">稳定</span><span class="bar"><i style="width:90%"></i></span><span class="val">90</span></div>
+                    </div>
+                </div>
+                <div class="b-atts">
+                    <div class="att" data-name="补偿器">🔩</div>
+                    <div class="att" data-name="4x 瞄具">🎯</div>
+                    <div class="att" data-name="垂直握把">✊</div>
+                    <div class="att" data-name="重弹匣">📦</div>
+                    <div class="att" data-name="精准枪托">🔧</div>
+                    <div class="att" data-name="长护木">🛠️</div>
+                    <div class="att" data-name="激光指示">🔦</div>
+                    <div class="att" data-name="战术握把">🖐️</div>
+                </div>
+                <div class="b-foot">
+                    <span class="b-copies"><b>1.2k</b> 人已复制</span>
+                    <button class="copy-btn" onclick="doCopy(this)">复制改枪码</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tips">
+        <b>本示意包含的优化点：</b><br>
+        ① <b>枪 Tab 信息化</b>：从"图+名"升级为迷你武器卡 —— 加类别/热度角标（🔥T0）、定位标签（万金油）、方案数（3套）、使用率热度条；选中态用品牌绿描边 + 底部发光指示条。<br>
+        ② <b>方案卡建立层级</b>：价格用大号 Orbitron 突出，性价比/满改用<b>绿/紫左侧色条</b>区分；新增<b>伤害/射程/机动/稳定 硬指标条</b>，比单纯雷达图更好读。<br>
+        ③ <b>配件可交互</b>：hover 配件格弹出配件名称 tooltip（真实数据里可显示具体配件）。<br>
+        ④ <b>复制反馈 + 社交证明</b>：显示"3.4k 人已复制"，点击按钮变"已复制 ✓"。<br>
+        ⑤ <b>微交互</b>：枪卡 hover 上浮、方案卡 hover 边框微光、收藏星标。
+    </div>
+    <div class="note">※ 纯静态示意，数据/图标/配件均为占位；结构与首页现有一致（5 枪 + 1~2 方案），确定后按此细化到 index.html。</div>
+</div>
+
+<script>
+    // 枪 tab 选中切换（交互示意）
+    document.querySelectorAll('.gun-tab').forEach(t => {
+        t.addEventListener('click', () => {
+            document.querySelectorAll('.gun-tab').forEach(x => x.classList.remove('active'));
+            t.classList.add('active');
+        });
+    });
+    // 复制反馈
+    function doCopy(btn) {
+        const old = btn.textContent;
+        btn.classList.add('copied');
+        btn.textContent = '已复制 ✓';
+        setTimeout(() => { btn.classList.remove('copied'); btn.textContent = old; }, 1500);
+    }
+</script>
+</body>
+</html>
