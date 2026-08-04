@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Discord Webhook 本地推送工具 · Delta Force</title>
+<link rel="stylesheet" href="webhook-sender.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">DF WEBHOOK SENDER<span>本地消息编排 · 推送 · 撤回</span></div>
+</div>
+
+<div class="wrap">
+
+  <!-- Webhook 配置 -->
+  <div class="panel">
+    <div class="panel-header">
+      <span>WEBHOOK 配置</span>
+      <span class="hint">仅保存在本机 localStorage，不上传任何服务器</span>
+    </div>
+    <div class="panel-body">
+      <div class="row mb">
+        <div style="flex:0 0 280px">
+          <label class="fld">Webhook 预设</label>
+          <select id="presetSelect"></select>
+        </div>
+        <div>
+          <label class="fld">Webhook URL</label>
+          <input type="text" id="hookUrl" placeholder="https://discord.com/api/webhooks/xxxxx/xxxxx">
+        </div>
+      </div>
+      <div class="btnbar mb">
+        <button class="mini" id="newPreset">新增预设</button>
+        <button class="mini primary" id="updPreset">保存到当前预设</button>
+        <button class="mini" id="renamePreset">重命名</button>
+        <button class="mini danger" id="delPreset">删除预设</button>
+        <span style="font-size:10.5px;color:rgba(255,255,255,0.4)">切换预设会连带切换该频道的标签集</span>
+      </div>
+      <div class="row mb">
+        <div>
+          <label class="fld">Forum Thread Name（新建论坛帖 · 与 Thread ID 互斥）</label>
+          <input type="text" id="threadName" placeholder="340K M4A1 Build">
+        </div>
+        <div>
+          <label class="fld">Thread ID（可直接粘贴帖子链接，自动提取）</label>
+          <input type="text" id="threadId" placeholder="1234567890123456789 或帖子链接">
+        </div>
+      </div>
+      <div class="mb">
+        <label class="fld">Applied Tags（当前预设频道的标签 · 点选即可）</label>
+        <div class="preset-bar" id="tagBar" style="margin-bottom:8px"></div>
+        <div class="btnbar" style="margin-bottom:8px">
+          <button class="mini" id="importTags">为当前预设导入标签</button>
+          <button class="mini" id="copyConsoleJs">复制控制台取标签脚本</button>
+          <button class="mini danger" id="clearTagSel">取消全选</button>
+        </div>
+        <div id="tagImportBox" style="display:none;margin-bottom:8px">
+          <textarea id="tagHtml" rows="4" placeholder="在 Discord 网页版按 F12，复制论坛顶部标签栏那一整块 HTML（含 tagListInner 的 div）粘贴到这里"></textarea>
+          <div class="btnbar" style="margin-top:6px">
+            <button class="mini primary" id="doImportTags">解析并保存到当前预设</button>
+            <button class="mini" id="cancelImportTags">取消</button>
+          </div>
+        </div>
+        <input type="text" id="appliedTags" placeholder="也可手动输入 ID，多个用逗号分隔">
+      </div>
+      <div class="btnbar">
+        <button id="clearCfg" class="danger">重置全部预设</button>
+        <span style="font-size:11px;color:rgba(255,255,255,0.45)">论坛频道必须填 Thread Name 或 Thread ID 之一</span>
+      </div>
+      <div class="status" id="cfgStatus"></div>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- 左：编辑 -->
+    <div>
+      <div class="panel">
+        <div class="panel-header">
+          <span>消息 JSON</span>
+          <span class="hint counter" id="charCount">—</span>
+        </div>
+        <div class="panel-body">
+          <div class="tpl-bar">
+            <button data-tpl="build">改枪码模板(EN)</button>
+            <button data-tpl="buildJp">改枪码模板(JP)</button>
+            <button data-tpl="plain">纯文本</button>
+            <button id="fmtJson">格式化</button>
+            <button id="silentToggle">切换静默</button>
+            <button id="saveTpl">存为模板</button>
+          </div>
+          <div class="tpl-bar" id="myTplBar"></div>
+          <textarea id="jsonEditor" spellcheck="false"></textarea>
+
+          <div class="file-zone" id="fileZone">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+              <span style="font-size:11.5px;color:rgba(255,255,255,0.7)">
+                本地图片附件 · 可拖拽到此处，或
+                <label style="color:#24f4b2;cursor:pointer;text-decoration:underline">点击选择
+                  <input type="file" id="fileInput" multiple accept="image/*,video/*" style="display:none">
+                </label>
+              </span>
+              <button class="mini" id="clearFiles">清空</button>
+            </div>
+            <div id="fileList"></div>
+            <div style="font-size:10.5px;color:rgba(255,255,255,0.45);margin-top:8px;line-height:1.5">
+              选好文件后点「插入引用」，会把 <code class="k">attachment://文件名</code> 写进 embed 的 image 字段。单文件上限 10MB（Discord 免费额度）。
+            </div>
+          </div>
+
+          <div class="btnbar" style="margin-top:10px">
+            <button class="primary" id="sendBtn">发送到 Discord</button>
+            <button id="checkBtn">校验</button>
+            <button id="previewBtn">刷新预览</button>
+            <span style="font-size:10.5px;color:rgba(255,255,255,0.4)">⌘/Ctrl + Enter 发送</span>
+          </div>
+          <div class="check-list" id="checkList"></div>
+          <div class="status" id="sendStatus"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 右：预览 + 历史 -->
+    <div>
+      <div class="panel">
+        <div class="panel-header">
+          <span>预览（近似 Discord 渲染）</span>
+          <span class="hint">最终效果以客户端为准</span>
+        </div>
+        <div class="dc-preview" id="preview"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span>发送历史 · 可撤回</span>
+          <span class="hint">
+            <button class="mini" id="exportHist" style="margin-right:4px">导出</button>
+            <button class="mini danger" id="clearHist">清空</button>
+          </span>
+        </div>
+        <div class="panel-body">
+          <div id="histList"><div class="empty">暂无发送记录</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="webhook-config.js"></script>
+<script src="webhook-sender.js"></script>
+</body>
+</html>

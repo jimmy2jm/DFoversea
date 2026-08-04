@@ -1,0 +1,6 @@
+.env
+.env.*
+discord-publisher.config.json
+receipts/
+output/
+.private/

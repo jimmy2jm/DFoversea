@@ -1,0 +1,24 @@
+{
+  "buildName": "Mid & Close range Warfare weapon",
+  "weaponName": "PTR-32",
+  "weaponClass": "ASSAULT RIFLE",
+  "mode": "OPERATIONS",
+  "price": "469693",
+  "author": "deltanox",
+  "tags": [
+    { "type": "mobility", "label": "Tournament Edition" },
+    { "type": "control", "label": "Suppressive Fire" },
+    { "type": "status", "label": "Balanced" }
+  ],
+  "stats": [
+    { "label": "HANDLING SPEED", "value": 39 },
+    { "label": "STABILITY", "value": 82 },
+    { "label": "EFFECTIVE RANGE", "value": 54 },
+    { "label": "BASE DAMAGE", "value": 34 },
+    { "label": "HIP-FIRE ACCURACY", "value": 45 },
+    { "label": "RECOIL CONTROL", "value": 66 }
+  ],
+  "buildCode": "6KCH4LC0BET1KQ9O3SCOA",
+  "weaponImage": "/Users/jimmmywang/Documents/DFoversea/discord/test-run-ptr32-20260803/weapon-image.webp",
+  "toolsUrl": "https://www.playdeltaforce.com/events/hq/"
+}

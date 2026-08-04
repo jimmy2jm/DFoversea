@@ -1,0 +1,52 @@
+{
+  "maxFileBytes": 10485760,
+  "recordsDir": "/absolute/path/to/records/delta-force-publisher",
+  "channels": {
+    "delta-force-official": {
+      "webhookEnv": "DISCORD_WEBHOOK_DELTA_FORCE_OFFICIAL",
+      "guildId": "",
+      "defaultThreadId": "",
+      "defaultTags": [],
+      "forumChannelId": "1314164395168763915",
+      "tagMap": {
+        "operations": "1314164655408812092",
+        "warfare": "1314164668335390823",
+        "pistols": "1314164750699069480",
+        "smg": "1314164766557863996",
+        "ar": "1314164775587942421",
+        "br": "1314164790683369542",
+        "shotguns": "1314164814121144361",
+        "lmg": "1314164828704735274",
+        "mr": "1314164840138412052",
+        "sr": "1314164849982312448",
+        "garena": "1318109541153636412",
+        "global": "1318109578017247243"
+      },
+      "tagPolicy": {
+        "exactCount": 3,
+        "groups": {
+          "mode": ["operations", "warfare"],
+          "productChannel": ["garena", "global"],
+          "weaponType": ["pistols", "smg", "ar", "br", "shotguns", "lmg", "mr", "sr"]
+        }
+      }
+    },
+    "community-en": {
+      "webhookEnv": "DISCORD_WEBHOOK_COMMUNITY_EN",
+      "guildId": "",
+      "defaultThreadId": "",
+      "defaultTags": ["guide"],
+      "tagMap": {
+        "guide": "000000000000000001",
+        "assault-rifle": "000000000000000002"
+      }
+    },
+    "community-ja": {
+      "webhookEnv": "DISCORD_WEBHOOK_COMMUNITY_JA",
+      "guildId": "",
+      "defaultThreadId": "",
+      "defaultTags": [],
+      "tagMap": {}
+    }
+  }
+}

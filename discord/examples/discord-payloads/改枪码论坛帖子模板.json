@@ -1,0 +1,30 @@
+{
+  "thread_name": "{{THREAD_NAME}}",
+  "content": "",
+  "embeds": [
+    {
+      "title": "{{BUILD_NAME}}",
+      "image": {
+        "url": "{{IMAGE_URL}}"
+      },
+      "fields": [
+        {
+          "name": "{{LABEL_PRICE}}",
+          "value": "{{PRICE}}",
+          "inline": false
+        },
+        {
+          "name": "{{LABEL_GUN_CODE}}",
+          "value": "```\n{{GUN_CODE}}\n```",
+          "inline": false
+        },
+        {
+          "name": "{{LABEL_DESCRIPTION}}",
+          "value": "{{DESCRIPTION}}",
+          "inline": false
+        }
+      ]
+    }
+  ],
+  "attachments": []
+}

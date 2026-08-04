@@ -173,9 +173,67 @@ label{color:rgba(255,255,255,.68);font-size:12px;font-weight:800}
 .warning-icon{margin-right:4px}
 .confirm-msg-card.republish{background:rgba(240,164,80,.04)}
 
-/* History panel */
-.sync-history-panel .table-wrap{max-height:300px;overflow-y:auto}
-.sync-history-panel table{min-width:950px}
+/* 二次确认弹窗（发布前风险确认，v4.3） */
+.final-confirm-modal{width:460px}
+.confirm-phrase-box{padding:9px 12px;margin-bottom:10px;background:rgba(255,107,107,.08);border:1px solid rgba(255,107,107,.32);color:#ff9a9a;font-size:13px;font-weight:800;letter-spacing:.02em;user-select:all}
+
+/* History panel（v4.5：任务ID/方案ID 拆分为独立列，任务ID 列收窄并截断展示；
+   新增"实际发送时间"列，与"发送时间"区分任务入队时间与 Bot 真正调用 API 发出的时间；
+   v5.2：新增"批次ID"列，标识同一次提交产生的多条帖子任务，仅作展示，不做聚合分组交互） */
+.sync-history-panel .table-wrap{max-height:420px;overflow-y:auto;overflow-x:auto}
+.history-table{min-width:1050px;width:100%;table-layout:fixed}
+.history-col-build{width:auto;font-size:12px;font-weight:800;color:rgba(255,255,255,.88)}
+.history-col-buildid{width:64px;font-size:11px;color:rgba(255,255,255,.5);font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.history-col-taskid{width:84px;font-size:10px;color:rgba(255,255,255,.36);font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.history-col-batchid{width:100px;font-size:10px;color:rgba(255,255,255,.36);font-family:monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.history-col-channel{width:70px}
+.history-col-time{width:96px;font-size:11px;color:rgba(255,255,255,.62);white-space:nowrap}
+.history-col-time2{width:96px;font-size:11px;color:rgba(255,255,255,.62);white-space:nowrap}
+.history-col-link{width:70px}
+.history-col-react{width:100px;font-size:11px;white-space:nowrap}
+.history-col-status{width:82px}
+.history-col-op{width:108px}
 
 /* Toast */
 .toast{position:fixed;right:24px;bottom:24px;display:none;padding:12px 14px;background:#0b1517;border:1px solid rgba(0,240,168,.5);color:var(--green);font-size:12px;font-weight:800;z-index:200}.toast.show{display:block}
+
+/* ============================================
+   v5.0 — 发帖统计条（按频道拆分，不设上限，纯统计展示）/ 发布策略
+   ============================================ */
+
+/* 顶部发帖统计条 */
+.quota-bar{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;margin-bottom:12px;background:rgba(0,240,168,.05);border:1px solid rgba(0,240,168,.22)}
+.quota-left{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.quota-label{font-size:12px;color:rgba(255,255,255,.62);font-weight:800}
+.quota-stat-item{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:800;color:rgba(255,255,255,.78)}
+.quota-stat-item .used{color:var(--green)}
+.quota-hint{font-size:11px;color:var(--muted)}
+.settings-btn{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;background:#0b1517;border:1px solid #2b3d40;color:rgba(255,255,255,.68);font-size:14px;cursor:pointer;flex-shrink:0}
+.settings-btn:hover{border-color:rgba(0,240,168,.5);color:var(--green)}
+
+/* 站内排序列（原优先级列，仅展示，去掉红/橙警示色语义，统一用中性灰） */
+.col-priority{width:56px;text-align:center}
+.priority-badge{display:inline-flex;align-items:center;justify-content:center;min-width:20px;height:18px;padding:0 5px;font-size:10px;font-weight:800}
+.priority-badge.p3{background:rgba(255,255,255,.06);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.12)}
+
+/* 状态标签扩展（发帖历史：执行中/已完成/失败） */
+.tag.failed{background:rgba(255,107,107,.12);color:#ff9a9a;border-color:rgba(255,107,107,.3)}
+.fail-reason{font-size:10px;color:rgba(255,154,154,.85);margin-top:2px}
+
+/* 消息数量提示区（确认弹窗内，v5.0：纯统计展示，不做拦截） */
+.quota-check{padding:10px 12px;margin-bottom:14px;background:rgba(80,180,240,.06);border:1px solid rgba(80,180,240,.24);font-size:11px;line-height:1.6;color:rgba(255,255,255,.78);flex-shrink:0}
+.quota-check strong{color:#8fd0ff}
+
+/* ============================================
+   v2.2 — 发布策略设置弹窗
+   ============================================ */
+.settings-modal{width:520px}
+.settings-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line-soft)}
+.settings-row:last-child{border-bottom:none}
+.settings-row-label{font-size:12px;color:rgba(255,255,255,.82);font-weight:800}
+.settings-row-desc{font-size:11px;color:var(--muted);margin-top:3px;font-weight:400}
+.settings-row-control{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.settings-input{width:72px;height:28px;text-align:center;background:#0b1517;border:1px solid #2b3d40;color:rgba(255,255,255,.86);outline:none;font-size:12px}
+.settings-input:focus{border-color:rgba(0,240,168,.58)}
+.settings-unit{font-size:11px;color:var(--muted)}
+.settings-note{padding:10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--line-soft);color:var(--muted);font-size:11px;line-height:1.6;margin-top:4px}

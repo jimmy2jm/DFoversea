@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "extractedAt": "2026-08-03T11:29:55Z",
+  "sourceFile": "/Users/jimmmywang/Documents/DFoversea/discord/前端代码复制",
+  "forumChannelId": "1314164395168763915",
+  "requiredTagsPerPost": 3,
+  "groups": {
+    "mode": {
+      "operations": { "label": "Operations", "id": "1314164655408812092" },
+      "warfare": { "label": "Warfare", "id": "1314164668335390823" }
+    },
+    "productChannel": {
+      "garena": { "label": "Garena", "id": "1318109541153636412" },
+      "global": { "label": "Global", "id": "1318109578017247243" }
+    },
+    "weaponType": {
+      "pistols": { "label": "Pistols", "id": "1314164750699069480" },
+      "smg": { "label": "SMG", "id": "1314164766557863996" },
+      "ar": { "label": "AR", "id": "1314164775587942421" },
+      "br": { "label": "BR", "id": "1314164790683369542" },
+      "shotguns": { "label": "Shotguns", "id": "1314164814121144361" },
+      "lmg": { "label": "LMG", "id": "1314164828704735274" },
+      "mr": { "label": "MR", "id": "1314164840138412052" },
+      "sr": { "label": "SR", "id": "1314164849982312448" }
+    }
+  },
+  "buildFieldMapping": {
+    "mode": { "OPERATIONS": "operations", "WARFARE": "warfare" },
+    "channel": { "LI": "global", "GA": "garena" },
+    "weaponClass": {
+      "PISTOL": "pistols",
+      "SUBMACHINE GUN": "smg",
+      "ASSAULT RIFLE": "ar",
+      "BATTLE RIFLE": "br",
+      "SHOTGUN": "shotguns",
+      "GENERAL MACHINE GUN": "lmg",
+      "LIGHT MACHINE GUN": "lmg",
+      "MACHINE GUN": "lmg",
+      "MARKSMAN RIFLE": "mr",
+      "SNIPER RIFLE": "sr"
+    }
+  },
+  "activeLiCoverage": {
+    "builds": 15,
+    "mapped": 15,
+    "unmapped": 0,
+    "combinations": {
+      "operations+global+ar": 8,
+      "operations+global+br": 2,
+      "warfare+global+ar": 2,
+      "warfare+global+lmg": 1,
+      "warfare+global+smg": 1,
+      "warfare+global+sr": 1
+    }
+  }
+}

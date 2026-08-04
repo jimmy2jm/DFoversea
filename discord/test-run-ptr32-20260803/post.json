@@ -1,0 +1,35 @@
+{
+  "channel": "delta-force-official",
+  "thread": {
+    "name": "[PTR-32 · 469693] Mid & Close range Warfare weapon",
+    "id": "",
+    "tags": []
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": { "name": "OPERATIONS" },
+        "title": "Mid & Close range Warfare weapon",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**PTR-32 ASSAULT RIFLE**\n**PRICE · 469693**\n`Tournament Edition` `Suppressive Fire` `Balanced`\n\n**BUILD CODE**\n```\n6KCH4LC0BET1KQ9O3SCOA\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "PTR-32 build: handling speed 39, stability 82, effective range 54, base damage 34, hip-fire accuracy 45, recoil control 66."
+        },
+        "footer": { "text": "Build by deltanox" }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "./gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "thread_name": "34万 M4A1 ビルド",
+  "content": "",
+  "embeds": [
+    {
+      "title": "34万 M4A1 ビルド",
+      "image": {
+        "url": "https://example.com/weapon-m4a1-build.png"
+      },
+      "fields": [
+        {
+          "name": "価格",
+          "value": "₽340,000",
+          "inline": false
+        },
+        {
+          "name": "改造コード",
+          "value": "```\nM4A1 Assault Rifle-Operations-6K1IUS400G02164FCEV6J\n```",
+          "inline": false
+        },
+        {
+          "name": "解説",
+          "value": "コストパフォーマンスに優れたビルドです。操作性も良好で、安定した性能を発揮します。",
+          "inline": false
+        }
+      ]
+    }
+  ],
+  "attachments": []
+}

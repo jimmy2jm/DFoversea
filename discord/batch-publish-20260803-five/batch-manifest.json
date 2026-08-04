@@ -1,0 +1,78 @@
+{
+  "preparedAt": "2026-08-03T12:35:06.219Z",
+  "refreshedAt": "2026-08-03T12:32:48.326Z",
+  "destinationAlias": "delta-force-official",
+  "intervalSeconds": 180,
+  "outputs": [
+    {
+      "index": 1,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/01-ar-57-8432decd",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/01-ar-57-8432decd/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/01-ar-57-8432decd/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/01-ar-57-8432decd/gun-card.png",
+      "schemeId": "8432decd361ded23bfb74f096e701922",
+      "title": "[AR-57 · 532124] RoguePringle's AR57",
+      "tags": [
+        "operations",
+        "global",
+        "ar"
+      ]
+    },
+    {
+      "index": 2,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/02-ar-57-ff8e6ebc",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/02-ar-57-ff8e6ebc/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/02-ar-57-ff8e6ebc/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/02-ar-57-ff8e6ebc/gun-card.png",
+      "schemeId": "ff8e6ebc0d00512f895c49e5513e1aa3",
+      "title": "[AR-57 · 531067] ItzNowh3re's AR57",
+      "tags": [
+        "operations",
+        "global",
+        "ar"
+      ]
+    },
+    {
+      "index": 3,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/03-kc-17-64bf58a7",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/03-kc-17-64bf58a7/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/03-kc-17-64bf58a7/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/03-kc-17-64bf58a7/gun-card.png",
+      "schemeId": "64bf58a7f5387e8cc39a9bec65a6340d",
+      "title": "[KC-17 · 551274] delta force meta",
+      "tags": [
+        "operations",
+        "global",
+        "ar"
+      ]
+    },
+    {
+      "index": 4,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/04-kc-17-a4f906f5",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/04-kc-17-a4f906f5/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/04-kc-17-a4f906f5/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/04-kc-17-a4f906f5/gun-card.png",
+      "schemeId": "a4f906f5cd25f98b162a86de45014343",
+      "title": "[KC-17 · 472823] KC17+Operations",
+      "tags": [
+        "operations",
+        "global",
+        "ar"
+      ]
+    },
+    {
+      "index": 5,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/05-m7-6b153a25",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/05-m7-6b153a25/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/05-m7-6b153a25/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/05-m7-6b153a25/gun-card.png",
+      "schemeId": "6b153a25368120ffb531a92e64f77850",
+      "title": "[M7 · 1067598] ItzNowh3re's BEST M7",
+      "tags": [
+        "operations",
+        "global",
+        "br"
+      ]
+    }
+  ]
+}

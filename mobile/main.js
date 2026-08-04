@@ -906,6 +906,90 @@ document.querySelectorAll('.collection-category-tab').forEach(tab => {
     });
 });
 
+function initMobileCardCollectionPrototype() {
+    const entry = document.getElementById('card-collection-entry-mobile');
+    const page = document.getElementById('mobile-card-collection-page');
+    const detail = document.getElementById('mobile-card-detail-overlay');
+    if (!entry || !page || !detail) return;
+
+    const closePage = () => {
+        page.classList.remove('active');
+        detail.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+    const applyFilter = () => {
+        const filter = page.querySelector('[data-mobile-card-filter].active')?.dataset.mobileCardFilter || 'all';
+        const category = page.querySelector('[data-mobile-card-category].active')?.dataset.mobileCardCategory || 'all';
+        page.querySelectorAll('.mobile-card-group').forEach(group => {
+            let visibleCount = 0;
+            group.querySelectorAll('.mobile-prototype-card').forEach(card => {
+                const visible = (filter === 'all' || card.dataset.mobileCardState === filter) && (category === 'all' || card.dataset.mobileCardCategory === category);
+                card.hidden = !visible;
+                if (visible) visibleCount += 1;
+            });
+            group.hidden = visibleCount === 0;
+        });
+    };
+    entry.addEventListener('click', () => {
+        page.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    });
+    page.querySelector('.mobile-card-collection-back')?.addEventListener('click', closePage);
+    page.querySelectorAll('[data-mobile-card-filter]').forEach(tab => {
+        tab.addEventListener('click', () => {
+            page.querySelectorAll('[data-mobile-card-filter]').forEach(item => item.classList.remove('active'));
+            tab.classList.add('active');
+            applyFilter();
+        });
+    });
+    page.querySelectorAll('[data-mobile-card-category]').forEach(tab => {
+        tab.addEventListener('click', () => {
+            page.querySelectorAll('[data-mobile-card-category]').forEach(item => item.classList.remove('active'));
+            tab.classList.add('active');
+            applyFilter();
+        });
+    });
+    page.querySelectorAll('.mobile-prototype-card').forEach(card => {
+        card.addEventListener('click', () => {
+            detail.querySelector('#mobile-card-detail-art').textContent = card.querySelector('span').textContent;
+            detail.querySelector('#mobile-card-detail-name').textContent = card.dataset.mobileCardName;
+            detail.querySelector('#mobile-card-detail-number').textContent = card.dataset.mobileCardNumber;
+            detail.querySelector('#mobile-card-detail-state').textContent = card.dataset.mobileCardState === 'owned' ? '已拥有' : '尚未解锁';
+            detail.querySelector('#mobile-card-detail-color').textContent = card.dataset.mobileCardColor;
+            detail.querySelector('#mobile-card-detail-tier').textContent = card.dataset.mobileCardTier;
+            detail.querySelector('#mobile-card-detail-tier').className = `card-detail-tier tier-${card.dataset.mobileCardTier}`;
+            detail.querySelector('#mobile-card-detail-quantity').textContent = card.dataset.mobileCardQuantity;
+            const shareButton = detail.querySelector('[data-mobile-card-share="card"]');
+            shareButton.dataset.cardName = card.dataset.mobileCardName;
+            shareButton.dataset.cardArt = card.querySelector('span').textContent;
+            shareButton.dataset.cardMeta = `${card.dataset.mobileCardColor} · ${card.dataset.mobileCardState === 'owned' ? '已拥有' : '尚未解锁'} · ×${card.dataset.mobileCardQuantity}`;
+            detail.classList.add('active');
+        });
+    });
+    const poster = document.getElementById('mobile-card-share-poster');
+    const openPoster = shareButton => {
+        poster.querySelector('#mobile-card-poster-progress').textContent = '13/55';
+        poster.querySelector('#mobile-card-poster-title').textContent = shareButton.dataset.cardName || '赛季扑克牌收藏册';
+        poster.querySelector('#mobile-card-poster-name').textContent = shareButton.dataset.cardName || '赛季扑克牌收藏册';
+        poster.querySelector('#mobile-card-poster-art').textContent = shareButton.dataset.cardArt || '♠';
+        poster.querySelector('#mobile-card-poster-meta').textContent = shareButton.dataset.cardMeta || '13 张已拥有 · 42 张未拥有';
+        poster.classList.add('active');
+    };
+    page.querySelector('[data-mobile-card-share="progress"]')?.addEventListener('click', event => openPoster(event.currentTarget));
+    detail.querySelector('[data-mobile-card-share="card"]')?.addEventListener('click', event => openPoster(event.currentTarget));
+    poster?.querySelector('.mobile-card-share-poster-close')?.addEventListener('click', () => poster.classList.remove('active'));
+    poster?.addEventListener('click', event => { if (event.target === poster) poster.classList.remove('active'); });
+    detail.querySelector('.mobile-card-detail-close')?.addEventListener('click', () => detail.classList.remove('active'));
+    detail.addEventListener('click', event => {
+        if (event.target === detail) detail.classList.remove('active');
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && page.classList.contains('active')) closePage();
+    });
+}
+
+initMobileCardCollectionPrototype();
+
 // 资产皮肤Tab切换
 document.querySelectorAll('.asset-skin-tab').forEach(tab => {
     tab.addEventListener('click', function() {

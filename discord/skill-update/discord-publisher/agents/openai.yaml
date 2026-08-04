@@ -1,0 +1,4 @@
+interface:
+  display_name: "Delta Force Publisher"
+  short_description: "Track and publish audited TIMI Global builds"
+  default_prompt: "Use $discord-publisher to refresh the LI Banner ledger, prepare one English loadout post, and publish it only to an exact approved Discord alias."

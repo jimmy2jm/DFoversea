@@ -88,25 +88,38 @@
 const STORE_KEY = 'cms_gun_builds';
 const TASKS_KEY = 'cms_sync_tasks';
 
+// 注意：本文件与 sync-manager.html 共用同一个 localStorage key（STORE_KEY），
+// 两处 sampleData 的字段结构与 mode 取值（烽火/战场）必须保持完全一致，
+// 否则先加载的页面会把不兼容的数据结构"固化"进 localStorage，
+// 导致 sync-manager.html 按 mode 筛选时始终匹配不到数据（表现为列表持续为空）。
+// sortOrder 字段仅为工具站内展示排序，不代表优先级/紧急程度，不参与任何业务逻辑判断。
 const sampleData = [
-  { id:'GB001',weapon:'M4A1',name:'沙漠猎鹰', mode:'多人', code:'AK3F-M4R1-7X2P-QW9N', stats:'🎯82 🏃64 📏75 🔒91 ⚡60', sync:null },
-  { id:'GB002',weapon:'M4A1',name:'极速突袭', mode:'多人', code:'FP8T-M4R1-2K5V-RL3X', stats:'🎯65 🏃92 📏50 🔒68 ⚡88', sync:null },
-  { id:'GB003',weapon:'M4A1',name:'远程精准', mode:'多人', code:'GN6W-M4R1-9J4D-SH7Y', stats:'🎯94 🏃45 📏92 🔒95 ⚡52', sync:'2026-06-01T14:30' },
-  { id:'GB004',weapon:'AK-47',name:'暴风突击', mode:'多人', code:'BV7K-AK47-3D8M-HJ5L', stats:'🎯63 🏃72 📏80 🔒65 ⚡70', sync:'2026-05-28T10:00' },
-  { id:'GB005',weapon:'AK-47',name:'钢铁风暴', mode:'战役', code:'LQ9V-AK47-2F6X-NR4P', stats:'🎯71 🏃58 📏86 🔒77 ⚡62', sync:null },
-  { id:'GB006',weapon:'MP5',name:'闪电突袭', mode:'多人', code:'CX9R-MP55-1F6W-YT4E', stats:'🎯90 🏃93 📏42 🔒85 ⚡95', sync:null },
-  { id:'GB007',weapon:'MP5',name:'巷战之王', mode:'战役', code:'HR3D-MP55-7W2K-GF9M', stats:'🎯88 🏃95 📏38 🔒82 ⚡92', sync:null },
-  { id:'GB008',weapon:'SR-25',name:'沉默猎手', mode:'多人', code:'DZ2L-SR25-8G3K-NB7P', stats:'🎯74 🏃45 📏98 🔒93 ⚡35', sync:null },
-  { id:'GB009',weapon:'VECTOR',name:'毒蜂乱舞', mode:'多人', code:'EW5N-VE09-4H1J-MC8Q', stats:'🎯73 🏃95 📏30 🔒68 ⚡100', sync:null },
-  { id:'GB010',weapon:'SCAR-H',name:'暗夜潜行者', mode:'战役', code:'KT6M-SCH1-5P3L-VY8R', stats:'🎯82 🏃55 📏82 🔒81 ⚡52', sync:null },
+  { id:'GB001',weapon:'M4A1',name:'沙漠猎鹰', mode:'烽火', code:'AK3F-M4R1-7X2P-QW9N', price:'¥128', tags:['高稳定','中远距离'], author:'jimmmywang', editor:'运营同学', updatedAt:'2026.07.08', sortOrder:1, sync:null, jp:false },
+  { id:'GB002',weapon:'M4A1',name:'极速突袭', mode:'烽火', code:'FP8T-M4R1-2K5V-RL3X', price:'¥98', tags:['近战速攻'], author:'almondwang', editor:'jimmmywang', updatedAt:'2026.07.07', sortOrder:2, sync:null, jp:false },
+  { id:'GB003',weapon:'M4A1',name:'远程精准', mode:'烽火', code:'GN6W-M4R1-9J4D-SH7Y', price:'¥168', tags:['远距压枪'], author:'运营同学', editor:'运营同学', updatedAt:'2026.05.30', sortOrder:3, sync:'2026-06-01T14:30', jp:false },
+  { id:'GB004',weapon:'AK-47',name:'暴风突击', mode:'烽火', code:'BV7K-AK47-3D8M-HJ5L', price:'¥138', tags:['高射程','输出型'], author:'jimmmywang', editor:'almondwang', updatedAt:'2026.05.28', sortOrder:1, sync:'2026-05-28T10:00', jp:true },
+  { id:'GB005',weapon:'AK-47',name:'钢铁风暴', mode:'烽火', code:'LQ9V-AK47-2F6X-NR4P', price:'¥148', tags:['均衡'], author:'almondwang', editor:'jimmmywang', updatedAt:'2026.07.08', sortOrder:2, sync:null, jp:true },
+  { id:'GB006',weapon:'MP5',name:'闪电突袭', mode:'烽火', code:'CX9R-MP55-1F6W-YT4E', price:'¥88', tags:['CQB无敌'], author:'运营同学', editor:'运营同学', updatedAt:'2026.05.22', sortOrder:3, sync:null, jp:false },
+  { id:'GB007',weapon:'MP5',name:'巷战之王', mode:'烽火', code:'HR3D-MP55-7W2K-GF9M', price:'¥88', tags:['室内清点'], author:'jimmmywang', editor:'almondwang', updatedAt:'2026.05.20', sortOrder:2, sync:null, jp:true },
+  { id:'GB008',weapon:'SR-25',name:'沉默猎手', mode:'战场', code:'DZ2L-SR25-8G3K-NB7P', price:'¥198', tags:['远距离','狙击'], author:'almondwang', editor:'jimmmywang', updatedAt:'2026.05.18', sortOrder:1, sync:null, jp:false },
+  { id:'GB009',weapon:'VECTOR',name:'毒蜂乱舞', mode:'战场', code:'EW5N-VE09-4H1J-MC8Q', price:'¥108', tags:['暴力输出','极速'], author:'运营同学', editor:'运营同学', updatedAt:'2026.07.08', sortOrder:1, sync:null, jp:true },
+  { id:'GB010',weapon:'SCAR-H',name:'暗夜潜行者', mode:'战场', code:'KT6M-SCH1-5P3L-VY8R', price:'¥158', tags:['全能'], author:'jimmmywang', editor:'almondwang', updatedAt:'2026.05.12', sortOrder:3, sync:null, jp:false },
 ];
+
+// schema 校验：不仅判断是否为非空数组，还检查关键字段（sortOrder/tags）是否存在。
+// 若检测到旧版本/不兼容结构（例如仍带有已废弃的 priority 字段而非 sortOrder，说明是老数据），
+// 视为无效并回退到最新 sampleData，从而具备自愈能力，无需用户手动清空浏览器缓存。
+function isValidBuildsSchema(arr) {
+  return Array.isArray(arr) && arr.length > 0 &&
+    arr.every(b => b && typeof b.id === 'string' && 'sortOrder' in b && Array.isArray(b.tags));
+}
 
 function getBuilds() {
   try {
     const raw = localStorage.getItem(STORE_KEY);
     if (!raw) return sampleData;
     const arr = JSON.parse(raw);
-    return (Array.isArray(arr) && arr.length > 0) ? arr : sampleData;
+    return isValidBuildsSchema(arr) ? arr : sampleData;
   } catch { return sampleData; }
 }
 
@@ -160,13 +173,13 @@ document.getElementById('tableBody').addEventListener('click', e => {
   showToast('已删除方案');
 });
 
-// 初始化 — 强制确保示例数据存在
+// 初始化 — 强制确保示例数据存在，且结构与 sync-manager.html 兼容
 (function init() {
   try {
     const raw = localStorage.getItem(STORE_KEY);
     let data = null;
     if (raw) { try { data = JSON.parse(raw); } catch(e) {} }
-    if (!Array.isArray(data) || data.length === 0) {
+    if (!isValidBuildsSchema(data)) {
       localStorage.setItem(STORE_KEY, JSON.stringify(sampleData));
     }
   } catch(e) {

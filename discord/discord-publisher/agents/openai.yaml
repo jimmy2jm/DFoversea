@@ -1,0 +1,4 @@
+interface:
+  display_name: "Delta Force Publisher"
+  short_description: "Build and publish Delta Force loadout posts"
+  default_prompt: "Use $discord-publisher to pull an English Delta Force weapon build, generate its share card, and publish one validated Discord forum post."

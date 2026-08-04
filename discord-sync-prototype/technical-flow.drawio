@@ -1,0 +1,162 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Discord同步技术方案流程图" id="discord-sync-flow">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1240" pageHeight="1500" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- ============ 列头 ============ -->
+        <mxCell id="lane1" value="CMS 管理端" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0b2f3a;strokeColor=#4a90a4;fontColor=#ffffff;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="40" y="40" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="lane2" value="同步管理页（前端）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0d3b2e;strokeColor=#24f4b2;fontColor=#ffffff;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="260" y="40" width="220" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="lane3" value="Bot 服务端" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#3a2a52;strokeColor=#a080f0;fontColor=#ffffff;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="520" y="40" width="260" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="lane4" value="Discord" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2c2f70;strokeColor=#5865f2;fontColor=#ffffff;fontStyle=1;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="820" y="40" width="200" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- ============ 阶段一：发布流程 ============ -->
+        <mxCell id="stageTitle1" value="阶段一 · 方案发布流程" style="text;html=1;fontStyle=1;fontSize=14;fontColor=#24f4b2;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="90" width="300" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n1" value="改枪方案数据&#10;名称 / 改枪码 / 图片URL&#10;多语言 i18n / 配件树 / 标签" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0b2f3a;strokeColor=#4a90a4;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="40" y="130" width="180" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n2" value="运营勾选方案 + 选择目标频道&#10;（Global / Japan）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0d3b2e;strokeColor=#24f4b2;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="260" y="130" width="220" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n3" value="前端硬性校验&#10;· 单次勾选上限 / 每日额度&#10;· 多语言自动跳过（缺 jp 不生成 Japan 消息）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0d3b2e;strokeColor=#24f4b2;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="260" y="220" width="220" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n4" value="生成同步任务&#10;（方案ID × 频道，逐条独立）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0d3b2e;strokeColor=#24f4b2;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="260" y="320" width="220" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n5" value="任务队列&#10;（待执行）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#3a2a52;strokeColor=#a080f0;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="520" y="320" width="120" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n6" value="方案文本处理&#10;· 按频道取对应语言 i18n 字段&#10;· 配件树扁平化摘要（核心 slot）&#10;· 拼装图片URL / 改枪码 / 标签" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#3a2a52;strokeColor=#a080f0;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="520" y="410" width="260" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n7" value="组装 Discord Embed JSON" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#3a2a52;strokeColor=#a080f0;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="520" y="520" width="260" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n8" value="调用 Discord API&#10;POST /channels/{forum_id}/threads" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2c2f70;strokeColor=#5865f2;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="820" y="520" width="200" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n9" value="成功：返回 thread_id / message_id&#10;（论坛帖子已创建）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2c2f70;strokeColor=#5865f2;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="820" y="610" width="200" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n10" value="写回发帖历史&#10;状态=已完成，记录消息链接" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#3a2a52;strokeColor=#a080f0;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="520" y="610" width="260" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n8f" value="失败：API 报错（限流/网络/权限等）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#4a1f1f;strokeColor=#ff6b6b;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="820" y="680" width="200" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n10f" value="写回发帖历史&#10;状态=失败，记录错误原因&#10;（支持人工重试，受当日额度约束）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#4a1f1f;strokeColor=#ff6b6b;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="520" y="680" width="260" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="n11" value="发帖历史列表展示&#10;（支持筛选 / 排序）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0d3b2e;strokeColor=#24f4b2;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="260" y="680" width="220" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- edges 阶段一 -->
+        <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontColor=#ffffff;fontSize=10;" edge="1" parent="1" source="n1" target="n2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="n2" target="n3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="n3" target="n4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" value="提交任务" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontColor=#ffffff;fontSize=10;" edge="1" parent="1" source="n4" target="n5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" value="Bot 拉取任务" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontColor=#ffffff;fontSize=10;" edge="1" parent="1" source="n5" target="n6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="n6" target="n7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e7" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="n7" target="n8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e8" value="成功" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontColor=#ffffff;fontSize=10;strokeColor=#24f4b2;" edge="1" parent="1" source="n8" target="n9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="n9" target="n10">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="n10" target="n11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e11" value="失败" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;fontColor=#ff9a9a;fontSize=10;strokeColor=#ff6b6b;" edge="1" parent="1" source="n8" target="n8f">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#ff6b6b;" edge="1" parent="1" source="n8f" target="n10f">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#ff6b6b;" edge="1" parent="1" source="n10f" target="n11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- ============ 阶段二：数据回收 ============ -->
+        <mxCell id="stageTitle2" value="阶段二 · 帖子数据回收（异步定时任务，与发布流程解耦）" style="text;html=1;fontStyle=1;fontSize=14;fontColor=#24f4b2;align=left;" vertex="1" parent="1">
+          <mxGeometry x="40" y="780" width="500" height="24" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m1" value="定时任务触发&#10;（如每 30 分钟一次）" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#3a2a52;strokeColor=#a080f0;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="520" y="820" width="260" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m2" value="扫描发帖历史中&#10;状态=已完成 的记录&#10;取出各条的 message_id / thread_id" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#3a2a52;strokeColor=#a080f0;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="520" y="900" width="260" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m3" value="调用 Discord API&#10;GET 帖子首帖消息 + GET 帖子内回复列表&#10;读取 reactions 数 / 回复消息数" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#2c2f70;strokeColor=#5865f2;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="820" y="900" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m4" value="回写发帖历史&#10;更新 reactionCount（点赞）&#10;/ commentCount（评论）字段" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#3a2a52;strokeColor=#a080f0;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="520" y="1010" width="260" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="m5" value="发帖历史列表&#10;👍 点赞 / 💬 评论 实时展示" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#0d3b2e;strokeColor=#24f4b2;fontColor=#ffffff;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="260" y="1010" width="220" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- edges 阶段二 -->
+        <mxCell id="f1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="m1" target="m2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="m2" target="m3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="m3" target="m4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="f4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;" edge="1" parent="1" source="m4" target="m5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

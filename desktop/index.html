@@ -1180,6 +1180,17 @@
                         <button class="collection-action-btn"><span data-i18n="collection.generatePoster">🖼️ 生成海报</span></button>
                     </div>
                 </div>
+                <!-- 赛季扑克牌收藏册入口 -->
+                <button class="card-collection-entry" id="card-collection-entry-desktop" type="button">
+                    <span class="card-collection-entry-art">♠</span>
+                    <span class="card-collection-entry-copy">
+                        <span class="card-collection-entry-kicker">SEASON CARD ALBUM</span>
+                        <strong>赛季扑克牌收藏册</strong>
+                        <span>已收集 13/55 · 最近解锁：黑桃 A</span>
+                    </span>
+                    <span class="card-collection-entry-progress"><span></span></span>
+                    <span class="card-collection-entry-arrow">查看收藏册 ›</span>
+                </button>
                 <!-- 固定区域：数据统计 -->
                 <div class="collection-stats">
                     <div class="collection-stat-item">
@@ -1281,6 +1292,152 @@
             </div>
         </section>
     </main>
+
+    <!-- 赛季扑克牌收藏册弹窗 -->
+    <div class="card-collection-modal-overlay" id="card-collection-modal-desktop" aria-hidden="true">
+        <div class="card-collection-modal" role="dialog" aria-modal="true" aria-labelledby="card-collection-title-desktop">
+            <div class="card-collection-modal-header">
+                <div>
+                    <span class="card-collection-kicker">SEASON CARD ALBUM</span>
+                    <h2 id="card-collection-title-desktop">赛季扑克牌收藏册</h2>
+                </div>
+                <button class="card-collection-close" type="button" aria-label="关闭">✕</button>
+            </div>
+            <div class="card-collection-summary">
+                <div class="card-collection-main-progress"><strong>13<span>/55</span></strong><small>当前进度</small></div>
+                <div class="card-collection-summary-stats"><span><b>13</b>已拥有</span><span><b>42</b>未拥有</span><span><b>0</b>集齐花色</span></div>
+                <button class="card-share-button" type="button" data-card-share="progress">生成分享海报</button>
+                <div class="card-collection-progress-bar"><span></span></div>
+            </div>
+            <div class="card-collection-filter-row">
+                <div class="card-collection-status-tabs">
+                    <button class="active" type="button" data-collection-filter="all">全部</button>
+                    <button type="button" data-collection-filter="owned">已拥有</button>
+                    <button type="button" data-collection-filter="locked">未拥有</button>
+                </div>
+                <span class="card-collection-recent">最近解锁：黑桃 A</span>
+            </div>
+            <div class="card-collection-category-tabs">
+                <button class="active" type="button" data-collection-category="all">全部 13/55</button>
+                <button type="button" data-collection-category="box">牌盒 1/1</button>
+                <button type="button" data-collection-category="joker">大小王 1/2</button>
+                <button type="button" data-collection-category="spades">黑桃 2/13</button>
+                <button type="button" data-collection-category="hearts">红桃 0/13</button>
+                <button type="button" data-collection-category="clubs">梅花 0/13</button>
+                <button type="button" data-collection-category="diamonds">方块 0/13</button>
+            </div>
+            <div class="card-collection-groups">
+                <section class="card-collection-group" data-collection-group="box">
+                    <header><strong>牌盒</strong><span>1/1</span></header>
+                    <div class="card-collection-grid">
+                        <button class="prototype-card owned" data-card-state="owned" data-card-name="赛季牌盒" data-card-number="BOX" data-card-category="box" data-card-tier="6" data-card-color="红色" data-card-quantity="1" type="button"><span class="prototype-card-mark">▥</span><b>牌盒</b><small>BOX</small><i class="card-tier-icon tier-6">6</i></button>
+                    </div>
+                </section>
+                <section class="card-collection-group" data-collection-group="joker">
+                    <header><strong>大小王</strong><span>1/2</span></header>
+                    <div class="card-collection-grid">
+                        <button class="prototype-card owned" data-card-state="owned" data-card-name="小王" data-card-number="JOKER" data-card-category="joker" data-card-tier="5" data-card-color="金色" data-card-quantity="2" type="button"><span class="prototype-card-mark">★</span><b>小王</b><small>JOKER</small><i class="card-tier-icon tier-5">5</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="大王" data-card-number="JOKER+" data-card-category="joker" data-card-tier="6" data-card-color="红色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>大王</b><small>JOKER+</small><i class="card-tier-icon tier-6">6</i></button>
+                    </div>
+                </section>
+                <section class="card-collection-group" data-collection-group="spades">
+                    <header><strong>黑桃</strong><span>5/13</span></header>
+                    <div class="card-collection-grid">
+                        <button class="prototype-card owned" data-card-state="owned" data-card-name="黑桃 A" data-card-number="A" data-card-category="spades" data-card-tier="4" data-card-color="紫色" data-card-quantity="1" type="button"><span class="prototype-card-mark">♠</span><b>黑桃 A</b><small>A</small><i class="card-tier-icon tier-4">4</i></button>
+                        <button class="prototype-card owned" data-card-state="owned" data-card-name="黑桃 2" data-card-number="2" data-card-category="spades" data-card-tier="3" data-card-color="蓝色" data-card-quantity="1" type="button"><span class="prototype-card-mark">♠</span><b>黑桃 2</b><small>2</small><i class="card-tier-icon tier-3">3</i></button>
+                        <button class="prototype-card owned" data-card-state="owned" data-card-name="黑桃 3" data-card-number="3" data-card-category="spades" data-card-tier="2" data-card-color="绿色" data-card-quantity="3" type="button"><span class="prototype-card-mark">♠</span><b>黑桃 3</b><small>3</small><i class="card-tier-icon tier-2">2</i></button>
+                        <button class="prototype-card owned" data-card-state="owned" data-card-name="黑桃 4" data-card-number="4" data-card-category="spades" data-card-tier="1" data-card-color="白色" data-card-quantity="1" type="button"><span class="prototype-card-mark">♠</span><b>黑桃 4</b><small>4</small><i class="card-tier-icon tier-1">1</i></button>
+                        <button class="prototype-card owned" data-card-state="owned" data-card-name="黑桃 5" data-card-number="5" data-card-category="spades" data-card-tier="5" data-card-color="金色" data-card-quantity="1" type="button"><span class="prototype-card-mark">♠</span><b>黑桃 5</b><small>5</small><i class="card-tier-icon tier-5">5</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="黑桃 6" data-card-number="6" data-card-category="spades" data-card-tier="2" data-card-color="绿色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>黑桃 6</b><small>6</small><i class="card-tier-icon tier-2">2</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="黑桃 7" data-card-number="7" data-card-category="spades" data-card-tier="3" data-card-color="蓝色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>黑桃 7</b><small>7</small><i class="card-tier-icon tier-3">3</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="黑桃 8" data-card-number="8" data-card-category="spades" data-card-tier="4" data-card-color="紫色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>黑桃 8</b><small>8</small><i class="card-tier-icon tier-4">4</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="黑桃 9" data-card-number="9" data-card-category="spades" data-card-tier="5" data-card-color="金色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>黑桃 9</b><small>9</small><i class="card-tier-icon tier-5">5</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="黑桃 10" data-card-number="10" data-card-category="spades" data-card-tier="1" data-card-color="白色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>黑桃 10</b><small>10</small><i class="card-tier-icon tier-1">1</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="黑桃 J" data-card-number="J" data-card-category="spades" data-card-tier="2" data-card-color="绿色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>黑桃 J</b><small>J</small><i class="card-tier-icon tier-2">2</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="黑桃 Q" data-card-number="Q" data-card-category="spades" data-card-tier="3" data-card-color="蓝色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>黑桃 Q</b><small>Q</small><i class="card-tier-icon tier-3">3</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="黑桃 K" data-card-number="K" data-card-category="spades" data-card-tier="6" data-card-color="红色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>黑桃 K</b><small>K</small><i class="card-tier-icon tier-6">6</i></button>
+                    </div>
+                </section>
+                <section class="card-collection-group" data-collection-group="hearts">
+                    <header><strong>红桃</strong><span>2/13</span></header>
+                    <div class="card-collection-grid">
+                        <button class="prototype-card owned" data-card-state="owned" data-card-name="红桃 A" data-card-number="A" data-card-category="hearts" data-card-tier="4" data-card-color="紫色" data-card-quantity="1" type="button"><span class="prototype-card-mark">♥</span><b>红桃 A</b><small>A</small><i class="card-tier-icon tier-4">4</i></button>
+                        <button class="prototype-card owned" data-card-state="owned" data-card-name="红桃 2" data-card-number="2" data-card-category="hearts" data-card-tier="5" data-card-color="金色" data-card-quantity="2" type="button"><span class="prototype-card-mark">♥</span><b>红桃 2</b><small>2</small><i class="card-tier-icon tier-5">5</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="红桃 3" data-card-number="3" data-card-category="hearts" data-card-tier="1" data-card-color="白色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>红桃 3</b><small>3</small><i class="card-tier-icon tier-1">1</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="红桃 4" data-card-number="4" data-card-category="hearts" data-card-tier="2" data-card-color="绿色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>红桃 4</b><small>4</small><i class="card-tier-icon tier-2">2</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="红桃 5" data-card-number="5" data-card-category="hearts" data-card-tier="3" data-card-color="蓝色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>红桃 5</b><small>5</small><i class="card-tier-icon tier-3">3</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="红桃 6" data-card-number="6" data-card-category="hearts" data-card-tier="4" data-card-color="紫色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>红桃 6</b><small>6</small><i class="card-tier-icon tier-4">4</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="红桃 7" data-card-number="7" data-card-category="hearts" data-card-tier="5" data-card-color="金色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>红桃 7</b><small>7</small><i class="card-tier-icon tier-5">5</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="红桃 8" data-card-number="8" data-card-category="hearts" data-card-tier="6" data-card-color="红色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>红桃 8</b><small>8</small><i class="card-tier-icon tier-6">6</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="红桃 9" data-card-number="9" data-card-category="hearts" data-card-tier="1" data-card-color="白色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>红桃 9</b><small>9</small><i class="card-tier-icon tier-1">1</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="红桃 10" data-card-number="10" data-card-category="hearts" data-card-tier="2" data-card-color="绿色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>红桃 10</b><small>10</small><i class="card-tier-icon tier-2">2</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="红桃 J" data-card-number="J" data-card-category="hearts" data-card-tier="3" data-card-color="蓝色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>红桃 J</b><small>J</small><i class="card-tier-icon tier-3">3</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="红桃 Q" data-card-number="Q" data-card-category="hearts" data-card-tier="4" data-card-color="紫色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>红桃 Q</b><small>Q</small><i class="card-tier-icon tier-4">4</i></button>
+                        <button class="prototype-card locked" data-card-state="locked" data-card-name="红桃 K" data-card-number="K" data-card-category="hearts" data-card-tier="5" data-card-color="金色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>红桃 K</b><small>K</small><i class="card-tier-icon tier-5">5</i></button>
+                    </div>
+                </section>
+                <section class="card-collection-group" data-collection-group="clubs"><header><strong>梅花</strong><span>2/13</span></header><div class="card-collection-grid">
+                    <button class="prototype-card owned" data-card-state="owned" data-card-name="梅花 A" data-card-number="A" data-card-category="clubs" data-card-tier="3" data-card-color="蓝色" data-card-quantity="1" type="button"><span class="prototype-card-mark">♣</span><b>梅花 A</b><small>A</small><i class="card-tier-icon tier-3">3</i></button>
+                    <button class="prototype-card owned" data-card-state="owned" data-card-name="梅花 2" data-card-number="2" data-card-category="clubs" data-card-tier="2" data-card-color="绿色" data-card-quantity="1" type="button"><span class="prototype-card-mark">♣</span><b>梅花 2</b><small>2</small><i class="card-tier-icon tier-2">2</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="梅花 3" data-card-number="3" data-card-category="clubs" data-card-tier="1" data-card-color="白色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>梅花 3</b><small>3</small><i class="card-tier-icon tier-1">1</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="梅花 4" data-card-number="4" data-card-category="clubs" data-card-tier="4" data-card-color="紫色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>梅花 4</b><small>4</small><i class="card-tier-icon tier-4">4</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="梅花 5" data-card-number="5" data-card-category="clubs" data-card-tier="5" data-card-color="金色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>梅花 5</b><small>5</small><i class="card-tier-icon tier-5">5</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="梅花 6" data-card-number="6" data-card-category="clubs" data-card-tier="6" data-card-color="红色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>梅花 6</b><small>6</small><i class="card-tier-icon tier-6">6</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="梅花 7" data-card-number="7" data-card-category="clubs" data-card-tier="1" data-card-color="白色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>梅花 7</b><small>7</small><i class="card-tier-icon tier-1">1</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="梅花 8" data-card-number="8" data-card-category="clubs" data-card-tier="2" data-card-color="绿色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>梅花 8</b><small>8</small><i class="card-tier-icon tier-2">2</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="梅花 9" data-card-number="9" data-card-category="clubs" data-card-tier="3" data-card-color="蓝色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>梅花 9</b><small>9</small><i class="card-tier-icon tier-3">3</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="梅花 10" data-card-number="10" data-card-category="clubs" data-card-tier="4" data-card-color="紫色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>梅花 10</b><small>10</small><i class="card-tier-icon tier-4">4</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="梅花 J" data-card-number="J" data-card-category="clubs" data-card-tier="5" data-card-color="金色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>梅花 J</b><small>J</small><i class="card-tier-icon tier-5">5</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="梅花 Q" data-card-number="Q" data-card-category="clubs" data-card-tier="6" data-card-color="红色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>梅花 Q</b><small>Q</small><i class="card-tier-icon tier-6">6</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="梅花 K" data-card-number="K" data-card-category="clubs" data-card-tier="1" data-card-color="白色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>梅花 K</b><small>K</small><i class="card-tier-icon tier-1">1</i></button>
+                </div></section>
+                <section class="card-collection-group" data-collection-group="diamonds"><header><strong>方块</strong><span>2/13</span></header><div class="card-collection-grid">
+                    <button class="prototype-card owned" data-card-state="owned" data-card-name="方块 A" data-card-number="A" data-card-category="diamonds" data-card-tier="4" data-card-color="紫色" data-card-quantity="1" type="button"><span class="prototype-card-mark">♦</span><b>方块 A</b><small>A</small><i class="card-tier-icon tier-4">4</i></button>
+                    <button class="prototype-card owned" data-card-state="owned" data-card-name="方块 2" data-card-number="2" data-card-category="diamonds" data-card-tier="6" data-card-color="红色" data-card-quantity="1" type="button"><span class="prototype-card-mark">♦</span><b>方块 2</b><small>2</small><i class="card-tier-icon tier-6">6</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="方块 3" data-card-number="3" data-card-category="diamonds" data-card-tier="1" data-card-color="白色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>方块 3</b><small>3</small><i class="card-tier-icon tier-1">1</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="方块 4" data-card-number="4" data-card-category="diamonds" data-card-tier="2" data-card-color="绿色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>方块 4</b><small>4</small><i class="card-tier-icon tier-2">2</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="方块 5" data-card-number="5" data-card-category="diamonds" data-card-tier="3" data-card-color="蓝色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>方块 5</b><small>5</small><i class="card-tier-icon tier-3">3</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="方块 6" data-card-number="6" data-card-category="diamonds" data-card-tier="4" data-card-color="紫色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>方块 6</b><small>6</small><i class="card-tier-icon tier-4">4</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="方块 7" data-card-number="7" data-card-category="diamonds" data-card-tier="5" data-card-color="金色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>方块 7</b><small>7</small><i class="card-tier-icon tier-5">5</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="方块 8" data-card-number="8" data-card-category="diamonds" data-card-tier="6" data-card-color="红色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>方块 8</b><small>8</small><i class="card-tier-icon tier-6">6</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="方块 9" data-card-number="9" data-card-category="diamonds" data-card-tier="1" data-card-color="白色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>方块 9</b><small>9</small><i class="card-tier-icon tier-1">1</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="方块 10" data-card-number="10" data-card-category="diamonds" data-card-tier="2" data-card-color="绿色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>方块 10</b><small>10</small><i class="card-tier-icon tier-2">2</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="方块 J" data-card-number="J" data-card-category="diamonds" data-card-tier="3" data-card-color="蓝色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>方块 J</b><small>J</small><i class="card-tier-icon tier-3">3</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="方块 Q" data-card-number="Q" data-card-category="diamonds" data-card-tier="4" data-card-color="紫色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>方块 Q</b><small>Q</small><i class="card-tier-icon tier-4">4</i></button>
+                    <button class="prototype-card locked" data-card-state="locked" data-card-name="方块 K" data-card-number="K" data-card-category="diamonds" data-card-tier="5" data-card-color="金色" data-card-quantity="0" type="button"><span class="prototype-card-mark">LOCK</span><b>方块 K</b><small>K</small><i class="card-tier-icon tier-5">5</i></button>
+                </div></section>
+            </div>
+        </div>
+    </div>
+
+    <!-- 卡牌详情弹窗 -->
+    <div class="card-collection-detail-overlay" id="card-collection-detail-desktop" aria-hidden="true">
+        <div class="card-collection-detail" role="dialog" aria-modal="true">
+            <button class="card-collection-detail-close" type="button" aria-label="关闭">✕</button>
+            <span class="card-collection-detail-art" id="card-detail-art-desktop">♠</span>
+            <h3 id="card-detail-name-desktop">黑桃 A</h3>
+            <p>编号：<b id="card-detail-number-desktop">A</b></p>
+            <p>解锁状态：<b id="card-detail-state-desktop">已拥有</b></p>
+            <p>牌色：<b id="card-detail-color-desktop">紫色</b><span class="card-detail-tier tier-4" id="card-detail-tier-desktop">4</span></p>
+            <p>拥有数量：<b id="card-detail-quantity-desktop">1</b></p>
+            <button class="card-share-button" type="button" data-card-share="card">生成这张卡的海报</button>
+        </div>
+    </div>
+
+    <!-- 卡牌分享海报弹窗 -->
+    <div class="card-share-poster-overlay" id="card-share-poster-desktop" aria-hidden="true">
+        <div class="card-share-poster-modal" role="dialog" aria-modal="true">
+            <div class="card-share-poster-header"><strong>分享卡牌收藏</strong><button class="card-share-poster-close" type="button">✕</button></div>
+            <div class="card-share-poster-canvas">
+                <span class="card-share-poster-kicker">DELTA FORCE TOOL STATION</span>
+                <h2 id="card-poster-title-desktop">赛季扑克牌收藏册</h2>
+                <div class="card-share-poster-progress"><strong id="card-poster-progress-desktop">13/55</strong><span>已收集卡牌</span></div>
+                <div class="card-share-poster-card"><span id="card-poster-art-desktop">♠</span><strong id="card-poster-card-name-desktop">黑桃 A</strong><small id="card-poster-card-meta-desktop">紫色 · 已拥有 · ×1</small></div>
+                <div class="card-share-poster-footer"><span>playdeltaforce.com/events/hq/</span><span class="card-share-poster-qr" aria-label="二维码">QR</span></div>
+            </div>
+            <button class="card-share-poster-save" type="button">保存海报</button>
+        </div>
+    </div>
 
     <!-- 生成海报弹窗 -->
     <div class="poster-modal-overlay" id="poster-modal-overlay">

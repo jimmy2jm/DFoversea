@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGunSelector();
     initMatchItems();
     initCollectionItems();
+    initCardCollectionPrototype();
     initGunModeTabs(); // 新增：改枪推荐页模式切换
     initDailyPosterModal(); // 日报分享弹窗
     initChangelogModal(); // 更新日志弹窗
@@ -2281,6 +2282,92 @@ function initCollectionItems() {
         item.addEventListener('click', () => {
             // 查看藏品
         });
+    });
+}
+
+function initCardCollectionPrototype() {
+    const entry = document.getElementById('card-collection-entry-desktop');
+    const overlay = document.getElementById('card-collection-modal-desktop');
+    const detail = document.getElementById('card-collection-detail-desktop');
+    if (!entry || !overlay || !detail) return;
+
+    const closeCollection = () => {
+        overlay.classList.remove('active');
+        detail.classList.remove('active');
+        document.body.style.overflow = '';
+    };
+    const openCollection = () => {
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    };
+    const applyFilter = () => {
+        const filter = overlay.querySelector('[data-collection-filter].active')?.dataset.collectionFilter || 'all';
+        const category = overlay.querySelector('[data-collection-category].active')?.dataset.collectionCategory || 'all';
+        overlay.querySelectorAll('.card-collection-group').forEach(group => {
+            let visibleCount = 0;
+            group.querySelectorAll('.prototype-card').forEach(card => {
+                const matchesState = filter === 'all' || card.dataset.cardState === filter;
+                const matchesCategory = category === 'all' || card.dataset.cardCategory === category;
+                card.hidden = !(matchesState && matchesCategory);
+                if (!card.hidden) visibleCount += 1;
+            });
+            group.hidden = visibleCount === 0;
+        });
+    };
+    entry.addEventListener('click', openCollection);
+    overlay.querySelector('.card-collection-close')?.addEventListener('click', closeCollection);
+    overlay.addEventListener('click', event => {
+        if (event.target === overlay) closeCollection();
+    });
+    overlay.querySelectorAll('[data-collection-filter]').forEach(tab => {
+        tab.addEventListener('click', () => {
+            overlay.querySelectorAll('[data-collection-filter]').forEach(item => item.classList.remove('active'));
+            tab.classList.add('active');
+            applyFilter();
+        });
+    });
+    overlay.querySelectorAll('[data-collection-category]').forEach(tab => {
+        tab.addEventListener('click', () => {
+            overlay.querySelectorAll('[data-collection-category]').forEach(item => item.classList.remove('active'));
+            tab.classList.add('active');
+            applyFilter();
+        });
+    });
+    overlay.querySelectorAll('.prototype-card').forEach(card => {
+        card.addEventListener('click', () => {
+            detail.querySelector('#card-detail-art-desktop').textContent = card.querySelector('.prototype-card-mark').textContent;
+            detail.querySelector('#card-detail-name-desktop').textContent = card.dataset.cardName;
+            detail.querySelector('#card-detail-number-desktop').textContent = card.dataset.cardNumber;
+            detail.querySelector('#card-detail-state-desktop').textContent = card.dataset.cardState === 'owned' ? '已拥有' : '尚未解锁';
+            detail.querySelector('#card-detail-color-desktop').textContent = card.dataset.cardColor;
+            detail.querySelector('#card-detail-tier-desktop').textContent = card.dataset.cardTier;
+            detail.querySelector('#card-detail-tier-desktop').className = `card-detail-tier tier-${card.dataset.cardTier}`;
+            detail.querySelector('#card-detail-quantity-desktop').textContent = card.dataset.cardQuantity;
+            detail.querySelector('[data-card-share="card"]').dataset.cardName = card.dataset.cardName;
+            detail.querySelector('[data-card-share="card"]').dataset.cardArt = card.querySelector('.prototype-card-mark').textContent;
+            detail.querySelector('[data-card-share="card"]').dataset.cardMeta = `${card.dataset.cardColor} · ${card.dataset.cardState === 'owned' ? '已拥有' : '尚未解锁'} · ×${card.dataset.cardQuantity}`;
+            detail.classList.add('active');
+        });
+    });
+    const poster = document.getElementById('card-share-poster-desktop');
+    const openPoster = shareButton => {
+        poster.querySelector('#card-poster-progress-desktop').textContent = '13/55';
+        poster.querySelector('#card-poster-title-desktop').textContent = shareButton.dataset.cardName || '赛季扑克牌收藏册';
+        poster.querySelector('#card-poster-card-name-desktop').textContent = shareButton.dataset.cardName || '赛季扑克牌收藏册';
+        poster.querySelector('#card-poster-art-desktop').textContent = shareButton.dataset.cardArt || '♠';
+        poster.querySelector('#card-poster-card-meta-desktop').textContent = shareButton.dataset.cardMeta || '13 张已拥有 · 42 张未拥有';
+        poster.classList.add('active');
+    };
+    overlay.querySelector('[data-card-share="progress"]')?.addEventListener('click', event => openPoster(event.currentTarget));
+    detail.querySelector('[data-card-share="card"]')?.addEventListener('click', event => openPoster(event.currentTarget));
+    poster?.querySelector('.card-share-poster-close')?.addEventListener('click', () => poster.classList.remove('active'));
+    poster?.addEventListener('click', event => { if (event.target === poster) poster.classList.remove('active'); });
+    detail.querySelector('.card-collection-detail-close')?.addEventListener('click', () => detail.classList.remove('active'));
+    detail.addEventListener('click', event => {
+        if (event.target === detail) detail.classList.remove('active');
+    });
+    document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && (overlay.classList.contains('active') || detail.classList.contains('active'))) closeCollection();
     });
 }
 

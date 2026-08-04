@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "64bf58a7f5387e8cc39a9bec65a6340d",
+    "buildCode": "KC-17 Assault Rifle-Operations-6JRIBTC03GMUSBU927419",
+    "weaponName": "KC-17 Assault Rifle",
+    "buildName": "delta force meta"
+  },
+  "thread": {
+    "name": "[KC-17 · 551274] delta force meta",
+    "id": "",
+    "tags": [
+      "operations",
+      "global",
+      "ar"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "OPERATIONS"
+        },
+        "title": "delta force meta",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**KC-17 ASSAULT RIFLE**\n**PRICE · 551274**\n`▣ Stable Recoil` `◆ Supreme AP` `▣ Stable & Standard`\n\n**BUILD CODE**\n```\nKC-17 Assault Rifle-Operations-6JRIBTC03GMUSBU927419\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "KC-17 build: handling speed 37, stability 60, effective range 72, base damage 31, hip-fire accuracy 37, recoil control 83."
+        },
+        "footer": {
+          "text": "Build by ATTURSSON"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/03-kc-17-64bf58a7/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

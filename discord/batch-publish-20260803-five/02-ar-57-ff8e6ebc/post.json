@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "ff8e6ebc0d00512f895c49e5513e1aa3",
+    "buildCode": "AR-57 Assault Rifle-Operations-6K25S2C01OANMAF97OV6I",
+    "weaponName": "AR-57 Assault Rifle",
+    "buildName": "ItzNowh3re's AR57"
+  },
+  "thread": {
+    "name": "[AR-57 · 531067] ItzNowh3re's AR57",
+    "id": "",
+    "tags": [
+      "operations",
+      "global",
+      "ar"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "OPERATIONS"
+        },
+        "title": "ItzNowh3re's AR57",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**AR-57 ASSAULT RIFLE**\n**PRICE · 531067**\n`▣ Stable Recoil` `↗ Close-Mid Range` `▣ Suppressive Fire`\n\n**BUILD CODE**\n```\nAR-57 Assault Rifle-Operations-6K25S2C01OANMAF97OV6I\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "AR-57 build: handling speed 45, stability 44, effective range 52, base damage 30, hip-fire accuracy 36, recoil control 72."
+        },
+        "footer": {
+          "text": "Build by ItzNowh3re'"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260803-five/02-ar-57-ff8e6ebc/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

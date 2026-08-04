@@ -1,0 +1,39 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "8432decd361ded23bfb74f096e701922",
+    "buildCode": "AR-57 Assault Rifle-Operations-6K1STRS052HRDQOIRARB5",
+    "weaponName": "AR-57 Assault Rifle",
+    "buildName": "RoguePringle's AR57"
+  },
+  "thread": {
+    "name": "[AR-57 · 532124] RoguePringle's AR57",
+    "id": "",
+    "tags": ["operations", "global", "ar"]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": { "name": "OPERATIONS" },
+        "title": "RoguePringle's AR57",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**AR-57 ASSAULT RIFLE**\n**PRICE · 532124**\n`Agile Lean Peek` `Bracing Stability` `New Weapon`\n\n**BUILD CODE**\n```\nAR-57 Assault Rifle-Operations-6K1STRS052HRDQOIRARB5\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "AR-57 build: handling speed 60, stability 42, effective range 46, base damage 30, hip-fire accuracy 48, recoil control 76."
+        },
+        "footer": { "text": "Build by RoguePringle" }
+      }
+    ]
+  },
+  "files": [
+    { "path": "/absolute/path/to/gun-card.png", "name": "gun-card.png" }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

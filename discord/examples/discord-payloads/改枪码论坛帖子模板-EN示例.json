@@ -1,0 +1,30 @@
+{
+  "thread_name": "340K M4A1 Build",
+  "content": "",
+  "embeds": [
+    {
+      "title": "340K M4A1 Build",
+      "image": {
+        "url": "https://example.com/weapon-m4a1-build.png"
+      },
+      "fields": [
+        {
+          "name": "PRICE",
+          "value": "₽340,000",
+          "inline": false
+        },
+        {
+          "name": "GUN CODE",
+          "value": "```\nM4A1 Assault Rifle-Operations-6K1IUS400G02164FCEV6J\n```",
+          "inline": false
+        },
+        {
+          "name": "DESCRIPTION",
+          "value": "Great value for the price, with smooth handling and reliable performance.",
+          "inline": false
+        }
+      ]
+    }
+  ],
+  "attachments": []
+}

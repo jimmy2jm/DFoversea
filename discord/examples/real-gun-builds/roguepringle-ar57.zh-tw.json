@@ -1,0 +1,64 @@
+{
+  "channel": "community-en",
+  "thread": {
+    "name": "[AR57突擊步槍] RoguePringle's AR57",
+    "id": "",
+    "tags": ["guide", "assault-rifle"]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "AR57突擊步槍 · 烽火地帶"
+        },
+        "title": "RoguePringle's AR57",
+        "description": "**價格 · 532,124**\n\n`靈活探頭` `架槍穩定` `新武器`",
+        "color": 2421938,
+        "fields": [
+          {
+            "name": "操控速度",
+            "value": "`██████░░░░` **60**",
+            "inline": true
+          },
+          {
+            "name": "舉槍穩定性",
+            "value": "`████░░░░░░` **42**",
+            "inline": true
+          },
+          {
+            "name": "有效射程",
+            "value": "`█████░░░░░` **46**",
+            "inline": true
+          },
+          {
+            "name": "基礎傷害",
+            "value": "`███░░░░░░░` **30**",
+            "inline": true
+          },
+          {
+            "name": "腰射精度",
+            "value": "`█████░░░░░` **48**",
+            "inline": true
+          },
+          {
+            "name": "後座力控制",
+            "value": "`████████░░` **76**",
+            "inline": true
+          }
+        ],
+        "image": {
+          "url": "https://www.playdeltaforce.com/gun-codes/images/1780476146623_4xlbhk.webp"
+        },
+        "footer": {
+          "text": "資料來源：三角洲總部工具站 · 作者 RoguePringle"
+        }
+      }
+    ]
+  },
+  "files": [],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

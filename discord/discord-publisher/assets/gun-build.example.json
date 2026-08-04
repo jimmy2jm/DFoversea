@@ -1,0 +1,24 @@
+{
+  "buildName": "RoguePringle's AR57",
+  "weaponName": "AR-57",
+  "weaponClass": "ASSAULT RIFLE",
+  "mode": "OPERATIONS",
+  "price": "532,124",
+  "author": "RoguePringle",
+  "tags": [
+    { "type": "mobility", "label": "Agile Lean Peek" },
+    { "type": "control", "label": "Bracing Stability" },
+    { "type": "status", "label": "New Weapon" }
+  ],
+  "stats": [
+    { "label": "HANDLING SPEED", "value": 60 },
+    { "label": "STABILITY", "value": 42 },
+    { "label": "EFFECTIVE RANGE", "value": 46 },
+    { "label": "BASE DAMAGE", "value": 30 },
+    { "label": "HIP-FIRE ACCURACY", "value": 48 },
+    { "label": "RECOIL CONTROL", "value": 76 }
+  ],
+  "buildCode": "AR-57 Assault Rifle-Operations-EXAMPLE",
+  "weaponImage": "/absolute/path/to/weapon-image.webp",
+  "toolsUrl": "https://www.playdeltaforce.com/events/hq/"
+}
