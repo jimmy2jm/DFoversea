@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta Force - 爆破对局详情</title>
+    <link rel="stylesheet" href="main.css?v=59">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <script src="i18n.js" defer></script>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-left">
+            <div class="logo">
+                <span class="logo-icon">△</span>
+                <span class="logo-text">DELTA FORCE</span>
+            </div>
+            <div class="nav-links hq-primary-tabs">
+                <a href="index.html" class="nav-link">每日数据</a>
+                <a href="my-data.html" class="nav-link active">我的数据</a>
+                <a href="gun-plans.html" class="nav-link">改枪方案</a>
+                <a href="#" class="nav-link">地图工具</a>
+                <a href="#" class="nav-link">游戏百科</a>
+            </div>
+        </div>
+        <div class="nav-right">
+            <button class="desktop-login-btn" id="desktop-login-btn" data-i18n="login.loginRegister">登录 / 注册</button>
+            <div class="desktop-user-info" id="desktop-user-info" style="display: none;">
+                <img class="desktop-user-avatar" id="desktop-user-avatar" src="" alt="" style="display: none;">
+                <span class="desktop-user-email" id="desktop-user-email"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-container dm-main">
+        <!-- 返回路径 -->
+        <div class="dm-breadcrumb">
+            <a class="dm-back-link" href="my-data.html?mode=baopo">‹ 返回爆破战绩</a>
+            <span class="dm-mock-badge">演示数据</span>
+        </div>
+
+        <!-- 无效 matchId 错误态 -->
+        <div class="dm-error" id="dm-error" style="display: none;">
+            <div class="dm-error-title">未找到对局</div>
+            <p class="dm-error-text">对局 ID 无效或数据不可用，请返回战绩列表重新选择。</p>
+            <a class="dm-error-back" href="my-data.html?mode=baopo">返回爆破战绩</a>
+        </div>
+
+        <!-- 详情内容（JS 渲染） -->
+        <div id="dm-content" style="display: none;">
+            <!-- 比赛概览 -->
+            <section class="dm-overview" id="dm-overview"></section>
+
+            <!-- 双方计分板 -->
+            <section class="dm-scoreboard-panel" id="dm-scoreboard"></section>
+
+            <!-- 数据说明 -->
+            <footer class="dm-footer" id="dm-footer"></footer>
+        </div>
+    </main>
+
+    <script>
+        // 详情页登录按钮与首页保持一致行为
+        document.addEventListener('DOMContentLoaded', function () {
+            var loginBtn = document.getElementById('desktop-login-btn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', function () {
+                    window.location.href = 'index.html';
+                });
+            }
+        });
+    </script>
+    <script src="../shared/demolition-mock.js?v=1"></script>
+    <script src="demolition-match.js?v=1"></script>
+</body>
+</html>

@@ -51,47 +51,167 @@ function initNavigation() {
 }
 
 /**
- * Report Tabs - 烽火日报 / 战场日报
+ * Report Tabs - 烽火日报 / 战场日报 / 爆破日报
+ * 使用显式模式映射，避免第三模式误入二元分支
  */
 function initReportTabs() {
     const tabs = document.querySelectorAll('.report-tabs .tab-btn');
-    const fenguoContent = document.getElementById('fenguo-content');
-    const zhanchangContent = document.getElementById('zhanchang-content');
-    
-    // Home 页改枪推荐区域切换
-    const gunBuildsFenguo = document.getElementById('gun-builds-fenguo');
-    const gunBuildsZhanchang = document.getElementById('gun-builds-zhanchang');
-    
+
+    // 模式 -> 日报内容容器
+    const contentMap = {
+        fenguo: document.getElementById('fenguo-content'),
+        zhanchang: document.getElementById('zhanchang-content'),
+        baopo: document.getElementById('baopo-content')
+    };
+
+    // 模式 -> Home 页改枪推荐区域（爆破模式暂无改枪推荐，置空隐藏）
+    const gunBuildsMap = {
+        fenguo: document.getElementById('gun-builds-fenguo'),
+        zhanchang: document.getElementById('gun-builds-zhanchang'),
+        baopo: null
+    };
+
+    const shareBtn = document.getElementById('daily-share-btn');
+
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             // Update tab styles
             tabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
-            
+
             const tabType = tab.dataset.tab;
-            
-            // Switch content
-            if (tabType === 'fenguo') {
-                fenguoContent.classList.remove('hidden');
-                zhanchangContent.classList.add('hidden');
-                
-                // 切换改枪推荐区域
-                if (gunBuildsFenguo) gunBuildsFenguo.style.display = 'block';
-                if (gunBuildsZhanchang) gunBuildsZhanchang.style.display = 'none';
-            } else {
-                fenguoContent.classList.add('hidden');
-                zhanchangContent.classList.remove('hidden');
-                
-                // 切换改枪推荐区域
-                if (gunBuildsFenguo) gunBuildsFenguo.style.display = 'none';
-                if (gunBuildsZhanchang) {
-                    gunBuildsZhanchang.style.display = 'block';
-                    // 初始化战场模式的雷达图（首次显示时）
-                    initHomeZhanchangGunSelector();
-                }
+
+            // Switch daily report content
+            Object.keys(contentMap).forEach(key => {
+                const el = contentMap[key];
+                if (el) el.classList.toggle('hidden', key !== tabType);
+            });
+
+            // 切换改枪推荐区域（爆破态全部隐藏，不错误复用战场内容）
+            Object.keys(gunBuildsMap).forEach(key => {
+                const el = gunBuildsMap[key];
+                if (el) el.style.display = key === tabType ? 'block' : 'none';
+            });
+
+            if (tabType === 'zhanchang') {
+                // 初始化战场模式的雷达图（首次显示时）
+                initHomeZhanchangGunSelector();
             }
+
+            // 爆破日报暂不支持分享海报，给出明确禁用状态
+            if (shareBtn) shareBtn.classList.toggle('share-disabled', tabType === 'baopo');
         });
     });
+
+    renderBaopoDaily();
+}
+
+/**
+ * 爆破日报渲染 - 数据来自 shared/demolition-mock.js 的当日聚合
+ */
+function renderBaopoDaily() {
+    const root = document.getElementById('baopo-content');
+    if (!root || !window.DemolitionMock) return;
+
+    const DM = window.DemolitionMock;
+    const summary = DM.getDailySummary(DM.dailyDate);
+    const setText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+    };
+
+    const dateLabel = summary.date ? summary.date.replace(/-/g, '.').slice(5) : '--';
+    setText('baopo-daily-kicker', `昨日 · 爆破战报（${dateLabel}）`);
+    setText('baopo-daily-updated', `统计日期 ${summary.date || '--'} · 更新于 23:59 · 演示数据`);
+
+    const lowerRow = document.getElementById('baopo-lower-row');
+    const emptyState = document.getElementById('baopo-daily-empty');
+
+    const mvpBadge = document.getElementById('baopo-daily-mvp-badge');
+
+    if (!summary.matchCount) {
+        // 无对局空态
+        if (lowerRow) lowerRow.style.display = 'none';
+        if (emptyState) emptyState.style.display = 'flex';
+        if (mvpBadge) mvpBadge.style.display = 'none';
+        setText('baopo-daily-winrate', '--');
+        setText('baopo-daily-record', '暂无对局');
+        return;
+    }
+
+    if (lowerRow) lowerRow.style.display = '';
+    if (emptyState) emptyState.style.display = 'none';
+
+    // 顶部摘要：胜率 + 对局总数，MVP 以徽章形式融合展示
+    setText('baopo-daily-winrate', DM.fmt.percent(summary.winRate));
+    setText('baopo-daily-record', `胜率 · 共 ${summary.matchCount} 场`);
+    if (mvpBadge) {
+        if (summary.mvpCount > 0) {
+            mvpBadge.textContent = `MVP ×${summary.mvpCount}`;
+            mvpBadge.style.display = '';
+        } else {
+            mvpBadge.style.display = 'none';
+        }
+    }
+
+    // 爆破专项数据：多杀与基础数值（K/D、爆头率）二选一展示
+    // TEST: 测试期随机模拟「有多杀 / 无多杀」两种场景，接入真实数据后移除随机逻辑
+    const topMultiKill = formatTopMultiKill(summary);
+    const hasMultiKill = topMultiKill !== '--' && Math.random() >= 0.5;
+
+    const multiItem = document.querySelector('#baopo-content .baopo-special-item.multikill');
+    const baseItems = document.querySelectorAll('#baopo-content .baopo-special-item:not(.multikill)');
+
+    if (multiItem) {
+        multiItem.style.display = hasMultiKill ? '' : 'none';
+        if (hasMultiKill) setText('baopo-daily-multikill', topMultiKill);
+    }
+    baseItems.forEach(item => {
+        item.style.display = hasMultiKill ? 'none' : '';
+    });
+    if (!hasMultiKill) {
+        setText('baopo-daily-kd', String(summary.kd));
+        setText('baopo-daily-hs', DM.fmt.percent(summary.headshotRate));
+    }
+
+    // 当日代表对局
+    const best = summary.bestMatch;
+    if (best) {
+        const self = DM.getSelfParticipant(best);
+        setText('baopo-best-operator', self.operator);
+        setText('baopo-best-map', `${best.mapName} · ${best.queueLabel}`);
+        setText('baopo-best-score', `${best.score.self}:${best.score.enemy}`);
+        setText('baopo-best-kda', `${self.kills}/${self.deaths}/${self.assists}`);
+        const statusEl = document.getElementById('baopo-best-status');
+        if (statusEl) {
+            statusEl.textContent = best.result === 'victory' ? '胜利' : '失败';
+            statusEl.classList.toggle('victory', best.result === 'victory');
+            statusEl.classList.toggle('fail', best.result !== 'victory');
+        }
+        const bestLink = document.getElementById('baopo-best-link');
+        if (bestLink) {
+            bestLink.onclick = () => {
+                window.location.href = `demolition-match.html?matchId=${encodeURIComponent(best.matchId)}`;
+            };
+        }
+        const bestBody = document.getElementById('baopo-best-body');
+        if (bestBody) {
+            bestBody.style.cursor = 'pointer';
+            bestBody.onclick = () => {
+                window.location.href = `demolition-match.html?matchId=${encodeURIComponent(best.matchId)}`;
+            };
+        }
+    }
+}
+
+/**
+ * 最高级多杀展示：只展示五杀/四杀/三杀中的最高档，如「四杀 ×1」
+ */
+function formatTopMultiKill(summary) {
+    if (summary.multiKill5 > 0) return `五杀 ×${summary.multiKill5}`;
+    if (summary.multiKill4 > 0) return `四杀 ×${summary.multiKill4}`;
+    if (summary.multiKill3 > 0) return `三杀 ×${summary.multiKill3}`;
+    return '--';
 }
 
 /**
@@ -2337,29 +2457,72 @@ function initCardCollectionPrototype() {
         card.addEventListener('click', () => {
             detail.querySelector('#card-detail-art-desktop').textContent = card.querySelector('.prototype-card-mark').textContent;
             detail.querySelector('#card-detail-name-desktop').textContent = card.dataset.cardName;
-            detail.querySelector('#card-detail-number-desktop').textContent = card.dataset.cardNumber;
             detail.querySelector('#card-detail-state-desktop').textContent = card.dataset.cardState === 'owned' ? '已拥有' : '尚未解锁';
             detail.querySelector('#card-detail-color-desktop').textContent = card.dataset.cardColor;
             detail.querySelector('#card-detail-tier-desktop').textContent = card.dataset.cardTier;
             detail.querySelector('#card-detail-tier-desktop').className = `card-detail-tier tier-${card.dataset.cardTier}`;
             detail.querySelector('#card-detail-quantity-desktop').textContent = card.dataset.cardQuantity;
-            detail.querySelector('[data-card-share="card"]').dataset.cardName = card.dataset.cardName;
-            detail.querySelector('[data-card-share="card"]').dataset.cardArt = card.querySelector('.prototype-card-mark').textContent;
-            detail.querySelector('[data-card-share="card"]').dataset.cardMeta = `${card.dataset.cardColor} · ${card.dataset.cardState === 'owned' ? '已拥有' : '尚未解锁'} · ×${card.dataset.cardQuantity}`;
             detail.classList.add('active');
         });
     });
     const poster = document.getElementById('card-share-poster-desktop');
-    const openPoster = shareButton => {
-        poster.querySelector('#card-poster-progress-desktop').textContent = '13/55';
-        poster.querySelector('#card-poster-title-desktop').textContent = shareButton.dataset.cardName || '赛季扑克牌收藏册';
-        poster.querySelector('#card-poster-card-name-desktop').textContent = shareButton.dataset.cardName || '赛季扑克牌收藏册';
-        poster.querySelector('#card-poster-art-desktop').textContent = shareButton.dataset.cardArt || '♠';
-        poster.querySelector('#card-poster-card-meta-desktop').textContent = shareButton.dataset.cardMeta || '13 张已拥有 · 42 张未拥有';
+    const renderPosterProgress = () => {
+        const ownedCards = overlay.querySelectorAll('.prototype-card[data-card-state="owned"]');
+        const totalCards = overlay.querySelectorAll('.prototype-card').length;
+        const ownedQty = Array.from(ownedCards).reduce((sum, el) => sum + Number(el.dataset.cardQuantity || 0), 0);
+        poster.querySelector('#card-poster-progress-desktop').textContent = `${ownedCards.length}/${totalCards}`;
+        poster.querySelector('#card-poster-ratio-desktop').textContent = `${Math.round(ownedCards.length / totalCards * 100)}%`;
+        const stats = poster.querySelectorAll('.card-share-poster-stats span b');
+        if (stats.length >= 4) {
+            stats[0].textContent = ownedCards.length;
+            stats[1].textContent = totalCards - ownedCards.length;
+            stats[2].textContent = overlay.querySelectorAll('.card-collection-group').length > 0 ? '0' : '0';
+            stats[3].textContent = ownedQty;
+        }
+        const suitMap = new Map();
+        overlay.querySelectorAll('.card-collection-group').forEach(group => {
+            const groupKey = group.dataset.collectionGroup;
+            const groupName = group.querySelector('header strong').textContent;
+            const total = group.querySelectorAll('.prototype-card').length;
+            const owned = group.querySelectorAll('.prototype-card[data-card-state="owned"]').length;
+            suitMap.set(groupKey, { name: groupName, total, owned });
+        });
+        const suitsList = poster.querySelector('#card-share-poster-suits-desktop');
+        suitsList.innerHTML = '';
+        const suitMeta = [
+            { key: 'box', mark: '▥' },
+            { key: 'joker', mark: '★' },
+            { key: 'spades', mark: '♠' },
+            { key: 'hearts', mark: '♥' },
+            { key: 'clubs', mark: '♣' },
+            { key: 'diamonds', mark: '♦' }
+        ];
+        suitMeta.forEach(meta => {
+            const data = suitMap.get(meta.key);
+            if (!data) return;
+            const ratio = data.total ? Math.round(data.owned / data.total * 100) : 0;
+            const li = document.createElement('li');
+            li.innerHTML = `<span class="card-share-poster-suit-mark">${meta.mark}</span><span class="card-share-poster-suit-name">${data.name}</span><span class="card-share-poster-suit-bar"><span style="width:${ratio}%"></span></span><span class="card-share-poster-suit-count">${data.owned}/${data.total}</span>`;
+            suitsList.appendChild(li);
+        });
+        const highCards = Array.from(ownedCards)
+            .filter(el => Number(el.dataset.cardTier) >= 4)
+            .sort((a, b) => Number(b.dataset.cardTier) - Number(a.dataset.cardTier) || Number(b.dataset.cardQuantity || 0) - Number(a.dataset.cardQuantity || 0));
+        const highList = poster.querySelector('#card-share-poster-high-cards-desktop');
+        highList.innerHTML = '';
+        highCards.forEach(el => {
+            const li = document.createElement('li');
+            li.className = `card-share-poster-high-card tier-${el.dataset.cardTier}`;
+            li.innerHTML = `<span>${el.querySelector('.prototype-card-mark').textContent}</span><b>${el.dataset.cardName}</b><small>${el.dataset.cardColor} · ×${el.dataset.cardQuantity}</small>`;
+            highList.appendChild(li);
+        });
+        poster.querySelector('#card-share-poster-high-count-desktop').textContent = highCards.length;
+    };
+    const openPoster = () => {
+        renderPosterProgress();
         poster.classList.add('active');
     };
-    overlay.querySelector('[data-card-share="progress"]')?.addEventListener('click', event => openPoster(event.currentTarget));
-    detail.querySelector('[data-card-share="card"]')?.addEventListener('click', event => openPoster(event.currentTarget));
+    overlay.querySelector('[data-card-share="progress"]')?.addEventListener('click', openPoster);
     poster?.querySelector('.card-share-poster-close')?.addEventListener('click', () => poster.classList.remove('active'));
     poster?.addEventListener('click', event => { if (event.target === poster) poster.classList.remove('active'); });
     detail.querySelector('.card-collection-detail-close')?.addEventListener('click', () => detail.classList.remove('active'));
@@ -3573,6 +3736,11 @@ function initDailyPosterModal() {
                 const posterZhanchangData = document.getElementById('poster-zhanchang-data');
                 if (activeTab) {
                     const tabType = activeTab.dataset.tab;
+                    // 爆破日报暂无分享海报，避免错误复用战场海报内容
+                    if (tabType === 'baopo') {
+                        showToast('爆破日报分享海报制作中，敬请期待');
+                        return;
+                    }
                     if (posterModeLabel) {
                         posterModeLabel.textContent = tabType === 'fenguo' ? '烽火地带' : '全面战场';
                     }

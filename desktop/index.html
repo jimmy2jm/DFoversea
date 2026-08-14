@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delta Force - Home</title>
-    <link rel="stylesheet" href="main.css?v=58">
+    <link rel="stylesheet" href="main.css?v=59">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <script src="i18n.js" defer></script>
 </head>
@@ -142,6 +142,7 @@
                     <div class="report-tabs-inner">
                         <button class="tab-btn active" data-tab="fenguo" data-i18n="gameMode.fenghuoDaily">烽火日报</button>
                         <button class="tab-btn" data-tab="zhanchang" data-i18n="gameMode.zhanchangDaily">战场日报</button>
+                        <button class="tab-btn" data-tab="baopo">爆破日报</button>
                     </div>
                 </div>
                 <button class="report-share-btn" id="daily-share-btn">
@@ -706,6 +707,74 @@
                 <div class="report-signature">
                     <span class="report-signature-id">№ ZC-0091</span>
                     <span class="report-signature-time">更新于 23:59</span>
+                </div>
+            </div>
+
+            <!-- 爆破日报 Content -->
+            <div class="report-content hidden" id="baopo-content">
+                <!-- Top focus: 昨日爆破摘要 -->
+                <div class="report-focus">
+                    <span class="focus-kicker" id="baopo-daily-kicker">昨日 · 爆破战报</span>
+                    <span class="cell-link focus-link" onclick="window.location.href='my-data.html?mode=baopo'">查看完整战绩 →</span>
+                    <div class="focus-primary">
+                        <span class="focus-value" id="baopo-daily-winrate">--</span>
+                        <span class="baopo-mvp-badge" id="baopo-daily-mvp-badge" style="display: none;">MVP</span>
+                    </div>
+                    <div class="baopo-focus-sub" id="baopo-daily-record">胜率</div>
+                </div>
+
+                <!-- Lower row: 爆破专项数据 (left) + 当日代表对局 (right) -->
+                <div class="report-lower-row" id="baopo-lower-row">
+                    <!-- Left: 爆破专项数据 -->
+                    <div class="dossier-cell lower-cell">
+                        <div class="cell-header">
+                            <span class="cell-marker"></span>
+                            <span class="cell-label">爆破专项数据</span>
+                        </div>
+                        <div class="baopo-special-grid">
+                            <div class="baopo-special-item multikill">
+                                <span class="baopo-special-value" id="baopo-daily-multikill">--</span>
+                                <span class="baopo-special-label">最高多杀</span>
+                            </div>
+                            <div class="baopo-special-item">
+                                <span class="baopo-special-value" id="baopo-daily-kd">--</span>
+                                <span class="baopo-special-label">K/D</span>
+                            </div>
+                            <div class="baopo-special-item">
+                                <span class="baopo-special-value" id="baopo-daily-hs">--</span>
+                                <span class="baopo-special-label">爆头率</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: 当日代表对局 -->
+                    <div class="dossier-cell highlight-panel">
+                        <div class="cell-header">
+                            <span class="cell-marker"></span>
+                            <span class="cell-label">当日代表对局</span>
+                            <span class="cell-link" id="baopo-best-link">对局详情 →</span>
+                        </div>
+                        <div class="highlight-body" id="baopo-best-body">
+                            <span class="highlight-strip-operator" id="baopo-best-operator">-</span>
+                            <span class="highlight-strip-status victory" id="baopo-best-status">-</span>
+                            <span class="highlight-strip-map" id="baopo-best-map">-</span>
+                            <span class="highlight-strip-spacer"></span>
+                            <span class="highlight-strip-stat"><b id="baopo-best-score">-</b>比分</span>
+                            <span class="highlight-strip-stat"><b id="baopo-best-kda">-</b>K/D/A</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 无对局空态 -->
+                <div class="baopo-daily-empty" id="baopo-daily-empty" style="display: none;">
+                    <span class="baopo-daily-empty-text">昨日暂无爆破模式对局</span>
+                    <span class="cell-link" onclick="window.location.href='my-data.html?mode=baopo'">查看历史战绩 →</span>
+                </div>
+
+                <!-- Report Signature Footer -->
+                <div class="report-signature">
+                    <span class="report-signature-id">№ BP-0812</span>
+                    <span class="report-signature-time" id="baopo-daily-updated">统计日期 -- · 演示数据</span>
                 </div>
             </div>
         </section>
@@ -1414,13 +1483,13 @@
     <div class="card-collection-detail-overlay" id="card-collection-detail-desktop" aria-hidden="true">
         <div class="card-collection-detail" role="dialog" aria-modal="true">
             <button class="card-collection-detail-close" type="button" aria-label="关闭">✕</button>
-            <span class="card-collection-detail-art" id="card-detail-art-desktop">♠</span>
-            <h3 id="card-detail-name-desktop">黑桃 A</h3>
-            <p>编号：<b id="card-detail-number-desktop">A</b></p>
-            <p>解锁状态：<b id="card-detail-state-desktop">已拥有</b></p>
-            <p>牌色：<b id="card-detail-color-desktop">紫色</b><span class="card-detail-tier tier-4" id="card-detail-tier-desktop">4</span></p>
-            <p>拥有数量：<b id="card-detail-quantity-desktop">1</b></p>
-            <button class="card-share-button" type="button" data-card-share="card">生成这张卡的海报</button>
+            <div class="card-collection-detail-art" id="card-detail-art-desktop">♠</div>
+            <div class="card-collection-detail-info">
+                <h3 id="card-detail-name-desktop">黑桃 A</h3>
+                <p>品阶：<b id="card-detail-color-desktop">紫色</b><span class="card-detail-tier tier-4" id="card-detail-tier-desktop">4</span></p>
+                <p>解锁状态：<b id="card-detail-state-desktop">已拥有</b></p>
+                <p>拥有数量：<b id="card-detail-quantity-desktop">1</b></p>
+            </div>
         </div>
     </div>
 
@@ -1428,12 +1497,12 @@
     <div class="card-share-poster-overlay" id="card-share-poster-desktop" aria-hidden="true">
         <div class="card-share-poster-modal" role="dialog" aria-modal="true">
             <div class="card-share-poster-header"><strong>分享卡牌收藏</strong><button class="card-share-poster-close" type="button">✕</button></div>
-            <div class="card-share-poster-canvas">
-                <span class="card-share-poster-kicker">DELTA FORCE TOOL STATION</span>
-                <h2 id="card-poster-title-desktop">赛季扑克牌收藏册</h2>
-                <div class="card-share-poster-progress"><strong id="card-poster-progress-desktop">13/55</strong><span>已收集卡牌</span></div>
-                <div class="card-share-poster-card"><span id="card-poster-art-desktop">♠</span><strong id="card-poster-card-name-desktop">黑桃 A</strong><small id="card-poster-card-meta-desktop">紫色 · 已拥有 · ×1</small></div>
-                <div class="card-share-poster-footer"><span>playdeltaforce.com/events/hq/</span><span class="card-share-poster-qr" aria-label="二维码">QR</span></div>
+            <div class="card-share-poster-canvas" id="card-share-poster-canvas-desktop">
+                <header class="card-share-poster-head"><span class="card-share-poster-kicker">DELTA FORCE TOOL STATION</span><strong>赛季扑克牌收藏册</strong><small>SEASON CARD ALBUM</small></header>
+                <section class="card-share-poster-progress-section"><div class="card-share-poster-progress-main"><strong id="card-poster-progress-desktop">13/55</strong><small>整副完成度 <b id="card-poster-ratio-desktop">24%</b></small></div><div class="card-share-poster-progress-bar"><span style="width:24%"></span></div><div class="card-share-poster-stats"><span><b>13</b>已拥有</span><span><b>42</b>未拥有</span><span><b>0</b>集齐花色</span><span><b>20</b>拥有总数量</span></div></section>
+                <section class="card-share-poster-suit-section"><h3>各花色解锁进度</h3><ul class="card-share-poster-suits" id="card-share-poster-suits-desktop"></ul></section>
+                <section class="card-share-poster-high-section"><h3>已解锁高等级扑克牌 <b id="card-share-poster-high-count-desktop">3</b> 张</h3><ul class="card-share-poster-high-cards" id="card-share-poster-high-cards-desktop"></ul></section>
+                <footer class="card-share-poster-footer"><div><strong>扫码查看我的扑克典藏册</strong><small>三角洲行动小程序 · 赛季扑克典藏</small></div><span class="card-share-poster-qr" aria-label="二维码">QR</span></footer>
             </div>
             <button class="card-share-poster-save" type="button">保存海报</button>
         </div>
@@ -2185,7 +2254,8 @@
     </div>
 
     <script src="../shared/gun-detail-mock.js?v=1"></script>
-    <script src="main.js?v=31"></script>
+    <script src="../shared/demolition-mock.js?v=1"></script>
+    <script src="main.js?v=32"></script>
     <script src="bookmark-widget.js?v=4" defer></script>
 </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delta Force - 我的数据</title>
-    <link rel="stylesheet" href="main.css?v=51">
+    <link rel="stylesheet" href="main.css?v=52">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <script src="i18n.js" defer></script>
     <style>
@@ -3276,6 +3276,10 @@
                 <span class="mode-icon">⚔️</span>
                 <span class="mode-name" data-i18n="gameMode.zhanchang">全面战场</span>
             </div>
+            <div class="game-mode-tab" data-mode="baopo">
+                <span class="mode-icon">💣</span>
+                <span class="mode-name">爆破模式</span>
+            </div>
         </div>
         
         <!-- ============================================
@@ -3476,9 +3480,6 @@
                             <span class="date-group-label">02-03</span>
                             <span class="date-group-count">5 场</span>
                             <span class="date-group-wl"><span class="w">2W</span><span class="sep">/</span><span class="l">3L</span></span>
-                            <div class="date-group-avg">
-                                <div class="date-group-avg-item"><span class="k">当日净收益</span><span class="v pos">+628,804</span></div>
-                            </div>
                         </div>
                     <div class="battle-record-item">
                         <div class="battle-record-avatar">🎖️</div>
@@ -3572,9 +3573,6 @@
                             <span class="date-group-label">02-02</span>
                             <span class="date-group-count">5 场</span>
                             <span class="date-group-wl"><span class="w">4W</span><span class="sep">/</span><span class="l">1L</span></span>
-                            <div class="date-group-avg">
-                                <div class="date-group-avg-item"><span class="k">当日净收益</span><span class="v pos">+2,208,000</span></div>
-                            </div>
                         </div>
                     <div class="battle-record-item">
                         <div class="battle-record-avatar">⚔️</div>
@@ -3707,9 +3705,6 @@
                             <span class="date-group-label">02-03</span>
                             <span class="date-group-count">6 场</span>
                             <span class="date-group-wl"><span class="w">3W</span><span class="sep">/</span><span class="l">3L</span></span>
-                            <div class="date-group-avg">
-                                <div class="date-group-avg-item"><span class="k">当日净收益</span><span class="v pos">+1,701,304</span></div>
-                            </div>
                         </div>
                     <!-- 对局1 - 撤离失败 -->
                     <div class="match-record-item" data-map="dam" data-profit="68304" data-loss="245000" data-net="-176696">
@@ -3851,9 +3846,6 @@
                             <span class="date-group-label">02-02</span>
                             <span class="date-group-count">2 场</span>
                             <span class="date-group-wl"><span class="w">1W</span><span class="sep">/</span><span class="l">1L</span></span>
-                            <div class="date-group-avg">
-                                <div class="date-group-avg-item"><span class="k">当日净收益</span><span class="v pos">+515,000</span></div>
-                            </div>
                         </div>
                     <!-- 对局7 - 撤离失败 (小额正收益) -->
                     <div class="match-record-item" data-map="valley" data-profit="185000" data-loss="150000" data-net="35000">
@@ -4292,9 +4284,6 @@
                                 <span class="date-group-label">02-03</span>
                                 <span class="date-group-count">5 场</span>
                                 <span class="date-group-wl"><span class="w">3W</span><span class="sep">/</span><span class="l">2L</span></span>
-                                <div class="date-group-avg">
-                                    <div class="date-group-avg-item"><span class="k">当日总得分</span><span class="v pos">13,700</span></div>
-                                </div>
                             </div>
                         <div class="battle-record-item">
                             <div class="battle-record-avatar">🎖️</div>
@@ -4383,9 +4372,6 @@
                                 <span class="date-group-label">02-02</span>
                                 <span class="date-group-count">5 场</span>
                                 <span class="date-group-wl"><span class="w">3W</span><span class="sep">/</span><span class="l">2L</span></span>
-                                <div class="date-group-avg">
-                                    <div class="date-group-avg-item"><span class="k">当日总得分</span><span class="v pos">13,510</span></div>
-                                </div>
                             </div>
                         <div class="battle-record-item">
                             <div class="battle-record-avatar">⚔️</div>
@@ -4507,9 +4493,6 @@
                                 <span class="date-group-label">02-03</span>
                                 <span class="date-group-count">6 场</span>
                                 <span class="date-group-wl"><span class="w">3W</span><span class="sep">/</span><span class="l">3L</span></span>
-                                <div class="date-group-avg">
-                                    <div class="date-group-avg-item"><span class="k">当日总得分</span><span class="v pos">15,270</span></div>
-                                </div>
                             </div>
                         <!-- 对局1 - 失败 -->
                         <div class="match-record-item" data-map="linjiedian">
@@ -4627,9 +4610,6 @@
                                 <span class="date-group-label">02-02</span>
                                 <span class="date-group-count">2 场</span>
                                 <span class="date-group-wl"><span class="w">1W</span><span class="sep">/</span><span class="l">1L</span></span>
-                                <div class="date-group-avg">
-                                    <div class="date-group-avg-item"><span class="k">当日总得分</span><span class="v pos">4,900</span></div>
-                                </div>
                             </div>
                         <!-- 对局7 - 胜利 -->
                         <div class="match-record-item" data-map="linjiedian">
@@ -4812,6 +4792,213 @@
                 </div>
             </div>
         </div><!-- 结束全面战场模式内容 -->
+
+        <!-- ============================================
+             爆破模式 内容（顶部与列表结构对齐其他模式）
+             ============================================ -->
+        <div id="baopo-mode-content" style="display: none;">
+            <!-- Profile Section - 爆破模式 -->
+            <section class="profile-section">
+                <!-- Banner -->
+                <div class="profile-banner">
+                    <div class="banner-decoration"></div>
+                    <div class="character-silhouette"></div>
+                </div>
+
+                <!-- Profile Info -->
+                <div class="profile-info">
+                    <div class="profile-main">
+                        <!-- Avatar -->
+                        <div class="profile-avatar">
+                            <div class="avatar-ring"></div>
+                        </div>
+
+                        <!-- User Details -->
+                        <div class="profile-details">
+                            <div class="profile-username">
+                                <span class="username-text">DeltaOperator</span>
+                            </div>
+                            <div class="profile-meta">
+                                <div class="meta-item">
+                                    <span class="meta-icon">💣</span>
+                                    <span>爆破模式</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">🗓️</span>
+                                    <span>S8 赛季</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-icon">⏱️</span>
+                                    <span>更新于 08-13 08:00 · 演示数据</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Profile Tabs - 爆破模式 -->
+                <div class="profile-tabs baopo-tabs">
+                    <button class="profile-tab baopo-tab active" data-tab="baopo-overview">总览</button>
+                    <button class="profile-tab baopo-tab" data-tab="baopo-matches">战绩</button>
+                </div>
+            </section>
+
+            <!-- 总览 Tab - 爆破模式 -->
+            <div class="tab-content baopo-content active" id="tab-baopo-overview">
+                <div class="overview-layout">
+                    <!-- 左侧栏 - 段位信息（占位） -->
+                    <div class="overview-sidebar">
+                        <div class="rank-card">
+                            <div class="rank-card-header">
+                                <span class="rank-card-title">当前段位</span>
+                                <span class="rank-card-badge">S8赛季</span>
+                            </div>
+                            <div class="current-rank">
+                                <div class="rank-icon">💣</div>
+                                <div class="rank-info">
+                                    <div class="rank-tier">铂金 II</div>
+                                </div>
+                            </div>
+                            <div class="peak-rank">
+                                <div class="peak-rank-icon">⭐</div>
+                                <div class="peak-rank-info">
+                                    <div class="peak-rank-label">历史最高</div>
+                                    <div class="peak-rank-value">钻石 IV</div>
+                                </div>
+                                <div class="peak-rank-season">S7</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右侧主内容区 - 综合数据（与烽火/战场同款 stats-card） -->
+                    <div class="overview-main">
+                        <div class="stats-card">
+                            <div class="stats-card-header">
+                                <span class="stats-card-title">💣 爆破模式 · 综合数据</span>
+                                <span class="stats-card-meta" id="baopo-summary-meta">总计 -- 场对局</span>
+                            </div>
+                            <div class="stats-three-columns">
+                                <!-- 第一列：胜率表现 -->
+                                <div class="stats-column economy">
+                                    <div class="stats-column-header">
+                                        <span class="column-icon">🏆</span>
+                                        <span class="column-title">胜率表现</span>
+                                    </div>
+                                    <div class="stat-column-item primary">
+                                        <div class="stat-column-value orange" id="baopo-sum-winrate">--</div>
+                                        <div class="stat-column-label">综合胜率</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value" id="baopo-sum-mvp">--</div>
+                                        <div class="stat-column-label">MVP场次</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value" id="baopo-sum-mvp-likes">--</div>
+                                        <div class="stat-column-label">MVP点赞数</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value" id="baopo-sum-avgscore">--</div>
+                                        <div class="stat-column-label">场均评分</div>
+                                    </div>
+                                </div>
+
+                                <!-- 第二列：战斗数据 -->
+                                <div class="stats-column combat">
+                                    <div class="stats-column-header">
+                                        <span class="column-icon">⚔️</span>
+                                        <span class="column-title">战斗数据</span>
+                                    </div>
+                                    <div class="stat-column-item primary">
+                                        <div class="stat-column-value cyan" id="baopo-sum-kd">--</div>
+                                        <div class="stat-column-label">战损比</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value" id="baopo-sum-kills">--</div>
+                                        <div class="stat-column-label">击败干员</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value" id="baopo-sum-hitrate">--</div>
+                                        <div class="stat-column-label">命中率</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value" id="baopo-sum-hs">--</div>
+                                        <div class="stat-column-label">精准击败率</div>
+                                    </div>
+                                </div>
+
+                                <!-- 第三列：爆破目标 -->
+                                <div class="stats-column team">
+                                    <div class="stats-column-header">
+                                        <span class="column-icon">💣</span>
+                                        <span class="column-title">爆破目标</span>
+                                    </div>
+                                    <div class="stat-column-item primary">
+                                        <div class="stat-column-value green" id="baopo-sum-plants">--</div>
+                                        <div class="stat-column-label">安装炸弹</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value" id="baopo-sum-defuses">--</div>
+                                        <div class="stat-column-label">拆除炸弹</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value" id="baopo-sum-guard">--</div>
+                                        <div class="stat-column-label">累计守护炸弹击杀</div>
+                                    </div>
+                                    <div class="stat-column-item">
+                                        <div class="stat-column-value" id="baopo-sum-deny">--</div>
+                                        <div class="stat-column-label">累计阻止安装击杀</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 最近对局模块 - 全宽 -->
+                <div class="recent-matches-card recent-matches-full">
+                    <div class="recent-matches-header">
+                        <span class="recent-matches-title">💣 最近对局</span>
+                        <a href="#" class="recent-matches-link" id="baopo-view-all-link">查看更多 ›</a>
+                    </div>
+                    <div class="battle-record-list" id="baopo-recent-list"></div>
+                </div>
+            </div>
+
+            <!-- 战绩 Tab - 爆破模式 -->
+            <div class="tab-content baopo-content" id="tab-baopo-matches">
+                <!-- 筛选器 -->
+                <div class="matches-filter-bar">
+                    <div class="filter-left">
+                        <span class="filter-label">🗺️ 地图筛选</span>
+                        <select class="filter-select" id="baopo-map-filter">
+                            <option value="all">全部地图</option>
+                        </select>
+                    </div>
+                    <div class="filter-right baopo-filter-right">
+                        <span class="filter-label">🎯 结果筛选</span>
+                        <select class="filter-select" id="baopo-result-filter">
+                            <option value="all">全部结果</option>
+                            <option value="victory">胜利</option>
+                            <option value="defeat">失败</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 战绩列表（按日聚合） -->
+                <div class="matches-list-wrapper">
+                    <div class="matches-list-header">
+                        <span class="matches-list-title">📋 对局记录</span>
+                        <span class="matches-count" id="baopo-records-count"></span>
+                    </div>
+                    <div class="matches-full-list" id="baopo-records-list"></div>
+                    <div class="baopo-records-empty" id="baopo-records-empty" style="display: none;">
+                        <span class="baopo-records-empty-text">没有符合筛选条件的对局</span>
+                        <button class="baopo-clear-filter" id="baopo-clear-filter" type="button">清除筛选</button>
+                    </div>
+                </div>
+                <button class="baopo-load-more" id="baopo-load-more" type="button" style="display: none;">加载更多</button>
+            </div>
+        </div><!-- 结束爆破模式内容 -->
     </main>
 
     <!-- 战绩详情弹窗 -->
@@ -5193,8 +5380,8 @@
     <script>
         // Profile Tabs Functionality - 烽火地带
         function initProfileTabs() {
-            const tabs = document.querySelectorAll('.profile-tab:not(.zc-tab)');
-            const contents = document.querySelectorAll('.tab-content:not(.zc-content)');
+            const tabs = document.querySelectorAll('.profile-tab:not(.zc-tab):not(.baopo-tab)');
+            const contents = document.querySelectorAll('.tab-content:not(.zc-content):not(.baopo-content)');
             
             tabs.forEach(tab => {
                 tab.addEventListener('click', () => {
@@ -5343,40 +5530,35 @@
             initMatchDetailModal();
         });
         
-        // 顶级模式切换 Tab
+        // 顶级模式切换 Tab（烽火地带 / 全面战场 / 爆破模式，显式映射）
         function initGameModeTabs() {
             const modeTabs = document.querySelectorAll('.game-mode-tab');
-            const fenghuoContent = document.getElementById('fenghuo-mode-content');
-            const zhanchangContent = document.getElementById('zhanchang-mode-content');
-            
-            // 读取URL参数，检查是否需要自动切换tab
+            const modeContents = {
+                fenghuo: document.getElementById('fenghuo-mode-content'),
+                zhanchang: document.getElementById('zhanchang-mode-content'),
+                baopo: document.getElementById('baopo-mode-content')
+            };
+
+            const activateMode = (mode) => {
+                if (!modeContents[mode]) return;
+                modeTabs.forEach(t => t.classList.toggle('active', t.dataset.mode === mode));
+                Object.keys(modeContents).forEach(key => {
+                    if (modeContents[key]) {
+                        modeContents[key].style.display = key === mode ? 'block' : 'none';
+                    }
+                });
+            };
+
+            // 读取URL参数，检查是否需要自动切换tab（?mode=fenghuo|zhanchang|baopo）
             const urlParams = new URLSearchParams(window.location.search);
             const modeParam = urlParams.get('mode');
-            
-            if (modeParam === 'zhanchang') {
-                // 切换到全面战场tab
-                modeTabs.forEach(t => t.classList.remove('active'));
-                document.querySelector('.game-mode-tab[data-mode="zhanchang"]').classList.add('active');
-                fenghuoContent.style.display = 'none';
-                zhanchangContent.style.display = 'block';
+            if (modeParam && modeContents[modeParam]) {
+                activateMode(modeParam);
             }
-            
+
             modeTabs.forEach(tab => {
                 tab.addEventListener('click', () => {
-                    const targetMode = tab.dataset.mode;
-                    
-                    // Update active tab
-                    modeTabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    
-                    // Toggle mode content
-                    if (targetMode === 'fenghuo') {
-                        fenghuoContent.style.display = 'block';
-                        zhanchangContent.style.display = 'none';
-                    } else {
-                        fenghuoContent.style.display = 'none';
-                        zhanchangContent.style.display = 'block';
-                    }
+                    activateMode(tab.dataset.mode);
                 });
             });
         }
@@ -5871,6 +6053,8 @@
             }
         })();
     </script>
+    <script src="../shared/demolition-mock.js?v=1"></script>
+    <script src="demolition-records.js?v=1"></script>
     <script src="bookmark-widget.js?v=4" defer></script>
 </body>
 </html>
