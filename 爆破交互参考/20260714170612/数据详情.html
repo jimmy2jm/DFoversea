@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=375, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>查看更多数据</title>
+<style>
+:root{
+  --bg:#050a08;
+  --panel:#07130f;
+  --panel-2:#0a1a14;
+  --panel-3:#0e241c;
+  --line:#1f3a2c;
+  --line-soft:rgba(56,225,215,.16);
+  --green:#38e1d7;
+  --green-2:#2bbfa6;
+  --gold:#f5b042;
+  --text:#e8ecf1;
+  --muted:#8ea89a;
+  --dim:#5a6b62;
+  --red:#ef4444;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;background:#1a1a2e;display:flex;justify-content:center;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif}
+.phone{width:375px;height:812px;background:#000;border-radius:28px;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 0 2px #2a2a3a,0 0 0 6px #1a1a2a,0 0 0 8px #333}
+.status{height:36px;background:#000;display:flex;align-items:center;justify-content:space-between;padding:0 20px;font-size:13px;color:#fff;font-weight:700}.icons{display:flex;gap:6px;align-items:center;font-size:12px}.batt{border:1px solid #fff;border-radius:3px;padding:0 2px;font-size:10px}
+.header{height:44px;background:#000;display:flex;align-items:center;justify-content:space-between;padding:0 16px}.app-title{font-size:15px;font-weight:800;color:#fff}.hicons{display:flex;gap:10px}.dot{width:22px;height:22px;border-radius:50%;border:1px solid rgba(255,255,255,.65);display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px;background:rgba(255,255,255,.04)}
+.content{position:absolute;left:0;right:0;top:80px;bottom:60px;overflow-y:auto;padding:0 10px 18px;background:
+  radial-gradient(ellipse 80% 35% at 75% 4%,rgba(56,225,215,.08),transparent 60%),
+  radial-gradient(ellipse 60% 40% at 15% 18%,rgba(245,176,66,.04),transparent 64%),
+  linear-gradient(180deg,#06110d 0%,#050a08 60%,#030605 100%)}
+.content::-webkit-scrollbar{width:0}.navtop{height:38px;display:flex;align-items:center;justify-content:flex-start}.back{color:var(--muted);text-decoration:none;font-size:12px;font-weight:800}.page-title{display:none}
+.section{position:relative;margin-bottom:14px;border:1px solid var(--line);border-radius:6px;background:linear-gradient(180deg,rgba(14,36,28,.9),rgba(7,19,15,.92));box-shadow:0 6px 16px rgba(0,0,0,.28),inset 0 1px 0 rgba(56,225,215,.08);overflow:hidden}.section::before{content:"";position:absolute;inset:6px;border:1px dashed rgba(56,225,215,.14);pointer-events:none}.section::after{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(180deg,var(--green),var(--green-2));opacity:.85}.sec-head{position:relative;z-index:2;display:flex;align-items:center;justify-content:space-between;padding:9px 10px 6px 12px}.sec-title{font-size:14px;font-weight:900;color:#fff;letter-spacing:.5px}.tag{font-size:8px;font-weight:900;color:rgba(142,168,154,.72);border:1px solid rgba(56,225,215,.16);background:rgba(56,225,215,.06);padding:1px 6px;border-radius:3px}.num{font-family:'DIN Alternate','SF Pro Display','Arial Narrow',sans-serif;font-weight:900}.gold-chip{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(180deg,var(--gold),#c98716);color:#06110d;border-radius:2px;padding:0 5px;box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+.section.hero{padding:0;margin-bottom:14px;border:none;border-radius:0;background:linear-gradient(180deg,#0e241c,#07130f);box-shadow:none;overflow:visible}.section.hero::before,.section.hero::after{display:none}.hero-layer{position:relative;z-index:2;background:linear-gradient(180deg,rgba(14,36,28,.94),rgba(7,19,15,.96));border-top:1px solid rgba(56,225,215,.14);border-bottom:1px solid rgba(56,225,215,.1);padding:8px 10px}.hero-layer+.hero-layer{margin-top:7px}.report-title-row{display:flex;align-items:center;justify-content:center;background:#0b251b;color:#fff;border-radius:8px;padding:7px 10px;margin-bottom:8px;box-shadow:0 2px 7px rgba(0,0,0,.25);white-space:nowrap}.report-title-row .title-text{font-size:20px;font-weight:900;letter-spacing:.1px}.report-title-row .date-tag{font-size:12px;color:#d6e2d8;background:#102f23;border-radius:6px;padding:2px 6px;margin-left:8px}.hero-top{display:grid;grid-template-columns:1fr 154px;gap:10px;align-items:stretch}.report-visual{position:relative;height:118px;border-radius:6px;overflow:hidden;background:linear-gradient(180deg,#0a1a14,#06110d);border:1px solid rgba(56,225,215,.14);display:flex;align-items:center;justify-content:center;padding:5px}.report-visual img{width:100%;height:100%;object-fit:contain;object-position:center bottom;filter:contrast(1.04) saturate(.92);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 8%,#000 92%,transparent 100%)}.core-card{border:1px solid var(--line-soft);border-radius:5px;background:linear-gradient(180deg,rgba(10,40,32,.92),rgba(5,10,8,.95));padding:8px 8px 7px;box-shadow:inset 0 0 20px rgba(0,0,0,.22)}.core-label{font-size:10px;color:var(--muted);font-weight:900;margin-bottom:3px}.core-kill{display:flex;align-items:flex-end;gap:7px;border-bottom:1px solid rgba(56,225,215,.12);padding-bottom:6px;margin-bottom:7px}.core-kill .big-wrap{display:flex;flex-direction:column;align-items:flex-start}.core-kill .big{font-size:46px;line-height:.82;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.4)}.core-kill .big-label{font-size:8px;color:var(--muted);font-weight:900;margin-top:4px;letter-spacing:.3px}.core-kill .sub{font-size:8px;line-height:1.35;color:var(--muted);font-weight:800}.core-kill .sub b{font-size:11px;color:#fff;margin-left:2px}.core-pair{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px}.core-pair .item{font-size:7px;color:var(--muted);font-weight:800;white-space:nowrap}.core-pair .item b{font-size:11px;color:#fff;margin-left:2px}.core-pair .item b.gold-chip{font-size:11px;color:#06110d}.match-layer{display:grid;grid-template-columns:26px 1.15fr .72fr 1fr;gap:6px;align-items:stretch}.vertical-tag{writing-mode:vertical-rl;text-orientation:upright;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#0b251b;color:#9eb0a2;font-size:10px;font-weight:900;letter-spacing:1px;box-shadow:inset 0 0 0 1px rgba(56,225,215,.12)}.battle-card{position:relative;border:1px solid rgba(56,225,215,.18);border-radius:7px;background:linear-gradient(135deg,#0a1f17,#06110d);box-shadow:0 4px 10px rgba(0,0,0,.16),inset 0 1px 0 rgba(255,255,255,.04);padding:6px 8px;display:grid;grid-template-columns:1fr 1fr;gap:5px;overflow:hidden;min-height:58px}.battle-card.single{grid-template-columns:1fr;text-align:center}.battle-card.pack-info{grid-template-columns:1fr 1fr}.battle-card::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,rgba(255,255,255,.02) 0 1px,transparent 1px 8px);pointer-events:none}.battle-card .cell{position:relative;z-index:2}.battle-card .v{position:relative;display:inline-block;font-size:20px;line-height:1;color:#fff;font-weight:900;z-index:1}.battle-card .v::after{content:"";position:absolute;left:-2px;right:-2px;bottom:1px;height:7px;background:rgba(245,176,66,.36);z-index:-1;border-radius:1px}.battle-card .v.gold{color:var(--gold)}.battle-card .l{font-size:8px;color:var(--muted);font-weight:800;margin-top:3px}
+.operator-name-pill{margin-left:10px;background:#06110d;border:1px solid rgba(56,225,215,.12);border-radius:6px;padding:4px 14px;font-size:16px;font-weight:900;color:#fff;line-height:1;box-shadow:0 2px 8px rgba(0,0,0,.22)}.operator-body{position:relative;z-index:2;padding:0 10px 12px 12px}.operator-top{display:grid;grid-template-columns:132px 1fr;gap:10px;align-items:stretch}.operator-left{display:flex;flex-direction:column;gap:7px}.operator-art{height:158px;border:1px solid rgba(56,225,215,.14);border-radius:5px;background:radial-gradient(ellipse at 50% 35%,rgba(245,176,66,.16),transparent 58%),linear-gradient(180deg,#0a1a14,#07100d);overflow:hidden;display:flex;align-items:center;justify-content:center}.operator-art img{width:100%;height:100%;object-fit:contain;object-position:center bottom;filter:contrast(1.05) saturate(.92);-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 10%,#000 90%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 10%,#000 90%,transparent 100%)}.operator-caption{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:center}.operator-mini{text-align:center;border-bottom:1px solid rgba(56,225,215,.12);padding-bottom:3px}.operator-mini .v{font-size:17px;line-height:1;color:#fff}.operator-mini .v.gold{color:var(--gold)}.operator-mini .l{font-size:8px;color:var(--muted);font-weight:800;margin-top:3px}.op-data{position:relative;min-height:202px;border-radius:7px;background:linear-gradient(180deg,rgba(5,18,13,.96),rgba(2,7,5,.98));border:1px solid rgba(56,225,215,.1);box-shadow:-8px 0 22px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.03);padding:16px 10px 62px;display:grid;grid-template-columns:58px 1fr;gap:10px;overflow:hidden}.op-data::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(56,225,215,.05),transparent 60%);pointer-events:none}.op-icons{position:relative;z-index:2;display:grid;grid-template-rows:58px 58px;gap:10px;align-content:start;align-items:center;justify-items:center}.op-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;color:rgba(232,236,241,.9);font-size:21px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}.op-stats{position:static;z-index:2;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:58px 58px;gap:10px 10px;align-content:start}.op-stat{min-height:52px;border-bottom:1px solid rgba(56,225,215,.16);padding:2px 0 6px}.op-stat .v{font-size:30px;line-height:1;color:#fff}.op-stat .v.gold{color:var(--gold)}.op-stat .l{font-size:9px;color:var(--muted);font-weight:900;margin-top:6px;white-space:nowrap}.op-stat.kill{grid-column:2;grid-row:1}.op-stat.assist{grid-column:1;grid-row:2}.op-stat.kda{grid-column:2;grid-row:2}.op-ribbon{position:absolute;left:12px;right:10px;bottom:12px;z-index:3;height:44px;display:grid;grid-template-columns:1fr 1fr;gap:6px;align-items:center;border-radius:5px;background:linear-gradient(90deg,rgba(80,45,48,.44),rgba(115,86,28,.38));border:1px solid rgba(255,255,255,.06);padding:6px 7px}.op-ribbon .ritem{display:flex;align-items:center;justify-content:center;gap:2px;color:var(--muted);font-size:8px;font-weight:900;white-space:nowrap;min-width:0}.op-ribbon .diamond{color:#d4a851;font-size:13px;flex-shrink:0}.op-ribbon b{font-size:24px;line-height:1;color:var(--gold);margin-left:1px}
+.weapon-body{position:relative;z-index:2;padding:0 10px 12px 12px;display:grid;grid-template-columns:1.05fr 150px;gap:10px;align-items:stretch}.weapon-left{display:flex;flex-direction:column;gap:7px}.weapon-art{height:128px;border:1px solid rgba(56,225,215,.14);border-radius:5px;background:radial-gradient(ellipse at 50% 52%,rgba(245,176,66,.42),rgba(245,176,66,.12) 42%,transparent 72%),linear-gradient(180deg,#0a1a14,#07100d);display:flex;align-items:center;justify-content:center;overflow:hidden}.weapon-art img{width:96%;height:96%;object-fit:contain;object-position:center;filter:contrast(1.08) saturate(.95);-webkit-mask-image:radial-gradient(ellipse at center,#000 62%,transparent 90%);mask-image:radial-gradient(ellipse at center,#000 62%,transparent 90%)}.weapon-caption{display:grid;grid-template-columns:1fr 44px 48px;gap:8px;align-items:center}.weapon-name{height:30px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(56,225,215,.16);border-radius:4px;background:rgba(56,225,215,.07);font-size:12px;font-weight:900;color:#fff;white-space:nowrap}.weapon-mini{text-align:center;border-bottom:1px solid rgba(56,225,215,.12);padding-bottom:2px}.weapon-mini .v{font-size:15px;line-height:1;color:#fff}.weapon-mini .v.gold{color:var(--gold)}.weapon-mini .l{font-size:7px;color:var(--muted);font-weight:800;margin-top:2px}.weapon-data{position:relative;border-radius:7px;background:linear-gradient(180deg,rgba(5,18,13,.96),rgba(2,7,5,.98));border:1px solid rgba(56,225,215,.1);box-shadow:-8px 0 22px rgba(0,0,0,.3),inset 0 1px 0 rgba(255,255,255,.03);padding:14px 10px;display:grid;grid-template-columns:48px 1fr;gap:10px;align-content:center}.weapon-data::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(56,225,215,.05),transparent 60%);pointer-events:none}.weapon-icons{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:space-around;align-items:center}.wicon{width:38px;height:38px;border-radius:9px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.02));border:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:center;color:rgba(232,236,241,.9);font-size:19px;filter:drop-shadow(0 2px 4px rgba(0,0,0,.25))}.weapon-stats{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:space-around}.wstat{min-height:42px;border-bottom:1px solid rgba(56,225,215,.16);padding:2px 0 6px}.wstat .v{font-size:28px;line-height:1;color:#fff}.wstat .v.gold{color:var(--gold)}.wstat .l{font-size:9px;color:var(--muted);font-weight:900;margin-top:4px}
+.records{padding-bottom:8px}.record-list{position:relative;z-index:2;padding:0 10px 6px 12px}.record{height:62px;margin-bottom:8px;border:1px solid rgba(56,225,215,.13);border-radius:5px;background:rgba(0,0,0,.18);display:flex;align-items:center;gap:8px;padding:7px;box-shadow:0 3px 10px rgba(0,0,0,.16)}.avatar{width:40px;height:40px;border-radius:4px;overflow:hidden;border:1px solid rgba(56,225,215,.16);background:#07100d;flex-shrink:0}.avatar img{width:100%;height:100%;object-fit:contain;object-position:center bottom;filter:contrast(1.05) saturate(.9)}.rmain{flex:1;min-width:0}.rline{display:flex;align-items:center;gap:4px;margin-bottom:4px}.result{font-size:9px;font-weight:900;padding:1px 4px;border-radius:2px}.win{background:var(--green);color:#03100d}.lose{background:#7f1d1d;color:#fff}.mode{font-size:10px;font-weight:900;color:#fff;white-space:nowrap}.grade,.mvp{font-size:8px;font-weight:900;color:#06110d;border-radius:2px;padding:1px 3px}.grade{background:var(--green)}.mvp{background:var(--gold)}.time{font-size:9px;color:rgba(142,168,154,.6);font-weight:700}.rscore{text-align:right;flex-shrink:0}.kda{font-size:14px;color:#fff}.gain{margin-top:5px;font-size:9px;font-weight:900;color:var(--green);background:rgba(56,225,215,.1);border:1px solid rgba(56,225,215,.12);padding:2px 6px;border-radius:3px}.gain::before{content:"◆";margin-right:3px;color:var(--green)}
+.tabbar{position:absolute;left:0;right:0;bottom:0;height:60px;background:#000;border-top:1px solid #1a2820;display:flex;align-items:center;justify-content:space-around}.tab{flex:1;text-align:center;color:#5a6b62;font-size:10px;font-weight:700}.tab.active{color:var(--green)}.ti{font-size:20px;line-height:1;margin-bottom:3px}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="status"><span>17:26</span><span class="icons"><span>▮▮▮</span><span>◒</span><span class="batt">81%</span></span></div>
+  <div class="header"><div class="app-title">三角洲行动小程序</div><div class="hicons"><span class="dot">···</span><span class="dot">○</span></div></div>
+  <main class="content">
+    <div class="navtop"><a class="back" href="爆破日报.html">‹ 返回</a></div>
+
+    <section class="section hero">
+      <div class="hero-layer report-title-row"><span class="title-text">三角洲行动爆破日报</span><span class="date-tag">7月15日</span></div>
+      <div class="hero-layer hero-top">
+        <div class="report-visual">
+          <img src="top-operator.png" alt="">
+        </div>
+        <div class="core-card">
+          <div class="core-label">战斗数据</div>
+          <div class="core-kill"><div class="big-wrap"><div class="big num">34</div><div class="big-label">总击杀数</div></div><div class="sub">死亡<b>21</b><br>助攻<b>8</b><br>KDA<b>8.0</b></div></div>
+          <div class="core-pair">
+            <div class="item">多杀<b class="gold-chip">2</b></div>
+            <div class="item">爆头<b class="gold-chip">35%</b></div>
+            <div class="item">场均<b class="gold-chip">151</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-layer match-layer">
+        <div class="vertical-tag">对局情况</div>
+        <div class="battle-card">
+          <div class="cell"><div class="v num">3</div><div class="l">对局场数</div></div>
+          <div class="cell"><div class="v num gold">82%</div><div class="l">胜率</div></div>
+        </div>
+        <div class="battle-card single">
+          <div class="cell"><div class="v num gold">2</div><div class="l">MVP次数</div></div>
+        </div>
+        <div class="battle-card pack-info">
+          <div class="cell"><div class="v num gold">2</div><div class="l">下包</div></div>
+          <div class="cell"><div class="v num gold">3</div><div class="l">拆包</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section operator-block">
+      <div class="sec-head"><div class="sec-title">本命干员 <span class="operator-name-pill">乌鲁鲁</span></div><div class="tag">OPERATOR</div></div>
+      <div class="operator-body">
+        <div class="operator-top">
+          <div class="operator-left">
+            <div class="operator-art"><img src="soldier.png" alt=""></div>
+            <div class="operator-caption">
+              <div class="operator-mini"><div class="v num">3</div><div class="l">对局数</div></div>
+              <div class="operator-mini"><div class="v num gold">82%</div><div class="l">胜率</div></div>
+            </div>
+          </div>
+          <div class="op-data">
+            <div class="op-icons">
+              <div class="op-icon">☠</div>
+              <div class="op-icon">☒</div>
+            </div>
+            <div class="op-stats">
+              <div class="op-stat kill"><div class="v num gold">15</div><div class="l">总击杀</div></div>
+              <div class="op-stat assist"><div class="v num">8</div><div class="l">助攻</div></div>
+              <div class="op-stat kda"><div class="v num">8.0</div><div class="l">KDA</div></div>
+              <div class="op-ribbon">
+                <div class="ritem"><span class="diamond">◇</span>最高击杀<b class="num">9</b></div>
+                <div class="ritem"><span class="diamond">◇</span>MVP数<b class="num">2</b></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section weapon-block">
+      <div class="sec-head"><div class="sec-title">最佳枪械</div><div class="tag">WEAPON</div></div>
+      <div class="weapon-body">
+        <div class="weapon-left">
+          <div class="weapon-art"><img src="weapon-smg.png" alt=""></div>
+          <div class="weapon-caption">
+            <div class="weapon-name">SMG-45 冲锋枪</div>
+            <div class="weapon-mini"><div class="v num">3</div><div class="l">对局数</div></div>
+            <div class="weapon-mini"><div class="v num gold">82%</div><div class="l">胜率</div></div>
+          </div>
+        </div>
+        <div class="weapon-data">
+          <div class="weapon-icons">
+            <div class="wicon">☠</div>
+            <div class="wicon">☒</div>
+            <div class="wicon">✦</div>
+          </div>
+          <div class="weapon-stats">
+            <div class="wstat"><div class="v num gold">22</div><div class="l">总击杀</div></div>
+            <div class="wstat"><div class="v num gold">66%</div><div class="l">爆头率</div></div>
+            <div class="wstat"><div class="v num">151</div><div class="l">场均伤害</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section records">
+      <div class="sec-head"><div class="sec-title">昨日战绩</div><div class="tag">5场</div></div>
+      <div class="record-list">
+        <div class="record"><div class="avatar"><img src="soldier.png" alt=""></div><div class="rmain"><div class="rline"><span class="result win">胜利</span><span class="mode">爆破模式|荒野</span><span class="grade">A</span></div><div class="time">07-15 17:30</div></div><div class="rscore"><div class="kda num">22/21/8</div><div class="gain">+1,343 ↑</div></div></div>
+        <div class="record"><div class="avatar"><img src="soldier.png" alt=""></div><div class="rmain"><div class="rline"><span class="result lose">失败</span><span class="mode">爆破模式|临界点</span><span class="grade">B</span><span class="mvp">MVP</span></div><div class="time">07-15 16:28</div></div><div class="rscore"><div class="kda num">22/21/8</div><div class="gain">+5,798 ↑</div></div></div>
+        <div class="record"><div class="avatar"><img src="soldier.png" alt=""></div><div class="rmain"><div class="rline"><span class="result lose">失败</span><span class="mode">爆破模式|临界点</span><span class="grade">B</span><span class="mvp">MVP</span></div><div class="time">07-15 15:15</div></div><div class="rscore"><div class="kda num">22/21/8</div><div class="gain">+24,758 ↑</div></div></div>
+        <div class="record"><div class="avatar"><img src="soldier.png" alt=""></div><div class="rmain"><div class="rline"><span class="result lose">失败</span><span class="mode">爆破模式|贯穿</span><span class="grade">A</span><span class="mvp">MVP</span></div><div class="time">07-15 14:02</div></div><div class="rscore"><div class="kda num">9/6/2</div><div class="gain">+9,875 ↑</div></div></div>
+      </div>
+    </section>
+  </main>
+  <div class="tabbar"><div class="tab active"><div class="ti">▽</div>首页</div><div class="tab"><div class="ti">⚒</div>工具</div><div class="tab"><div class="ti">△</div>攻略</div><div class="tab"><div class="ti">▷</div>我的</div></div>
+</div>
+</body>
+</html>

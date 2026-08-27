@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>改枪码推荐管理 · 爆破背包流派</title>
+<link rel="icon" href="data:,">
+<style>
+/* ============================================================
+   爆破背包流派管理端示意
+   游戏理解：1 背包码 = 16 枪 = 4 级别(手枪/标准/精锐/特种) × 4
+   单枪 = 名称 + 积分 + 改枪码（改枪码由游戏内导入，不维护配件明细）
+   背包层 = 16 槽位结构化配置 + 完整性校验
+   ============================================================ */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07191a;--panel:#0b1517;--panel-2:#0f1c1f;--line:#26383b;--line-soft:#1d2c2f;
+  --text:rgba(255,255,255,.88);--muted:rgba(255,255,255,.48);--faint:rgba(255,255,255,.32);
+  --green:#00f0a8;--orange:#f0a450;--danger:#ff6b6b;
+  --t-pistol:#9aa3a8;--t-standard:#5dade2;--t-elite:#a78bfa;--t-special:#f39c12;
+}
+body{min-height:100vh;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:14px}
+button,input,textarea,select{font:inherit;border-radius:0;color:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+
+/* ---------- 布局 ---------- */
+.cms-shell{display:grid;grid-template-columns:190px 1fr;min-height:100vh;background:linear-gradient(180deg,#091719 0%,#071315 100%)}
+.sidebar{border-right:1px solid var(--line);background:#081113;display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.brand{height:41px;display:flex;align-items:center;gap:10px;padding:0 14px;border-bottom:1px solid var(--line);font-size:16px;font-weight:800}
+.brand-mark{width:18px;height:18px;border:2px solid var(--green);clip-path:polygon(50% 0,100% 100%,0 100%)}
+.nav{padding:10px}
+.nav-item{height:30px;display:flex;align-items:center;gap:10px;padding:0 10px;margin-bottom:4px;color:rgba(255,255,255,.7);font-size:13px;cursor:pointer}
+.nav-item:hover{color:rgba(255,255,255,.9)}
+.nav-item.active{background:rgba(0,240,168,.16);color:var(--green);font-weight:800}
+.sidebar-foot{margin-top:auto;height:42px;display:flex;align-items:center;padding:0 16px;border-top:1px solid var(--line);color:rgba(255,255,255,.65);font-size:12px}
+.main{min-width:0;display:flex;flex-direction:column}
+.topbar{height:41px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid var(--line);background:#0a1517}
+.page-title{font-weight:800;font-size:14px}
+.userbar{display:flex;align-items:center;gap:18px;color:rgba(255,255,255,.72);font-size:12px}
+.content{padding:10px 28px 40px;max-width:1280px;width:100%}
+
+.breadcrumb{margin-bottom:12px;color:rgba(255,255,255,.54);font-size:12px}
+.breadcrumb b{color:rgba(255,255,255,.78);font-weight:700}
+.head-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:16px}
+.head-title{font-size:15px;font-weight:800;margin-bottom:4px}
+.head-sub{color:var(--muted);font-size:12px;line-height:1.5}
+.head-actions{display:flex;gap:8px;flex-shrink:0;align-items:center}
+
+.mode-bar{display:flex;align-items:center;gap:0;margin-bottom:14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.mode-tab{height:34px;display:inline-flex;align-items:center;gap:8px;padding:0 18px;background:transparent;border:none;border-bottom:2px solid transparent;color:rgba(255,255,255,.48);font-size:13px;font-weight:800;cursor:pointer;transition:all .15s}
+.mode-tab:hover{color:rgba(255,255,255,.78)}
+.mode-tab.active{border-bottom-color:var(--green);color:var(--green)}
+.mode-tab .tab-dot{width:7px;height:7px;transform:rotate(45deg);background:var(--faint)}
+.mode-tab.active .tab-dot{background:var(--green)}
+.mode-actions{display:flex;align-items:center;gap:8px;margin-left:auto;padding:0 8px 8px}
+
+.panel{border:1px solid var(--line);background:#0a1214}
+.panel.slim{padding:16px}
+.stat-ribbon{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.stat-pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--line-soft);font-size:12px;color:rgba(255,255,255,.68)}
+.stat-pill b{color:var(--green);font-weight:800;font-family:ui-monospace,monospace}
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line-soft);align-items:center}
+.control{height:28px;min-width:120px;padding:0 10px;background:#0b1517;border:1px solid #2b3d40;color:rgba(255,255,255,.74);font-size:12px;outline:none}
+.control:focus{border-color:rgba(0,240,168,.6)}
+.select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(255,255,255,.4)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:26px}
+
+.btn{height:28px;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:0 14px;border:1px solid #2b3d40;background:#0b1517;color:rgba(255,255,255,.78);font-size:12px;font-weight:800;white-space:nowrap;cursor:pointer}
+.btn:hover{border-color:rgba(0,240,168,.5);color:var(--green)}
+.btn.primary{background:var(--green);border-color:var(--green);color:#021512}
+.btn.primary:hover{color:#021512;filter:brightness(1.05)}
+.btn.primary:disabled{opacity:.4;pointer-events:none}
+.btn.ghost{background:transparent}
+.btn.danger{color:#ff9a9a;border-color:rgba(255,107,107,.35)}
+.btn.danger:hover{color:#ff9a9a;border-color:rgba(255,107,107,.6)}
+.btn.sm{height:24px;padding:0 10px;font-size:11px}
+
+/* ---------- 表格 ---------- */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:1080px}
+th{height:36px;padding:0 10px;border-bottom:1px solid var(--line);color:rgba(255,255,255,.42);font-size:12px;font-weight:800;text-align:left;white-space:nowrap}
+td{padding:12px 10px;border-bottom:1px solid var(--line-soft);color:rgba(255,255,255,.78);font-size:12px;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr.row:hover td{background:rgba(0,240,168,.03)}
+tr.row{cursor:pointer}
+
+.col-id{color:rgba(255,255,255,.42);font-family:ui-monospace,monospace;white-space:nowrap}
+.col-flow{min-width:200px}
+.flow-name{font-weight:800;color:rgba(255,255,255,.9);font-size:13px}
+.flow-name:hover{color:var(--green)}
+.flow-intro{color:var(--muted);font-size:11px;margin-top:3px;max-width:260px;line-height:1.45;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.col-author{min-width:110px}
+.author-cell{display:flex;align-items:center;gap:7px}
+.author-ava{width:22px;height:22px;border-radius:50%;background:var(--green);color:#021512;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
+.author-name{font-size:12px;font-weight:700}
+.author-plat{font-size:10px;color:var(--muted)}
+.col-structure{min-width:120px}
+.struct-cell{display:flex;flex-direction:column;gap:4px}
+.struct-grid{display:grid;grid-template-columns:repeat(4,10px);gap:3px}
+.struct-dot{width:10px;height:10px;transform:rotate(45deg);border:1px solid rgba(255,255,255,.16)}
+.struct-dot.t-pistol{background:var(--t-pistol);border-color:transparent}
+.struct-dot.t-standard{background:var(--t-standard);border-color:transparent}
+.struct-dot.t-elite{background:var(--t-elite);border-color:transparent}
+.struct-dot.t-special{background:var(--t-special);border-color:transparent}
+.struct-dot.empty{background:transparent;border-color:rgba(255,107,107,.5)}
+.struct-count{font-size:11px;color:var(--muted)}
+.struct-count b{color:var(--green);font-family:ui-monospace,monospace}
+.col-guns{min-width:140px}
+.key-guns{display:flex;flex-direction:column;gap:2px}
+.key-gun{font-size:11px;color:rgba(255,255,255,.72)}
+.key-gun .kg-tier{display:inline-block;width:6px;height:6px;transform:rotate(45deg);margin-right:5px}
+.col-range{min-width:120px;white-space:nowrap}
+.range-cell{font-family:ui-monospace,monospace;font-size:12px;color:var(--green)}
+.range-sub{font-size:10px;color:var(--muted);margin-top:2px}
+.col-ver{min-width:70px}
+.ver-badge{display:inline-flex;align-items:center;height:20px;padding:0 8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);font-size:11px;font-weight:800;color:rgba(255,255,255,.6);font-family:ui-monospace,monospace}
+.col-stats{min-width:120px}
+.stat-cell{display:flex;flex-direction:column;gap:2px;font-size:11px}
+.stat-cell .s-copy{color:var(--green);font-family:ui-monospace,monospace;font-weight:700}
+.stat-cell .s-like{color:rgba(255,255,255,.62)}
+.col-editor{min-width:110px}
+.editor-cell{font-size:11px;color:rgba(255,255,255,.62)}
+.editor-cell .t{color:var(--muted);font-size:10px;margin-top:2px;white-space:nowrap}
+.tag{display:inline-flex;align-items:center;height:20px;padding:0 8px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.56);font-size:11px;font-weight:800;border:1px solid rgba(255,255,255,.12);white-space:nowrap}
+.tag.pub{background:rgba(0,240,168,.12);color:#7dffd8;border-color:rgba(0,240,168,.25)}
+.tag.draft{background:rgba(240,164,80,.12);color:#ffc47d;border-color:rgba(240,164,80,.25)}
+.tag.off{background:rgba(255,255,255,.05);color:rgba(255,255,255,.42);border-color:rgba(255,255,255,.12)}
+.col-op{min-width:150px}
+.op-cell{display:flex;gap:6px;flex-wrap:wrap}
+.link-btn{background:none;border:none;color:var(--green);font-size:12px;font-weight:700;padding:0;cursor:pointer;white-space:nowrap}
+.link-btn:hover{text-decoration:underline}
+.link-btn.danger{color:#ff9a9a}
+.pager{display:flex;align-items:center;justify-content:flex-end;gap:10px;padding:12px 16px;border-top:1px solid var(--line-soft);font-size:12px;color:var(--muted)}
+.pager b{color:rgba(255,255,255,.8)}
+
+/* ---------- 二级视图头部 ---------- */
+.sub-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap}
+.back{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border:1px solid #2b3d40;background:#0b1517;color:rgba(255,255,255,.7);font-size:16px;cursor:pointer;flex-shrink:0}
+.back:hover{border-color:rgba(0,240,168,.5);color:var(--green)}
+.sub-title{font-size:15px;font-weight:800}
+.sub-title .crumb{color:var(--muted);font-weight:400;font-size:12px}
+.sub-status{margin-left:8px}
+.sub-actions{display:flex;gap:8px;margin-left:auto}
+
+/* ---------- 编辑视图 ---------- */
+.edit-layout{display:grid;grid-template-columns:1fr 300px;gap:14px;align-items:start}
+.form-panel{padding:16px}
+.form-panel + .form-panel{margin-top:14px}
+.form-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;margin-bottom:14px;color:rgba(255,255,255,.88)}
+.form-title::before{content:'';width:12px;height:12px;border:2px solid var(--green);clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+.field{margin-bottom:14px}
+.field:last-child{margin-bottom:0}
+.field label{display:block;color:rgba(255,255,255,.68);font-size:12px;font-weight:800;margin-bottom:6px}
+.req{color:#ff5670;margin-left:3px}
+.input,.textarea{width:100%;background:#0b1517;border:1px solid #2b3d40;color:rgba(255,255,255,.86);padding:0 10px;outline:none;font-size:12px}
+.input{height:30px}
+.textarea{min-height:64px;padding-top:8px;resize:vertical;line-height:1.55}
+.input:focus,.textarea:focus{border-color:rgba(0,240,168,.58)}
+.field-hint{font-size:11px;color:var(--muted);margin-top:4px}
+.author-picker{display:flex;align-items:center;gap:8px;background:#0b1517;border:1px solid #2b3d40;padding:6px 10px;cursor:pointer}
+.author-picker:hover{border-color:rgba(0,240,168,.5)}
+.author-picker .ap-name{font-size:12px;font-weight:700}
+.author-picker .ap-plat{font-size:11px;color:var(--muted)}
+.author-picker .ap-arrow{margin-left:auto;color:var(--muted)}
+.tag-input-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tag-chip{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 8px;background:rgba(0,240,168,.1);border:1px solid rgba(0,240,168,.25);color:#7dffd8;font-size:11px;font-weight:700}
+.tag-chip .x{cursor:pointer;opacity:.7}
+.tag-add{height:24px;min-width:80px;padding:0 8px;background:transparent;border:1px dashed #2b3d40;color:var(--muted);font-size:11px;cursor:pointer}
+.tag-add:hover{border-color:rgba(0,240,168,.5);color:var(--green)}
+
+/* ---------- 16 槽位结构化配置区 ---------- */
+.slot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.slot-col{display:flex;flex-direction:column;gap:8px}
+.slot-col-head{display:flex;align-items:center;justify-content:space-between;height:28px;padding:0 10px;background:rgba(255,255,255,.03);border:1px solid var(--line-soft);font-size:12px;font-weight:800}
+.slot-col-head .marker{width:8px;height:8px;transform:rotate(45deg)}
+.slot-col-head .count{font-family:ui-monospace,monospace;font-size:11px;color:var(--muted)}
+.slot-col-head .count b{color:var(--green)}
+.slot-col.t-pistol .slot-col-head{border-left:3px solid var(--t-pistol)}
+.slot-col.t-standard .slot-col-head{border-left:3px solid var(--t-standard)}
+.slot-col.t-elite .slot-col-head{border-left:3px solid var(--t-elite)}
+.slot-col.t-special .slot-col-head{border-left:3px solid var(--t-special)}
+.slot-card{background:#0b1517;border:1px solid var(--line-soft);padding:9px;cursor:pointer;transition:border-color .15s;min-height:96px}
+.slot-card:hover{border-color:var(--green)}
+.slot-card.is-stock{cursor:default}
+.slot-card.is-stock:hover{border-color:var(--line-soft)}
+.slot-card.is-empty{border-style:dashed;display:flex;align-items:center;justify-content:center;color:var(--faint);font-size:12px}
+.slot-card.is-empty:hover{border-color:var(--green);color:var(--green)}
+.slot-idx{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--faint);font-family:ui-monospace,monospace;margin-bottom:4px}
+.slot-edit-tag{color:rgba(0,240,168,.65);font-family:inherit}
+.slot-card:hover .slot-edit-tag{color:var(--green)}
+.slot-name{font-size:12px;font-weight:700;color:rgba(255,255,255,.88);line-height:1.35;margin-bottom:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;min-height:32px}
+.slot-points{display:flex;align-items:center;gap:4px;font-family:ui-monospace,monospace;font-size:12px;font-weight:700;color:var(--green)}
+.pts-icon{width:12px;height:12px;flex-shrink:0}
+.slot-code{display:flex;align-items:center;margin-top:6px;padding-top:6px;border-top:1px solid var(--line-soft)}
+.slot-code .code{font-family:ui-monospace,monospace;font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.slot-code .stock-tag{font-size:10px;color:var(--muted)}
+.slot-desc{font-size:10px;color:rgba(255,255,255,.42);margin-top:5px;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.slot-hint{font-size:10px;color:var(--muted);margin-top:8px}
+
+/* ---------- 发布校验面板 ---------- */
+.valid-panel{position:sticky;top:12px}
+.valid-title{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:13px;font-weight:800}
+.valid-list{padding:12px 16px;display:flex;flex-direction:column;gap:9px}
+.valid-item{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.72)}
+.valid-item .v-ico{width:16px;height:16px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.valid-item.ok .v-ico{color:var(--green)}
+.valid-item.bad .v-ico{color:var(--danger)}
+.valid-item.bad{color:rgba(255,255,255,.5)}
+.valid-item .v-txt{flex:1}
+.valid-code{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(0,240,168,.04);border-top:1px solid var(--line-soft)}
+.valid-code .label{font-size:11px;color:var(--muted)}
+.valid-code .code{font-family:ui-monospace,monospace;font-size:11px;color:var(--green);max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.valid-ver{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;font-size:11px;color:var(--muted)}
+.valid-ver b{color:rgba(255,255,255,.8);font-family:ui-monospace,monospace}
+.valid-actions{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-top:1px solid var(--line)}
+.valid-actions .btn{height:34px;width:100%}
+
+/* ---------- 单枪配置模态（名称/描述/改枪码） ---------- */
+.gun-modal-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.gun-modal-full{margin-top:14px}
+.field-err{font-size:11px;color:#ff9a9a;margin-top:4px;display:none}
+.field.invalid .field-err{display:block}
+.field.invalid .input{border-color:rgba(255,107,107,.55)}
+
+/* ---------- 背包详情视图 ---------- */
+.detail-layout{display:grid;grid-template-columns:1fr 320px;gap:14px;align-items:start}
+.detail-head-card{padding:16px}
+.dh-row{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.dh-name{font-size:16px;font-weight:800}
+.dh-author{display:flex;align-items:center;gap:7px;margin-left:auto;font-size:12px;color:var(--muted)}
+.dh-intro{font-size:12px;color:var(--muted);line-height:1.6;margin-bottom:12px}
+.detail-meta-row{display:flex;gap:10px;flex-wrap:wrap}
+.detail-meta{display:flex;flex-direction:column;gap:2px;padding:8px 12px;background:rgba(255,255,255,.03);border:1px solid var(--line-soft);min-width:110px}
+.detail-meta .k{font-size:10px;color:var(--muted)}
+.detail-meta .v{font-size:12px;font-weight:800;color:rgba(255,255,255,.85)}
+.detail-meta .v.green{color:var(--green);font-family:ui-monospace,monospace}
+.detail-group{margin-top:14px}
+.detail-group-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;margin-bottom:8px;padding-left:8px;border-left:3px solid var(--green)}
+.detail-group-title .marker{width:8px;height:8px;transform:rotate(45deg)}
+.detail-gun-list{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.detail-gun{background:#0b1517;border:1px solid var(--line-soft);padding:10px 12px;cursor:pointer;transition:border-color .15s}
+.detail-gun:hover{border-color:var(--green)}
+.detail-gun.is-stock-gun:hover{border-color:var(--line-soft)}
+.detail-gun .dg-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;gap:8px}
+.detail-gun .dg-name{font-size:12px;font-weight:700;color:rgba(255,255,255,.86)}
+.detail-gun .dg-points{display:flex;align-items:center;gap:4px;font-family:ui-monospace,monospace;font-size:12px;font-weight:700;color:var(--green);flex-shrink:0}
+.detail-gun .dg-code{font-family:ui-monospace,monospace;font-size:10px;color:rgba(255,255,255,.42);margin-bottom:4px}
+.detail-gun .dg-desc{font-size:10px;color:rgba(255,255,255,.5);line-height:1.5}
+.detail-gun .dg-stock{font-size:10px;color:var(--muted)}
+.detail-gun .dg-empty{font-size:11px;color:var(--faint)}
+.detail-side .panel{padding:16px}
+.ds-row{display:flex;justify-content:space-between;font-size:12px;padding:7px 0;border-bottom:1px solid var(--line-soft);gap:12px}
+.ds-row:last-child{border-bottom:none}
+.ds-row .k{color:var(--muted);flex-shrink:0}
+.ds-row .v{font-weight:800;color:rgba(255,255,255,.85);text-align:right;word-break:break-all}
+.ds-actions{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.ds-actions .btn{height:34px;width:100%}
+
+/* ---------- 模态 ---------- */
+.overlay{position:fixed;inset:0;background:rgba(2,8,10,.72);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:100}
+.overlay.active{display:flex}
+.modal{width:720px;max-width:94vw;max-height:88vh;overflow:hidden;background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column}
+.modal.sm{width:560px}
+.modal.lg{width:860px}
+.modal-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;border-bottom:1px solid var(--line);flex-shrink:0}
+.modal-title{font-weight:800;font-size:13px}
+.modal-close{width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;background:none;border:none;color:rgba(255,255,255,.6);font-size:16px;cursor:pointer}
+.modal-close:hover{color:var(--green)}
+.modal-body{padding:18px;overflow-y:auto}
+.modal-foot{display:flex;justify-content:flex-end;gap:8px;padding:12px 18px;border-top:1px solid var(--line);flex-shrink:0}
+
+/* 作者选择 */
+.author-search{margin-bottom:12px}
+.author-list{display:flex;flex-direction:column;gap:6px;max-height:360px;overflow-y:auto}
+.author-option{display:flex;align-items:center;gap:10px;padding:9px 10px;border:1px solid var(--line-soft);background:#0b1517;cursor:pointer}
+.author-option:hover{border-color:rgba(0,240,168,.5)}
+.author-option.selected{border-color:var(--green);background:rgba(0,240,168,.08)}
+.author-option .ao-name{font-size:12px;font-weight:700}
+.author-option .ao-plat{font-size:11px;color:var(--muted)}
+
+/* 预览 */
+.preview-toggle{display:flex;gap:0;margin-bottom:14px;border:1px solid var(--line)}
+.preview-toggle .pt-btn{flex:1;height:32px;background:transparent;border:none;color:rgba(255,255,255,.5);font-size:12px;font-weight:800;cursor:pointer}
+.preview-toggle .pt-btn.active{background:rgba(0,240,168,.14);color:var(--green)}
+.preview-note{padding:8px 12px;margin-bottom:12px;background:rgba(240,164,80,.1);border:1px solid rgba(240,164,80,.3);color:#ffc47d;font-size:11px}
+.preview-frame{border:1px solid var(--line-soft);background:#041210;padding:16px;min-height:360px}
+.pv-desk{display:flex;flex-direction:column;gap:10px}
+.pv-desk-head{display:flex;align-items:center;justify-content:space-between}
+.pv-desk-name{font-size:15px;font-weight:800}
+.pv-desk-author{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+.pv-desk-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.pv-desk-col{display:flex;flex-direction:column;gap:6px}
+.pv-desk-colhead{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:rgba(255,255,255,.78);padding:4px 6px;background:rgba(255,255,255,.03)}
+.pv-desk-gun{background:#0b1517;border:1px solid var(--line-soft);padding:7px}
+.pv-desk-gun .g{font-size:10.5px;font-weight:700;color:rgba(255,255,255,.82);line-height:1.3}
+.pv-desk-gun .p{font-family:ui-monospace,monospace;font-size:10px;color:var(--green);margin-top:3px}
+.pv-mob{max-width:360px;margin:0 auto;display:flex;flex-direction:column;gap:10px}
+.pv-mob-card{background:#0b1517;border:1px solid var(--line-soft);padding:12px}
+.pv-mob-name{font-size:14px;font-weight:800}
+.pv-mob-intro{font-size:11px;color:var(--muted);line-height:1.5;margin:8px 0 10px}
+.pv-mob-btns{display:flex;gap:8px}
+.pv-mob-btns .mb{flex:1;height:30px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800}
+.pv-mob-btns .mb.solid{background:var(--green);color:#021512}
+.pv-mob-btns .mb.ghost{border:1px solid var(--line);color:rgba(255,255,255,.7)}
+
+/* 版本差异 */
+.diff-head{display:flex;align-items:center;gap:10px;margin-bottom:14px;font-size:12px}
+.diff-arrow{color:var(--green)}
+.diff-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:12px}
+.diff-item:last-child{border-bottom:none}
+.diff-where{flex-shrink:0;min-width:96px;color:var(--muted)}
+.diff-old{color:rgba(255,255,255,.5);text-decoration:line-through}
+.diff-new{color:var(--green);font-weight:700}
+
+.toast{position:fixed;right:24px;bottom:24px;display:none;padding:12px 14px;background:#0b1517;border:1px solid rgba(0,240,168,.5);color:var(--green);font-size:12px;font-weight:800;z-index:300}
+.toast.show{display:block}
+</style>
+</head>
+<body>
+<div class="cms-shell">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark"></span><span>CMS Admin</span></div>
+    <nav class="nav">
+      <div class="nav-item">资源数据库</div>
+      <div class="nav-item active">改枪码推荐</div>
+      <div class="nav-item">临时活动</div>
+      <div class="nav-item">用户反馈</div>
+      <div class="nav-item">Twitch 插件管理</div>
+      <div class="nav-item">操作记录</div>
+    </nav>
+    <div class="sidebar-foot">‹ 收起侧边栏</div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="page-title">改枪码推荐</div>
+      <div class="userbar"><span>设置</span><span>jimmmywang</span></div>
+    </header>
+
+    <section class="content">
+      <div class="breadcrumb">改枪码推荐 / <b>爆破模式</b></div>
+
+      <!-- 顶部操作栏：模式 Tab -->
+      <div class="mode-bar">
+        <button class="mode-tab" data-mode="sol"><span class="tab-dot"></span>烽火配置</button>
+        <button class="mode-tab" data-mode="mp"><span class="tab-dot"></span>全面战场配置</button>
+        <button class="mode-tab active" data-mode="demolition"><span class="tab-dot"></span>爆破模式</button>
+        <div class="mode-actions">
+          <button class="btn ghost sm" id="btnTags">标签编辑</button>
+          <button class="btn ghost sm" id="btnAuthors">作者库编辑</button>
+        </div>
+      </div>
+
+      <!-- ===================== 列表视图 ===================== -->
+      <div id="listView">
+        <div class="head-row">
+          <div>
+            <div class="head-title">爆破背包流派管理</div>
+            <div class="head-sub">管理官方爆破背包流派：每套固定包含 手枪 / 标准 / 精锐 / 特种 共 16 把枪与 1 个背包码。单枪通过改枪码导入。</div>
+          </div>
+          <div class="head-actions">
+            <button class="btn ghost" id="btnExport">批量导出</button>
+            <button class="btn primary" id="btnCreate">+ 新建背包流派</button>
+          </div>
+        </div>
+
+        <div class="stat-ribbon">
+          <span class="stat-pill">全部 <b id="statAll">42</b></span>
+          <span class="stat-pill">草稿 <b id="statDraft">3</b></span>
+          <span class="stat-pill">已发布 <b id="statPub">36</b></span>
+          <span class="stat-pill">已下线 <b id="statOff">3</b></span>
+        </div>
+
+        <div class="panel slim">
+          <div class="filter-bar">
+            <input class="control" id="fName" placeholder="搜索流派名 / 作者 / 包含枪械" style="min-width:220px">
+            <select class="control select" id="fStatus"><option value="">发布状态 · 全部</option><option>草稿</option><option>已发布</option><option>已下线</option></select>
+            <select class="control select" id="fAuthor"><option value="">作者 · 全部</option></select>
+            <select class="control select" id="fGun"><option value="">包含枪械 · 全部</option></select>
+            <select class="control select" id="fTime"><option value="">最近编辑时间 · 全部</option></select>
+            <button class="btn primary sm" id="btnFilter">查询</button>
+            <button class="btn ghost sm" id="btnReset">重置</button>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width:90px">背包 ID</th>
+                  <th class="col-flow">流派信息</th>
+                  <th class="col-author">作者</th>
+                  <th class="col-structure">16 枪结构</th>
+                  <th class="col-guns">关键枪械</th>
+                  <th class="col-range">积分区间</th>
+                  <th class="col-ver">版本</th>
+                  <th class="col-stats">前台数据</th>
+                  <th class="col-editor">最近编辑</th>
+                  <th style="width:88px">状态</th>
+                  <th class="col-op">操作</th>
+                </tr>
+              </thead>
+              <tbody id="listBody"></tbody>
+            </table>
+          </div>
+
+          <div class="pager">共 <b id="totalNum">3</b> 条 · 每页 <b>10</b> 条 · <b>1</b> / 1</div>
+        </div>
+      </div>
+
+      <!-- ===================== 背包详情视图 ===================== -->
+      <div id="detailView" style="display:none">
+        <div class="sub-head">
+          <button class="back" data-back>‹</button>
+          <div class="sub-title"><span class="crumb">背包详情</span> <span id="dName">-</span></div>
+          <span class="tag pub sub-status" id="dStatus">已发布</span>
+          <div class="sub-actions">
+            <button class="btn ghost" id="btnDetailCopy">复制背包码</button>
+            <button class="btn primary" id="btnDetailEdit">编辑背包</button>
+          </div>
+        </div>
+        <div class="detail-layout">
+          <div id="detailMain"></div>
+          <div class="detail-side" id="detailSide"></div>
+        </div>
+      </div>
+
+      <!-- ===================== 编辑视图 ===================== -->
+      <div id="editView" style="display:none">
+        <div class="sub-head">
+          <button class="back" data-back>‹</button>
+          <div class="sub-title"><span class="crumb">编辑背包</span> <span id="editTitle">道具压制流</span></div>
+          <span class="tag pub sub-status" id="editStatusTag">已发布</span>
+          <div class="sub-actions">
+            <button class="btn ghost" id="btnSaveDraft">保存草稿</button>
+            <button class="btn ghost" id="btnPreview">预览前台</button>
+            <button class="btn primary" id="btnPublish">直接发布</button>
+          </div>
+        </div>
+
+        <div class="edit-layout">
+          <div>
+            <div class="panel form-panel">
+              <div class="form-title">基础信息</div>
+              <div class="field">
+                <label>流派名称<span class="req">*</span></label>
+                <input class="input" id="fFlowName" value="道具压制流">
+              </div>
+              <div class="field">
+                <label>关联作者<span class="req">*</span></label>
+                <div class="author-picker" id="authorPicker">
+                  <span class="author-ava" id="apAva">K</span>
+                  <div>
+                    <div class="ap-name" id="apName">老K</div>
+                    <div class="ap-plat" id="apPlat">抖音</div>
+                  </div>
+                  <span class="ap-arrow">▾</span>
+                </div>
+                <div class="field-hint">从作者库选择，选中后仅展示关联信息，不在此页修改作者资料</div>
+              </div>
+              <div class="field">
+                <label>一句话介绍</label>
+                <textarea class="textarea" id="fIntro">道具开路，枪线收尾，节奏由你掌控。</textarea>
+              </div>
+              <div class="field">
+                <label>流派标签</label>
+                <div class="tag-input-row" id="tagRow">
+                  <span class="tag-chip">道具压制<i class="x">×</i></span>
+                  <span class="tag-chip">中近距离<i class="x">×</i></span>
+                  <button class="tag-add">+ 添加标签</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel form-panel" style="margin-top:14px">
+              <div class="form-title">16 把枪配置（手枪 / 标准 / 精锐 / 特种 × 各 4 把）</div>
+              <div class="slot-grid" id="slotGrid"></div>
+              <div class="slot-hint">点击槽位配置单枪：填写名称、描述与游戏内导入的改枪码。手枪第 1 槽固定为标配（无改枪码）。</div>
+            </div>
+          </div>
+
+          <div class="valid-panel">
+            <div class="panel">
+              <div class="valid-title">发布校验</div>
+              <div class="valid-list" id="validList"></div>
+              <div class="valid-code">
+                <span class="label">背包码</span>
+                <span class="code" id="validCode">发布后由服务端生成</span>
+              </div>
+              <div class="valid-ver">当前版本 <b id="validVer">v3</b></div>
+              <div class="valid-actions">
+                <button class="btn primary" id="btnPublish2">直接发布</button>
+                <button class="btn ghost" id="btnViewDiff">查看版本差异</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- ===================== 单枪配置模态 ===================== -->
+<div class="overlay" id="gunModal">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-title" id="gunModalTitle">配置单枪 · 特种 第 1 槽</span>
+      <button class="modal-close" data-close="gunModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="gun-modal-row">
+        <div class="field" id="fWrapName">
+          <label>枪械名称<span class="req">*</span></label>
+          <input class="input" id="gName" placeholder="如 K416-三高改枪">
+          <div class="field-err">枪械名称不能为空</div>
+        </div>
+        <div class="field" id="fWrapPoints">
+          <label>积分价格<span class="req">*</span></label>
+          <input class="input" id="gPoints" type="number" placeholder="100 - 10000">
+          <div class="field-err">积分需在 100 - 10000 区间</div>
+        </div>
+      </div>
+      <div class="field gun-modal-full" id="fWrapCode">
+        <label>改枪码<span id="codeReq" class="req">*</span></label>
+        <input class="input" id="gCode" placeholder="粘贴游戏内导出的改枪码">
+        <div class="field-hint">改枪码由游戏内导入，管理端不维护配件明细；手枪第 1 槽为标配，无需填写</div>
+        <div class="field-err">改枪码不能为空</div>
+      </div>
+      <div class="field gun-modal-full">
+        <label>枪械描述（可选）</label>
+        <textarea class="textarea" id="gDesc" placeholder="如：高爆发秒人，中近距离压制"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost" data-close="gunModal">取消</button>
+      <button class="btn ghost" id="gunClear">清空本槽位</button>
+      <button class="btn primary" id="gunSave">保存槽位</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 作者选择模态 ===================== -->
+<div class="overlay" id="authorModal">
+  <div class="modal sm">
+    <div class="modal-head">
+      <span class="modal-title">选择作者</span>
+      <button class="modal-close" data-close="authorModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="author-search"><input class="input" id="authorSearch" placeholder="搜索作者昵称 / 平台"></div>
+      <div class="author-list" id="authorList"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost" data-close="authorModal">取消</button>
+      <button class="btn primary" id="authorConfirm">确认选择</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 前台预览模态 ===================== -->
+<div class="overlay" id="previewModal">
+  <div class="modal lg">
+    <div class="modal-head">
+      <span class="modal-title" id="previewTitle">前台预览</span>
+      <button class="modal-close" data-close="previewModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="preview-note">草稿预览，不对用户可见；此预览中的复制按钮不写入真实复制统计</div>
+      <div class="preview-toggle">
+        <button class="pt-btn active" data-pv="desk">桌面端</button>
+        <button class="pt-btn" data-pv="mob">移动端</button>
+      </div>
+      <div class="preview-frame" id="previewFrame"></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost" data-close="previewModal">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== 版本差异模态 ===================== -->
+<div class="overlay" id="diffModal">
+  <div class="modal sm">
+    <div class="modal-head">
+      <span class="modal-title">版本差异 · 道具压制流</span>
+      <button class="modal-close" data-close="diffModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="diff-head"><b>v2</b><span class="diff-arrow">→</span><b>v3</b><span style="color:var(--muted)">（草稿，尚未发布）</span></div>
+      <div class="diff-item"><span class="diff-where">精锐 / 第 2 槽</span><span class="diff-old">MK4-稳定改 · 2660</span><span style="color:var(--muted)">→</span><span class="diff-new">MK4-三连发 · 2740</span></div>
+      <div class="diff-item"><span class="diff-where">特种 / 第 1 槽</span><span class="diff-old">K416 · 3420</span><span style="color:var(--muted)">→</span><span class="diff-new">K416-三高改枪 · 3500</span></div>
+      <div class="diff-item"><span class="diff-where">流派介绍</span><span class="diff-old">道具开路，枪线收尾。</span><span style="color:var(--muted)">→</span><span class="diff-new">道具开路，枪线收尾，节奏由你掌控。</span></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost" data-close="diffModal">关闭</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   爆破背包流派管理端 · 数据 + 交互
+   ============================================================ */
+const TIER_CN = { pistol:'手枪', standard:'标准', elite:'精锐', special:'特种' };
+const TIER_COLOR = { pistol:'t-pistol', standard:'t-standard', elite:'t-elite', special:'t-special' };
+const TIER_ORDER = ['pistol','standard','elite','special'];
+const PTS_ICON = '<svg class="pts-icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.4"/><path d="M8 4.6 L10.8 8 L8 11.4 L5.2 8 Z" fill="currentColor"/></svg>';
+
+/* 作者库（复用现有作者库） */
+const AUTHOR_LIBRARY = [
+  { name:'老K', plat:'抖音' }, { name:'夜枭', plat:'抖音' }, { name:'安澜', plat:'抖音' },
+  { name:'阿茶', plat:'抖音' }, { name:'白鲨', plat:'快手' }, { name:'青野', plat:'B站' },
+  { name:'一诺', plat:'抖音' }, { name:'老猫', plat:'B站' },
+];
+
+/* 槽位构造：名称 + 积分 + 改枪码 + 描述；改枪码由游戏内导入 */
+function slot(tier, name, points, code, desc){ return { tier, name, points, code:code||null, stock:!code, desc:desc||'' }; }
+function emptySlot(tier){ return { tier, name:'', points:0, code:null, stock:false, empty:true, desc:'' }; }
+
+// 16 把枪口径与前台 shared/demolition-backpack-mock.js 一致
+const G17 = { tier:'pistol', name:'G17-标配', points:140, code:null, stock:true, desc:'官方标配手枪' };
+
+let PACKS = [
+  {
+    id:'BP-000128', name:'道具压制流', version:'v3', status:'published',
+    author:{ name:'老K', plat:'抖音' },
+    intro:'道具开路，枪线收尾，节奏由你掌控。',
+    tags:['道具压制','中近距离'],
+    code:'DFBP-DAOJUYAZHI-16GUN-6OLMD',
+    copies:12800, likes:3240,
+    editor:'jimmmywang', updatedAt:'2026-08-19 21:37',
+    slots:[
+      G17, slot('pistol','93R-三连发',400,'DFBP-DAOJUYAZHI-P2','手枪局搏杀'),
+      slot('pistol','G18-开镜',540,'DFBP-DAOJUYAZHI-P3',''), slot('pistol','沙漠之鹰-开镜爆头',800,'DFBP-DAOJUYAZHI-P4','爆头一枪一个'),
+      slot('standard','725双管霰弹枪-高爆发秒人',1300,'DFBP-DAOJUYAZHI-S1','贴脸秒人'), slot('standard','MP5-性价比',1400,'DFBP-DAOJUYAZHI-S2','便宜好用'),
+      slot('standard','QBZ95-1-优质战士',1740,'DFBP-DAOJUYAZHI-S3',''), slot('standard','杠杆式步枪-高伤犀牛',1800,'DFBP-DAOJUYAZHI-S4',''),
+      slot('elite','QJB201-步枪改',2580,'DFBP-DAOJUYAZHI-E1',''), slot('elite','MK4-三连发',2740,'DFBP-DAOJUYAZHI-E2','三连点射'),
+      slot('elite','M700-高弹速',2800,'DFBP-DAOJUYAZHI-E3',''), slot('elite','腾龙突击步枪-高速导气',2800,'DFBP-DAOJUYAZHI-E4',''),
+      slot('special','K416-三高改枪',3500,'DFBP-DAOJUYAZHI-X1','三高：高伤高稳高精度'),
+      slot('special','AS Val-碎甲达人',3660,'DFBP-DAOJUYAZHI-X2',''),
+      slot('special','M7-提丰',4880,'DFBP-DAOJUYAZHI-X3',''), slot('special','AWM-露娜秒',5480,'DFBP-DAOJUYAZHI-X4','露头就秒'),
+    ]
+  },
+  {
+    id:'BP-000091', name:'中远架枪流', version:'v2', status:'draft',
+    author:{ name:'夜枭', plat:'抖音' },
+    intro:'把每一道过点，都变成对手的鬼门关。',
+    tags:['中远架枪','狙击'],
+    code:'DFBP-ZYJQ-16GUN-9K2LA',
+    copies:0, likes:0,
+    editor:'v_ycnnyuan', updatedAt:'2026-08-20 10:04',
+    slots:[
+      G17, slot('pistol','G18-开镜',540,'DFBP-ZYJQ-P2',''), slot('pistol','沙漠之鹰-开镜爆头',800,'DFBP-ZYJQ-P3',''), slot('pistol','M1911-迅捷拔枪',320,'DFBP-ZYJQ-P4',''),
+      slot('standard','QBZ95-1-优质战士',1740,'DFBP-ZYJQ-S1',''), slot('standard','杠杆式步枪-高伤犀牛',1800,'DFBP-ZYJQ-S2',''), slot('standard','AKS-74U-短突改',1680,'DFBP-ZYJQ-S3',''), slot('standard','MP5-性价比',1400,'DFBP-ZYJQ-S4',''),
+      slot('elite','M700-高弹速',2800,'DFBP-ZYJQ-E1',''), slot('elite','SCAR-H-重管远程改',2960,'DFBP-ZYJQ-E2','远程点射'), slot('elite','MK4-三连发',2740,'DFBP-ZYJQ-E3',''), slot('elite','腾龙突击步枪-高速导气',2800,'DFBP-ZYJQ-E4',''),
+      slot('special','AWM-露娜秒',5480,'DFBP-ZYJQ-X1',''), slot('special','AS Val-碎甲达人',3660,'DFBP-ZYJQ-X2',''), slot('special','M4A1-满改突击',3980,'DFBP-ZYJQ-X3',''), slot('special','M7-提丰',4880,'DFBP-ZYJQ-X4',''),
+    ]
+  },
+  {
+    id:'BP-000075', name:'无名渗透流', version:'v1', status:'offline',
+    author:{ name:'安澜', plat:'抖音' },
+    intro:'不拼枪法，专弈人心，此乃无名渗透流。',
+    tags:['潜行','渗透'],
+    code:'DFBP-WMST-16GUN-3H7PM',
+    copies:4300, likes:980,
+    editor:'jimmmywang', updatedAt:'2026-08-12 15:20',
+    slots:[
+      G17, slot('pistol','M1911-迅捷拔枪',320,'DFBP-WMST-P2',''), slot('pistol','93R-三连发',400,'DFBP-WMST-P3',''), slot('pistol','G18-开镜',540,'DFBP-WMST-P4',''),
+      slot('standard','MP5-性价比',1400,'DFBP-WMST-S1',''), slot('standard','AKS-74U-短突改',1680,'DFBP-WMST-S2',''), slot('standard','QBZ95-1-优质战士',1740,'DFBP-WMST-S3',''), slot('standard','UZI-贴身扫射',1150,'DFBP-WMST-S4',''),
+      slot('elite','MK4-三连发',2740,'DFBP-WMST-E1',''), slot('elite','Vector-腰射之王',2460,'DFBP-WMST-E2',''), slot('elite','M700-高弹速',2800,'DFBP-WMST-E3',''), slot('elite','QJB201-步枪改',2580,'DFBP-WMST-E4',''),
+      slot('special','AS Val-碎甲达人',3660,'DFBP-WMST-X1',''), slot('special','K416-三高改枪',3500,'DFBP-WMST-X2',''), slot('special','M4A1-满改突击',3980,'DFBP-WMST-X3',''), slot('special','AWM-露娜秒',5480,'DFBP-WMST-X4',''),
+    ]
+  }
+];
+
+const STATUS_META = {
+  published:{ label:'已发布', cls:'pub' },
+  draft:{ label:'草稿', cls:'draft' },
+  offline:{ label:'已下线', cls:'off' }
+};
+
+/* ---------- 工具 ---------- */
+function filledSlots(pack){ return pack.slots.filter(s=>!s.empty && s.name); }
+function filledCount(pack){ return filledSlots(pack).length; }
+function tierFilled(pack, tier){ return pack.slots.filter(s=>s.tier===tier && !s.empty && s.name).length; }
+function packRange(pack){
+  const filled = filledSlots(pack);
+  if(!filled.length) return [0,0];
+  return [Math.min(...filled.map(s=>s.points)), Math.max(...filled.map(s=>s.points))];
+}
+function keyGuns(slots){
+  const pick = (tier)=>{ const a=slots.filter(s=>s.tier===tier && !s.empty && s.name); return a.sort((x,y)=>y.points-x.points)[0]; };
+  return [pick('special'), pick('elite'), pick('standard')].filter(Boolean).slice(0,3);
+}
+function fmt(n){ return n>=10000 ? (n/10000).toFixed(1)+'w' : n>=1000 ? (n/1000).toFixed(1)+'k' : String(n); }
+
+/* ============================================================
+   列表视图
+   ============================================================ */
+function renderList(){
+  const body = document.getElementById('listBody');
+  body.innerHTML = PACKS.map(p=>{
+    const st = STATUS_META[p.status];
+    const [rMin,rMax] = packRange(p);
+    const full = filledCount(p);
+    const structure = TIER_ORDER.map(t=>{
+      const n = tierFilled(p,t);
+      return `<div class="struct-dot ${TIER_COLOR[t]} ${n===4?'':'empty'}"></div>`;
+    }).join('');
+    const guns = keyGuns(p.slots).map(g=>`<div class="key-gun"><span class="kg-tier" style="background:var(--t-${g.tier})"></span>${g.name}</div>`).join('');
+    return `
+    <tr class="row" data-id="${p.id}">
+      <td class="col-id">${p.id}</td>
+      <td class="col-flow"><div class="flow-name" data-act="detail">${p.name}</div><div class="flow-intro">${p.intro||'（未填写介绍）'}</div></td>
+      <td class="col-author"><div class="author-cell"><span class="author-ava">${p.author.name ? p.author.name[0] : '?'}</span><div><div class="author-name">${p.author.name||'未关联'}</div><div class="author-plat">${p.author.plat||'-'}</div></div></div></td>
+      <td class="col-structure"><div class="struct-cell"><div class="struct-grid">${structure}</div><div class="struct-count"><b>${full}/16</b> ${full===16?'完整':'待补'}</div></div></td>
+      <td class="col-guns"><div class="key-guns">${guns}</div></td>
+      <td class="col-range"><div class="range-cell">${rMin} – ${rMax}</div><div class="range-sub">积分</div></td>
+      <td class="col-ver"><span class="ver-badge">${p.version}</span></td>
+      <td class="col-stats"><div class="stat-cell"><span class="s-copy">复制 ${fmt(p.copies)}</span><span class="s-like">点赞 ${fmt(p.likes)}</span></div></td>
+      <td class="col-editor"><div class="editor-cell">${p.editor}<div class="t">${p.updatedAt}</div></div></td>
+      <td><span class="tag ${st.cls}">${st.label}</span></td>
+      <td class="col-op"><div class="op-cell">
+        <button class="link-btn" data-act="detail">查看</button>
+        <button class="link-btn" data-act="edit">编辑</button>
+        <button class="link-btn" data-act="copy">复制背包码</button>
+        ${p.status==='published'?'<button class="link-btn danger" data-act="offline">下线</button>':p.status==='offline'?'<button class="link-btn" data-act="repub">重新发布</button>':''}
+      </div></td>
+    </tr>`;
+  }).join('');
+  document.getElementById('totalNum').textContent = PACKS.length;
+  const counts = { all:PACKS.length, draft:0, published:0, offline:0 };
+  PACKS.forEach(p=>counts[p.status]++);
+  document.getElementById('statAll').textContent = counts.all;
+  document.getElementById('statDraft').textContent = counts.draft;
+  document.getElementById('statPub').textContent = counts.published;
+  document.getElementById('statOff').textContent = counts.offline;
+}
+
+/* ============================================================
+   背包详情视图
+   ============================================================ */
+function renderDetail(id){
+  const p = PACKS.find(x=>x.id===id);
+  if(!p) return;
+  document.getElementById('dName').textContent = p.name;
+  const st = STATUS_META[p.status];
+  const tag = document.getElementById('dStatus');
+  tag.className = 'tag '+st.cls+' sub-status';
+  tag.textContent = st.label;
+
+  const [rMin,rMax] = packRange(p);
+  const groups = TIER_ORDER.map(tier=>{
+    const arr = p.slots.filter(s=>s.tier===tier);
+    const cnt = arr.filter(s=>!s.empty && s.name).length;
+    const guns = arr.map(s=>{
+      if(s.empty || !s.name){ return `<div class="detail-gun is-unset" data-tier="${tier}" data-idx="${arr.indexOf(s)}"><div class="dg-top"><span class="dg-empty">未配置 · 点击去配置</span></div></div>`; }
+      const i = arr.indexOf(s);
+      return `<div class="detail-gun ${s.stock?'is-stock-gun':''}" data-tier="${tier}" data-idx="${i}" title="${s.stock?'标配手枪，无需配置':'点击配置该枪位'}">
+        <div class="dg-top"><span class="dg-name">${s.name}</span><span class="dg-points">${PTS_ICON}${s.points}</span></div>
+        <div class="dg-code">${s.stock ? '<span class="dg-stock">标配 · 无改枪码</span>' : s.code}</div>
+        ${s.desc ? `<div class="dg-desc">${s.desc}</div>` : ''}
+      </div>`;
+    }).join('');
+    return `<div class="detail-group"><div class="detail-group-title"><span class="marker" style="background:var(--t-${tier})"></span>${TIER_CN[tier]} · ${cnt}/4</div><div class="detail-gun-list">${guns}</div></div>`;
+  }).join('');
+
+  document.getElementById('detailMain').innerHTML = `
+    <div class="panel detail-head-card">
+      <div class="dh-row">
+        <span class="dh-name">${p.name}</span>
+        <span class="dh-author"><span class="author-ava">${p.author.name ? p.author.name[0] : '?'}</span>${p.author.name||'未关联'} · ${p.author.plat||'-'}</span>
+      </div>
+      <div class="dh-intro">${p.intro || '（未填写介绍）'}</div>
+      <div class="detail-meta-row">
+        <div class="detail-meta"><span class="k">16 枪完整度</span><span class="v green">${filledCount(p)}/16</span></div>
+        <div class="detail-meta"><span class="k">积分区间</span><span class="v green">${rMin} – ${rMax}</span></div>
+        <div class="detail-meta"><span class="k">标签</span><span class="v">${(p.tags&&p.tags.length)?p.tags.join(' · '):'无'}</span></div>
+      </div>
+    </div>
+    ${groups}
+  `;
+
+  document.getElementById('detailSide').innerHTML = `
+    <div class="panel">
+      <div class="form-title">背包信息</div>
+      <div class="ds-row"><span class="k">背包 ID</span><span class="v">${p.id}</span></div>
+      <div class="ds-row"><span class="k">背包码</span><span class="v" style="color:var(--green);font-family:ui-monospace,monospace;font-size:11px">${p.status==='draft'?'未生成':p.code}</span></div>
+      <div class="ds-row"><span class="k">版本</span><span class="v">${p.version}</span></div>
+      <div class="ds-row"><span class="k">状态</span><span class="v">${st.label}</span></div>
+      <div class="ds-row"><span class="k">前台复制</span><span class="v">${fmt(p.copies)}</span></div>
+      <div class="ds-row"><span class="k">前台点赞</span><span class="v">${fmt(p.likes)}</span></div>
+      <div class="ds-row"><span class="k">最近编辑</span><span class="v" style="font-size:11px">${p.editor}<br>${p.updatedAt}</span></div>
+      <div class="ds-actions">
+        <button class="btn primary" id="btnDetailEdit2">编辑背包</button>
+        <button class="btn ghost" id="btnDetailCopy2">复制背包码</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('btnDetailEdit2').addEventListener('click', ()=>{
+    openEdit(p.id, 'detail');
+    go('edit');
+  });
+  document.getElementById('btnDetailCopy2').addEventListener('click', ()=>copyPackCode(p));
+
+  // 详情页枪卡可点击 → 跳编辑并直接打开该槽位配置（标配除外）
+  document.querySelectorAll('#detailMain .detail-gun[data-tier]').forEach(g=>{
+    g.addEventListener('click', ()=>{
+      const tier = g.dataset.tier;
+      const idx = +g.dataset.idx;
+      const s = p.slots.filter(x=>x.tier===tier)[idx];
+      openEdit(p.id, 'detail');
+      go('edit');
+      if(s && s.stock){ toast('标配手枪无需配置'); return; }
+      openGunModal(tier, idx);
+    });
+  });
+}
+
+/* ============================================================
+   编辑视图
+   ============================================================ */
+let editingId = null;
+let editingFrom = 'list';
+function currentPack(){ return PACKS.find(p=>p.id===editingId); }
+
+function openEdit(id, from){
+  editingId = id;
+  editingFrom = from || 'list';
+  const p = currentPack();
+  if(!p) return;
+  document.getElementById('editTitle').textContent = p.name;
+  document.getElementById('fFlowName').value = p.name;
+  document.getElementById('fIntro').value = p.intro;
+  renderAuthorPicker(p.author);
+  const st = STATUS_META[p.status];
+  const tag = document.getElementById('editStatusTag');
+  tag.className = 'tag '+st.cls+' sub-status';
+  tag.textContent = st.label;
+  document.getElementById('validCode').textContent = p.status==='draft' ? '发布后由服务端生成' : p.code;
+  document.getElementById('validVer').textContent = p.version;
+  renderSlots(p);
+  renderValid(p);
+}
+
+function renderSlots(pack){
+  const grid = document.getElementById('slotGrid');
+  grid.innerHTML = TIER_ORDER.map(tier=>{
+    const arr = pack.slots.filter(s=>s.tier===tier);
+    const cnt = arr.filter(s=>!s.empty && s.name).length;
+    return `<div class="slot-col ${TIER_COLOR[tier]}">
+      <div class="slot-col-head"><span><span class="marker" style="background:var(--t-${tier})"></span>${TIER_CN[tier]}</span><span class="count"><b>${cnt}</b> / 4</span></div>
+      ${arr.map((s,i)=>{
+        if(s.empty){
+          return `<div class="slot-card is-empty" data-tier="${tier}" data-idx="${i}">＋ 配置枪械</div>`;
+        }
+        return `<div class="slot-card ${s.stock?'is-stock':''}" data-tier="${tier}" data-idx="${i}" title="${s.stock?'标配手枪，无需配置':'点击配置该枪位'}">
+          <div class="slot-idx"><span>${TIER_CN[tier]} 第 ${i+1} 槽${s.stock?' · 标配':''}</span>${s.stock?'':'<span class="slot-edit-tag">✎ 编辑</span>'}</div>
+          <div class="slot-name">${s.name}</div>
+          <div class="slot-points">${PTS_ICON}${s.points}</div>
+          <div class="slot-code">${s.stock?'<span class="stock-tag">标配 · 无改枪码</span>':`<span class="code">${s.code}</span>`}</div>
+          ${s.desc?`<div class="slot-desc">${s.desc}</div>`:''}
+        </div>`;
+      }).join('')}
+    </div>`;
+  }).join('');
+
+  // 点击槽位 → 单枪配置模态（标配槽位不可编辑）
+  grid.querySelectorAll('.slot-card:not(.is-stock)').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      openGunModal(card.dataset.tier, +card.dataset.idx);
+    });
+  });
+}
+
+function renderValid(pack){
+  const list = document.getElementById('validList');
+  const counts = TIER_ORDER.map(t=>tierFilled(pack,t));
+  const allFull = counts.every(c=>c===4);
+  const hasName = !!document.getElementById('fFlowName').value.trim();
+  const hasAuthor = !!(pack.author && pack.author.name);
+  const filled = filledSlots(pack);
+  const nonStock = filled.filter(s=>!s.stock);
+  const codesOk = nonStock.every(s=>s.code);
+  const pointsOk = filled.every(s=>s.points>=100 && s.points<=10000);
+  const items = [
+    ['流派名称已填写', hasName],
+    ['已关联作者', hasAuthor],
+    ['手枪：'+counts[0]+' / 4', counts[0]===4],
+    ['标准：'+counts[1]+' / 4', counts[1]===4],
+    ['精锐：'+counts[2]+' / 4', counts[2]===4],
+    ['特种：'+counts[3]+' / 4', counts[3]===4],
+    ['15 个单枪改枪码有效', codesOk && nonStock.length===15],
+    ['全部积分在 100 - 10000 区间', pointsOk]
+  ];
+  list.innerHTML = items.map(([txt,ok])=>`<div class="valid-item ${ok?'ok':'bad'}"><span class="v-ico">${ok?'✓':'✕'}</span><span class="v-txt">${txt}</span></div>`).join('');
+  const ok = hasName && hasAuthor && allFull && codesOk && pointsOk;
+  document.getElementById('btnPublish').disabled = !ok;
+  document.getElementById('btnPublish2').disabled = !ok;
+  return ok;
+}
+
+function renderAuthorPicker(author){
+  document.getElementById('apAva').textContent = author && author.name ? author.name[0] : '?';
+  document.getElementById('apName').textContent = author && author.name ? author.name : '未选择作者';
+  document.getElementById('apPlat').textContent = author && author.plat ? author.plat : '-';
+}
+
+/* ============================================================
+   单枪配置模态（名称 / 描述 / 积分 / 改枪码）
+   ============================================================ */
+let editingTier = null, editingIdx = null;
+function openGunModal(tier, idx){
+  editingTier = tier; editingIdx = idx;
+  const p = currentPack();
+  const s = p.slots.filter(x=>x.tier===tier)[idx];
+  document.getElementById('gunModalTitle').textContent = `配置单枪 · ${TIER_CN[tier]} 第 ${idx+1} 槽`;
+  document.getElementById('gName').value = s.name || '';
+  document.getElementById('gPoints').value = s.points || '';
+  document.getElementById('gCode').value = s.code || '';
+  document.getElementById('gDesc').value = s.desc || '';
+  // 空槽位允许改；已配槽位也允许编辑
+  ['fWrapName','fWrapPoints','fWrapCode'].forEach(id=>document.getElementById(id).classList.remove('invalid'));
+  document.getElementById('gunModal').classList.add('active');
+}
+
+function validateGunModal(){
+  let ok = true;
+  const name = document.getElementById('gName').value.trim();
+  const points = +document.getElementById('gPoints').value;
+  const code = document.getElementById('gCode').value.trim();
+  if(!name){ document.getElementById('fWrapName').classList.add('invalid'); ok = false; }
+  else document.getElementById('fWrapName').classList.remove('invalid');
+  if(!(points>=100 && points<=10000)){ document.getElementById('fWrapPoints').classList.add('invalid'); ok = false; }
+  else document.getElementById('fWrapPoints').classList.remove('invalid');
+  if(!code){ document.getElementById('fWrapCode').classList.add('invalid'); ok = false; }
+  else document.getElementById('fWrapCode').classList.remove('invalid');
+  return ok;
+}
+
+function saveGunModal(){
+  if(!validateGunModal()) return;
+  const p = currentPack();
+  const s = p.slots.filter(x=>x.tier===editingTier)[editingIdx];
+  s.name = document.getElementById('gName').value.trim();
+  s.points = +document.getElementById('gPoints').value;
+  s.code = document.getElementById('gCode').value.trim();
+  s.desc = document.getElementById('gDesc').value.trim();
+  s.stock = false;
+  s.empty = false;
+  document.getElementById('gunModal').classList.remove('active');
+  renderSlots(p);
+  renderValid(p);
+  toast('槽位已保存（草稿）');
+}
+
+function clearGunModal(){
+  const p = currentPack();
+  p.slots = p.slots.map(s=>{
+    if(s.tier===editingTier && s === p.slots.filter(x=>x.tier===editingTier)[editingIdx]){
+      return emptySlot(editingTier);
+    }
+    return s;
+  });
+  document.getElementById('gunModal').classList.remove('active');
+  renderSlots(p);
+  renderValid(p);
+  toast('槽位已清空');
+}
+
+/* ============================================================
+   新增流派
+   ============================================================ */
+let packSeq = 1000;
+function createPack(){
+  const id = 'BP-' + String(packSeq++).padStart(6,'0');
+  const pack = {
+    id, name:'未命名流派', version:'v1', status:'draft',
+    author:{ name:'', plat:'' },
+    intro:'', tags:[],
+    code:null, copies:0, likes:0,
+    editor:'jimmmywang', updatedAt:'2026-08-20 11:30',
+    slots:[
+      { ...G17 },
+      emptySlot('pistol'), emptySlot('pistol'), emptySlot('pistol'),
+      emptySlot('standard'), emptySlot('standard'), emptySlot('standard'), emptySlot('standard'),
+      emptySlot('elite'), emptySlot('elite'), emptySlot('elite'), emptySlot('elite'),
+      emptySlot('special'), emptySlot('special'), emptySlot('special'), emptySlot('special'),
+    ]
+  };
+  PACKS.unshift(pack);
+  renderList();
+  editingId = id;
+  editingFrom = 'list';
+  toast('已创建空白背包草稿，请配置 16 把枪');
+  go('edit');
+}
+
+/* ============================================================
+   视图导航（栈式）
+   ============================================================ */
+let viewStack = ['list'];
+function go(view){
+  viewStack.push(view);
+  applyView();
+}
+function back(){
+  if(viewStack.length > 1) viewStack.pop();
+  applyView();
+}
+function applyView(){
+  const top = viewStack[viewStack.length-1];
+  ['listView','detailView','editView'].forEach(id=>{
+    document.getElementById(id).style.display = (id===top+'View') ? '' : 'none';
+  });
+  if(top==='list') renderList();
+}
+
+/* ============================================================
+   前台预览
+   ============================================================ */
+function renderPreview(mode){
+  const p = currentPack();
+  if(!p) return;
+  const frame = document.getElementById('previewFrame');
+  document.getElementById('previewTitle').textContent = '前台预览 · ' + p.name;
+  const tierHtml = tier => {
+    const arr = p.slots.filter(s=>s.tier===tier);
+    return `<div class="pv-desk-col"><div class="pv-desk-colhead"><span style="width:8px;height:8px;transform:rotate(45deg);background:var(--t-${tier})"></span>${TIER_CN[tier]}</div>${arr.map(s=>`<div class="pv-desk-gun"><div class="g">${s.name||'未配置'}</div><div class="p">${PTS_ICON}${s.points}</div></div>`).join('')}</div>`;
+  };
+  if(mode==='desk'){
+    frame.innerHTML = `<div class="pv-desk">
+      <div class="pv-desk-head"><span class="pv-desk-name">${p.name}</span><span class="pv-desk-author"><span class="author-ava" style="width:20px;height:20px;font-size:10px">${p.author.name?p.author.name[0]:'?'}</span>${p.author.name||'-'} · ${p.author.plat||'-'}</span></div>
+      <div class="pv-desk-grid">${TIER_ORDER.map(tierHtml).join('')}</div>
+    </div>`;
+  } else {
+    frame.innerHTML = `<div class="pv-mob">
+      <div class="pv-mob-card">
+        <div class="pv-mob-name">${p.name}</div>
+        <div class="pv-mob-intro">${p.intro}</div>
+        <div class="pv-mob-btns"><span class="mb solid">复制背包码</span><span class="mb ghost">查看 16 把枪</span></div>
+      </div>
+    </div>`;
+  }
+}
+
+/* ============================================================
+   作者选择
+   ============================================================ */
+let selectedAuthor = null;
+function openAuthorModal(){
+  const cur = currentPack();
+  selectedAuthor = cur && cur.author && cur.author.name ? { ...cur.author } : null;
+  document.getElementById('authorSearch').value = '';
+  renderAuthorList('');
+  document.getElementById('authorModal').classList.add('active');
+}
+function renderAuthorList(filter){
+  const kw = (filter||'').trim().toLowerCase();
+  const list = AUTHOR_LIBRARY.filter(a=>!kw || a.name.toLowerCase().includes(kw) || a.plat.toLowerCase().includes(kw));
+  document.getElementById('authorList').innerHTML = list.map(a=>`
+    <div class="author-option ${selectedAuthor && selectedAuthor.name===a.name ? 'selected':''}" data-name="${a.name}" data-plat="${a.plat}">
+      <span class="author-ava">${a.name[0]}</span>
+      <div><div class="ao-name">${a.name}</div><div class="ao-plat">${a.plat}</div></div>
+    </div>`).join('');
+  document.querySelectorAll('.author-option').forEach(opt=>{
+    opt.addEventListener('click', ()=>{
+      document.querySelectorAll('.author-option').forEach(o=>o.classList.remove('selected'));
+      opt.classList.add('selected');
+      selectedAuthor = { name: opt.dataset.name, plat: opt.dataset.plat };
+    });
+  });
+}
+
+/* ============================================================
+   工具
+   ============================================================ */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(()=>t.classList.remove('show'), 1800);
+}
+function copyText(txt){
+  if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).catch(()=>{}); }
+  else { const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} ta.remove(); }
+}
+function copyPackCode(p){
+  if(!p.code){ toast('草稿背包码尚未生成'); return; }
+  copyText(p.code);
+  toast('背包码已复制：'+p.code);
+}
+function genPackCode(p){
+  const prefix = (p.name || 'NEW').toUpperCase().replace(/[^A-Z0-9]/g,'') || 'NEW';
+  return 'DFBP-' + prefix + '-16GUN-' + Math.random().toString(36).slice(2,7).toUpperCase();
+}
+
+/* ============================================================
+   事件绑定
+   ============================================================ */
+document.getElementById('btnCreate').addEventListener('click', createPack);
+document.getElementById('btnExport').addEventListener('click', ()=>toast('已导出当前筛选结果（示意）'));
+document.getElementById('btnFilter').addEventListener('click', ()=>toast('筛选条件已应用（示意）'));
+document.getElementById('btnReset').addEventListener('click', ()=>{
+  document.getElementById('fName').value='';
+  ['fStatus','fAuthor','fGun','fTime'].forEach(id=>document.getElementById(id).value='');
+  toast('已重置筛选');
+});
+document.getElementById('btnTags').addEventListener('click', ()=>toast('标签编辑（示意，非本期范围）'));
+document.getElementById('btnAuthors').addEventListener('click', ()=>toast('作者库编辑（示意，复用现有作者库）'));
+
+// 通用返回
+document.querySelectorAll('[data-back]').forEach(b=>b.addEventListener('click', back));
+
+// 详情视图按钮（必须先 openEdit 加载数据再切视图，否则编辑区是空占位）
+document.getElementById('btnDetailEdit').addEventListener('click', ()=>{
+  if(!detailPackId) return;
+  openEdit(detailPackId, 'detail');
+  go('edit');
+});
+document.getElementById('btnDetailCopy').addEventListener('click', ()=>{
+  const p = PACKS.find(x=>x.id===detailPackId);
+  if(p) copyPackCode(p);
+});
+
+// 编辑视图按钮
+document.getElementById('btnSaveDraft').addEventListener('click', ()=>{
+  const p = currentPack();
+  syncFormToPack(p);
+  toast('草稿已保存');
+  renderValid(p);
+});
+document.getElementById('btnPublish').addEventListener('click', publish);
+document.getElementById('btnPublish2').addEventListener('click', publish);
+function syncFormToPack(p){
+  p.name = document.getElementById('fFlowName').value.trim() || p.name;
+  p.intro = document.getElementById('fIntro').value;
+  if(selectedAuthor) p.author = selectedAuthor;
+}
+function publish(){
+  const p = currentPack();
+  syncFormToPack(p);
+  const ok = renderValid(p);
+  if(!ok){ toast('发布校验未通过，无法发布'); return; }
+  p.status = 'published';
+  if(!p.code){ p.code = genPackCode(p); }
+  document.getElementById('validCode').textContent = p.code;
+  toast('已发布：背包码已生成，前台即时生效');
+  renderList();
+}
+
+document.getElementById('btnViewDiff').addEventListener('click', ()=>document.getElementById('diffModal').classList.add('active'));
+document.getElementById('btnPreview').addEventListener('click', ()=>{
+  if(!currentPack()) return;
+  document.getElementById('previewModal').classList.add('active');
+  renderPreview('desk');
+});
+
+// 流派名称变化实时更新校验
+document.getElementById('fFlowName').addEventListener('input', ()=>{
+  const p = currentPack();
+  if(p) renderValid(p);
+});
+
+// 作者选择器
+document.getElementById('authorPicker').addEventListener('click', openAuthorModal);
+document.getElementById('authorSearch').addEventListener('input', e=>renderAuthorList(e.target.value));
+document.getElementById('authorConfirm').addEventListener('click', ()=>{
+  if(!selectedAuthor){ toast('请选择作者'); return; }
+  const p = currentPack();
+  if(p){ p.author = selectedAuthor; renderAuthorPicker(p.author); renderValid(p); }
+  document.getElementById('authorModal').classList.remove('active');
+});
+
+// 单枪配置模态
+document.getElementById('gunSave').addEventListener('click', saveGunModal);
+document.getElementById('gunClear').addEventListener('click', clearGunModal);
+
+// 列表操作（事件委托）
+let detailPackId = null;
+document.getElementById('listBody').addEventListener('click', (e)=>{
+  const btn = e.target.closest('.link-btn');
+  const tr = e.target.closest('tr');
+  if(!tr) return;
+  const id = tr.dataset.id;
+  const p = PACKS.find(x=>x.id===id);
+  if(!p) return;
+  // 点击流派名或整行 → 详情
+  const act = btn ? btn.dataset.act : (e.target.closest('.flow-name') ? 'detail' : null);
+  if(act==='detail'){
+    detailPackId = id;
+    renderDetail(id);
+    go('detail');
+  } else if(act==='edit'){
+    detailPackId = id;
+    openEdit(id, 'list');
+    go('edit');
+  } else if(act==='copy'){
+    copyPackCode(p);
+  } else if(act==='offline'){
+    p.status='offline'; toast('已下线：'+p.name); renderList();
+  } else if(act==='repub'){
+    p.status='published'; toast('已重新发布：'+p.name); renderList();
+  }
+});
+
+// 预览切换
+document.querySelectorAll('.preview-toggle .pt-btn').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.querySelectorAll('.preview-toggle .pt-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    renderPreview(b.dataset.pv);
+  });
+});
+
+// 模态关闭
+document.querySelectorAll('[data-close]').forEach(b=>{
+  b.addEventListener('click', ()=>document.getElementById(b.dataset.close).classList.remove('active'));
+});
+document.querySelectorAll('.overlay').forEach(o=>{
+  o.addEventListener('click', e=>{ if(e.target===o) o.classList.remove('active'); });
+});
+
+// 模式 Tab（烽火/战场为示意占位）
+document.querySelectorAll('.mode-tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    if(t.dataset.mode==='demolition') return;
+    toast('该模式沿用现有改枪码推荐列表（本次示意聚焦爆破模式）');
+  });
+});
+
+// 初始化
+renderList();
+</script>
+</body>
+</html>

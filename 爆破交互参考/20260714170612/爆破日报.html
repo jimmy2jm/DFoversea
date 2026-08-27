@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=375, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>三角洲行动小程序</title>
+<style>
+:root {
+  --bg-primary:#050a08;
+  --bg-secondary:#0a1410;
+  --bg-card:#0e1a14;
+  --border:#1f3a2c;
+  --border-mid:#2a4a3a;
+  --accent-green:#38e1d7;
+  --accent-green-2:#2bbfa6;
+  --accent-yellow:#f5b042;
+  --accent-red:#ef4444;
+  --accent-orange:#f97316;
+  --text-primary:#e8ecf1;
+  --text-secondary:#8ea89a;
+  --text-muted:#5a6b62;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;}
+body{
+  background:#1a1a2e;
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB','Microsoft YaHei',sans-serif;
+  display:flex;justify-content:center;align-items:flex-start;min-height:100vh;padding:0;
+}
+
+/* ==================== 手机外壳 ==================== */
+.phone-frame{
+  width:375px;height:812px;background:var(--bg-primary);
+  border-radius:28px;overflow:hidden;position:relative;
+  display:flex;flex-direction:column;
+  box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 0 2px #2a2a3a,0 0 0 6px #1a1a2a,0 0 0 8px #333;
+}
+
+/* ===== 状态栏（图1原生） ===== */
+.status-bar{
+  height:36px;background:#000;display:flex;
+  align-items:center;justify-content:space-between;padding:0 20px;
+  font-size:13px;color:#fff;position:relative;z-index:10;flex-shrink:0;
+}
+.status-bar .time{font-weight:600;}
+.status-bar .icons{display:flex;gap:6px;align-items:center;font-size:12px;}
+.status-bar .icons .batt{
+  border:1px solid #fff;border-radius:3px;padding:0 2px;font-size:10px;
+}
+
+/* ===== 顶部标题栏（图1原生） ===== */
+.app-header{
+  height:44px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 16px;background:#000;flex-shrink:0;position:relative;z-index:5;
+}
+.app-header .ah-title{font-size:15px;font-weight:600;color:#fff;}
+.app-header .ah-icons{display:flex;gap:10px;font-size:12px;color:#fff;align-items:center;}
+.app-header .ah-icons .dot{
+  width:22px;height:22px;border-radius:50%;border:1px solid rgba(255,255,255,.7);
+  display:flex;align-items:center;justify-content:center;font-size:11px;
+}
+
+/* ===== 内容区 ===== */
+.main-content{flex:1;overflow-y:auto;overflow-x:hidden;position:relative;background:#050a08;}
+.main-content::-webkit-scrollbar{width:0;}
+
+/* ==================== Tab栏（图1原生：烽火日报/战场日报/订阅日报） ==================== */
+.daily-tabs{
+  display:flex;align-items:stretch;margin:0;height:34px;
+  background:#0a1410;border-bottom:1px solid #1a2820;position:relative;z-index:4;
+}
+.dt-tab{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:4px;
+  font-size:13px;font-weight:700;color:#8ea89a;cursor:pointer;user-select:none;
+  position:relative;transition:all .2s;
+}
+.dt-tab.active{color:#fff;background:linear-gradient(180deg,#0a2820 0%,#0a1a14 100%);}
+.dt-tab.active::after{
+  content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:60%;height:2px;background:var(--accent-green);
+  box-shadow:0 0 6px rgba(56,225,215,.6);
+}
+.dt-tab .dt-icon{font-size:10px;color:var(--accent-green);}
+.dt-tab .dt-bell{margin-left:4px;font-size:11px;color:var(--accent-yellow);}
+
+/* ==================== 顶部高仿真数据图层（核心嵌入区） ==================== */
+.data-layer{
+  position:relative;
+  margin:0;
+  padding:3px 5px 4px;
+  background:
+    radial-gradient(ellipse 90% 100% at 50% 50%, rgba(56,225,215,.025) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 80% at 82% 50%, rgba(245,176,66,.05) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(0,0,0,.05) 0%, rgba(0,0,0,.18) 50%, rgba(0,0,0,.28) 100%),
+    linear-gradient(180deg, #0c1a14 0%, #08110d 50%, #050a08 100%);
+  border-bottom:1px solid rgba(56,225,215,.06);
+  overflow:hidden;
+  box-shadow:inset 0 1px 0 rgba(56,225,215,.04);
+}
+/* 上下边缘融合渐变 - 降低割裂感 */
+.data-layer::before{
+  content:"";position:absolute;left:0;right:0;top:-1px;height:14px;
+  background:linear-gradient(180deg,#0a1410 0%,transparent 100%);
+  pointer-events:none;z-index:5;
+}
+.data-layer::after{
+  content:"";position:absolute;left:0;right:0;bottom:-1px;height:14px;
+  background:linear-gradient(0deg,#050a08 0%,transparent 100%);
+  pointer-events:none;z-index:5;
+}
+/* 4角战术框 */
+.dl-corner{position:absolute;width:10px;height:10px;border:1.5px solid var(--accent-green);z-index:6;opacity:.85;}
+.dl-corner.tl{top:4px;left:4px;border-right:none;border-bottom:none;}
+.dl-corner.tr{top:4px;right:4px;border-left:none;border-bottom:none;}
+.dl-corner.bl{bottom:4px;left:4px;border-right:none;border-top:none;}
+.dl-corner.br{bottom:4px;right:4px;border-left:none;border-top:none;}
+
+/* 顶部行：对局数 + 日期 */
+.dl-top{
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:9px;color:rgba(142,168,154,.62);font-weight:700;padding:5px 1px 2px 12px;
+  letter-spacing:.2px;
+}
+.dl-top .lt-games em{font-style:normal;color:#c8d6d0;font-weight:800;font-size:11px;}
+
+/* 数据图主体：左数据列 + 中击杀区 + 右侧立绘 */
+.dl-body{
+  position:relative;display:grid;grid-template-columns:136px 140px 78px;
+  gap:4px;min-height:112px;align-items:stretch;
+}
+
+/* ---- 左数据列：胜率/MVP + 段位卡 ---- */
+.dl-left{padding:4px 0 0 4px;display:flex;flex-direction:column;gap:5px;position:relative;z-index:2;min-width:0;min-height:112px;}
+
+/* 胜率 / MVP 行：去除多余色块，统一信息层级 */
+.dl-stat-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:6px;
+  font-size:9px;color:#9aaa9a;font-weight:700;line-height:1.05;
+  padding:4px 6px;border:1px solid rgba(56,225,215,.12);border-radius:4px;
+  background:rgba(6,17,13,.52);
+}
+.dl-stat-row > span{display:flex;align-items:baseline;gap:3px;white-space:nowrap;}
+.dl-stat-row .sr-v{color:#e8ecf1;font-size:18px;font-weight:900;letter-spacing:-.5px;
+  font-family:'DIN Alternate','SF Pro Display',-apple-system,sans-serif;line-height:1;}
+.dl-stat-row .sr-u{font-size:9px;color:#6a7a72;font-weight:700;}
+.dl-stat-row .sr-y{color:var(--accent-yellow);}
+
+/* 段位卡：与整体深绿风格统一 */
+.dl-rank{
+  position:relative;padding:8px 9px;flex:1;
+  background:linear-gradient(180deg,rgba(8,25,19,.84),rgba(4,10,8,.9));
+  border:1px solid rgba(56,225,215,.14);border-radius:4px;
+  display:flex;flex-direction:column;justify-content:center;gap:5px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 1px 2px rgba(0,0,0,.28);
+}
+.dl-rank::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:2px;background:rgba(56,225,215,.75);border-radius:0 1px 1px 0;}
+.dl-rank-top{display:flex;align-items:center;gap:3px;}
+.dl-rank-top .rt-lbl{font-size:9px;color:#6f8278;font-weight:700;letter-spacing:.5px;}
+.dl-rank-bot{display:flex;align-items:center;gap:5px;}
+.dl-rank-bot .rb-name{font-size:15px;color:#e8ecf1;font-weight:900;letter-spacing:.3px;}
+.dl-rank-bot .rb-star{color:var(--accent-green);font-size:12px;}
+.dl-rank-score-row{display:flex;align-items:center;margin-top:0;}
+.dl-rank-bot .rb-score,.dl-rank-score-row .rb-score{
+  font-size:11px;font-weight:900;color:var(--accent-green);
+  background:transparent;padding:0;border-radius:0;margin-left:0;
+  display:inline-flex;align-items:center;gap:2px;
+}
+
+
+
+
+/* 三次击杀主区：统一深绿面板，避免文字重叠 */
+.dl-kill{
+  background:linear-gradient(180deg,rgba(8,25,19,.84),rgba(4,10,8,.9));
+  color:#e8ecf1;border-radius:4px;padding:8px 9px;
+  display:grid;grid-template-rows:auto auto auto;align-content:center;gap:7px;min-height:112px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 1px 2px rgba(0,0,0,.28);
+  position:relative;z-index:2;min-width:0;
+  border:1px solid rgba(56,225,215,.14);
+}
+.dl-kill-top{display:flex;align-items:baseline;gap:5px;line-height:1;border-bottom:1px solid rgba(56,225,215,.1);padding-bottom:5px;}
+.dl-kill-top .kt-num{font-size:30px;font-weight:900;color:#f0f4f0;line-height:.98;font-family:'DIN Alternate','SF Pro Display',-apple-system,sans-serif;}
+.dl-kill-top .kt-lbl{font-size:11px;font-weight:900;color:#d8e0d8;white-space:nowrap;}
+.dl-kill-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:end;}
+.dks-label{display:block;font-size:8px;color:#8ea89a;font-weight:800;margin-bottom:2px;white-space:nowrap;}
+.dks-value{font-size:18px;line-height:1;color:#fff;font-weight:900;font-family:'DIN Alternate','SF Pro Display',sans-serif;background:none!important;padding:0!important;border-radius:0!important;box-shadow:none!important;}
+.dks-value.gold{color:var(--accent-yellow);background:none!important;}
+.dl-kda-row{display:flex;align-items:baseline;gap:6px;font-size:9px;color:rgba(154,170,154,.78);line-height:1.15;font-weight:700;letter-spacing:.1px;}
+.dl-kill-detail{font-size:10px;color:#d8e0d8;font-weight:800;line-height:1;font-family:'DIN Alternate','SF Pro Display',-apple-system,sans-serif;letter-spacing:-.1px;}
+
+/* ---- 右侧金色骷髅干员立绘区（用真实图片） ---- */
+.dl-right{
+  position:relative;overflow:hidden;
+  background:
+    linear-gradient(135deg, #1a1410 0%, #0e0a08 100%);
+  border-radius:4px;
+  min-height:112px;
+  display:flex;align-items:stretch;justify-content:flex-end;
+  box-shadow:inset 0 0 20px rgba(0,0,0,.4);
+}
+.dl-right-img{
+  width:100%;height:100%;object-fit:cover;object-position:center 18%;
+  display:block;
+  filter:contrast(1.08) saturate(1.05) brightness(.95);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 16%,#000 100%);
+          mask-image:linear-gradient(90deg,transparent 0%,#000 16%,#000 100%);
+}
+/* 大号半透明 S+ 水印 */
+.dl-watermark{
+  position:absolute;right:-6px;top:20%;z-index:2;
+  font-size:54px;font-weight:900;color:rgba(255,255,255,.05);
+  font-family:'DIN Alternate','SF Pro Display',-apple-system,sans-serif;
+  line-height:1;letter-spacing:-3px;pointer-events:none;
+}
+
+/* ---- 最佳对局横卡（图2原图1:1） ---- */
+.dl-best{
+  margin-top:4px;position:relative;
+  background:linear-gradient(90deg,#0a1410 0%,#0e1a14 100%);
+  border:1px solid #1f3a2c;border-radius:3px;overflow:hidden;
+  display:flex;align-items:center;gap:0;padding:4px 8px 4px 10px;min-height:46px;
+}
+.dl-best::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--accent-green),var(--accent-green-2));
+}
+/* MVP 黄色标签 */
+.dl-best .dlb-mvp{
+  position:absolute;left:8px;top:4px;z-index:5;
+  font-size:8px;font-weight:900;color:#000;
+  background:linear-gradient(135deg,var(--accent-yellow),#d97706);
+  padding:1px 4px;border-radius:2px;letter-spacing:.5px;
+}
+/* 干员小头像 */
+.dlb-hero{
+  position:relative;width:36px;height:36px;flex-shrink:0;border-radius:3px;overflow:hidden;
+  background:linear-gradient(160deg,#2a3530 0%,#0d1410 100%);
+  box-shadow:inset 0 0 0 1px rgba(56,225,215,.2);
+  margin-left:30px;
+}
+.dlb-hero::before{
+  content:"";position:absolute;left:50%;top:10%;transform:translateX(-50%);
+  width:24px;height:14px;border-radius:50% 50% 30% 30%;
+  background:linear-gradient(180deg,#2a3530 0%,#0d1410 100%);
+}
+.dlb-hero::after{
+  content:"";position:absolute;left:50%;top:35%;transform:translateX(-50%);
+  width:20px;height:6px;border-radius:2px;
+  background:linear-gradient(180deg,#0a0e0c 0%,#142420 100%);
+  border:1px solid rgba(56,225,215,.3);
+}
+.dlb-body{
+  position:absolute;left:50%;bottom:0;transform:translateX(-50%);
+  width:36px;height:14px;background:linear-gradient(180deg,#2a3530 0%,#0d1410 100%);
+}
+.dlb-info{flex:1;min-width:0;margin-left:8px;display:flex;flex-direction:column;gap:1px;}
+.dlb-info-r1{display:flex;align-items:center;gap:5px;}
+.dlb-info-r1 .ir-result{
+  font-size:9px;font-weight:800;color:var(--accent-green);
+  background:rgba(34,197,94,.15);padding:1px 4px;border-radius:2px;
+  border:1px solid rgba(34,197,94,.3);
+}
+.dlb-info-r1 .ir-name{font-size:11px;font-weight:800;color:#fff;}
+.dlb-info-r1 .ir-grade{
+  font-size:8px;font-weight:800;color:#000;
+  background:linear-gradient(135deg,var(--accent-green),var(--accent-green-2));
+  padding:1px 4px;border-radius:2px;
+}
+.dlb-info-r2{font-size:9px;color:rgba(142,168,154,.7);font-weight:600;}
+.dlb-info-r3{font-size:8px;color:rgba(90,107,98,.7);font-family:'DIN Alternate',sans-serif;letter-spacing:.2px;}
+.dlb-kda{font-size:11px;font-weight:800;color:#fff;font-family:'DIN Alternate',sans-serif;margin-right:6px;flex-shrink:0;}
+.dlb-vip{
+  display:inline-flex;align-items:center;gap:2px;
+  font-size:8px;font-weight:800;color:var(--accent-yellow);
+  background:rgba(245,176,66,.15);border:1px solid rgba(245,176,66,.4);
+  padding:1px 4px;border-radius:2px;flex-shrink:0;
+}
+.dlb-vip::before{content:"◆";font-size:7px;}
+
+/* ---- 双按钮（图2原图：左边白底"查看更多数据" + 右边青绿"打开游戏查看更多"） ---- */
+.dl-buttons{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:4px;}
+.dlb-btn{
+  height:30px;border-radius:3px;display:flex;align-items:center;justify-content:center;gap:4px;
+  font-size:11px;font-weight:700;cursor:pointer;user-select:none;transition:all .2s;
+  border:1px solid transparent;text-decoration:none;
+}
+.dlb-btn:active{transform:scale(.98);}
+.dlb-btn.db-secondary{background:#fff;color:#1a1a1a;border-color:#e8e8e8;}
+.dlb-btn.db-primary{
+  background:linear-gradient(180deg,var(--accent-green),var(--accent-green-2));
+  color:#fff;
+  box-shadow:0 1px 0 rgba(56,225,215,.3),inset 0 1px 0 rgba(255,255,255,.2);
+  border-color:var(--accent-green);
+}
+
+/* ==================== 图1原生：5个工具格 ==================== */
+.toolbar-grid{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  margin:0;padding:14px 6px 10px;background:#050a08;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.tb-cell{
+  display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer;
+  position:relative;padding:0 2px;
+}
+.tb-cell .tb-ico{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(180deg,#0a2820 0%,#0a1a14 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;color:var(--accent-green);
+  box-shadow:inset 0 0 0 1px rgba(56,225,215,.25);
+}
+.tb-cell .tb-ico.gold{color:var(--accent-yellow);box-shadow:inset 0 0 0 1px rgba(245,176,66,.4);}
+.tb-cell .tb-l{font-size:10px;color:#8ea89a;font-weight:600;}
+/* 角标 */
+.tb-badge{
+  position:absolute;top:-2px;right:18%;
+  font-size:8px;font-weight:800;color:#000;
+  background:var(--accent-yellow);padding:1px 4px;border-radius:2px;
+  box-shadow:0 0 4px rgba(245,176,66,.4);
+}
+.tb-badge::before{content:"";display:inline-block;width:6px;height:6px;
+  background:var(--accent-yellow);border-radius:50%;margin-right:3px;vertical-align:middle;}
+
+/* ==================== 图1原生：3个分段Tab ==================== */
+.seg-tabs{
+  display:grid;grid-template-columns:1fr 1fr 1fr;margin:0 10px 8px;
+  background:transparent;border-radius:3px;overflow:hidden;
+  border:1px solid #1f3a2c;
+}
+.st-tab{
+  padding:8px 0;text-align:center;font-size:11px;font-weight:700;color:#8ea89a;
+  cursor:pointer;border-right:1px solid #1f3a2c;background:#0a1410;position:relative;
+}
+.st-tab:last-child{border-right:none;}
+.st-tab.active{
+  color:#fff;background:linear-gradient(180deg,#0a2820 0%,#0a1a14 100%);
+}
+.st-tab.active::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;
+  background:var(--accent-green);box-shadow:0 0 4px rgba(56,225,215,.6);
+}
+.st-tab .st-dot{font-size:10px;color:var(--accent-green);margin-right:3px;}
+
+/* 限时限购/集市 二级Tab */
+.sub-tabs{
+  display:grid;grid-template-columns:1fr 1fr;margin:0 10px 8px;gap:6px;
+}
+.sub-tab{
+  padding:7px 0;text-align:center;font-size:10px;font-weight:700;color:#8ea89a;
+  background:transparent;border:1px solid #1f3a2c;border-radius:3px;cursor:pointer;
+}
+.sub-tab.active{
+  color:#fff;background:linear-gradient(180deg,rgba(56,225,215,.15),rgba(56,225,215,.05));
+  border-color:rgba(56,225,215,.4);
+}
+
+/* ==================== 研发成果区（图1原生） ==================== */
+.research-card{
+  margin:0 10px 12px;border-radius:4px;background:#0a1410;
+  border:1px solid #1f3a2c;padding:8px 10px;position:relative;
+  background-image:
+    radial-gradient(circle at 20% 80%, rgba(56,225,215,.04) 0%, transparent 40%),
+    radial-gradient(circle at 80% 20%, rgba(56,225,215,.04) 0%, transparent 40%);
+}
+.rc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
+.rc-top .rc-title{font-size:10px;color:#5a6b62;font-weight:600;}
+.rc-top .rc-time{font-size:10px;color:var(--accent-green);font-weight:800;font-family:'DIN Alternate',sans-serif;}
+.rc-top .rc-ico{font-size:9px;color:#5a6b62;}
+.rc-top .rc-tag{
+  font-size:9px;font-weight:800;color:#000;
+  background:var(--accent-green);padding:1px 5px;border-radius:2px;
+}
+/* 中央问号大框 */
+.rc-box{
+  height:100px;display:flex;align-items:center;justify-content:center;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 12px, rgba(56,225,215,.03) 12px 13px),
+    repeating-linear-gradient(90deg, transparent 0 12px, rgba(56,225,215,.03) 12px 13px);
+  border:1px solid #1f3a2c;border-radius:4px;
+  position:relative;
+}
+.rc-box::before,.rc-box::after,
+.rc-box .rbq1,.rc-box .rbq2{
+  content:"";position:absolute;width:8px;height:8px;
+  border:1.5px solid var(--accent-green);opacity:.7;
+}
+.rc-box::before{top:6px;left:6px;border-right:none;border-bottom:none;}
+.rc-box::after{top:6px;right:6px;border-left:none;border-bottom:none;}
+.rc-box .rbq1{bottom:6px;left:6px;border-right:none;border-top:none;}
+.rc-box .rbq2{bottom:6px;right:6px;border-left:none;border-top:none;}
+.rc-box .rc-q{
+  width:38px;height:38px;border-radius:4px;
+  background:linear-gradient(180deg,#0a2820,#0a1a14);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;font-weight:900;color:var(--accent-green);
+  box-shadow:inset 0 0 0 1px rgba(56,225,215,.4);
+}
+.rc-bottom{
+  display:flex;justify-content:center;margin-top:8px;
+}
+.rc-btn{
+  padding:4px 18px;font-size:10px;font-weight:800;color:#000;
+  background:var(--accent-green);border-radius:3px;cursor:pointer;
+  box-shadow:0 0 6px rgba(56,225,215,.4);
+}
+.rc-watermark{
+  position:absolute;right:8px;bottom:6px;
+  font-size:9px;color:rgba(245,176,66,.5);font-weight:600;
+  display:flex;align-items:center;gap:3px;
+}
+.rc-watermark::before{content:"";width:14px;height:14px;border-radius:50%;
+  background:radial-gradient(circle,#f5b042 30%,#8a5500 100%);display:inline-block;}
+
+/* ==================== 最新热点区（图1原生） ==================== */
+.hot-section{margin:0 10px 16px;}
+.hs-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.hs-title .hs-l{font-size:14px;font-weight:800;color:#fff;}
+.hs-title .hs-r{font-size:10px;color:var(--accent-green);font-weight:700;display:flex;align-items:center;gap:3px;}
+.hs-subtabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-bottom:8px;}
+.hs-subtab{
+  padding:5px 0;text-align:center;font-size:10px;font-weight:700;color:#8ea89a;
+  border:1px solid #1f3a2c;border-radius:3px;background:#0a1410;cursor:pointer;
+}
+.hs-subtab.active{color:#fff;background:linear-gradient(180deg,#0a2820,#0a1a14);border-color:rgba(56,225,215,.3);}
+.hs-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.hs-item{
+  height:70px;border-radius:3px;background:linear-gradient(135deg,#1a1008,#0a0804);
+  border:1px solid #2a1f10;position:relative;overflow:hidden;
+  background-image:linear-gradient(135deg,#1a1008 0%,#2a1505 50%,#0a0804 100%);
+}
+.hs-item::after{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 30% 60%, rgba(245,176,66,.15) 0%, transparent 50%),
+    repeating-linear-gradient(45deg, transparent 0 3px, rgba(0,0,0,.2) 3px 4px);
+}
+
+/* ==================== 底部 Tab Bar（图1原生） ==================== */
+.tab-bar{
+  position:absolute;left:0;right:0;bottom:0;height:60px;
+  background:#000;border-top:1px solid #1a2820;
+  display:flex;align-items:center;justify-content:space-around;z-index:50;
+}
+.tab-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+  color:#5a6b62;font-size:10px;font-weight:600;cursor:pointer;padding:8px 0;
+}
+.tab-item.active{color:var(--accent-green);}
+.tab-item .ti-icon{font-size:20px;line-height:1;}
+.tab-item.active .ti-icon{filter:drop-shadow(0 0 4px rgba(56,225,215,.5));}
+
+</style>
+</head>
+<body>
+
+<div class="phone-frame" id="app">
+  <!-- 状态栏（图1原生） -->
+  <div class="status-bar">
+    <span class="time">17:26</span>
+    <span class="icons">
+      <span>📶</span>
+      <span>📡</span>
+      <span class="batt">81</span>
+    </span>
+  </div>
+
+  <!-- 顶部标题栏（图1原生） -->
+  <div class="app-header">
+    <div class="ah-title">三角洲行动小程序</div>
+    <div class="ah-icons">
+      <span class="dot">···</span>
+      <span class="dot">○</span>
+    </div>
+  </div>
+
+  <div class="main-content" id="mainContent">
+    <!-- 顶部Tab栏（图1原生：烽火日报/战场日报/爆破日报） -->
+    <div class="daily-tabs">
+      <div class="dt-tab"><span class="dt-icon">▣</span><span>烽火日报</span></div>
+      <div class="dt-tab"><span class="dt-icon">▼</span><span>战场日报</span></div>
+      <div class="dt-tab active"><span class="dt-icon">◆</span><span>爆破日报</span></div>
+    </div>
+
+    <!-- ========== 顶部嵌入：高清数据图层（图3，替代原对局数据区） ========== -->
+    <div class="data-layer">
+      <span class="dl-corner tl"></span>
+      <span class="dl-corner tr"></span>
+      <span class="dl-corner bl"></span>
+      <span class="dl-corner br"></span>
+
+      <!-- 顶行：对局数 + 日期 -->
+      <div class="dl-top">
+        <span class="lt-games">对局数：<em>3</em></span>
+        <span>7月15日</span>
+      </div>
+
+      <!-- 数据图主体：左数据列 + 中击杀区 + 右侧立绘 -->
+      <div class="dl-body">
+        <!-- 左侧数据列：胜率82%/MVP2 + 段位卡 + 战绩紧凑 -->
+        <div class="dl-left">
+          <div class="dl-stat-row">
+            <span>胜率 <span class="sr-v">82</span><span class="sr-u">%</span></span>
+            <span>MVP <span class="sr-v sr-y">2</span></span>
+          </div>
+          <div class="dl-rank">
+            <div class="dl-rank-top">
+              <span class="rt-lbl">段位</span>
+            </div>
+            <div class="dl-rank-bot">
+              <span class="rb-name">校官 Ⅲ</span>
+              <span class="rb-star">★</span>
+            </div>
+            <div class="dl-rank-score-row">
+              <span class="rb-score">512分 ↑</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 中间击杀区：2 三次击杀 + 击败数34 + KDA/爆头率 -->
+        <div class="dl-kill">
+          <div class="dl-kill-top">
+            <span class="kt-num">2</span>
+            <span class="kt-lbl">三次击杀</span>
+          </div>
+          <div class="dl-kill-stats">
+            <div><span class="dks-label">击败数</span><span class="dks-value">34</span></div>
+            <div><span class="dks-label">爆头率</span><span class="dks-value gold">35%</span></div>
+          </div>
+          <div class="dl-kda-row"><span>KDA 8.0</span><span class="dl-kill-detail">34/21/8</span></div>
+        </div>
+
+        <!-- 右侧金色骷髅干员立绘（用真实图片） -->
+        <div class="dl-right">
+          <div class="dl-watermark">S+</div>
+          <img class="dl-right-img" src="soldier.png" alt="">
+        </div>
+      </div>
+
+      <!-- 最佳对局横卡 -->
+      <div class="dl-best">
+        <span class="dlb-mvp">MVP</span>
+        <div class="dlb-hero">
+          <div class="dlb-body"></div>
+        </div>
+        <div class="dlb-info">
+          <div class="dlb-info-r1">
+            <span class="ir-result">胜利</span>
+            <span class="ir-name">乌鲁鲁</span>
+            <span class="ir-grade">A</span>
+          </div>
+          <div class="dlb-info-r2">爆破模式|运河</div>
+          <div class="dlb-info-r3">06-28 13:51</div>
+        </div>
+        <div class="dlb-kda">22/21/8</div>
+        <div class="dlb-vip">顶级外援</div>
+      </div>
+
+      <!-- 双按钮 -->
+      <div class="dl-buttons">
+        <a class="dlb-btn db-secondary" href="数据详情.html">查看更多数据</a>
+        <a class="dlb-btn db-primary" href="https://df.qq.com/" target="_blank" rel="noopener">打开游戏查看更多 ›</a>
+      </div>
+    </div>
+
+    <!-- ========== 图1原生：5个工具格 ========== -->
+    <div class="toolbar-grid">
+      <div class="tb-cell">
+        <div class="tb-ico">📊</div>
+        <div class="tb-l">周报</div>
+        <span class="tb-badge">更新</span>
+      </div>
+      <div class="tb-cell">
+        <div class="tb-ico">🎁</div>
+        <div class="tb-l">福利</div>
+      </div>
+      <div class="tb-cell">
+        <div class="tb-ico gold">🔧</div>
+        <div class="tb-l">改枪</div>
+      </div>
+      <div class="tb-cell">
+        <div class="tb-ico">📖</div>
+        <div class="tb-l">百科</div>
+      </div>
+      <div class="tb-cell">
+        <div class="tb-ico">🗺️</div>
+        <div class="tb-l">地图</div>
+      </div>
+    </div>
+
+    <!-- ========== 图1原生：3个分段Tab ========== -->
+    <div class="seg-tabs">
+      <div class="st-tab active"><span class="st-dot">◆</span>军需处</div>
+      <div class="st-tab"><span class="st-dot">⚙</span>特勤处</div>
+      <div class="st-tab"><span class="st-dot">▦</span>3×3任务</div>
+    </div>
+
+    <!-- ========== 图1原生：限时限购/集市 ========== -->
+    <div class="sub-tabs">
+      <div class="sub-tab active">限时限购</div>
+      <div class="sub-tab">集市</div>
+    </div>
+
+    <!-- ========== 图1原生：研发成果区 ========== -->
+    <div class="research-card">
+      <div class="rc-top">
+        <span class="rc-title">研发成果刷新：<span class="rc-time">02:33:31</span></span>
+        <span class="rc-tag">刷新提醒暂未开启 ›</span>
+      </div>
+      <div class="rc-box">
+        <span class="rbq1"></span><span class="rbq2"></span>
+        <div class="rc-q">?</div>
+      </div>
+      <div class="rc-bottom">
+        <div class="rc-btn">揭晓成果</div>
+      </div>
+      <div class="rc-watermark">黑潮爆破测试招募</div>
+    </div>
+
+    <!-- ========== 图1原生：最新热点区 ========== -->
+    <div class="hot-section">
+      <div class="hs-title">
+        <span class="hs-l">最新热点</span>
+        <span class="hs-r">更多 ›</span>
+      </div>
+      <div class="hs-subtabs">
+        <div class="hs-subtab active">裂变</div>
+        <div class="hs-subtab">热门资讯</div>
+        <div class="hs-subtab">玩法活动</div>
+      </div>
+      <div class="hs-grid">
+        <div class="hs-item"></div>
+        <div class="hs-item"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部 Tab Bar（图1原生） -->
+  <div class="tab-bar">
+    <div class="tab-item active"><div class="ti-icon">▽</div><div>首页</div></div>
+    <div class="tab-item"><div class="ti-icon">⚒</div><div>工具</div></div>
+    <div class="tab-item"><div class="ti-icon">△</div><div>攻略</div></div>
+    <div class="tab-item"><div class="ti-icon">▷</div><div>我的</div></div>
+  </div>
+</div>
+
+</body>
+</html>
