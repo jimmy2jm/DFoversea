@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "0f33169d27a68aeb99afe98148455962",
+    "buildCode": "PTR-32 Assault Rifle-Operations-6JVONO00EE3065J0QBDHV",
+    "weaponName": "PTR-32 Assault Rifle",
+    "buildName": "A very powerful barrel"
+  },
+  "thread": {
+    "name": "[PTR-32 · 283195] A very powerful barrel",
+    "id": "",
+    "tags": [
+      "operations",
+      "global",
+      "ar"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "OPERATIONS"
+        },
+        "title": "A very powerful barrel",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**PTR-32 ASSAULT RIFLE**\n**PRICE · 283195**\n`↗ Stable & Agile` `◆ Rookie Friendly` `▣ Stable Recoil`\n\n**BUILD CODE**\n```\nPTR-32 Assault Rifle-Operations-6JVONO00EE3065J0QBDHV\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "PTR-32 build: handling speed 43, stability 68, effective range 52, base damage 34, hip-fire accuracy 33, recoil control 66."
+        },
+        "footer": {
+          "text": "Build by lildjeyy"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/single-confirmation-20260809-ptr32/01-ptr-32-0f33169d/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

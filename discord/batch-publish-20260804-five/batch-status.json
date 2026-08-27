@@ -1,0 +1,63 @@
+{
+  "destinationAlias": "delta-force-official",
+  "intervalSeconds": 600,
+  "state": "complete",
+  "completed": [
+    {
+      "index": 1,
+      "success": true,
+      "channel": "delta-force-official",
+      "mode": "create-forum-post",
+      "messageId": "1534132101820186656",
+      "threadId": "1534132101820186656",
+      "guildId": null,
+      "messageUrl": null,
+      "publishedAt": "2026-08-04T09:33:16.557Z"
+    },
+    {
+      "index": 2,
+      "success": true,
+      "channel": "delta-force-official",
+      "mode": "create-forum-post",
+      "messageId": "1534134631161397320",
+      "threadId": "1534134631161397320",
+      "guildId": null,
+      "messageUrl": null,
+      "publishedAt": "2026-08-04T09:43:19.422Z"
+    },
+    {
+      "index": 3,
+      "success": true,
+      "channel": "delta-force-official",
+      "mode": "create-forum-post",
+      "messageId": "1534137160016597106",
+      "threadId": "1534137160016597106",
+      "guildId": null,
+      "messageUrl": null,
+      "publishedAt": "2026-08-04T09:53:22.465Z"
+    },
+    {
+      "index": 4,
+      "success": true,
+      "channel": "delta-force-official",
+      "mode": "create-forum-post",
+      "messageId": "1534139686841225379",
+      "threadId": "1534139686841225379",
+      "guildId": null,
+      "messageUrl": null,
+      "publishedAt": "2026-08-04T10:03:24.873Z"
+    },
+    {
+      "index": 5,
+      "success": true,
+      "channel": "delta-force-official",
+      "mode": "create-forum-post",
+      "messageId": "1534142212903014544",
+      "threadId": "1534142212903014544",
+      "guildId": null,
+      "messageUrl": null,
+      "publishedAt": "2026-08-04T10:13:27.383Z"
+    }
+  ],
+  "updatedAt": "2026-08-04T10:13:27.407Z"
+}

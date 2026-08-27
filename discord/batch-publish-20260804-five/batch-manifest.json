@@ -1,0 +1,78 @@
+{
+  "preparedAt": "2026-08-04T09:31:47.137Z",
+  "refreshedAt": "2026-08-04T09:29:25.963Z",
+  "destinationAlias": "delta-force-official",
+  "intervalSeconds": 600,
+  "outputs": [
+    {
+      "index": 1,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/01-ci-19-600637e2",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/01-ci-19-600637e2/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/01-ci-19-600637e2/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/01-ci-19-600637e2/gun-card.png",
+      "schemeId": "600637e2518ec6612d526a2db9c51c04",
+      "title": "[CI-19 · 560774] Siing's CI-19",
+      "tags": [
+        "operations",
+        "global",
+        "ar"
+      ]
+    },
+    {
+      "index": 2,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/02-m250-d8d8f1ef",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/02-m250-d8d8f1ef/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/02-m250-d8d8f1ef/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/02-m250-d8d8f1ef/gun-card.png",
+      "schemeId": "d8d8f1ef8ce92106978d09a8e976ee98",
+      "title": "[M250 · WARFARE] M250+Warfare",
+      "tags": [
+        "warfare",
+        "global",
+        "lmg"
+      ]
+    },
+    {
+      "index": 3,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/03-m82-b620be00",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/03-m82-b620be00/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/03-m82-b620be00/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/03-m82-b620be00/gun-card.png",
+      "schemeId": "b620be005a49c515d1f762eae10e6a7f",
+      "title": "[M82 · WARFARE] M82+Warfare",
+      "tags": [
+        "warfare",
+        "global",
+        "sr"
+      ]
+    },
+    {
+      "index": 4,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/04-qbz95-1-f2a27a19",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/04-qbz95-1-f2a27a19/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/04-qbz95-1-f2a27a19/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/04-qbz95-1-f2a27a19/gun-card.png",
+      "schemeId": "f2a27a19767a3482e79066159c11bfa8",
+      "title": "[QBZ95-1 · WARFARE] He shoots well from the hip",
+      "tags": [
+        "warfare",
+        "global",
+        "ar"
+      ]
+    },
+    {
+      "index": 5,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/05-mp7-860e6cf3",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/05-mp7-860e6cf3/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/05-mp7-860e6cf3/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/05-mp7-860e6cf3/gun-card.png",
+      "schemeId": "860e6cf39412335df988398c8f6f2b53",
+      "title": "[MP7 · WARFARE] Best for close mid range and even decent on longra",
+      "tags": [
+        "warfare",
+        "global",
+        "smg"
+      ]
+    }
+  ]
+}

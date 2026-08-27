@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "860e6cf39412335df988398c8f6f2b53",
+    "buildCode": "MP7 Submachine Gun-Warfare-6K5LUQO0ATFIKPBNUOGHH",
+    "weaponName": "MP7 Submachine Gun",
+    "buildName": "Best for close mid range and even decent on longra"
+  },
+  "thread": {
+    "name": "[MP7 · WARFARE] Best for close mid range and even decent on longra",
+    "id": "",
+    "tags": [
+      "warfare",
+      "global",
+      "smg"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "WARFARE"
+        },
+        "title": "Best for close mid range and even decent on longra",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**MP7 SUBMACHINE GUN**\n`◆ Recon` `↗ Close-Mid Range` `◆ Ultra-Fast TTK`\n\n**BUILD CODE**\n```\nMP7 Submachine Gun-Warfare-6K5LUQO0ATFIKPBNUOGHH\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "MP7 build: handling speed 38, stability 62, effective range 32, base damage 32, hip-fire accuracy 62, recoil control 72."
+        },
+        "footer": {
+          "text": "Build by DFYellow"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/05-mp7-860e6cf3/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

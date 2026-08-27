@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "b620be005a49c515d1f762eae10e6a7f",
+    "buildCode": "M82 Sniper Rifle-Warfare-6JVAH0C09EEIVOORSKMDJ",
+    "weaponName": "M82 Sniper Rifle",
+    "buildName": "M82+Warfare"
+  },
+  "thread": {
+    "name": "[M82 · WARFARE] M82+Warfare",
+    "id": "",
+    "tags": [
+      "warfare",
+      "global",
+      "sr"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "WARFARE"
+        },
+        "title": "M82+Warfare",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**M82 SNIPER RIFLE**\n`◆ Recon` `◆ Great Equalizer` `↗ Long-Range Combat`\n\n**BUILD CODE**\n```\nM82 Sniper Rifle-Warfare-6JVAH0C09EEIVOORSKMDJ\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "M82 build: handling speed 26, stability 65, effective range 200, base damage 100, hip-fire accuracy 31, recoil control 11."
+        },
+        "footer": {
+          "text": "Build by dash-delta-force"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/03-m82-b620be00/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

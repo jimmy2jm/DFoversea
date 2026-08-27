@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "5c62d27c6b6b52af15486f7ee7d818e2",
+    "buildCode": "AS Val Assault Rifle-Warfare-6JVAF8409EEIVOORSKMDJ",
+    "weaponName": "AS Val Assault Rifle",
+    "buildName": "AS Val+Warfare"
+  },
+  "thread": {
+    "name": "[AS Val · WARFARE] AS Val+Warfare",
+    "id": "",
+    "tags": [
+      "warfare",
+      "global",
+      "ar"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "WARFARE"
+        },
+        "title": "AS Val+Warfare",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**AS VAL ASSAULT RIFLE**\n`◆ Max Fire Rate` `↗ Close-Mid Range` `↗ Close-Range Melt`\n\n**BUILD CODE**\n```\nAS Val Assault Rifle-Warfare-6JVAF8409EEIVOORSKMDJ\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "AS Val build: handling speed 55, stability 53, effective range 35, base damage 29, hip-fire accuracy 37, recoil control 71."
+        },
+        "footer": {
+          "text": "Build by dash-delta-force"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260823-two/02-as-val-5c62d27c/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

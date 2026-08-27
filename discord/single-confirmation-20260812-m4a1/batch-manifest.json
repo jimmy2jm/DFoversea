@@ -1,0 +1,22 @@
+{
+  "preparedAt": "2026-08-12T06:29:50.085Z",
+  "refreshedAt": "2026-08-12T06:28:23.954Z",
+  "destinationAlias": "delta-force-official",
+  "intervalSeconds": 600,
+  "outputs": [
+    {
+      "index": 1,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/single-confirmation-20260812-m4a1/01-m4a1-28835324",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/single-confirmation-20260812-m4a1/01-m4a1-28835324/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/single-confirmation-20260812-m4a1/01-m4a1-28835324/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/single-confirmation-20260812-m4a1/01-m4a1-28835324/gun-card.png",
+      "schemeId": "28835324a66dd1d95b2ec3d3946825ae",
+      "title": "[M4A1 · 284531] Equals Budget M4A1",
+      "tags": [
+        "operations",
+        "global",
+        "ar"
+      ]
+    }
+  ]
+}

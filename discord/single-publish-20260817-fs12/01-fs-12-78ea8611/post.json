@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "78ea8611c31c8ec66da31e78e8cd29dc",
+    "buildCode": "FS-12 Shotgun-Warfare-6KNGC0C01H9FKMG6H9D4Q",
+    "weaponName": "FS-12 Shotgun",
+    "buildName": "FS-12 Build"
+  },
+  "thread": {
+    "name": "[FS-12 · WARFARE] FS-12 Build",
+    "id": "",
+    "tags": [
+      "warfare",
+      "global",
+      "shotguns"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "WARFARE"
+        },
+        "title": "FS-12 Build",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**FS-12 SHOTGUN**\n`↗ Close-Range Melt` `↗ Close-Mid Range` `▣ Suppressive Fire`\n\n**BUILD CODE**\n```\nFS-12 Shotgun-Warfare-6KNGC0C01H9FKMG6H9D4Q\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "FS-12 build: handling speed 53, stability 46, effective range 12, base damage 14, hip-fire accuracy 83, recoil control 43."
+        },
+        "footer": {
+          "text": "Build by apegod"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/single-publish-20260817-fs12/01-fs-12-78ea8611/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

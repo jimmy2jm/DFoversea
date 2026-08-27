@@ -1,0 +1,22 @@
+{
+  "preparedAt": "2026-08-17T06:56:15.966Z",
+  "refreshedAt": "2026-08-17T06:55:27.244Z",
+  "destinationAlias": "delta-force-official",
+  "intervalSeconds": 600,
+  "outputs": [
+    {
+      "index": 1,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/single-publish-20260817-fs12/01-fs-12-78ea8611",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/single-publish-20260817-fs12/01-fs-12-78ea8611/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/single-publish-20260817-fs12/01-fs-12-78ea8611/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/single-publish-20260817-fs12/01-fs-12-78ea8611/gun-card.png",
+      "schemeId": "78ea8611c31c8ec66da31e78e8cd29dc",
+      "title": "[FS-12 · WARFARE] FS-12 Build",
+      "tags": [
+        "warfare",
+        "global",
+        "shotguns"
+      ]
+    }
+  ]
+}

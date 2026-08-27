@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "sourcePage": "https://www.playdeltaforce.com/events/hq/",
-  "refreshedAt": "2026-08-03T12:47:55.953Z",
+  "refreshedAt": "2026-08-25T02:55:05.686Z",
   "scope": {
     "activeChannel": "LI",
     "productChannel": "TIMI Global",
@@ -13,7 +13,7 @@
     "currentBannerSets": 2,
     "currentBannerSlots": 10,
     "currentBannerBuilds": 15,
-    "historicalBuilds": 15,
+    "historicalBuilds": 45,
     "sourceErrors": 0,
     "detailErrors": 0,
     "tagMappingErrors": 0
@@ -35,47 +35,47 @@
         "slots": [
           {
             "slotIndex": 0,
-            "gunId": "18010000045",
-            "gunName": "AR-57 Assault Rifle",
+            "gunId": "18010000042",
+            "gunName": "KC-17 Assault Rifle",
             "schemeIds": [
-              "8432decd361ded23bfb74f096e701922",
-              "ff8e6ebc0d00512f895c49e5513e1aa3"
+              "60fab90bbfc3fbc62581f54646783b84",
+              "b86609c94d3589d2067532e378c28955"
             ]
           },
           {
             "slotIndex": 1,
-            "gunId": "18010000042",
-            "gunName": "KC-17 Assault Rifle",
+            "gunId": "18040000002",
+            "gunName": "M249 Light Machine Gun",
             "schemeIds": [
-              "a4f906f5cd25f98b162a86de45014343",
-              "64bf58a7f5387e8cc39a9bec65a6340d"
+              "bf7432c295393048b927e6a9ace37494",
+              "4518761a511b93101f3e7d1d6fe8894d"
             ]
           },
           {
             "slotIndex": 2,
-            "gunId": "18010000016",
-            "gunName": "M7 Battle Rifle",
+            "gunId": "18060000009",
+            "gunName": "M700 Sniper Rifle",
             "schemeIds": [
-              "6b153a25368120ffb531a92e64f77850",
-              "857fc585488d8878119f55c513133fc0"
+              "e5741454cd63caf0b45c956225da16e4",
+              "582e2c77ec2c22a553d6a0737eb9e6ba"
             ]
           },
           {
             "slotIndex": 3,
-            "gunId": "18010000038",
-            "gunName": "CI-19 Assault Rifle",
+            "gunId": "18070000005",
+            "gunName": "G18",
             "schemeIds": [
-              "600637e2518ec6612d526a2db9c51c04",
-              "915caf90e6f53fb480a56664389883cf"
+              "9adef6e81cd163c794c55298e5578931",
+              "c4bdfbd9c1e894ec8aa419edce60a6cd"
             ]
           },
           {
             "slotIndex": 4,
-            "gunId": "18010000024",
-            "gunName": "PTR-32 Assault Rifle",
+            "gunId": "18070000003",
+            "gunName": ".357 Revolver",
             "schemeIds": [
-              "0f33169d27a68aeb99afe98148455962",
-              "e92aabf1398053355b26bfd5cf3790bd"
+              "ef1957cda89dfd314e479f09e6becf81",
+              "ca19443ee9f944e8cf1dcec18aea6217"
             ]
           }
         ]
@@ -90,34 +90,34 @@
         "slots": [
           {
             "slotIndex": 0,
-            "gunId": "18040000003",
-            "gunName": "M250 General Machine Gun",
+            "gunId": "18010000006",
+            "gunName": "AKM Assault Rifle",
             "schemeIds": [
-              "d8d8f1ef8ce92106978d09a8e976ee98"
+              "d910e9da2511119c8fdd43e14bcaf188"
             ]
           },
           {
             "slotIndex": 1,
-            "gunId": "18060000033",
-            "gunName": "M82 Sniper Rifle",
+            "gunId": "18030000006",
+            "gunName": "FS-12 Shotgun",
             "schemeIds": [
-              "b620be005a49c515d1f762eae10e6a7f"
+              "78ea8611c31c8ec66da31e78e8cd29dc"
             ]
           },
           {
             "slotIndex": 2,
-            "gunId": "18010000008",
-            "gunName": "QBZ95-1 Assault Rifle",
+            "gunId": "18010000037",
+            "gunName": "AS Val Assault Rifle",
             "schemeIds": [
-              "f2a27a19767a3482e79066159c11bfa8"
+              "5c62d27c6b6b52af15486f7ee7d818e2"
             ]
           },
           {
             "slotIndex": 3,
-            "gunId": "18010000038",
-            "gunName": "CI-19 Assault Rifle",
+            "gunId": "18010000013",
+            "gunName": "K416 Assault Rifle",
             "schemeIds": [
-              "124999f4f3eb903b1cd1eafbf9728fef"
+              "41b81fc120e4f0c07b84c4c739b36134"
             ]
           },
           {
@@ -141,28 +141,28 @@
       "channel": "LI",
       "mode": "OPERATIONS",
       "apiMode": "sol",
-      "bannerRecordId": 400,
-      "schemeId": "8432decd361ded23bfb74f096e701922",
-      "gunId": "18010000045",
-      "officialWeaponName": "AR-57 Assault Rifle",
-      "weaponName": "AR-57",
+      "bannerRecordId": 362,
+      "schemeId": "60fab90bbfc3fbc62581f54646783b84",
+      "gunId": "18010000042",
+      "officialWeaponName": "KC-17 Assault Rifle",
+      "weaponName": "KC-17",
       "weaponClass": "ASSAULT RIFLE",
       "weaponClassSource": "official-name-suffix",
-      "gunCategory": "",
-      "buildName": "RoguePringle's AR57",
+      "gunCategory": "Rifle",
+      "buildName": "ZAPOKK'Kc17",
       "description": "",
-      "price": "532124",
-      "priceRaw": "532124",
+      "price": "525234",
+      "priceRaw": "525234",
       "priceStatus": "available",
       "author": {
-        "name": "RoguePringle",
-        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183909618_o774o6.png"
+        "name": "ZAPOKK",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183786705_jsquxt.png"
       },
       "tags": [
         {
-          "id": 18,
-          "name": "Agile Lean Peek",
-          "color": "#8abce6",
+          "id": 2,
+          "name": "High Stability",
+          "color": "#2aca96",
           "sortOrder": 1
         },
         {
@@ -172,8 +172,8 @@
           "sortOrder": 1
         },
         {
-          "id": 40,
-          "name": "New Weapon",
+          "id": 39,
+          "name": "Supreme AP",
           "color": "#f3da94",
           "sortOrder": 1
         }
@@ -186,37 +186,37 @@
       "discordTagMappingStatus": "complete",
       "discordTagMissingGroups": [],
       "stats": {
-        "handlingSpeed": 60,
-        "stability": 42,
-        "effectiveRange": 46,
-        "baseDamage": 30,
-        "hipFireAccuracy": 48,
+        "handlingSpeed": 58,
+        "stability": 59,
+        "effectiveRange": 72,
+        "baseDamage": 31,
+        "hipFireAccuracy": 17,
         "recoilControl": 76
       },
       "baseStats": {
-        "handlingSpeed": 58,
-        "stability": 40,
-        "effectiveRange": 35,
-        "baseDamage": 30,
-        "hipFireAccuracy": 60,
-        "recoilControl": 41
+        "handlingSpeed": 53,
+        "stability": 48,
+        "effectiveRange": 55,
+        "baseDamage": 31,
+        "hipFireAccuracy": 45,
+        "recoilControl": 53
       },
-      "buildCode": "AR-57 Assault Rifle-Operations-6K1STRS052HRDQOIRARB5",
-      "detailBuildCode": "6K1STRS052HRDQOIRARB5",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780476146623_4xlbhk.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_566dbe77876dbd7a40bd7d5f27d7f931.png",
+      "buildCode": "KC-17 Assault Rifle-Operations-6K1C69K09TORE06OT4SA6",
+      "detailBuildCode": "6K1C69K09TORE06OT4SA6",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1779968724483_yk2nh2.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_f4501fab5768532e251b216939359cf2.png",
       "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
       "detailStatus": "complete",
       "detailError": null,
-      "dataFingerprint": "7dd8f19438affd3470c2c2f3c8252567aee75ac3629a72d40f6a28797837722e",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
-      "publishCount": 1,
-      "lastPublishedAt": "2026-08-03T12:35:47.404Z",
-      "lastMessageId": "1533815644938571797",
-      "lastThreadId": "1533815644938571797"
+      "dataFingerprint": "917f80cfb22b4e3d3ffbc9c086afed3f52799d6b3b9f27683d82bf29a2154d12",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
     },
     {
       "active": true,
@@ -226,24 +226,30 @@
       "channel": "LI",
       "mode": "OPERATIONS",
       "apiMode": "sol",
-      "bannerRecordId": 405,
-      "schemeId": "ff8e6ebc0d00512f895c49e5513e1aa3",
-      "gunId": "18010000045",
-      "officialWeaponName": "AR-57 Assault Rifle",
-      "weaponName": "AR-57",
+      "bannerRecordId": 399,
+      "schemeId": "b86609c94d3589d2067532e378c28955",
+      "gunId": "18010000042",
+      "officialWeaponName": "KC-17 Assault Rifle",
+      "weaponName": "KC-17",
       "weaponClass": "ASSAULT RIFLE",
       "weaponClassSource": "official-name-suffix",
-      "gunCategory": "",
-      "buildName": "ItzNowh3re's AR57",
+      "gunCategory": "Rifle",
+      "buildName": "RoguePringle's KC-17",
       "description": "",
-      "price": "531067",
-      "priceRaw": "531067",
+      "price": "563308",
+      "priceRaw": "563308",
       "priceStatus": "available",
       "author": {
-        "name": "ItzNowh3re'",
-        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183924680_951muk.png"
+        "name": "RoguePringle",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183909618_o774o6.png"
       },
       "tags": [
+        {
+          "id": 2,
+          "name": "High Stability",
+          "color": "#2aca96",
+          "sortOrder": 1
+        },
         {
           "id": 28,
           "name": "Stable Recoil",
@@ -251,142 +257,136 @@
           "sortOrder": 1
         },
         {
-          "id": 25,
-          "name": "Close-Mid Range",
+          "id": 26,
+          "name": "Recoil Stability",
+          "color": "#b38fed",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 50,
+        "stability": 47,
+        "effectiveRange": 72,
+        "baseDamage": 31,
+        "hipFireAccuracy": 25,
+        "recoilControl": 85
+      },
+      "baseStats": {
+        "handlingSpeed": 53,
+        "stability": 48,
+        "effectiveRange": 55,
+        "baseDamage": 31,
+        "hipFireAccuracy": 45,
+        "recoilControl": 53
+      },
+      "buildCode": "KC-17 Assault Rifle-Operations-6K1STBO052HRDQOIRARB5",
+      "detailBuildCode": "6K1STBO052HRDQOIRARB5",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780306205000_uxxj02.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_f4501fab5768532e251b216939359cf2.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "f63b1caf49f86e1256503294b4594a9755f9e7301f154e01d13979f8680dca04",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": true,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 1,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 473,
+      "schemeId": "4518761a511b93101f3e7d1d6fe8894d",
+      "gunId": "18040000002",
+      "officialWeaponName": "M249 Light Machine Gun",
+      "weaponName": "M249",
+      "weaponClass": "LIGHT MACHINE GUN",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "LMG",
+      "buildName": "Bruen Meta",
+      "description": "",
+      "price": "328578",
+      "priceRaw": "328578",
+      "priceStatus": "available",
+      "author": {
+        "name": "Caffrey",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785375743218_a9ije5.png"
+      },
+      "tags": [
+        {
+          "id": 22,
+          "name": "Suppressive Fire",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        },
+        {
+          "id": 26,
+          "name": "Recoil Stability",
           "color": "#b38fed",
           "sortOrder": 1
         },
         {
-          "id": 22,
-          "name": "Suppressive Fire",
-          "color": "#aae4aa",
-          "sortOrder": 1
-        }
-      ],
-      "discordTagAliases": [
-        "operations",
-        "global",
-        "ar"
-      ],
-      "discordTagMappingStatus": "complete",
-      "discordTagMissingGroups": [],
-      "stats": {
-        "handlingSpeed": 45,
-        "stability": 44,
-        "effectiveRange": 52,
-        "baseDamage": 30,
-        "hipFireAccuracy": 36,
-        "recoilControl": 72
-      },
-      "baseStats": {
-        "handlingSpeed": 58,
-        "stability": 40,
-        "effectiveRange": 35,
-        "baseDamage": 30,
-        "hipFireAccuracy": 60,
-        "recoilControl": 41
-      },
-      "buildCode": "AR-57 Assault Rifle-Operations-6K25S2C01OANMAF97OV6I",
-      "detailBuildCode": "6K25S2C01OANMAF97OV6I",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780476778654_38s4tm.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_566dbe77876dbd7a40bd7d5f27d7f931.png",
-      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
-      "detailStatus": "complete",
-      "detailError": null,
-      "dataFingerprint": "803dc44ab027e93af49ea15eb3cbf3b50984a0447fe6d129120f22b3a0d3b039",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
-      "publishCount": 1,
-      "lastPublishedAt": "2026-08-03T12:38:50.140Z",
-      "lastMessageId": "1533816412211122337",
-      "lastThreadId": "1533816412211122337"
-    },
-    {
-      "active": true,
-      "sourceSet": "li-operations",
-      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
-      "slotIndex": 1,
-      "channel": "LI",
-      "mode": "OPERATIONS",
-      "apiMode": "sol",
-      "bannerRecordId": 372,
-      "schemeId": "64bf58a7f5387e8cc39a9bec65a6340d",
-      "gunId": "18010000042",
-      "officialWeaponName": "KC-17 Assault Rifle",
-      "weaponName": "KC-17",
-      "weaponClass": "ASSAULT RIFLE",
-      "weaponClassSource": "official-name-suffix",
-      "gunCategory": "Rifle",
-      "buildName": "delta force meta",
-      "description": "",
-      "price": "551274",
-      "priceRaw": "551274",
-      "priceStatus": "available",
-      "author": {
-        "name": "ATTURSSON",
-        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183851914_3lxfsx.png"
-      },
-      "tags": [
-        {
-          "id": 28,
-          "name": "Stable Recoil",
-          "color": "#d0814d",
-          "sortOrder": 1
-        },
-        {
-          "id": 39,
-          "name": "Supreme AP",
+          "id": 41,
+          "name": "Optimized Feel",
           "color": "#f3da94",
           "sortOrder": 1
-        },
-        {
-          "id": 23,
-          "name": "Stable & Standard",
-          "color": "#aae4aa",
-          "sortOrder": 1
         }
       ],
       "discordTagAliases": [
         "operations",
         "global",
-        "ar"
+        "lmg"
       ],
       "discordTagMappingStatus": "complete",
       "discordTagMissingGroups": [],
       "stats": {
-        "handlingSpeed": 37,
-        "stability": 60,
-        "effectiveRange": 72,
-        "baseDamage": 31,
-        "hipFireAccuracy": 37,
-        "recoilControl": 83
+        "handlingSpeed": 39,
+        "stability": 66,
+        "effectiveRange": 59,
+        "baseDamage": 30,
+        "hipFireAccuracy": 40,
+        "recoilControl": 76
       },
       "baseStats": {
-        "handlingSpeed": 53,
-        "stability": 48,
-        "effectiveRange": 55,
-        "baseDamage": 31,
-        "hipFireAccuracy": 45,
-        "recoilControl": 53
+        "handlingSpeed": 47,
+        "stability": 55,
+        "effectiveRange": 40,
+        "baseDamage": 30,
+        "hipFireAccuracy": 48,
+        "recoilControl": 44
       },
-      "buildCode": "KC-17 Assault Rifle-Operations-6JRIBTC03GMUSBU927419",
-      "detailBuildCode": "6JRIBTC03GMUSBU927419",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1779973725260_405gw4.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_f4501fab5768532e251b216939359cf2.png",
+      "buildCode": "M249 Light Machine Gun-Operations-6KNG9G00CSD5N4PK6S4LR",
+      "detailBuildCode": "6KNG9G00CSD5N4PK6S4LR",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785757844561_dfmwsh.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_8ee5d16b0b739e1326ea31efba11937d.png",
       "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
       "detailStatus": "complete",
       "detailError": null,
-      "dataFingerprint": "7808eb94065238df684e0c5717f2bd3dbdac9f73c4137e94de7d979cc7459ece",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "dataFingerprint": "ea56f9ea6405d975bf2052dedae5686ccab896041cfed188fdbd7ae5c8d76604",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 1,
-      "lastPublishedAt": "2026-08-03T12:41:52.599Z",
-      "lastMessageId": "1533817176836800614",
-      "lastThreadId": "1533817176836800614"
+      "lastPublishedAt": "2026-08-23T08:16:12.320Z",
+      "lastMessageId": "1540998076355837952",
+      "lastThreadId": "1540998076355837952"
     },
     {
       "active": true,
@@ -396,34 +396,28 @@
       "channel": "LI",
       "mode": "OPERATIONS",
       "apiMode": "sol",
-      "bannerRecordId": 336,
-      "schemeId": "a4f906f5cd25f98b162a86de45014343",
-      "gunId": "18010000042",
-      "officialWeaponName": "KC-17 Assault Rifle",
-      "weaponName": "KC-17",
-      "weaponClass": "ASSAULT RIFLE",
+      "bannerRecordId": 493,
+      "schemeId": "bf7432c295393048b927e6a9ace37494",
+      "gunId": "18040000002",
+      "officialWeaponName": "M249 Light Machine Gun",
+      "weaponName": "M249",
+      "weaponClass": "LIGHT MACHINE GUN",
       "weaponClassSource": "official-name-suffix",
-      "gunCategory": "Rifle",
-      "buildName": "KC17+Operations",
+      "gunCategory": "LMG",
+      "buildName": "M249",
       "description": "",
-      "price": "472823",
-      "priceRaw": "472823",
+      "price": "367305",
+      "priceRaw": "367305",
       "priceStatus": "available",
       "author": {
-        "name": "VizuffYouTube",
-        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1778657814172_b15jp4.png"
+        "name": "MuoMuoTV",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785375785823_d2ca03.png"
       },
       "tags": [
         {
-          "id": 12,
-          "name": "Great Value",
-          "color": "#8492ed",
-          "sortOrder": 1
-        },
-        {
-          "id": 15,
-          "name": "Stable & Agile",
-          "color": "#8492ed",
+          "id": 37,
+          "name": "Supreme Rush",
+          "color": "#e8989b",
           "sortOrder": 1
         },
         {
@@ -431,47 +425,53 @@
           "name": "Suppressive Fire",
           "color": "#aae4aa",
           "sortOrder": 1
+        },
+        {
+          "id": 17,
+          "name": "Advanced Controls",
+          "color": "#87e1e5",
+          "sortOrder": 1
         }
       ],
       "discordTagAliases": [
         "operations",
         "global",
-        "ar"
+        "lmg"
       ],
       "discordTagMappingStatus": "complete",
       "discordTagMissingGroups": [],
       "stats": {
-        "handlingSpeed": 41,
-        "stability": 61,
-        "effectiveRange": 72,
-        "baseDamage": 31,
-        "hipFireAccuracy": 17,
-        "recoilControl": 70
+        "handlingSpeed": 35,
+        "stability": 59,
+        "effectiveRange": 59,
+        "baseDamage": 30,
+        "hipFireAccuracy": 32,
+        "recoilControl": 66
       },
       "baseStats": {
-        "handlingSpeed": 53,
-        "stability": 48,
-        "effectiveRange": 55,
-        "baseDamage": 31,
-        "hipFireAccuracy": 45,
-        "recoilControl": 53
+        "handlingSpeed": 47,
+        "stability": 55,
+        "effectiveRange": 40,
+        "baseDamage": 30,
+        "hipFireAccuracy": 48,
+        "recoilControl": 44
       },
-      "buildCode": "KC-17 Assault Rifle-Operations-6JV1QB00BRH2Q6HI19Q2H",
-      "detailBuildCode": "6JV1QB00BRH2Q6HI19Q2H",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1778733103713_99x5rs.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_f4501fab5768532e251b216939359cf2.png",
+      "buildCode": "M249 Light Machine Gun-Operations-6KNJ3DC04JR8MA4B021SH",
+      "detailBuildCode": "6KNJ3DC04JR8MA4B021SH",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785762987309_9wz4xk.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_8ee5d16b0b739e1326ea31efba11937d.png",
       "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
       "detailStatus": "complete",
       "detailError": null,
-      "dataFingerprint": "0ca018e75f2aa4ccf6124696e2a648650937d51394e66c6ee8ef99f1a91bab08",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
-      "publishCount": 1,
-      "lastPublishedAt": "2026-08-03T12:44:55.905Z",
-      "lastMessageId": "1533817944973246526",
-      "lastThreadId": "1533817944973246526"
+      "dataFingerprint": "fb3fe1e507456c63f671c2a936f9a42e81c376e11ace1cb0cce36f8005bb228c",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
     },
     {
       "active": true,
@@ -481,28 +481,368 @@
       "channel": "LI",
       "mode": "OPERATIONS",
       "apiMode": "sol",
-      "bannerRecordId": 404,
-      "schemeId": "6b153a25368120ffb531a92e64f77850",
-      "gunId": "18010000016",
-      "officialWeaponName": "M7 Battle Rifle",
-      "weaponName": "M7",
-      "weaponClass": "BATTLE RIFLE",
+      "bannerRecordId": 438,
+      "schemeId": "582e2c77ec2c22a553d6a0737eb9e6ba",
+      "gunId": "18060000009",
+      "officialWeaponName": "M700 Sniper Rifle",
+      "weaponName": "M700",
+      "weaponClass": "SNIPER RIFLE",
       "weaponClassSource": "official-name-suffix",
-      "gunCategory": "Rifle",
-      "buildName": "ItzNowh3re's BEST M7",
+      "gunCategory": "SR",
+      "buildName": "Trying to join FaZe? Use this",
       "description": "",
-      "price": "1067598",
-      "priceRaw": "1067598",
+      "price": "401634",
+      "priceRaw": "401634",
       "priceStatus": "available",
       "author": {
-        "name": "ItzNowh3re'",
+        "name": "LarryTheCarry",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785375702460_ctt7uk.jpg"
+      },
+      "tags": [
+        {
+          "id": 9,
+          "name": "Recon",
+          "color": "#58d7dc",
+          "sortOrder": 1
+        },
+        {
+          "id": 23,
+          "name": "Stable & Standard",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        },
+        {
+          "id": 21,
+          "name": "Bracing Stability",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "sr"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 53,
+        "stability": 82,
+        "effectiveRange": 195,
+        "baseDamage": 61,
+        "hipFireAccuracy": 19,
+        "recoilControl": 32
+      },
+      "baseStats": {
+        "handlingSpeed": 48,
+        "stability": 70,
+        "effectiveRange": 150,
+        "baseDamage": 61,
+        "hipFireAccuracy": 27,
+        "recoilControl": 24
+      },
+      "buildCode": "M700 Sniper Rifle-Operations-6KMS66K05PR929PR76CHI",
+      "detailBuildCode": "6KMS66K05PR929PR76CHI",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785488346503_udhwla.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_a8655504de9bdac3ddd3c5b81dcbde1e.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "83db209ba7dff07be84f63e1f388b0ad6d0838d83444b7b8cca827e9411fa163",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": true,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 2,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 454,
+      "schemeId": "e5741454cd63caf0b45c956225da16e4",
+      "gunId": "18060000009",
+      "officialWeaponName": "M700 Sniper Rifle",
+      "weaponName": "M700",
+      "weaponClass": "SNIPER RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "SR",
+      "buildName": "Full Build M700",
+      "description": "",
+      "price": "542166",
+      "priceRaw": "542166",
+      "priceStatus": "available",
+      "author": {
+        "name": "CNeytas",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785375724430_74iqh4.png"
+      },
+      "tags": [
+        {
+          "id": 38,
+          "name": "Onslaught Spec",
+          "color": "#f3da94",
+          "sortOrder": 1
+        },
+        {
+          "id": 36,
+          "name": "Long-Range Combat",
+          "color": "#e8989b",
+          "sortOrder": 1
+        },
+        {
+          "id": 17,
+          "name": "Advanced Controls",
+          "color": "#87e1e5",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "sr"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 55,
+        "stability": 67,
+        "effectiveRange": 150,
+        "baseDamage": 61,
+        "hipFireAccuracy": 35,
+        "recoilControl": 30
+      },
+      "baseStats": {
+        "handlingSpeed": 48,
+        "stability": 70,
+        "effectiveRange": 150,
+        "baseDamage": 61,
+        "hipFireAccuracy": 27,
+        "recoilControl": 24
+      },
+      "buildCode": "M700 Sniper Rifle-Operations-6KNF4AC0B2QGNP7CRAI0E",
+      "detailBuildCode": "6KNF4AC0B2QGNP7CRAI0E",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785747624277_0824l4.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_a8655504de9bdac3ddd3c5b81dcbde1e.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "7eaa15e61780a10f3a0981337a2cd27a10158e334cb25e11bde473e25be0a677",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": true,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 3,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 457,
+      "schemeId": "9adef6e81cd163c794c55298e5578931",
+      "gunId": "18070000005",
+      "officialWeaponName": "G18",
+      "weaponName": "G18",
+      "weaponClass": "PISTOL",
+      "weaponClassSource": "detail-category",
+      "gunCategory": "Pistol",
+      "buildName": "Cheap G18",
+      "description": "",
+      "price": "100919",
+      "priceRaw": "100919",
+      "priceStatus": "available",
+      "author": {
+        "name": "CNeytas",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785375724430_74iqh4.png"
+      },
+      "tags": [
+        {
+          "id": 29,
+          "name": "High-Yield",
+          "color": "#d0814d",
+          "sortOrder": 1
+        },
+        {
+          "id": 35,
+          "name": "Close-Range Melt",
+          "color": "#e8989b",
+          "sortOrder": 1
+        },
+        {
+          "id": 42,
+          "name": "Silent & Fire Rate",
+          "color": "#f3da94",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "pistols"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 44,
+        "stability": 47,
+        "effectiveRange": 13,
+        "baseDamage": 23,
+        "hipFireAccuracy": 55,
+        "recoilControl": 45
+      },
+      "baseStats": {
+        "handlingSpeed": 62,
+        "stability": 43,
+        "effectiveRange": 10,
+        "baseDamage": 23,
+        "hipFireAccuracy": 67,
+        "recoilControl": 30
+      },
+      "buildCode": "G18-Operations-6KNF4SC0B2QGNP7CRAI0E",
+      "detailBuildCode": "6KNF4SC0B2QGNP7CRAI0E",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785755944145_jdpb0m.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_58985157024530d329007ed33b6c415a.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "d57d666b216c57a6e276017f7ac6544eb44033aa758bdf58b7965005c2ae8ca6",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": true,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 3,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 463,
+      "schemeId": "c4bdfbd9c1e894ec8aa419edce60a6cd",
+      "gunId": "18070000005",
+      "officialWeaponName": "G18",
+      "weaponName": "G18",
+      "weaponClass": "PISTOL",
+      "weaponClassSource": "detail-category",
+      "gunCategory": "Pistol",
+      "buildName": "Quick Wipe",
+      "description": "",
+      "price": "292315",
+      "priceRaw": "292315",
+      "priceStatus": "available",
+      "author": {
+        "name": "DELTA FORCE UPDATES",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785375731255_2jgkur.png"
+      },
+      "tags": [
+        {
+          "id": 42,
+          "name": "Silent & Fire Rate",
+          "color": "#f3da94",
+          "sortOrder": 1
+        },
+        {
+          "id": 35,
+          "name": "Close-Range Melt",
+          "color": "#e8989b",
+          "sortOrder": 1
+        },
+        {
+          "id": 29,
+          "name": "High-Yield",
+          "color": "#d0814d",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "pistols"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 37,
+        "stability": 49,
+        "effectiveRange": 16,
+        "baseDamage": 23,
+        "hipFireAccuracy": 43,
+        "recoilControl": 50
+      },
+      "baseStats": {
+        "handlingSpeed": 62,
+        "stability": 43,
+        "effectiveRange": 10,
+        "baseDamage": 23,
+        "hipFireAccuracy": 67,
+        "recoilControl": 30
+      },
+      "buildCode": "G18-Operations-6KNG21807NTICSSGQJ7GG",
+      "detailBuildCode": "6KNG21807NTICSSGQJ7GG",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785757094362_5fko7l.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_58985157024530d329007ed33b6c415a.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "b69d9b22639fa46089662fd3b98eca96249ebd15e451c1c0f44457351f540dd0",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": true,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 4,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 479,
+      "schemeId": "ca19443ee9f944e8cf1dcec18aea6217",
+      "gunId": "18070000003",
+      "officialWeaponName": ".357 Revolver",
+      "weaponName": ".357 Revolver",
+      "weaponClass": "PISTOL",
+      "weaponClassSource": "detail-category",
+      "gunCategory": "Pistol",
+      "buildName": "Nowh3re’s Pocket Mule",
+      "description": "",
+      "price": "32106",
+      "priceRaw": "32106",
+      "priceStatus": "available",
+      "author": {
+        "name": "ItzNowh3re",
         "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183924680_951muk.png"
       },
       "tags": [
         {
-          "id": 37,
-          "name": "Supreme Rush",
-          "color": "#e8989b",
+          "id": 43,
+          "name": "Expert Only",
+          "color": "#f4cf67",
           "sortOrder": 1
         },
         {
@@ -521,73 +861,73 @@
       "discordTagAliases": [
         "operations",
         "global",
-        "br"
+        "pistols"
       ],
       "discordTagMappingStatus": "complete",
       "discordTagMissingGroups": [],
       "stats": {
-        "handlingSpeed": 44,
-        "stability": 58,
-        "effectiveRange": 74,
-        "baseDamage": 40,
-        "hipFireAccuracy": 27,
-        "recoilControl": 68
+        "handlingSpeed": 55,
+        "stability": 47,
+        "effectiveRange": 70,
+        "baseDamage": 56,
+        "hipFireAccuracy": 53,
+        "recoilControl": 43
       },
       "baseStats": {
-        "handlingSpeed": 51,
-        "stability": 58,
-        "effectiveRange": 50,
-        "baseDamage": 38,
-        "hipFireAccuracy": 43,
+        "handlingSpeed": 62,
+        "stability": 43,
+        "effectiveRange": 35,
+        "baseDamage": 56,
+        "hipFireAccuracy": 65,
         "recoilControl": 34
       },
-      "buildCode": "M7 Battle Rifle-Operations-6K25RPG01OANMAF97OV6I",
-      "detailBuildCode": "6K25RPG01OANMAF97OV6I",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780476731557_m22uqo.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_64277f47970b8b962985d5bb686c3cda.png",
+      "buildCode": ".357 Revolver-Operations-6KNGIOK01OANMAF97OV6I",
+      "detailBuildCode": "6KNGIOK01OANMAF97OV6I",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785759109978_0e3idh.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_a6f07b25d986ed031810d33843c6de7d.png",
       "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
       "detailStatus": "complete",
       "detailError": null,
-      "dataFingerprint": "ccd1cfbd8d3eb9d823ab7c40af1c820a405324c981bb64a087673fd16ec843e7",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
-      "publishCount": 1,
-      "lastPublishedAt": "2026-08-03T12:48:03.590Z",
-      "lastMessageId": "1533818733447876629",
-      "lastThreadId": "1533818733447876629"
+      "dataFingerprint": "bcce53032e4a01b5b823d3793cb2669ebd0d613b931bd4f71fe911632ecb5d4c",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
     },
     {
       "active": true,
       "sourceSet": "li-operations",
       "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
-      "slotIndex": 2,
+      "slotIndex": 4,
       "channel": "LI",
       "mode": "OPERATIONS",
       "apiMode": "sol",
-      "bannerRecordId": 402,
-      "schemeId": "857fc585488d8878119f55c513133fc0",
-      "gunId": "18010000016",
-      "officialWeaponName": "M7 Battle Rifle",
-      "weaponName": "M7",
-      "weaponClass": "BATTLE RIFLE",
-      "weaponClassSource": "official-name-suffix",
-      "gunCategory": "Rifle",
-      "buildName": "RoguePringle's M7",
+      "bannerRecordId": 448,
+      "schemeId": "ef1957cda89dfd314e479f09e6becf81",
+      "gunId": "18070000003",
+      "officialWeaponName": ".357 Revolver",
+      "weaponName": ".357 Revolver",
+      "weaponClass": "PISTOL",
+      "weaponClassSource": "detail-category",
+      "gunCategory": "Pistol",
+      "buildName": "BAG",
       "description": "",
-      "price": "560095",
-      "priceRaw": "560095",
+      "price": "45570",
+      "priceRaw": "45570",
       "priceStatus": "available",
       "author": {
-        "name": "RoguePringle",
-        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183909618_o774o6.png"
+        "name": "MrDiogod",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785375716615_6dh548.png"
       },
       "tags": [
         {
-          "id": 36,
-          "name": "Long-Range Combat",
-          "color": "#e8989b",
+          "id": 43,
+          "name": "Expert Only",
+          "color": "#f4cf67",
           "sortOrder": 1
         },
         {
@@ -597,391 +937,51 @@
           "sortOrder": 1
         },
         {
-          "id": 31,
-          "name": "Balanced",
-          "color": "#da5758",
+          "id": 27,
+          "name": "Great Equalizer",
+          "color": "#c4c4c2",
           "sortOrder": 1
         }
       ],
       "discordTagAliases": [
         "operations",
         "global",
-        "br"
+        "pistols"
       ],
       "discordTagMappingStatus": "complete",
       "discordTagMissingGroups": [],
       "stats": {
-        "handlingSpeed": 45,
-        "stability": 75,
-        "effectiveRange": 53,
-        "baseDamage": 38,
-        "hipFireAccuracy": 23,
-        "recoilControl": 52
+        "handlingSpeed": 47,
+        "stability": 43,
+        "effectiveRange": 70,
+        "baseDamage": 56,
+        "hipFireAccuracy": 53,
+        "recoilControl": 43
       },
       "baseStats": {
-        "handlingSpeed": 51,
-        "stability": 58,
-        "effectiveRange": 50,
-        "baseDamage": 38,
-        "hipFireAccuracy": 43,
+        "handlingSpeed": 62,
+        "stability": 43,
+        "effectiveRange": 35,
+        "baseDamage": 56,
+        "hipFireAccuracy": 65,
         "recoilControl": 34
       },
-      "buildCode": "M7 Battle Rifle-Operations-6K1SV4O052HRDQOIRARB5",
-      "detailBuildCode": "6K1SV4O052HRDQOIRARB5",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780476299948_mr1dne.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_64277f47970b8b962985d5bb686c3cda.png",
+      "buildCode": ".357 Revolver-Operations-6KNDTCO03QQQOHH9DO9VL",
+      "detailBuildCode": "6KNDTCO03QQQOHH9DO9VL",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785727133279_xwqr7k.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_a6f07b25d986ed031810d33843c6de7d.png",
       "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
       "detailStatus": "complete",
       "detailError": null,
-      "dataFingerprint": "9b7d06cd9b45aa827b3794434e414686fb23aac77cd766e6dbfca1ab9d45d777",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "dataFingerprint": "c6de965d1f66a53aebda651bb34215046e46f67171148ff5238d75dcf74c3f8f",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
       "lastThreadId": null
-    },
-    {
-      "active": true,
-      "sourceSet": "li-operations",
-      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
-      "slotIndex": 3,
-      "channel": "LI",
-      "mode": "OPERATIONS",
-      "apiMode": "sol",
-      "bannerRecordId": 395,
-      "schemeId": "600637e2518ec6612d526a2db9c51c04",
-      "gunId": "18010000038",
-      "officialWeaponName": "CI-19 Assault Rifle",
-      "weaponName": "CI-19",
-      "weaponClass": "ASSAULT RIFLE",
-      "weaponClassSource": "official-name-suffix",
-      "gunCategory": "Rifle",
-      "buildName": "Siing's CI-19",
-      "description": "",
-      "price": "560774",
-      "priceRaw": "560774",
-      "priceStatus": "available",
-      "author": {
-        "name": "Siingsong",
-        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183901292_6oonq6.png"
-      },
-      "tags": [
-        {
-          "id": 26,
-          "name": "Recoil Stability",
-          "color": "#b38fed",
-          "sortOrder": 1
-        },
-        {
-          "id": 18,
-          "name": "Agile Lean Peek",
-          "color": "#8abce6",
-          "sortOrder": 1
-        },
-        {
-          "id": 22,
-          "name": "Suppressive Fire",
-          "color": "#aae4aa",
-          "sortOrder": 1
-        }
-      ],
-      "discordTagAliases": [
-        "operations",
-        "global",
-        "ar"
-      ],
-      "discordTagMappingStatus": "complete",
-      "discordTagMissingGroups": [],
-      "stats": {
-        "handlingSpeed": 54,
-        "stability": 50,
-        "effectiveRange": 46,
-        "baseDamage": 35,
-        "hipFireAccuracy": 45,
-        "recoilControl": 80
-      },
-      "baseStats": {
-        "handlingSpeed": 60,
-        "stability": 50,
-        "effectiveRange": 35,
-        "baseDamage": 35,
-        "hipFireAccuracy": 56,
-        "recoilControl": 40
-      },
-      "buildCode": "CI-19 Assault Rifle-Operations-6JR9P6O014H9D6PDMV79E",
-      "detailBuildCode": "6JR9P6O014H9D6PDMV79E",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780304887552_sbh566.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_e638baf29e16a0af3263330af04ce532.png",
-      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
-      "detailStatus": "complete",
-      "detailError": null,
-      "dataFingerprint": "045a784069462fc061f026c859c2927db1b794c6a016940427f98fa83dc00f4f",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
-      "publishCount": 0,
-      "lastPublishedAt": null,
-      "lastMessageId": null,
-      "lastThreadId": null
-    },
-    {
-      "active": true,
-      "sourceSet": "li-operations",
-      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
-      "slotIndex": 3,
-      "channel": "LI",
-      "mode": "OPERATIONS",
-      "apiMode": "sol",
-      "bannerRecordId": 408,
-      "schemeId": "915caf90e6f53fb480a56664389883cf",
-      "gunId": "18010000038",
-      "officialWeaponName": "CI-19 Assault Rifle",
-      "weaponName": "CI-19",
-      "weaponClass": "ASSAULT RIFLE",
-      "weaponClassSource": "official-name-suffix",
-      "gunCategory": "Rifle",
-      "buildName": "ItzNowh3re's Ci19",
-      "description": "",
-      "price": "577820",
-      "priceRaw": "577820",
-      "priceStatus": "available",
-      "author": {
-        "name": "ItzNowh3re'",
-        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183924680_951muk.png"
-      },
-      "tags": [
-        {
-          "id": 18,
-          "name": "Agile Lean Peek",
-          "color": "#8abce6",
-          "sortOrder": 1
-        },
-        {
-          "id": 21,
-          "name": "Bracing Stability",
-          "color": "#aae4aa",
-          "sortOrder": 1
-        },
-        {
-          "id": 23,
-          "name": "Stable & Standard",
-          "color": "#aae4aa",
-          "sortOrder": 1
-        }
-      ],
-      "discordTagAliases": [
-        "operations",
-        "global",
-        "ar"
-      ],
-      "discordTagMappingStatus": "complete",
-      "discordTagMissingGroups": [],
-      "stats": {
-        "handlingSpeed": 54,
-        "stability": 50,
-        "effectiveRange": 52,
-        "baseDamage": 35,
-        "hipFireAccuracy": 41,
-        "recoilControl": 74
-      },
-      "baseStats": {
-        "handlingSpeed": 60,
-        "stability": 50,
-        "effectiveRange": 35,
-        "baseDamage": 35,
-        "hipFireAccuracy": 56,
-        "recoilControl": 40
-      },
-      "buildCode": "CI-19 Assault Rifle-Operations-6K25SR401OANMAF97OV6I",
-      "detailBuildCode": "6K25SR401OANMAF97OV6I",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780476917563_camde5.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_e638baf29e16a0af3263330af04ce532.png",
-      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
-      "detailStatus": "complete",
-      "detailError": null,
-      "dataFingerprint": "832e02af64a3be6fffc0493371264ba7e3d8e4d9b0c650363b92c84d4758c8ae",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
-      "publishCount": 0,
-      "lastPublishedAt": null,
-      "lastMessageId": null,
-      "lastThreadId": null
-    },
-    {
-      "active": true,
-      "sourceSet": "li-operations",
-      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
-      "slotIndex": 4,
-      "channel": "LI",
-      "mode": "OPERATIONS",
-      "apiMode": "sol",
-      "bannerRecordId": 383,
-      "schemeId": "0f33169d27a68aeb99afe98148455962",
-      "gunId": "18010000024",
-      "officialWeaponName": "PTR-32 Assault Rifle",
-      "weaponName": "PTR-32",
-      "weaponClass": "ASSAULT RIFLE",
-      "weaponClassSource": "official-name-suffix",
-      "gunCategory": "Rifle",
-      "buildName": "A very powerful barrel",
-      "description": "",
-      "price": "283195",
-      "priceRaw": "283195",
-      "priceStatus": "available",
-      "author": {
-        "name": "lildjeyy",
-        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183866135_bsncu2.png"
-      },
-      "tags": [
-        {
-          "id": 15,
-          "name": "Stable & Agile",
-          "color": "#8492ed",
-          "sortOrder": 1
-        },
-        {
-          "id": 19,
-          "name": "Rookie Friendly",
-          "color": "#9a71dc",
-          "sortOrder": 1
-        },
-        {
-          "id": 28,
-          "name": "Stable Recoil",
-          "color": "#d0814d",
-          "sortOrder": 1
-        }
-      ],
-      "discordTagAliases": [
-        "operations",
-        "global",
-        "ar"
-      ],
-      "discordTagMappingStatus": "complete",
-      "discordTagMissingGroups": [],
-      "stats": {
-        "handlingSpeed": 43,
-        "stability": 68,
-        "effectiveRange": 52,
-        "baseDamage": 34,
-        "hipFireAccuracy": 33,
-        "recoilControl": 66
-      },
-      "baseStats": {
-        "handlingSpeed": 56,
-        "stability": 57,
-        "effectiveRange": 40,
-        "baseDamage": 34,
-        "hipFireAccuracy": 45,
-        "recoilControl": 32
-      },
-      "buildCode": "PTR-32 Assault Rifle-Operations-6JVONO00EE3065J0QBDHV",
-      "detailBuildCode": "6JVONO00EE3065J0QBDHV",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780302180934_mgo0mi.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_dbe7beed57063d912e591eb8d823f3b8.png",
-      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
-      "detailStatus": "complete",
-      "detailError": null,
-      "dataFingerprint": "e6e03353c5b0ac1be5fecf4b73755c5e6b47b036a325abe7f6b340eba2b7cfee",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
-      "publishCount": 0,
-      "lastPublishedAt": null,
-      "lastMessageId": null,
-      "lastThreadId": null
-    },
-    {
-      "active": true,
-      "sourceSet": "li-operations",
-      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
-      "slotIndex": 4,
-      "channel": "LI",
-      "mode": "OPERATIONS",
-      "apiMode": "sol",
-      "bannerRecordId": 416,
-      "schemeId": "e92aabf1398053355b26bfd5cf3790bd",
-      "gunId": "18010000024",
-      "officialWeaponName": "PTR-32 Assault Rifle",
-      "weaponName": "PTR-32",
-      "weaponClass": "ASSAULT RIFLE",
-      "weaponClassSource": "official-name-suffix",
-      "gunCategory": "Rifle",
-      "buildName": "Mid & Close range Warfare weapon",
-      "description": "",
-      "price": "469693",
-      "priceRaw": "469693",
-      "priceStatus": "available",
-      "author": {
-        "name": "deltanox",
-        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1783326938806_98ib1i.png"
-      },
-      "tags": [
-        {
-          "id": 1,
-          "name": "Tournament Edition",
-          "color": "#0962ae",
-          "sortOrder": 1
-        },
-        {
-          "id": 22,
-          "name": "Suppressive Fire",
-          "color": "#aae4aa",
-          "sortOrder": 1
-        },
-        {
-          "id": 31,
-          "name": "Balanced",
-          "color": "#da5758",
-          "sortOrder": 1
-        }
-      ],
-      "discordTagAliases": [
-        "operations",
-        "global",
-        "ar"
-      ],
-      "discordTagMappingStatus": "complete",
-      "discordTagMissingGroups": [],
-      "stats": {
-        "handlingSpeed": 39,
-        "stability": 82,
-        "effectiveRange": 54,
-        "baseDamage": 34,
-        "hipFireAccuracy": 45,
-        "recoilControl": 66
-      },
-      "baseStats": {
-        "handlingSpeed": 56,
-        "stability": 57,
-        "effectiveRange": 40,
-        "baseDamage": 34,
-        "hipFireAccuracy": 45,
-        "recoilControl": 32
-      },
-      "buildCode": "PTR-32 Assault Rifle-Operations-6KCH4LC0BET1KQ9O3SCOA",
-      "detailBuildCode": "6KCH4LC0BET1KQ9O3SCOA",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1783327139033_p6z2e3.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_dbe7beed57063d912e591eb8d823f3b8.png",
-      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
-      "detailStatus": "complete",
-      "detailError": null,
-      "dataFingerprint": "86a6dac35902704add204adc46ac59c85c39c16142944a8572d0c1ca7d7fc8ea",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
-      "publishCount": 1,
-      "lastPublishedAt": "2026-08-03T09:13:44.680Z",
-      "lastMessageId": "1533764799043862721",
-      "lastThreadId": "1533764799043862721"
     },
     {
       "active": true,
@@ -991,78 +991,78 @@
       "channel": "LI",
       "mode": "WARFARE",
       "apiMode": "mp",
-      "bannerRecordId": 342,
-      "schemeId": "d8d8f1ef8ce92106978d09a8e976ee98",
-      "gunId": "18040000003",
-      "officialWeaponName": "M250 General Machine Gun",
-      "weaponName": "M250",
-      "weaponClass": "GENERAL MACHINE GUN",
+      "bannerRecordId": 426,
+      "schemeId": "d910e9da2511119c8fdd43e14bcaf188",
+      "gunId": "18010000006",
+      "officialWeaponName": "AKM Assault Rifle",
+      "weaponName": "AKM",
+      "weaponClass": "ASSAULT RIFLE",
       "weaponClassSource": "official-name-suffix",
-      "gunCategory": "LMG",
-      "buildName": "M250+Warfare",
+      "gunCategory": "Rifle",
+      "buildName": "No one escapes the crosshair of this beautiful boy",
       "description": "",
       "price": null,
       "priceRaw": "-1",
       "priceStatus": "not-applicable",
       "author": {
-        "name": "dash-delta-force",
-        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1778657857230_girb6s.png"
+        "name": "Thatguyade",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1783327031899_exlxwk.png"
       },
       "tags": [
         {
-          "id": 21,
-          "name": "Bracing Stability",
-          "color": "#aae4aa",
+          "id": 17,
+          "name": "Advanced Controls",
+          "color": "#87e1e5",
           "sortOrder": 1
         },
         {
-          "id": 22,
-          "name": "Suppressive Fire",
-          "color": "#aae4aa",
+          "id": 27,
+          "name": "Great Equalizer",
+          "color": "#c4c4c2",
           "sortOrder": 1
         },
         {
-          "id": 28,
-          "name": "Stable Recoil",
-          "color": "#d0814d",
+          "id": 24,
+          "name": "Versatile",
+          "color": "#b38fed",
           "sortOrder": 1
         }
       ],
       "discordTagAliases": [
         "warfare",
         "global",
-        "lmg"
+        "ar"
       ],
       "discordTagMappingStatus": "complete",
       "discordTagMissingGroups": [],
       "stats": {
-        "handlingSpeed": 50,
-        "stability": 49,
-        "effectiveRange": 52,
-        "baseDamage": 55,
-        "hipFireAccuracy": 34,
-        "recoilControl": 72
+        "handlingSpeed": 62,
+        "stability": 63,
+        "effectiveRange": 42,
+        "baseDamage": 40,
+        "hipFireAccuracy": 81,
+        "recoilControl": 46
       },
       "baseStats": {
-        "handlingSpeed": 38,
-        "stability": 50,
+        "handlingSpeed": 54,
+        "stability": 55,
         "effectiveRange": 40,
-        "baseDamage": 55,
-        "hipFireAccuracy": 45,
-        "recoilControl": 40
+        "baseDamage": 40,
+        "hipFireAccuracy": 53,
+        "recoilControl": 39
       },
-      "buildCode": "M250 General Machine Gun-Warfare-6JVADD809EEIVOORSKMDJ",
-      "detailBuildCode": "6JVADD809EEIVOORSKMDJ",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1778733214990_ow8uqd.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_00ae2caebce7301ab528c151b4589628.png",
+      "buildCode": "AKM Assault Rifle-Warfare-6K50M4G066D6R0SSVVE4K",
+      "detailBuildCode": "6K50M4G066D6R0SSVVE4K",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1783328618101_0uowq4.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_c561a10a5fb2ca4c806107660c217374.png",
       "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
       "detailStatus": "complete",
       "detailError": null,
-      "dataFingerprint": "811ae891cbe65e06165a714544fc00ee88a14fbfd741406cee25e3443870a5a7",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "dataFingerprint": "c6d09f83a07fcd9c91700df65e195a51b39b8d70f8854cf7e3262b842c4039fe",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -1076,15 +1076,100 @@
       "channel": "LI",
       "mode": "WARFARE",
       "apiMode": "mp",
-      "bannerRecordId": 344,
-      "schemeId": "b620be005a49c515d1f762eae10e6a7f",
-      "gunId": "18060000033",
-      "officialWeaponName": "M82 Sniper Rifle",
-      "weaponName": "M82",
-      "weaponClass": "SNIPER RIFLE",
+      "bannerRecordId": 551,
+      "schemeId": "78ea8611c31c8ec66da31e78e8cd29dc",
+      "gunId": "18030000006",
+      "officialWeaponName": "FS-12 Shotgun",
+      "weaponName": "FS-12",
+      "weaponClass": "SHOTGUN",
       "weaponClassSource": "official-name-suffix",
-      "gunCategory": "SR",
-      "buildName": "M82+Warfare",
+      "gunCategory": "Shotgun",
+      "buildName": "FS-12 Build",
+      "description": "",
+      "price": null,
+      "priceRaw": "-1",
+      "priceStatus": "not-applicable",
+      "author": {
+        "name": "apegod",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1783326910925_a0a9rv.png"
+      },
+      "tags": [
+        {
+          "id": 35,
+          "name": "Close-Range Melt",
+          "color": "#e8989b",
+          "sortOrder": 1
+        },
+        {
+          "id": 25,
+          "name": "Close-Mid Range",
+          "color": "#b38fed",
+          "sortOrder": 1
+        },
+        {
+          "id": 22,
+          "name": "Suppressive Fire",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "warfare",
+        "global",
+        "shotguns"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 53,
+        "stability": 46,
+        "effectiveRange": 12,
+        "baseDamage": 14,
+        "hipFireAccuracy": 83,
+        "recoilControl": 43
+      },
+      "baseStats": {
+        "handlingSpeed": 52,
+        "stability": 47,
+        "effectiveRange": 12,
+        "baseDamage": 14,
+        "hipFireAccuracy": 51,
+        "recoilControl": 30
+      },
+      "buildCode": "FS-12 Shotgun-Warfare-6KNGC0C01H9FKMG6H9D4Q",
+      "detailBuildCode": "6KNGC0C01H9FKMG6H9D4Q",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785814654450_5s7qh6.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_8845275c7c97588dd996c937032d4b87.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "9e7c607e50cfe3a9ef9b797de1c9f2538683e0981b49ffa60ff168ed7b1fe35f",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-17T06:56:58.742Z",
+      "lastMessageId": "1538803809948667945",
+      "lastThreadId": "1538803809948667945"
+    },
+    {
+      "active": true,
+      "sourceSet": "li-warfare",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_mp_en.js",
+      "slotIndex": 2,
+      "channel": "LI",
+      "mode": "WARFARE",
+      "apiMode": "mp",
+      "bannerRecordId": 343,
+      "schemeId": "5c62d27c6b6b52af15486f7ee7d818e2",
+      "gunId": "18010000037",
+      "officialWeaponName": "AS Val Assault Rifle",
+      "weaponName": "AS Val",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "AS Val+Warfare",
       "description": "",
       "price": null,
       "priceRaw": "-1",
@@ -1095,100 +1180,15 @@
       },
       "tags": [
         {
-          "id": 9,
-          "name": "Recon",
-          "color": "#58d7dc",
+          "id": 16,
+          "name": "Max Fire Rate",
+          "color": "#85e0e6",
           "sortOrder": 1
         },
-        {
-          "id": 27,
-          "name": "Great Equalizer",
-          "color": "#c4c4c2",
-          "sortOrder": 1
-        },
-        {
-          "id": 36,
-          "name": "Long-Range Combat",
-          "color": "#e8989b",
-          "sortOrder": 1
-        }
-      ],
-      "discordTagAliases": [
-        "warfare",
-        "global",
-        "sr"
-      ],
-      "discordTagMappingStatus": "complete",
-      "discordTagMissingGroups": [],
-      "stats": {
-        "handlingSpeed": 26,
-        "stability": 65,
-        "effectiveRange": 200,
-        "baseDamage": 100,
-        "hipFireAccuracy": 31,
-        "recoilControl": 11
-      },
-      "baseStats": {
-        "handlingSpeed": 20,
-        "stability": 66,
-        "effectiveRange": 200,
-        "baseDamage": 100,
-        "hipFireAccuracy": 15,
-        "recoilControl": 10
-      },
-      "buildCode": "M82 Sniper Rifle-Warfare-6JVAH0C09EEIVOORSKMDJ",
-      "detailBuildCode": "6JVAH0C09EEIVOORSKMDJ",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1778733251769_v53el6.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_fe75e63f37720609b4c88d6be0d812ae.png",
-      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
-      "detailStatus": "complete",
-      "detailError": null,
-      "dataFingerprint": "e7ea50aec14860755e8980995210078e3db2d093265f6686929dd49e604e8594",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
-      "publishCount": 0,
-      "lastPublishedAt": null,
-      "lastMessageId": null,
-      "lastThreadId": null
-    },
-    {
-      "active": true,
-      "sourceSet": "li-warfare",
-      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_mp_en.js",
-      "slotIndex": 2,
-      "channel": "LI",
-      "mode": "WARFARE",
-      "apiMode": "mp",
-      "bannerRecordId": 409,
-      "schemeId": "f2a27a19767a3482e79066159c11bfa8",
-      "gunId": "18010000008",
-      "officialWeaponName": "QBZ95-1 Assault Rifle",
-      "weaponName": "QBZ95-1",
-      "weaponClass": "ASSAULT RIFLE",
-      "weaponClassSource": "official-name-suffix",
-      "gunCategory": "Rifle",
-      "buildName": "He shoots well from the hip",
-      "description": "",
-      "price": null,
-      "priceRaw": "-1",
-      "priceStatus": "not-applicable",
-      "author": {
-        "name": "lildjeyy",
-        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183866135_bsncu2.png"
-      },
-      "tags": [
         {
           "id": 25,
           "name": "Close-Mid Range",
           "color": "#b38fed",
-          "sortOrder": 1
-        },
-        {
-          "id": 34,
-          "name": "Ultra-Fast TTK",
-          "color": "#e8989b",
           "sortOrder": 1
         },
         {
@@ -1206,37 +1206,37 @@
       "discordTagMappingStatus": "complete",
       "discordTagMissingGroups": [],
       "stats": {
-        "handlingSpeed": 67,
-        "stability": 66,
-        "effectiveRange": 72,
-        "baseDamage": 28,
-        "hipFireAccuracy": 34,
-        "recoilControl": 81
+        "handlingSpeed": 55,
+        "stability": 53,
+        "effectiveRange": 35,
+        "baseDamage": 29,
+        "hipFireAccuracy": 37,
+        "recoilControl": 71
       },
       "baseStats": {
-        "handlingSpeed": 55,
-        "stability": 58,
-        "effectiveRange": 55,
-        "baseDamage": 28,
-        "hipFireAccuracy": 54,
-        "recoilControl": 52
+        "handlingSpeed": 62,
+        "stability": 51,
+        "effectiveRange": 27,
+        "baseDamage": 29,
+        "hipFireAccuracy": 57,
+        "recoilControl": 43
       },
-      "buildCode": "QBZ95-1 Assault Rifle-Warfare-6K11QDK0D8405UJP8H127",
-      "detailBuildCode": "6K11QDK0D8405UJP8H127",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1781254469943_3mgr0g.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_d49bb77e3c3e5f5195eab2b865ba1699.png",
+      "buildCode": "AS Val Assault Rifle-Warfare-6JVAF8409EEIVOORSKMDJ",
+      "detailBuildCode": "6JVAF8409EEIVOORSKMDJ",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1778733242740_iz3v17.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_726e4a862665b71450a06684224e2793.png",
       "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
       "detailStatus": "complete",
       "detailError": null,
-      "dataFingerprint": "865904766f68b20b56f64914ca78e90a37d3085a8c81c4f35bc80266d5c939a7",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
-      "publishCount": 0,
-      "lastPublishedAt": null,
-      "lastMessageId": null,
-      "lastThreadId": null
+      "dataFingerprint": "3058c252e69c712ef6660ef4e19b13dc0b246ea68b964933dee6b236f343d81d",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-23T08:16:25.511Z",
+      "lastMessageId": "1540998130319753327",
+      "lastThreadId": "1540998130319753327"
     },
     {
       "active": true,
@@ -1246,24 +1246,30 @@
       "channel": "LI",
       "mode": "WARFARE",
       "apiMode": "mp",
-      "bannerRecordId": 427,
-      "schemeId": "124999f4f3eb903b1cd1eafbf9728fef",
-      "gunId": "18010000038",
-      "officialWeaponName": "CI-19 Assault Rifle",
-      "weaponName": "CI-19",
+      "bannerRecordId": 420,
+      "schemeId": "41b81fc120e4f0c07b84c4c739b36134",
+      "gunId": "18010000013",
+      "officialWeaponName": "K416 Assault Rifle",
+      "weaponName": "K416",
       "weaponClass": "ASSAULT RIFLE",
       "weaponClassSource": "official-name-suffix",
       "gunCategory": "Rifle",
-      "buildName": "LA  HERMOSA ARMA LASER CI-19 con MUCHO DAÑO",
+      "buildName": "Master build K416, perfect for D-Wolf/Vyron Moveme",
       "description": "",
       "price": null,
       "priceRaw": "-1",
       "priceStatus": "not-applicable",
       "author": {
-        "name": "Destro32",
-        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1783326946457_r140ny.png"
+        "name": "TheVizuff",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1783327037517_5x8sdj.png"
       },
       "tags": [
+        {
+          "id": 1,
+          "name": "Tournament Edition",
+          "color": "#0962ae",
+          "sortOrder": 1
+        },
         {
           "id": 17,
           "name": "Advanced Controls",
@@ -1271,15 +1277,9 @@
           "sortOrder": 1
         },
         {
-          "id": 21,
-          "name": "Bracing Stability",
-          "color": "#aae4aa",
-          "sortOrder": 1
-        },
-        {
-          "id": 28,
-          "name": "Stable Recoil",
-          "color": "#d0814d",
+          "id": 18,
+          "name": "Agile Lean Peek",
+          "color": "#8abce6",
           "sortOrder": 1
         }
       ],
@@ -1291,33 +1291,33 @@
       "discordTagMappingStatus": "complete",
       "discordTagMissingGroups": [],
       "stats": {
-        "handlingSpeed": 43,
-        "stability": 61,
-        "effectiveRange": 46,
-        "baseDamage": 35,
+        "handlingSpeed": 52,
+        "stability": 43,
+        "effectiveRange": 35,
+        "baseDamage": 31,
         "hipFireAccuracy": 61,
-        "recoilControl": 70
+        "recoilControl": 67
       },
       "baseStats": {
-        "handlingSpeed": 60,
-        "stability": 50,
-        "effectiveRange": 35,
-        "baseDamage": 35,
-        "hipFireAccuracy": 56,
-        "recoilControl": 40
+        "handlingSpeed": 61,
+        "stability": 52,
+        "effectiveRange": 27,
+        "baseDamage": 31,
+        "hipFireAccuracy": 57,
+        "recoilControl": 44
       },
-      "buildCode": "CI-19 Assault Rifle-Warfare-6KC5OCS01IB216R8KPTPF",
-      "detailBuildCode": "6KC5OCS01IB216R8KPTPF",
-      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1783328673292_j12ks5.webp",
-      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_e638baf29e16a0af3263330af04ce532.png",
+      "buildCode": "K416 Assault Rifle-Warfare-6K507OO0BRH2Q6HI19Q2H",
+      "detailBuildCode": "6K507OO0BRH2Q6HI19Q2H",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1783328419132_y08w36.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_6e843155a5b3eafa562617d0438d03a9.png",
       "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
       "detailStatus": "complete",
       "detailError": null,
-      "dataFingerprint": "761c8a709e1aeef58829de685b1f4e445f63545258d523efdb95c20299968986",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
-      "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "dataFingerprint": "80b6b57c5c054b739b8252f19d4b9be2060e5954186f0b6efb2593ec2352397d",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
+      "firstSeenAt": "2026-08-17T06:55:27.244Z",
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -1399,14 +1399,14 @@
       "detailStatus": "complete",
       "detailError": null,
       "dataFingerprint": "a60cd308ebc2598f435e943eafbf96a0e8f9d6516a479be424837f54219dca69",
-      "sourceFetchedAt": "2026-08-03T12:47:55.953Z",
+      "sourceFetchedAt": "2026-08-25T02:55:05.686Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
-      "lastSeenAt": "2026-08-03T12:47:55.953Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
-      "publishCount": 0,
-      "lastPublishedAt": null,
-      "lastMessageId": null,
-      "lastThreadId": null
+      "lastSeenAt": "2026-08-25T02:55:05.686Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-04T10:13:27.383Z",
+      "lastMessageId": "1534142212903014544",
+      "lastThreadId": "1534142212903014544"
     },
     {
       "active": false,
@@ -1480,7 +1480,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -1558,7 +1558,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -1636,7 +1636,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -1714,7 +1714,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -1792,7 +1792,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -1870,7 +1870,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -1948,7 +1948,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -2026,7 +2026,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -2104,7 +2104,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -2182,7 +2182,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -2260,7 +2260,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -2338,7 +2338,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -2416,7 +2416,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -2494,7 +2494,7 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,
@@ -2572,7 +2572,2559 @@
       "sourceFetchedAt": "2026-08-03T11:16:56.546Z",
       "firstSeenAt": "2026-08-03T11:03:11.711Z",
       "lastSeenAt": "2026-08-03T11:16:56.546Z",
-      "lastRefreshedAt": "2026-08-03T12:47:55.953Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 0,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 400,
+      "schemeId": "8432decd361ded23bfb74f096e701922",
+      "gunId": "18010000045",
+      "officialWeaponName": "AR-57 Assault Rifle",
+      "weaponName": "AR-57",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "",
+      "buildName": "RoguePringle's AR57",
+      "description": "",
+      "price": "532124",
+      "priceRaw": "532124",
+      "priceStatus": "available",
+      "author": {
+        "name": "RoguePringle",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183909618_o774o6.png"
+      },
+      "tags": [
+        {
+          "id": 18,
+          "name": "Agile Lean Peek",
+          "color": "#8abce6",
+          "sortOrder": 1
+        },
+        {
+          "id": 21,
+          "name": "Bracing Stability",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        },
+        {
+          "id": 40,
+          "name": "New Weapon",
+          "color": "#f3da94",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 60,
+        "stability": 42,
+        "effectiveRange": 46,
+        "baseDamage": 30,
+        "hipFireAccuracy": 48,
+        "recoilControl": 76
+      },
+      "baseStats": {
+        "handlingSpeed": 58,
+        "stability": 40,
+        "effectiveRange": 35,
+        "baseDamage": 30,
+        "hipFireAccuracy": 60,
+        "recoilControl": 41
+      },
+      "buildCode": "AR-57 Assault Rifle-Operations-6K1STRS052HRDQOIRARB5",
+      "detailBuildCode": "6K1STRS052HRDQOIRARB5",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780476146623_4xlbhk.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_566dbe77876dbd7a40bd7d5f27d7f931.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "7dd8f19438affd3470c2c2f3c8252567aee75ac3629a72d40f6a28797837722e",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-03T12:35:47.404Z",
+      "lastMessageId": "1533815644938571797",
+      "lastThreadId": "1533815644938571797"
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 0,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 466,
+      "schemeId": "ab8302e88b8baae1654c60192f6f98e7",
+      "gunId": "18010000006",
+      "officialWeaponName": "AKM Assault Rifle",
+      "weaponName": "AKM",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "The HANDLING AKM",
+      "description": "",
+      "price": "458929",
+      "priceRaw": "458929",
+      "priceStatus": "available",
+      "author": {
+        "name": "Minda999",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785375737693_x8t0lx.png"
+      },
+      "tags": [
+        {
+          "id": 26,
+          "name": "Recoil Stability",
+          "color": "#b38fed",
+          "sortOrder": 1
+        },
+        {
+          "id": 18,
+          "name": "Agile Lean Peek",
+          "color": "#8abce6",
+          "sortOrder": 1
+        },
+        {
+          "id": 4,
+          "name": "Version Buffed",
+          "color": "#2aca96",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 56,
+        "stability": 61,
+        "effectiveRange": 47,
+        "baseDamage": 40,
+        "hipFireAccuracy": 69,
+        "recoilControl": 60
+      },
+      "baseStats": {
+        "handlingSpeed": 54,
+        "stability": 55,
+        "effectiveRange": 40,
+        "baseDamage": 40,
+        "hipFireAccuracy": 53,
+        "recoilControl": 39
+      },
+      "buildCode": "AKM Assault Rifle-Operations-6K17350088K38R05C0LGG",
+      "detailBuildCode": "6K17350088K38R05C0LGG",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785757482472_ycray7.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_c561a10a5fb2ca4c806107660c217374.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "8881e95e8f6b4498b630e6bdd5dc60d123177b5be1ba76c42a53d04dbcd0e8a0",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-16T02:24:26.866Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-16T05:29:37.023Z",
+      "lastMessageId": "1538419438221787157",
+      "lastThreadId": "1538419438221787157"
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 0,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 443,
+      "schemeId": "d5a0198cf9e16e4af7f6757bdb721ddd",
+      "gunId": "18010000006",
+      "officialWeaponName": "AKM Assault Rifle",
+      "weaponName": "AKM",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "NOVA",
+      "description": "",
+      "price": "386354",
+      "priceRaw": "386354",
+      "priceStatus": "available",
+      "author": {
+        "name": "MrDiogod",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785375716615_6dh548.png"
+      },
+      "tags": [
+        {
+          "id": 18,
+          "name": "Agile Lean Peek",
+          "color": "#8abce6",
+          "sortOrder": 1
+        },
+        {
+          "id": 25,
+          "name": "Close-Mid Range",
+          "color": "#b38fed",
+          "sortOrder": 1
+        },
+        {
+          "id": 22,
+          "name": "Suppressive Fire",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 50,
+        "stability": 69,
+        "effectiveRange": 52,
+        "baseDamage": 40,
+        "hipFireAccuracy": 25,
+        "recoilControl": 64
+      },
+      "baseStats": {
+        "handlingSpeed": 54,
+        "stability": 55,
+        "effectiveRange": 40,
+        "baseDamage": 40,
+        "hipFireAccuracy": 53,
+        "recoilControl": 39
+      },
+      "buildCode": "AKM Assault Rifle-Operations-6KNDKM003QQQOHH9DO9VL",
+      "detailBuildCode": "6KNDKM003QQQOHH9DO9VL",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785726371244_vsjih4.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_c561a10a5fb2ca4c806107660c217374.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "229f76da5581d3ffd382781a855ab30913e5068cacd05ee2ed233e56339f5c17",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-16T02:24:26.866Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 0,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 405,
+      "schemeId": "ff8e6ebc0d00512f895c49e5513e1aa3",
+      "gunId": "18010000045",
+      "officialWeaponName": "AR-57 Assault Rifle",
+      "weaponName": "AR-57",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "",
+      "buildName": "ItzNowh3re's AR57",
+      "description": "",
+      "price": "531067",
+      "priceRaw": "531067",
+      "priceStatus": "available",
+      "author": {
+        "name": "ItzNowh3re'",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183924680_951muk.png"
+      },
+      "tags": [
+        {
+          "id": 28,
+          "name": "Stable Recoil",
+          "color": "#d0814d",
+          "sortOrder": 1
+        },
+        {
+          "id": 25,
+          "name": "Close-Mid Range",
+          "color": "#b38fed",
+          "sortOrder": 1
+        },
+        {
+          "id": 22,
+          "name": "Suppressive Fire",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 45,
+        "stability": 44,
+        "effectiveRange": 52,
+        "baseDamage": 30,
+        "hipFireAccuracy": 36,
+        "recoilControl": 72
+      },
+      "baseStats": {
+        "handlingSpeed": 58,
+        "stability": 40,
+        "effectiveRange": 35,
+        "baseDamage": 30,
+        "hipFireAccuracy": 60,
+        "recoilControl": 41
+      },
+      "buildCode": "AR-57 Assault Rifle-Operations-6K25S2C01OANMAF97OV6I",
+      "detailBuildCode": "6K25S2C01OANMAF97OV6I",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780476778654_38s4tm.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_566dbe77876dbd7a40bd7d5f27d7f931.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "803dc44ab027e93af49ea15eb3cbf3b50984a0447fe6d129120f22b3a0d3b039",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-03T12:38:50.140Z",
+      "lastMessageId": "1533816412211122337",
+      "lastThreadId": "1533816412211122337"
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 1,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 527,
+      "schemeId": "0ca370b72dcf568d367785c69f71d893",
+      "gunId": "18060000011",
+      "officialWeaponName": "AWM Sniper Rifle",
+      "weaponName": "AWM",
+      "weaponClass": "SNIPER RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "SR",
+      "buildName": "GOAT AWM",
+      "description": "",
+      "price": "886722",
+      "priceRaw": "886722",
+      "priceStatus": "available",
+      "author": {
+        "name": "aznboi",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785375967008_3d57yt.png"
+      },
+      "tags": [
+        {
+          "id": 27,
+          "name": "Great Equalizer",
+          "color": "#c4c4c2",
+          "sortOrder": 1
+        },
+        {
+          "id": 33,
+          "name": "Supreme Max Build",
+          "color": "#e4c08d",
+          "sortOrder": 1
+        },
+        {
+          "id": 38,
+          "name": "Onslaught Spec",
+          "color": "#f3da94",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "sr"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 38,
+        "stability": 84,
+        "effectiveRange": 200,
+        "baseDamage": 100,
+        "hipFireAccuracy": 23,
+        "recoilControl": 17
+      },
+      "baseStats": {
+        "handlingSpeed": 44,
+        "stability": 74,
+        "effectiveRange": 200,
+        "baseDamage": 100,
+        "hipFireAccuracy": 23,
+        "recoilControl": 20
+      },
+      "buildCode": "AWM Sniper Rifle-Operations-6KOL1UG033LU1V88PNPTN",
+      "detailBuildCode": "6KOL1UG033LU1V88PNPTN",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785810138266_co54ss.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_671987494fa22384bab65c5ecfb67935.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "c6275d83e6982244b7936a75d01a26436d5f6dbb7cc1bc99a1ca30e668e87e80",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-16T02:24:26.866Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 1,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 372,
+      "schemeId": "64bf58a7f5387e8cc39a9bec65a6340d",
+      "gunId": "18010000042",
+      "officialWeaponName": "KC-17 Assault Rifle",
+      "weaponName": "KC-17",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "delta force meta",
+      "description": "",
+      "price": "551274",
+      "priceRaw": "551274",
+      "priceStatus": "available",
+      "author": {
+        "name": "ATTURSSON",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183851914_3lxfsx.png"
+      },
+      "tags": [
+        {
+          "id": 28,
+          "name": "Stable Recoil",
+          "color": "#d0814d",
+          "sortOrder": 1
+        },
+        {
+          "id": 39,
+          "name": "Supreme AP",
+          "color": "#f3da94",
+          "sortOrder": 1
+        },
+        {
+          "id": 23,
+          "name": "Stable & Standard",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 37,
+        "stability": 60,
+        "effectiveRange": 72,
+        "baseDamage": 31,
+        "hipFireAccuracy": 37,
+        "recoilControl": 83
+      },
+      "baseStats": {
+        "handlingSpeed": 53,
+        "stability": 48,
+        "effectiveRange": 55,
+        "baseDamage": 31,
+        "hipFireAccuracy": 45,
+        "recoilControl": 53
+      },
+      "buildCode": "KC-17 Assault Rifle-Operations-6JRIBTC03GMUSBU927419",
+      "detailBuildCode": "6JRIBTC03GMUSBU927419",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1779973725260_405gw4.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_f4501fab5768532e251b216939359cf2.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "7808eb94065238df684e0c5717f2bd3dbdac9f73c4137e94de7d979cc7459ece",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-03T12:41:52.599Z",
+      "lastMessageId": "1533817176836800614",
+      "lastThreadId": "1533817176836800614"
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 1,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 336,
+      "schemeId": "a4f906f5cd25f98b162a86de45014343",
+      "gunId": "18010000042",
+      "officialWeaponName": "KC-17 Assault Rifle",
+      "weaponName": "KC-17",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "KC17+Operations",
+      "description": "",
+      "price": "472823",
+      "priceRaw": "472823",
+      "priceStatus": "available",
+      "author": {
+        "name": "VizuffYouTube",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1778657814172_b15jp4.png"
+      },
+      "tags": [
+        {
+          "id": 12,
+          "name": "Great Value",
+          "color": "#8492ed",
+          "sortOrder": 1
+        },
+        {
+          "id": 15,
+          "name": "Stable & Agile",
+          "color": "#8492ed",
+          "sortOrder": 1
+        },
+        {
+          "id": 22,
+          "name": "Suppressive Fire",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 41,
+        "stability": 61,
+        "effectiveRange": 72,
+        "baseDamage": 31,
+        "hipFireAccuracy": 17,
+        "recoilControl": 70
+      },
+      "baseStats": {
+        "handlingSpeed": 53,
+        "stability": 48,
+        "effectiveRange": 55,
+        "baseDamage": 31,
+        "hipFireAccuracy": 45,
+        "recoilControl": 53
+      },
+      "buildCode": "KC-17 Assault Rifle-Operations-6JV1QB00BRH2Q6HI19Q2H",
+      "detailBuildCode": "6JV1QB00BRH2Q6HI19Q2H",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1778733103713_99x5rs.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_f4501fab5768532e251b216939359cf2.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "0ca018e75f2aa4ccf6124696e2a648650937d51394e66c6ee8ef99f1a91bab08",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-03T12:44:55.905Z",
+      "lastMessageId": "1533817944973246526",
+      "lastThreadId": "1533817944973246526"
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 1,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 540,
+      "schemeId": "ccbb6f9156aa718e0e75d007d34253eb",
+      "gunId": "18060000011",
+      "officialWeaponName": "AWM Sniper Rifle",
+      "weaponName": "AWM",
+      "weaponClass": "SNIPER RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "SR",
+      "buildName": "HOLEEH MOLEEH 3",
+      "description": "",
+      "price": "883088",
+      "priceRaw": "883088",
+      "priceStatus": "available",
+      "author": {
+        "name": "Terasite",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785375985146_1wk3k3.png"
+      },
+      "tags": [
+        {
+          "id": 33,
+          "name": "Supreme Max Build",
+          "color": "#e4c08d",
+          "sortOrder": 1
+        },
+        {
+          "id": 43,
+          "name": "Expert Only",
+          "color": "#f4cf67",
+          "sortOrder": 1
+        },
+        {
+          "id": 38,
+          "name": "Onslaught Spec",
+          "color": "#f3da94",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "sr"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 32,
+        "stability": 81,
+        "effectiveRange": 200,
+        "baseDamage": 100,
+        "hipFireAccuracy": 23,
+        "recoilControl": 17
+      },
+      "baseStats": {
+        "handlingSpeed": 44,
+        "stability": 74,
+        "effectiveRange": 200,
+        "baseDamage": 100,
+        "hipFireAccuracy": 23,
+        "recoilControl": 20
+      },
+      "buildCode": "AWM Sniper Rifle-Operations-6KOOTFK050DVU44QF05SJ",
+      "detailBuildCode": "6KOOTFK050DVU44QF05SJ",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785812458852_da02l1.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_671987494fa22384bab65c5ecfb67935.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "d25945c96944f7bc97b58c2f364f60de10458c8b4bcccd1962ba466fe70aaec9",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-16T02:24:26.866Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 2,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 376,
+      "schemeId": "28835324a66dd1d95b2ec3d3946825ae",
+      "gunId": "18010000001",
+      "officialWeaponName": "M4A1 Assault Rifle",
+      "weaponName": "M4A1",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "Equals Budget M4A1",
+      "description": "",
+      "price": "284531",
+      "priceRaw": "284531",
+      "priceStatus": "available",
+      "author": {
+        "name": "Equalplay",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1778657820955_o1ptsd.png"
+      },
+      "tags": [
+        {
+          "id": 2,
+          "name": "High Stability",
+          "color": "#2aca96",
+          "sortOrder": 1
+        },
+        {
+          "id": 4,
+          "name": "Version Buffed",
+          "color": "#2aca96",
+          "sortOrder": 1
+        },
+        {
+          "id": 26,
+          "name": "Recoil Stability",
+          "color": "#b38fed",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 52,
+        "stability": 61,
+        "effectiveRange": 40,
+        "baseDamage": 31,
+        "hipFireAccuracy": 67,
+        "recoilControl": 48
+      },
+      "baseStats": {
+        "handlingSpeed": 58,
+        "stability": 55,
+        "effectiveRange": 40,
+        "baseDamage": 31,
+        "hipFireAccuracy": 55,
+        "recoilControl": 41
+      },
+      "buildCode": "M4A1 Assault Rifle-Operations-6K1IUS400G02164FCEV6J",
+      "detailBuildCode": "6K1IUS400G02164FCEV6J",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1779976063524_55axgw.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_48fa086d7bd4797ff751b44fdc00b9c2.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "92836f34762e30b788d40dce1e7db191bb3fef8d8773c2e552439a9fbd670828",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-12T06:27:59.169Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 2,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 404,
+      "schemeId": "6b153a25368120ffb531a92e64f77850",
+      "gunId": "18010000016",
+      "officialWeaponName": "M7 Battle Rifle",
+      "weaponName": "M7",
+      "weaponClass": "BATTLE RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "ItzNowh3re's BEST M7",
+      "description": "",
+      "price": "1067598",
+      "priceRaw": "1067598",
+      "priceStatus": "available",
+      "author": {
+        "name": "ItzNowh3re'",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183924680_951muk.png"
+      },
+      "tags": [
+        {
+          "id": 37,
+          "name": "Supreme Rush",
+          "color": "#e8989b",
+          "sortOrder": 1
+        },
+        {
+          "id": 38,
+          "name": "Onslaught Spec",
+          "color": "#f3da94",
+          "sortOrder": 1
+        },
+        {
+          "id": 33,
+          "name": "Supreme Max Build",
+          "color": "#e4c08d",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "br"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 44,
+        "stability": 58,
+        "effectiveRange": 74,
+        "baseDamage": 40,
+        "hipFireAccuracy": 27,
+        "recoilControl": 68
+      },
+      "baseStats": {
+        "handlingSpeed": 51,
+        "stability": 58,
+        "effectiveRange": 50,
+        "baseDamage": 38,
+        "hipFireAccuracy": 43,
+        "recoilControl": 34
+      },
+      "buildCode": "M7 Battle Rifle-Operations-6K25RPG01OANMAF97OV6I",
+      "detailBuildCode": "6K25RPG01OANMAF97OV6I",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780476731557_m22uqo.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_64277f47970b8b962985d5bb686c3cda.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "ccd1cfbd8d3eb9d823ab7c40af1c820a405324c981bb64a087673fd16ec843e7",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-03T12:48:03.590Z",
+      "lastMessageId": "1533818733447876629",
+      "lastThreadId": "1533818733447876629"
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 2,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 402,
+      "schemeId": "857fc585488d8878119f55c513133fc0",
+      "gunId": "18010000016",
+      "officialWeaponName": "M7 Battle Rifle",
+      "weaponName": "M7",
+      "weaponClass": "BATTLE RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "RoguePringle's M7",
+      "description": "",
+      "price": "560095",
+      "priceRaw": "560095",
+      "priceStatus": "available",
+      "author": {
+        "name": "RoguePringle",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183909618_o774o6.png"
+      },
+      "tags": [
+        {
+          "id": 36,
+          "name": "Long-Range Combat",
+          "color": "#e8989b",
+          "sortOrder": 1
+        },
+        {
+          "id": 37,
+          "name": "Supreme Rush",
+          "color": "#e8989b",
+          "sortOrder": 1
+        },
+        {
+          "id": 31,
+          "name": "Balanced",
+          "color": "#da5758",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "br"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 45,
+        "stability": 75,
+        "effectiveRange": 53,
+        "baseDamage": 38,
+        "hipFireAccuracy": 23,
+        "recoilControl": 52
+      },
+      "baseStats": {
+        "handlingSpeed": 51,
+        "stability": 58,
+        "effectiveRange": 50,
+        "baseDamage": 38,
+        "hipFireAccuracy": 43,
+        "recoilControl": 34
+      },
+      "buildCode": "M7 Battle Rifle-Operations-6K1SV4O052HRDQOIRARB5",
+      "detailBuildCode": "6K1SV4O052HRDQOIRARB5",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780476299948_mr1dne.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_64277f47970b8b962985d5bb686c3cda.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "9b7d06cd9b45aa827b3794434e414686fb23aac77cd766e6dbfca1ab9d45d777",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 2,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 386,
+      "schemeId": "c82caf9744532144041e34a271e6ec5f",
+      "gunId": "18010000001",
+      "officialWeaponName": "M4A1 Assault Rifle",
+      "weaponName": "M4A1",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "GeeksEh Intermediate",
+      "description": "",
+      "price": "388285",
+      "priceRaw": "388285",
+      "priceStatus": "available",
+      "author": {
+        "name": "GeeksEh",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183878326_hswyc0.png"
+      },
+      "tags": [
+        {
+          "id": 28,
+          "name": "Stable Recoil",
+          "color": "#d0814d",
+          "sortOrder": 1
+        },
+        {
+          "id": 14,
+          "name": "High Mobility",
+          "color": "#8492ed",
+          "sortOrder": 1
+        },
+        {
+          "id": 13,
+          "name": "Great Value",
+          "color": "#8492ed",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 50,
+        "stability": 63,
+        "effectiveRange": 47,
+        "baseDamage": 31,
+        "hipFireAccuracy": 55,
+        "recoilControl": 69
+      },
+      "baseStats": {
+        "handlingSpeed": 58,
+        "stability": 55,
+        "effectiveRange": 40,
+        "baseDamage": 31,
+        "hipFireAccuracy": 55,
+        "recoilControl": 41
+      },
+      "buildCode": "M4A1 Assault Rifle-Operations-6K2667K085L6V8LSU2DTN",
+      "detailBuildCode": "6K2667K085L6V8LSU2DTN",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780302434909_95c3iv.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_48fa086d7bd4797ff751b44fdc00b9c2.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "c9c8d1dcdbaab6635b07ae745b6eec3a8d95eb83d94abfbaf7285eac638bedfd",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-12T06:27:59.169Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 3,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 516,
+      "schemeId": "12b4d68529f843898918d3d9d6b55da1",
+      "gunId": "18040000003",
+      "officialWeaponName": "M250 General Machine Gun",
+      "weaponName": "M250",
+      "weaponClass": "GENERAL MACHINE GUN",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "LMG",
+      "buildName": "My Big Bro",
+      "description": "",
+      "price": "867559",
+      "priceRaw": "867559",
+      "priceStatus": "available",
+      "author": {
+        "name": "Kongstyle101",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785375951391_bx402o.jpg"
+      },
+      "tags": [
+        {
+          "id": 33,
+          "name": "Supreme Max Build",
+          "color": "#e4c08d",
+          "sortOrder": 1
+        },
+        {
+          "id": 37,
+          "name": "Supreme Rush",
+          "color": "#e8989b",
+          "sortOrder": 1
+        },
+        {
+          "id": 38,
+          "name": "Onslaught Spec",
+          "color": "#f3da94",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "lmg"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 39,
+        "stability": 48,
+        "effectiveRange": 40,
+        "baseDamage": 55,
+        "hipFireAccuracy": 55,
+        "recoilControl": 63
+      },
+      "baseStats": {
+        "handlingSpeed": 38,
+        "stability": 50,
+        "effectiveRange": 40,
+        "baseDamage": 55,
+        "hipFireAccuracy": 45,
+        "recoilControl": 40
+      },
+      "buildCode": "M250 General Machine Gun-Operations-6KO11RC07032DITL7DUMT",
+      "detailBuildCode": "6KO11RC07032DITL7DUMT",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785809851492_tdoih0.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_00ae2caebce7301ab528c151b4589628.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "e741533e4b17d0167c5b5c8bfaec8b050cae8b26da677e799f8c31a9a7e3b3e1",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-16T02:24:26.866Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 3,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 509,
+      "schemeId": "4adf732d0a1737385e2d5041ddc4204b",
+      "gunId": "18040000003",
+      "officialWeaponName": "M250 General Machine Gun",
+      "weaponName": "M250",
+      "weaponClass": "GENERAL MACHINE GUN",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "LMG",
+      "buildName": "Best Surpressed M250",
+      "description": "",
+      "price": "754224",
+      "priceRaw": "754224",
+      "priceStatus": "available",
+      "author": {
+        "name": "Dr8ppy",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1783326960375_higy2w.png"
+      },
+      "tags": [
+        {
+          "id": 33,
+          "name": "Supreme Max Build",
+          "color": "#e4c08d",
+          "sortOrder": 1
+        },
+        {
+          "id": 38,
+          "name": "Onslaught Spec",
+          "color": "#f3da94",
+          "sortOrder": 1
+        },
+        {
+          "id": 39,
+          "name": "Supreme AP",
+          "color": "#f3da94",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "lmg"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 57,
+        "stability": 54,
+        "effectiveRange": 52,
+        "baseDamage": 55,
+        "hipFireAccuracy": 26,
+        "recoilControl": 62
+      },
+      "baseStats": {
+        "handlingSpeed": 38,
+        "stability": 50,
+        "effectiveRange": 40,
+        "baseDamage": 55,
+        "hipFireAccuracy": 45,
+        "recoilControl": 40
+      },
+      "buildCode": "M250 General Machine Gun-Operations-6JQHF8002TS9M69T03M6U",
+      "detailBuildCode": "6JQHF8002TS9M69T03M6U",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785767749713_7pndgp.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_00ae2caebce7301ab528c151b4589628.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "c14530df3acfda659a85ad7549d3474fdbce0a588f2b673dd635e05287cda154",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-16T02:24:26.866Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 3,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 395,
+      "schemeId": "600637e2518ec6612d526a2db9c51c04",
+      "gunId": "18010000038",
+      "officialWeaponName": "CI-19 Assault Rifle",
+      "weaponName": "CI-19",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "Siing's CI-19",
+      "description": "",
+      "price": "560774",
+      "priceRaw": "560774",
+      "priceStatus": "available",
+      "author": {
+        "name": "Siingsong",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183901292_6oonq6.png"
+      },
+      "tags": [
+        {
+          "id": 26,
+          "name": "Recoil Stability",
+          "color": "#b38fed",
+          "sortOrder": 1
+        },
+        {
+          "id": 18,
+          "name": "Agile Lean Peek",
+          "color": "#8abce6",
+          "sortOrder": 1
+        },
+        {
+          "id": 22,
+          "name": "Suppressive Fire",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 54,
+        "stability": 50,
+        "effectiveRange": 46,
+        "baseDamage": 35,
+        "hipFireAccuracy": 45,
+        "recoilControl": 80
+      },
+      "baseStats": {
+        "handlingSpeed": 60,
+        "stability": 50,
+        "effectiveRange": 35,
+        "baseDamage": 35,
+        "hipFireAccuracy": 56,
+        "recoilControl": 40
+      },
+      "buildCode": "CI-19 Assault Rifle-Operations-6JR9P6O014H9D6PDMV79E",
+      "detailBuildCode": "6JR9P6O014H9D6PDMV79E",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780304887552_sbh566.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_e638baf29e16a0af3263330af04ce532.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "045a784069462fc061f026c859c2927db1b794c6a016940427f98fa83dc00f4f",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-04T09:33:16.557Z",
+      "lastMessageId": "1534132101820186656",
+      "lastThreadId": "1534132101820186656"
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 3,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 408,
+      "schemeId": "915caf90e6f53fb480a56664389883cf",
+      "gunId": "18010000038",
+      "officialWeaponName": "CI-19 Assault Rifle",
+      "weaponName": "CI-19",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "ItzNowh3re's Ci19",
+      "description": "",
+      "price": "577820",
+      "priceRaw": "577820",
+      "priceStatus": "available",
+      "author": {
+        "name": "ItzNowh3re'",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183924680_951muk.png"
+      },
+      "tags": [
+        {
+          "id": 18,
+          "name": "Agile Lean Peek",
+          "color": "#8abce6",
+          "sortOrder": 1
+        },
+        {
+          "id": 21,
+          "name": "Bracing Stability",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        },
+        {
+          "id": 23,
+          "name": "Stable & Standard",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 54,
+        "stability": 50,
+        "effectiveRange": 52,
+        "baseDamage": 35,
+        "hipFireAccuracy": 41,
+        "recoilControl": 74
+      },
+      "baseStats": {
+        "handlingSpeed": 60,
+        "stability": 50,
+        "effectiveRange": 35,
+        "baseDamage": 35,
+        "hipFireAccuracy": 56,
+        "recoilControl": 40
+      },
+      "buildCode": "CI-19 Assault Rifle-Operations-6K25SR401OANMAF97OV6I",
+      "detailBuildCode": "6K25SR401OANMAF97OV6I",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780476917563_camde5.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_e638baf29e16a0af3263330af04ce532.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "832e02af64a3be6fffc0493371264ba7e3d8e4d9b0c650363b92c84d4758c8ae",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 4,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 383,
+      "schemeId": "0f33169d27a68aeb99afe98148455962",
+      "gunId": "18010000024",
+      "officialWeaponName": "PTR-32 Assault Rifle",
+      "weaponName": "PTR-32",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "A very powerful barrel",
+      "description": "",
+      "price": "283195",
+      "priceRaw": "283195",
+      "priceStatus": "available",
+      "author": {
+        "name": "lildjeyy",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183866135_bsncu2.png"
+      },
+      "tags": [
+        {
+          "id": 15,
+          "name": "Stable & Agile",
+          "color": "#8492ed",
+          "sortOrder": 1
+        },
+        {
+          "id": 19,
+          "name": "Rookie Friendly",
+          "color": "#9a71dc",
+          "sortOrder": 1
+        },
+        {
+          "id": 28,
+          "name": "Stable Recoil",
+          "color": "#d0814d",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 43,
+        "stability": 68,
+        "effectiveRange": 52,
+        "baseDamage": 34,
+        "hipFireAccuracy": 33,
+        "recoilControl": 66
+      },
+      "baseStats": {
+        "handlingSpeed": 56,
+        "stability": 57,
+        "effectiveRange": 40,
+        "baseDamage": 34,
+        "hipFireAccuracy": 45,
+        "recoilControl": 32
+      },
+      "buildCode": "PTR-32 Assault Rifle-Operations-6JVONO00EE3065J0QBDHV",
+      "detailBuildCode": "6JVONO00EE3065J0QBDHV",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1780302180934_mgo0mi.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_dbe7beed57063d912e591eb8d823f3b8.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "e6e03353c5b0ac1be5fecf4b73755c5e6b47b036a325abe7f6b340eba2b7cfee",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-09T03:59:03.009Z",
+      "lastMessageId": "1535859930387583087",
+      "lastThreadId": "1535859930387583087"
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 4,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 502,
+      "schemeId": "aa39ec305b910eaf549507d44a1a4981",
+      "gunId": "18020000011",
+      "officialWeaponName": "QCQ171 Submachine Gun",
+      "weaponName": "QCQ171",
+      "weaponClass": "SUBMACHINE GUN",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "SMG",
+      "buildName": "Dash's QCQ",
+      "description": "",
+      "price": "651448",
+      "priceRaw": "651448",
+      "priceStatus": "available",
+      "author": {
+        "name": "Dash - Delta Force",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785375800993_3jirid.png"
+      },
+      "tags": [
+        {
+          "id": 2,
+          "name": "High Stability",
+          "color": "#2aca96",
+          "sortOrder": 1
+        },
+        {
+          "id": 4,
+          "name": "Version Buffed",
+          "color": "#2aca96",
+          "sortOrder": 1
+        },
+        {
+          "id": 17,
+          "name": "Advanced Controls",
+          "color": "#87e1e5",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "smg"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 47,
+        "stability": 50,
+        "effectiveRange": 32,
+        "baseDamage": 36,
+        "hipFireAccuracy": 26,
+        "recoilControl": 78
+      },
+      "baseStats": {
+        "handlingSpeed": 55,
+        "stability": 46,
+        "effectiveRange": 20,
+        "baseDamage": 36,
+        "hipFireAccuracy": 58,
+        "recoilControl": 47
+      },
+      "buildCode": "QCQ171 Submachine Gun-Operations-6JVAJV809EEIVOORSKMDJ",
+      "detailBuildCode": "6JVAJV809EEIVOORSKMDJ",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785767402129_oxhn4k.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_27f4c5b3e7143749f41387a6cc2f55c3.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "9b486eb57365a51f3117946ea3c2e63df0e2a874b7573e0aedd18a92d45e1f07",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-16T02:24:26.866Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 4,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 416,
+      "schemeId": "e92aabf1398053355b26bfd5cf3790bd",
+      "gunId": "18010000024",
+      "officialWeaponName": "PTR-32 Assault Rifle",
+      "weaponName": "PTR-32",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "Mid & Close range Warfare weapon",
+      "description": "",
+      "price": "469693",
+      "priceRaw": "469693",
+      "priceStatus": "available",
+      "author": {
+        "name": "deltanox",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1783326938806_98ib1i.png"
+      },
+      "tags": [
+        {
+          "id": 1,
+          "name": "Tournament Edition",
+          "color": "#0962ae",
+          "sortOrder": 1
+        },
+        {
+          "id": 22,
+          "name": "Suppressive Fire",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        },
+        {
+          "id": 31,
+          "name": "Balanced",
+          "color": "#da5758",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 39,
+        "stability": 82,
+        "effectiveRange": 54,
+        "baseDamage": 34,
+        "hipFireAccuracy": 45,
+        "recoilControl": 66
+      },
+      "baseStats": {
+        "handlingSpeed": 56,
+        "stability": 57,
+        "effectiveRange": 40,
+        "baseDamage": 34,
+        "hipFireAccuracy": 45,
+        "recoilControl": 32
+      },
+      "buildCode": "PTR-32 Assault Rifle-Operations-6KCH4LC0BET1KQ9O3SCOA",
+      "detailBuildCode": "6KCH4LC0BET1KQ9O3SCOA",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1783327139033_p6z2e3.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_dbe7beed57063d912e591eb8d823f3b8.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "86a6dac35902704add204adc46ac59c85c39c16142944a8572d0c1ca7d7fc8ea",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-03T09:13:44.680Z",
+      "lastMessageId": "1533764799043862721",
+      "lastThreadId": "1533764799043862721"
+    },
+    {
+      "active": false,
+      "sourceSet": "li-operations",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_sol_en.js",
+      "slotIndex": 4,
+      "channel": "LI",
+      "mode": "OPERATIONS",
+      "apiMode": "sol",
+      "bannerRecordId": 374,
+      "schemeId": "f1ed2a7dc11cd5135f2445f64d3d370a",
+      "gunId": "18020000011",
+      "officialWeaponName": "QCQ171 Submachine Gun",
+      "weaponName": "QCQ171",
+      "weaponClass": "SUBMACHINE GUN",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "SMG",
+      "buildName": "Leg Meta",
+      "description": "",
+      "price": "317378",
+      "priceRaw": "317378",
+      "priceStatus": "available",
+      "author": {
+        "name": "ATTURSSON",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183851914_3lxfsx.png"
+      },
+      "tags": [
+        {
+          "id": 29,
+          "name": "High-Yield",
+          "color": "#d0814d",
+          "sortOrder": 1
+        },
+        {
+          "id": 42,
+          "name": "Silent & Fire Rate",
+          "color": "#f3da94",
+          "sortOrder": 1
+        },
+        {
+          "id": 6,
+          "name": "Melee",
+          "color": "#5768e5",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "operations",
+        "global",
+        "smg"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 55,
+        "stability": 40,
+        "effectiveRange": 26,
+        "baseDamage": 36,
+        "hipFireAccuracy": 90,
+        "recoilControl": 59
+      },
+      "baseStats": {
+        "handlingSpeed": 55,
+        "stability": 46,
+        "effectiveRange": 20,
+        "baseDamage": 36,
+        "hipFireAccuracy": 58,
+        "recoilControl": 47
+      },
+      "buildCode": "QCQ171 Submachine Gun-Operations-6K1DUPC03GMUSBU927419",
+      "detailBuildCode": "6K1DUPC03GMUSBU927419",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1779974084562_m8xyej.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_27f4c5b3e7143749f41387a6cc2f55c3.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "abb5a7294ed3867c9b07147e4e4fda73e351aca7947da7746c83274319504f40",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-12T06:27:59.169Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-warfare",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_mp_en.js",
+      "slotIndex": 0,
+      "channel": "LI",
+      "mode": "WARFARE",
+      "apiMode": "mp",
+      "bannerRecordId": 342,
+      "schemeId": "d8d8f1ef8ce92106978d09a8e976ee98",
+      "gunId": "18040000003",
+      "officialWeaponName": "M250 General Machine Gun",
+      "weaponName": "M250",
+      "weaponClass": "GENERAL MACHINE GUN",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "LMG",
+      "buildName": "M250+Warfare",
+      "description": "",
+      "price": null,
+      "priceRaw": "-1",
+      "priceStatus": "not-applicable",
+      "author": {
+        "name": "dash-delta-force",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1778657857230_girb6s.png"
+      },
+      "tags": [
+        {
+          "id": 21,
+          "name": "Bracing Stability",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        },
+        {
+          "id": 22,
+          "name": "Suppressive Fire",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        },
+        {
+          "id": 28,
+          "name": "Stable Recoil",
+          "color": "#d0814d",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "warfare",
+        "global",
+        "lmg"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 50,
+        "stability": 49,
+        "effectiveRange": 52,
+        "baseDamage": 55,
+        "hipFireAccuracy": 34,
+        "recoilControl": 72
+      },
+      "baseStats": {
+        "handlingSpeed": 38,
+        "stability": 50,
+        "effectiveRange": 40,
+        "baseDamage": 55,
+        "hipFireAccuracy": 45,
+        "recoilControl": 40
+      },
+      "buildCode": "M250 General Machine Gun-Warfare-6JVADD809EEIVOORSKMDJ",
+      "detailBuildCode": "6JVADD809EEIVOORSKMDJ",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1778733214990_ow8uqd.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_00ae2caebce7301ab528c151b4589628.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "811ae891cbe65e06165a714544fc00ee88a14fbfd741406cee25e3443870a5a7",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-04T09:43:19.422Z",
+      "lastMessageId": "1534134631161397320",
+      "lastThreadId": "1534134631161397320"
+    },
+    {
+      "active": false,
+      "sourceSet": "li-warfare",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_mp_en.js",
+      "slotIndex": 0,
+      "channel": "LI",
+      "mode": "WARFARE",
+      "apiMode": "mp",
+      "bannerRecordId": 556,
+      "schemeId": "fe181d7e2c7a7ae458ac2f564bb4dbe0",
+      "gunId": "18040000002",
+      "officialWeaponName": "M249 Light Machine Gun",
+      "weaponName": "M249",
+      "weaponClass": "LIGHT MACHINE GUN",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "LMG",
+      "buildName": "The Big BEAM",
+      "description": "",
+      "price": null,
+      "priceRaw": "-1",
+      "priceStatus": "not-applicable",
+      "author": {
+        "name": "razor",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1783327011035_eoh2aw.png"
+      },
+      "tags": [
+        {
+          "id": 21,
+          "name": "Bracing Stability",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        },
+        {
+          "id": 22,
+          "name": "Suppressive Fire",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        },
+        {
+          "id": 23,
+          "name": "Stable & Standard",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "warfare",
+        "global",
+        "lmg"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 38,
+        "stability": 63,
+        "effectiveRange": 52,
+        "baseDamage": 30,
+        "hipFireAccuracy": 68,
+        "recoilControl": 64
+      },
+      "baseStats": {
+        "handlingSpeed": 47,
+        "stability": 55,
+        "effectiveRange": 40,
+        "baseDamage": 30,
+        "hipFireAccuracy": 48,
+        "recoilControl": 44
+      },
+      "buildCode": "M249 Light Machine Gun-Warfare-6KICUT40BFAG46AS3J0KF",
+      "detailBuildCode": "6KICUT40BFAG46AS3J0KF",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785814783086_xvpoz7.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_8ee5d16b0b739e1326ea31efba11937d.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "89897358a57fed99c74751415b51d89fbcc215df493352e34f9daeea85301cfd",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-16T02:24:26.866Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-warfare",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_mp_en.js",
+      "slotIndex": 1,
+      "channel": "LI",
+      "mode": "WARFARE",
+      "apiMode": "mp",
+      "bannerRecordId": 418,
+      "schemeId": "15476e3b20e4c3318c5dce17159459ee",
+      "gunId": "18010000044",
+      "officialWeaponName": "MCX LT Assault Rifle",
+      "weaponName": "MCX LT",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "Best in class",
+      "description": "",
+      "price": "606095",
+      "priceRaw": "606095",
+      "priceStatus": "available",
+      "author": {
+        "name": "Kongstyle_101",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1778657872058_ydm6ap.png"
+      },
+      "tags": [
+        {
+          "id": 21,
+          "name": "Bracing Stability",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        },
+        {
+          "id": 22,
+          "name": "Suppressive Fire",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        },
+        {
+          "id": 23,
+          "name": "Stable & Standard",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "warfare",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 50,
+        "stability": 56,
+        "effectiveRange": 39,
+        "baseDamage": 34,
+        "hipFireAccuracy": 37,
+        "recoilControl": 73
+      },
+      "baseStats": {
+        "handlingSpeed": 61,
+        "stability": 52,
+        "effectiveRange": 30,
+        "baseDamage": 34,
+        "hipFireAccuracy": 57,
+        "recoilControl": 44
+      },
+      "buildCode": "MCX LT Assault Rifle-Warfare-6K50MES07032DITL7DUMT",
+      "detailBuildCode": "6K50MES07032DITL7DUMT",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1783328343984_lwi1ka.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_4ac0b779f79d7ecf61b9ebbc714a2575.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "5ebb9c02a9afe15efe80e2f48740c6f867a36c59f206224356004893d9ae749c",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-12T06:27:59.169Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-warfare",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_mp_en.js",
+      "slotIndex": 1,
+      "channel": "LI",
+      "mode": "WARFARE",
+      "apiMode": "mp",
+      "bannerRecordId": 344,
+      "schemeId": "b620be005a49c515d1f762eae10e6a7f",
+      "gunId": "18060000033",
+      "officialWeaponName": "M82 Sniper Rifle",
+      "weaponName": "M82",
+      "weaponClass": "SNIPER RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "SR",
+      "buildName": "M82+Warfare",
+      "description": "",
+      "price": null,
+      "priceRaw": "-1",
+      "priceStatus": "not-applicable",
+      "author": {
+        "name": "dash-delta-force",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1778657857230_girb6s.png"
+      },
+      "tags": [
+        {
+          "id": 9,
+          "name": "Recon",
+          "color": "#58d7dc",
+          "sortOrder": 1
+        },
+        {
+          "id": 27,
+          "name": "Great Equalizer",
+          "color": "#c4c4c2",
+          "sortOrder": 1
+        },
+        {
+          "id": 36,
+          "name": "Long-Range Combat",
+          "color": "#e8989b",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "warfare",
+        "global",
+        "sr"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 26,
+        "stability": 65,
+        "effectiveRange": 200,
+        "baseDamage": 100,
+        "hipFireAccuracy": 31,
+        "recoilControl": 11
+      },
+      "baseStats": {
+        "handlingSpeed": 20,
+        "stability": 66,
+        "effectiveRange": 200,
+        "baseDamage": 100,
+        "hipFireAccuracy": 15,
+        "recoilControl": 10
+      },
+      "buildCode": "M82 Sniper Rifle-Warfare-6JVAH0C09EEIVOORSKMDJ",
+      "detailBuildCode": "6JVAH0C09EEIVOORSKMDJ",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1778733251769_v53el6.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_fe75e63f37720609b4c88d6be0d812ae.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "e7ea50aec14860755e8980995210078e3db2d093265f6686929dd49e604e8594",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-04T09:53:22.465Z",
+      "lastMessageId": "1534137160016597106",
+      "lastThreadId": "1534137160016597106"
+    },
+    {
+      "active": false,
+      "sourceSet": "li-warfare",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_mp_en.js",
+      "slotIndex": 2,
+      "channel": "LI",
+      "mode": "WARFARE",
+      "apiMode": "mp",
+      "bannerRecordId": 419,
+      "schemeId": "49e7b88fa4a2631e340f369f70c6e856",
+      "gunId": "18010000024",
+      "officialWeaponName": "PTR-32 Assault Rifle",
+      "weaponName": "PTR-32",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "Mid & Close range Warfare weapon",
+      "description": "",
+      "price": "469693",
+      "priceRaw": "469693",
+      "priceStatus": "available",
+      "author": {
+        "name": "deltanox",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1783326938806_98ib1i.png"
+      },
+      "tags": [
+        {
+          "id": 4,
+          "name": "Version Buffed",
+          "color": "#2aca96",
+          "sortOrder": 1
+        },
+        {
+          "id": 24,
+          "name": "Versatile",
+          "color": "#b38fed",
+          "sortOrder": 1
+        },
+        {
+          "id": 28,
+          "name": "Stable Recoil",
+          "color": "#d0814d",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "warfare",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 39,
+        "stability": 82,
+        "effectiveRange": 54,
+        "baseDamage": 34,
+        "hipFireAccuracy": 45,
+        "recoilControl": 66
+      },
+      "baseStats": {
+        "handlingSpeed": 56,
+        "stability": 57,
+        "effectiveRange": 40,
+        "baseDamage": 34,
+        "hipFireAccuracy": 45,
+        "recoilControl": 32
+      },
+      "buildCode": "PTR-32 Assault Rifle-Warfare-6KCH4LC0BET1KQ9O3SCOA",
+      "detailBuildCode": "6KCH4LC0BET1KQ9O3SCOA",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1783328382667_5qi335.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_dbe7beed57063d912e591eb8d823f3b8.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "2112844e552047872b058d3dc4307a0ca2d3c756f988b777d7bf61f7db13b0a1",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-12T06:27:59.169Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-warfare",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_mp_en.js",
+      "slotIndex": 2,
+      "channel": "LI",
+      "mode": "WARFARE",
+      "apiMode": "mp",
+      "bannerRecordId": 409,
+      "schemeId": "f2a27a19767a3482e79066159c11bfa8",
+      "gunId": "18010000008",
+      "officialWeaponName": "QBZ95-1 Assault Rifle",
+      "weaponName": "QBZ95-1",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "He shoots well from the hip",
+      "description": "",
+      "price": null,
+      "priceRaw": "-1",
+      "priceStatus": "not-applicable",
+      "author": {
+        "name": "lildjeyy",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1779183866135_bsncu2.png"
+      },
+      "tags": [
+        {
+          "id": 25,
+          "name": "Close-Mid Range",
+          "color": "#b38fed",
+          "sortOrder": 1
+        },
+        {
+          "id": 34,
+          "name": "Ultra-Fast TTK",
+          "color": "#e8989b",
+          "sortOrder": 1
+        },
+        {
+          "id": 35,
+          "name": "Close-Range Melt",
+          "color": "#e8989b",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "warfare",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 67,
+        "stability": 66,
+        "effectiveRange": 72,
+        "baseDamage": 28,
+        "hipFireAccuracy": 34,
+        "recoilControl": 81
+      },
+      "baseStats": {
+        "handlingSpeed": 55,
+        "stability": 58,
+        "effectiveRange": 55,
+        "baseDamage": 28,
+        "hipFireAccuracy": 54,
+        "recoilControl": 52
+      },
+      "buildCode": "QBZ95-1 Assault Rifle-Warfare-6K11QDK0D8405UJP8H127",
+      "detailBuildCode": "6K11QDK0D8405UJP8H127",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1781254469943_3mgr0g.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_d49bb77e3c3e5f5195eab2b865ba1699.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "865904766f68b20b56f64914ca78e90a37d3085a8c81c4f35bc80266d5c939a7",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 1,
+      "lastPublishedAt": "2026-08-04T10:03:24.873Z",
+      "lastMessageId": "1534139686841225379",
+      "lastThreadId": "1534139686841225379"
+    },
+    {
+      "active": false,
+      "sourceSet": "li-warfare",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_mp_en.js",
+      "slotIndex": 3,
+      "channel": "LI",
+      "mode": "WARFARE",
+      "apiMode": "mp",
+      "bannerRecordId": 427,
+      "schemeId": "124999f4f3eb903b1cd1eafbf9728fef",
+      "gunId": "18010000038",
+      "officialWeaponName": "CI-19 Assault Rifle",
+      "weaponName": "CI-19",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "Rifle",
+      "buildName": "LA  HERMOSA ARMA LASER CI-19 con MUCHO DAÑO",
+      "description": "",
+      "price": null,
+      "priceRaw": "-1",
+      "priceStatus": "not-applicable",
+      "author": {
+        "name": "Destro32",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1783326946457_r140ny.png"
+      },
+      "tags": [
+        {
+          "id": 17,
+          "name": "Advanced Controls",
+          "color": "#87e1e5",
+          "sortOrder": 1
+        },
+        {
+          "id": 21,
+          "name": "Bracing Stability",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        },
+        {
+          "id": 28,
+          "name": "Stable Recoil",
+          "color": "#d0814d",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "warfare",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 43,
+        "stability": 61,
+        "effectiveRange": 46,
+        "baseDamage": 35,
+        "hipFireAccuracy": 61,
+        "recoilControl": 70
+      },
+      "baseStats": {
+        "handlingSpeed": 60,
+        "stability": 50,
+        "effectiveRange": 35,
+        "baseDamage": 35,
+        "hipFireAccuracy": 56,
+        "recoilControl": 40
+      },
+      "buildCode": "CI-19 Assault Rifle-Warfare-6KC5OCS01IB216R8KPTPF",
+      "detailBuildCode": "6KC5OCS01IB216R8KPTPF",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1783328673292_j12ks5.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_e638baf29e16a0af3263330af04ce532.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "761c8a709e1aeef58829de685b1f4e445f63545258d523efdb95c20299968986",
+      "sourceFetchedAt": "2026-08-09T03:59:11.958Z",
+      "firstSeenAt": "2026-08-03T11:03:11.711Z",
+      "lastSeenAt": "2026-08-09T03:59:11.958Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-warfare",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_mp_en.js",
+      "slotIndex": 3,
+      "channel": "LI",
+      "mode": "WARFARE",
+      "apiMode": "mp",
+      "bannerRecordId": 345,
+      "schemeId": "a214256d02c39bd39f58985141f52c79",
+      "gunId": "18010000045",
+      "officialWeaponName": "AR-57 Assault Rifle",
+      "weaponName": "AR-57",
+      "weaponClass": "ASSAULT RIFLE",
+      "weaponClassSource": "official-name-suffix",
+      "gunCategory": "",
+      "buildName": "AR57+Warfare",
+      "description": "",
+      "price": null,
+      "priceRaw": "-1",
+      "priceStatus": "not-applicable",
+      "author": {
+        "name": "Kongstyle_101",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1778657872058_ydm6ap.png"
+      },
+      "tags": [
+        {
+          "id": 15,
+          "name": "Stable & Agile",
+          "color": "#8492ed",
+          "sortOrder": 1
+        },
+        {
+          "id": 22,
+          "name": "Suppressive Fire",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        },
+        {
+          "id": 40,
+          "name": "New Weapon",
+          "color": "#f3da94",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "warfare",
+        "global",
+        "ar"
+      ],
+      "discordTagMappingStatus": "complete",
+      "discordTagMissingGroups": [],
+      "stats": {
+        "handlingSpeed": 45,
+        "stability": 44,
+        "effectiveRange": 52,
+        "baseDamage": 30,
+        "hipFireAccuracy": 36,
+        "recoilControl": 72
+      },
+      "baseStats": {
+        "handlingSpeed": 58,
+        "stability": 40,
+        "effectiveRange": 35,
+        "baseDamage": 30,
+        "hipFireAccuracy": 60,
+        "recoilControl": 41
+      },
+      "buildCode": "AR-57 Assault Rifle-Warfare-6JV4HP007032DITL7DUMT",
+      "detailBuildCode": "6JV4HP007032DITL7DUMT",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1778733276133_7y3qxs.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_566dbe77876dbd7a40bd7d5f27d7f931.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "efe49f9f641e3ce6b380de5fecfeedc5e4a411de549e10847075f8e04d1abd01",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-12T06:27:59.169Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-warfare",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_mp_en.js",
+      "slotIndex": 4,
+      "channel": "LI",
+      "mode": "WARFARE",
+      "apiMode": "mp",
+      "bannerRecordId": 560,
+      "schemeId": "",
+      "gunId": "18010000049",
+      "officialWeaponName": "RM277",
+      "weaponName": "RM277",
+      "weaponClass": "",
+      "weaponClassSource": "unavailable",
+      "gunCategory": "",
+      "buildName": "RM277 Laser",
+      "description": "",
+      "price": null,
+      "priceRaw": null,
+      "priceStatus": "missing",
+      "author": {
+        "name": "RogueMonkeyJr.",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785376010611_pn0mms.png"
+      },
+      "tags": [
+        {
+          "id": 40,
+          "name": "New Weapon",
+          "color": "#f3da94",
+          "sortOrder": 1
+        },
+        {
+          "id": 28,
+          "name": "Stable Recoil",
+          "color": "#d0814d",
+          "sortOrder": 1
+        },
+        {
+          "id": 21,
+          "name": "Bracing Stability",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "warfare",
+        "global"
+      ],
+      "discordTagMappingStatus": "incomplete",
+      "discordTagMissingGroups": [
+        "weaponType"
+      ],
+      "stats": {
+        "handlingSpeed": 52,
+        "stability": 68,
+        "effectiveRange": 65,
+        "baseDamage": 41,
+        "hipFireAccuracy": 56,
+        "recoilControl": 64
+      },
+      "baseStats": {
+        "handlingSpeed": 50,
+        "stability": 59,
+        "effectiveRange": 55,
+        "baseDamage": 41,
+        "hipFireAccuracy": 44,
+        "recoilControl": 48
+      },
+      "buildCode": "RM277-Warfare-6KH1V8S03QRM2F73GFH4D",
+      "detailBuildCode": "",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785814895450_je6lqf.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_931a27c89e868275980e9e9f5977ff68.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "error",
+      "detailError": "API code 519110: scheme_id is required",
+      "dataFingerprint": "dd5cddf5e354d3af311e16b43f00ae8fa2d5153cfde7810df75e1c49e3739cf0",
+      "sourceFetchedAt": "2026-08-14T03:08:32.979Z",
+      "firstSeenAt": "2026-08-12T06:27:59.169Z",
+      "lastSeenAt": "2026-08-14T03:08:32.979Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
+      "publishCount": 0,
+      "lastPublishedAt": null,
+      "lastMessageId": null,
+      "lastThreadId": null
+    },
+    {
+      "active": false,
+      "sourceSet": "li-warfare",
+      "sourceUrl": "https://www.playdeltaforce.com/gun-codes/op_mp_en.js",
+      "slotIndex": 4,
+      "channel": "LI",
+      "mode": "WARFARE",
+      "apiMode": "mp",
+      "bannerRecordId": 560,
+      "schemeId": "7f6d3735c5d80a66d7a1d49243eda7f8",
+      "gunId": "18010000049",
+      "officialWeaponName": "RM277",
+      "weaponName": "RM277",
+      "weaponClass": "RIFLE",
+      "weaponClassSource": "detail-category",
+      "gunCategory": "Rifle",
+      "buildName": "RM277 Laser",
+      "description": "",
+      "price": null,
+      "priceRaw": "-1",
+      "priceStatus": "not-applicable",
+      "author": {
+        "name": "RogueMonkeyJr.",
+        "avatarUrl": "https://www.playdeltaforce.com/gun-codes/images/1785376010611_pn0mms.png"
+      },
+      "tags": [
+        {
+          "id": 40,
+          "name": "New Weapon",
+          "color": "#f3da94",
+          "sortOrder": 1
+        },
+        {
+          "id": 28,
+          "name": "Stable Recoil",
+          "color": "#d0814d",
+          "sortOrder": 1
+        },
+        {
+          "id": 21,
+          "name": "Bracing Stability",
+          "color": "#aae4aa",
+          "sortOrder": 1
+        }
+      ],
+      "discordTagAliases": [
+        "warfare",
+        "global"
+      ],
+      "discordTagMappingStatus": "incomplete",
+      "discordTagMissingGroups": [
+        "weaponType"
+      ],
+      "stats": {
+        "handlingSpeed": 52,
+        "stability": 68,
+        "effectiveRange": 65,
+        "baseDamage": 41,
+        "hipFireAccuracy": 56,
+        "recoilControl": 64
+      },
+      "baseStats": {
+        "handlingSpeed": 50,
+        "stability": 59,
+        "effectiveRange": 55,
+        "baseDamage": 41,
+        "hipFireAccuracy": 44,
+        "recoilControl": 48
+      },
+      "buildCode": "RM277-Warfare-6KH1V8S03QRM2F73GFH4D",
+      "detailBuildCode": "6KH1V8S03QRM2F73GFH4D",
+      "weaponImageUrl": "https://www.playdeltaforce.com/gun-codes/images/1785814895450_je6lqf.webp",
+      "baseWeaponImageUrl": "https://www.playdeltaforce.com/basic_info/guns_931a27c89e868275980e9e9f5977ff68.png",
+      "canonicalHqUrl": "https://www.playdeltaforce.com/events/hq/",
+      "detailStatus": "complete",
+      "detailError": null,
+      "dataFingerprint": "01e882666b0b89ec42dd2205afe9ba0b7f5d1ea260dfad7be00eb0346679d25d",
+      "sourceFetchedAt": "2026-08-16T05:29:50.528Z",
+      "firstSeenAt": "2026-08-16T02:24:26.866Z",
+      "lastSeenAt": "2026-08-16T05:29:50.528Z",
+      "lastRefreshedAt": "2026-08-25T02:55:05.686Z",
       "publishCount": 0,
       "lastPublishedAt": null,
       "lastMessageId": null,

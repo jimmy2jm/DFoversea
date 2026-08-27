@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "28835324a66dd1d95b2ec3d3946825ae",
+    "buildCode": "M4A1 Assault Rifle-Operations-6K1IUS400G02164FCEV6J",
+    "weaponName": "M4A1 Assault Rifle",
+    "buildName": "Equals Budget M4A1"
+  },
+  "thread": {
+    "name": "[M4A1 · 284531] Equals Budget M4A1",
+    "id": "",
+    "tags": [
+      "operations",
+      "global",
+      "ar"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "OPERATIONS"
+        },
+        "title": "Equals Budget M4A1",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**M4A1 ASSAULT RIFLE**\n**PRICE · 284531**\n`▣ High Stability` `◆ Version Buffed` `▣ Recoil Stability`\n\n**BUILD CODE**\n```\nM4A1 Assault Rifle-Operations-6K1IUS400G02164FCEV6J\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "M4A1 build: handling speed 52, stability 61, effective range 40, base damage 31, hip-fire accuracy 67, recoil control 48."
+        },
+        "footer": {
+          "text": "Build by Equalplay"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/single-confirmation-20260812-m4a1/01-m4a1-28835324/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

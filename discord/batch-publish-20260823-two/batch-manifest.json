@@ -1,0 +1,36 @@
+{
+  "preparedAt": "2026-08-23T08:15:15.846Z",
+  "refreshedAt": "2026-08-23T08:14:24.322Z",
+  "destinationAlias": "delta-force-official",
+  "intervalSeconds": 0,
+  "outputs": [
+    {
+      "index": 1,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260823-two/01-m249-4518761a",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260823-two/01-m249-4518761a/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260823-two/01-m249-4518761a/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260823-two/01-m249-4518761a/gun-card.png",
+      "schemeId": "4518761a511b93101f3e7d1d6fe8894d",
+      "title": "[M249 · 328578] Bruen Meta",
+      "tags": [
+        "operations",
+        "global",
+        "lmg"
+      ]
+    },
+    {
+      "index": 2,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260823-two/02-as-val-5c62d27c",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260823-two/02-as-val-5c62d27c/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260823-two/02-as-val-5c62d27c/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260823-two/02-as-val-5c62d27c/gun-card.png",
+      "schemeId": "5c62d27c6b6b52af15486f7ee7d818e2",
+      "title": "[AS Val · WARFARE] AS Val+Warfare",
+      "tags": [
+        "warfare",
+        "global",
+        "ar"
+      ]
+    }
+  ]
+}

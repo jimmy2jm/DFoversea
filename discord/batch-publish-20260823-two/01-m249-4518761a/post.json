@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "4518761a511b93101f3e7d1d6fe8894d",
+    "buildCode": "M249 Light Machine Gun-Operations-6KNG9G00CSD5N4PK6S4LR",
+    "weaponName": "M249 Light Machine Gun",
+    "buildName": "Bruen Meta"
+  },
+  "thread": {
+    "name": "[M249 · 328578] Bruen Meta",
+    "id": "",
+    "tags": [
+      "operations",
+      "global",
+      "lmg"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "OPERATIONS"
+        },
+        "title": "Bruen Meta",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**M249 LIGHT MACHINE GUN**\n**PRICE · 328578**\n`▣ Suppressive Fire` `▣ Recoil Stability` `◆ Optimized Feel`\n\n**BUILD CODE**\n```\nM249 Light Machine Gun-Operations-6KNG9G00CSD5N4PK6S4LR\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "M249 build: handling speed 39, stability 66, effective range 59, base damage 30, hip-fire accuracy 40, recoil control 76."
+        },
+        "footer": {
+          "text": "Build by Caffrey"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260823-two/01-m249-4518761a/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

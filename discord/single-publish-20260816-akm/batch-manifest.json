@@ -1,0 +1,22 @@
+{
+  "preparedAt": "2026-08-16T05:25:51.462Z",
+  "refreshedAt": "2026-08-16T05:24:34.912Z",
+  "destinationAlias": "delta-force-official",
+  "intervalSeconds": 600,
+  "outputs": [
+    {
+      "index": 1,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/single-publish-20260816-akm/01-akm-ab8302e8",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/single-publish-20260816-akm/01-akm-ab8302e8/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/single-publish-20260816-akm/01-akm-ab8302e8/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/single-publish-20260816-akm/01-akm-ab8302e8/gun-card.png",
+      "schemeId": "ab8302e88b8baae1654c60192f6f98e7",
+      "title": "[AKM · 458929] The HANDLING AKM",
+      "tags": [
+        "operations",
+        "global",
+        "ar"
+      ]
+    }
+  ]
+}

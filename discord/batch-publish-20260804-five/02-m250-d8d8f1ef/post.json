@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "d8d8f1ef8ce92106978d09a8e976ee98",
+    "buildCode": "M250 General Machine Gun-Warfare-6JVADD809EEIVOORSKMDJ",
+    "weaponName": "M250 General Machine Gun",
+    "buildName": "M250+Warfare"
+  },
+  "thread": {
+    "name": "[M250 · WARFARE] M250+Warfare",
+    "id": "",
+    "tags": [
+      "warfare",
+      "global",
+      "lmg"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "WARFARE"
+        },
+        "title": "M250+Warfare",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**M250 GENERAL MACHINE GUN**\n`▣ Bracing Stability` `▣ Suppressive Fire` `▣ Stable Recoil`\n\n**BUILD CODE**\n```\nM250 General Machine Gun-Warfare-6JVADD809EEIVOORSKMDJ\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "M250 build: handling speed 50, stability 49, effective range 52, base damage 55, hip-fire accuracy 34, recoil control 72."
+        },
+        "footer": {
+          "text": "Build by dash-delta-force"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/02-m250-d8d8f1ef/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

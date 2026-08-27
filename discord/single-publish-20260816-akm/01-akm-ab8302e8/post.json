@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "ab8302e88b8baae1654c60192f6f98e7",
+    "buildCode": "AKM Assault Rifle-Operations-6K17350088K38R05C0LGG",
+    "weaponName": "AKM Assault Rifle",
+    "buildName": "The HANDLING AKM"
+  },
+  "thread": {
+    "name": "[AKM · 458929] The HANDLING AKM",
+    "id": "",
+    "tags": [
+      "operations",
+      "global",
+      "ar"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "OPERATIONS"
+        },
+        "title": "The HANDLING AKM",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**AKM ASSAULT RIFLE**\n**PRICE · 458929**\n`▣ Recoil Stability` `↗ Agile Lean Peek` `◆ Version Buffed`\n\n**BUILD CODE**\n```\nAKM Assault Rifle-Operations-6K17350088K38R05C0LGG\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "AKM build: handling speed 56, stability 61, effective range 47, base damage 40, hip-fire accuracy 69, recoil control 60."
+        },
+        "footer": {
+          "text": "Build by Minda999"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/single-publish-20260816-akm/01-akm-ab8302e8/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

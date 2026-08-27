@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "600637e2518ec6612d526a2db9c51c04",
+    "buildCode": "CI-19 Assault Rifle-Operations-6JR9P6O014H9D6PDMV79E",
+    "weaponName": "CI-19 Assault Rifle",
+    "buildName": "Siing's CI-19"
+  },
+  "thread": {
+    "name": "[CI-19 · 560774] Siing's CI-19",
+    "id": "",
+    "tags": [
+      "operations",
+      "global",
+      "ar"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "OPERATIONS"
+        },
+        "title": "Siing's CI-19",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**CI-19 ASSAULT RIFLE**\n**PRICE · 560774**\n`▣ Recoil Stability` `↗ Agile Lean Peek` `▣ Suppressive Fire`\n\n**BUILD CODE**\n```\nCI-19 Assault Rifle-Operations-6JR9P6O014H9D6PDMV79E\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "CI-19 build: handling speed 54, stability 50, effective range 46, base damage 35, hip-fire accuracy 45, recoil control 80."
+        },
+        "footer": {
+          "text": "Build by Siingsong"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260804-five/01-ci-19-600637e2/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "preparedAt": "2026-08-09T03:57:29.221Z",
+  "refreshedAt": "2026-08-09T03:55:52.334Z",
+  "destinationAlias": "delta-force-official",
+  "intervalSeconds": 600,
+  "outputs": [
+    {
+      "index": 1,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/single-confirmation-20260809-ptr32/01-ptr-32-0f33169d",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/single-confirmation-20260809-ptr32/01-ptr-32-0f33169d/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/single-confirmation-20260809-ptr32/01-ptr-32-0f33169d/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/single-confirmation-20260809-ptr32/01-ptr-32-0f33169d/gun-card.png",
+      "schemeId": "0f33169d27a68aeb99afe98148455962",
+      "title": "[PTR-32 · 283195] A very powerful barrel",
+      "tags": [
+        "operations",
+        "global",
+        "ar"
+      ]
+    }
+  ]
+}
