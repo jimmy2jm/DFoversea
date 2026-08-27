@@ -102,9 +102,14 @@
         /* ---------- 战绩行 ---------- */
         function createRecordItem(match) {
             const self = DM.getSelfParticipant(match);
-            const item = document.createElement('a');
+            const item = document.createElement('div');
             item.className = 'baopo-record-item';
-            item.href = 'demolition-match.html?matchId=' + encodeURIComponent(match.matchId);
+            item.setAttribute('role', 'button');
+            item.tabIndex = 0;
+            item.addEventListener('click', () => BaopoMatchModal.open(match.matchId));
+            item.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') BaopoMatchModal.open(match.matchId);
+            });
 
             // 结果
             item.appendChild(el('span', 'bri-status ' + (match.result === 'victory' ? 'victory' : 'fail'),

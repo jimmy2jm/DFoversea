@@ -3264,6 +3264,113 @@
         </div>
     </nav>
 
+    <!-- 登录方式选择弹窗 -->
+    <div class="desktop-login-method-overlay" id="desktop-login-method-overlay">
+        <div class="desktop-login-method-modal">
+            <div class="desktop-login-method-header">
+                <span class="desktop-login-method-title" data-i18n="login.selectMethod">Log in with:</span>
+                <span class="desktop-login-method-close" id="desktop-login-method-close">&times;</span>
+            </div>
+            <div class="desktop-login-method-cards">
+                <div class="desktop-login-method-card" id="desktop-login-method-li">
+                    <div class="desktop-method-card-icon">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" rx="16" fill="#1a0a2e"/>
+                            <polygon points="30,25 30,75 55,75" fill="#7c3aed"/>
+                            <polygon points="45,25 70,75 70,25" fill="#a78bfa"/>
+                        </svg>
+                    </div>
+                    <span class="desktop-method-card-name">Level Infinite</span>
+                </div>
+                <div class="desktop-login-method-card" id="desktop-login-method-garena">
+                    <div class="desktop-method-card-icon">
+                        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect width="100" height="100" rx="16" fill="#1a0a0a"/>
+                            <circle cx="50" cy="50" r="30" fill="#e53935"/>
+                            <text x="50" y="58" text-anchor="middle" font-size="28" font-weight="bold" fill="#fff">G</text>
+                        </svg>
+                    </div>
+                    <span class="desktop-method-card-name">Garena</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 桌面端登录弹窗 -->
+    <div class="desktop-login-overlay" id="desktop-login-overlay">
+        <div class="desktop-login-modal">
+            <div class="desktop-login-header">
+                <div class="login-logo">
+                    <span class="login-logo-icon">&#9698;&#9699;</span>
+                    <span class="login-logo-text">LEVEL INFINITE<br><span class="login-logo-sub">PASS</span></span>
+                </div>
+                <span class="desktop-login-close" id="desktop-login-close">&times;</span>
+            </div>
+            <div class="desktop-login-body">
+                <p class="login-hint" data-i18n="login.autoCreateHint">新邮箱将自动创建账号</p>
+                <div class="login-input-group">
+                    <input type="email" class="login-input" id="desktop-email-input" placeholder="邮箱地址" data-i18n-placeholder="login.emailPlaceholder">
+                </div>
+                <div class="login-input-group verification-group">
+                    <input type="text" class="login-input verification-input" placeholder="验证码" data-i18n-placeholder="login.verificationPlaceholder">
+                    <button class="get-code-btn desktop-get-code-btn" data-i18n="login.getCode">获取验证码</button>
+                </div>
+                <button class="login-submit-btn desktop-submit-btn" id="desktop-submit-btn" data-i18n="login.registerLogin">注册 / 登录</button>
+                <a href="#" class="password-login-link desktop-password-link" data-i18n="login.passwordLogin">密码登录</a>
+                <div class="login-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-text" data-i18n="login.signInWith">其他登录方式</span>
+                    <span class="divider-line"></span>
+                </div>
+                <div class="social-login-btns">
+                    <button class="social-btn facebook" data-provider="facebook">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879V14.89h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.989C18.343 21.129 22 16.99 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                    </button>
+                    <button class="social-btn twitter" data-provider="twitter">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    </button>
+                    <button class="social-btn google" data-provider="google">
+                        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                    </button>
+                    <button class="social-btn line" data-provider="line">
+                        <svg viewBox="0 0 24 24" fill="#06C755"><path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.349 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/></svg>
+                    </button>
+                    <button class="social-btn discord" data-provider="discord">
+                        <svg viewBox="0 0 24 24" fill="#5865F2"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 无游戏账号引导弹窗 -->
+    <div class="no-account-overlay" id="desktop-no-account-overlay">
+        <div class="no-account-modal">
+            <div class="no-account-header">
+                <span class="no-account-title" data-i18n="noAccount.title">未找到游戏角色</span>
+                <span class="no-account-close" id="desktop-no-account-close">&times;</span>
+            </div>
+            <div class="no-account-body">
+                <div class="no-account-icon">🎮</div>
+                <p class="no-account-desc" data-i18n="noAccount.desc">账号登录成功，但未找到关联的 Delta Force 游戏角色</p>
+                <div class="no-account-card">
+                    <div class="no-account-card-label" data-i18n="noAccount.solution1">下载游戏并创建角色</div>
+                    <p class="no-account-card-desc" data-i18n="noAccount.solution1Desc">请前往官网下载游戏，并使用当前登录的相同账号登录游戏、创建角色，完成后返回本工具重新登录即可正常使用</p>
+                    <a href="https://www.playdeltaforce.com" target="_blank" class="no-account-download-btn" data-i18n="noAccount.downloadBtn">📥 前往官网下载游戏</a>
+                </div>
+                <div class="no-account-divider">
+                    <span class="divider-line"></span>
+                    <span class="divider-text" data-i18n="noAccount.orText">或者</span>
+                    <span class="divider-line"></span>
+                </div>
+                <div class="no-account-alt-actions">
+                    <a href="#" class="no-account-switch-btn" id="desktop-no-account-switch" data-i18n="noAccount.switchAccount">使用其他账号登录</a>
+                    <a href="#" class="no-account-guest-link" id="desktop-no-account-guest"><span data-i18n="noAccount.guestMode">以游客模式浏览</span> <span class="guest-arrow">&gt;</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Main Content -->
     <main class="main-container">
         <!-- 模式切换 Tab - 页面顶级 -->
@@ -5001,6 +5108,40 @@
         </div><!-- 结束爆破模式内容 -->
     </main>
 
+    <!-- 爆破模式 - 战绩详情弹窗 -->
+    <div class="match-detail-overlay" id="baopo-match-detail-overlay"></div>
+    <div class="match-detail-modal baopo-modal" id="baopo-match-detail-modal">
+        <!-- 弹窗头部 -->
+        <div class="modal-header">
+            <div class="modal-title">
+                <span>💣</span>
+                <span>爆破对局详情</span>
+            </div>
+            <button class="modal-close-btn" id="baopo-modal-close-btn">×</button>
+        </div>
+
+        <!-- 地图区域 -->
+        <div class="match-map-area">
+            <div class="map-info-overlay">
+                <div class="match-result-tag success" id="baopo-modal-result-tag">
+                    <span id="baopo-modal-result-icon">✓</span>
+                    <span id="baopo-modal-result-text">胜利</span>
+                </div>
+                <div class="map-details">
+                    <div class="map-name" id="baopo-modal-map-name">--</div>
+                    <div class="map-meta" id="baopo-modal-map-meta">--</div>
+                </div>
+            </div>
+            <div class="baopo-modal-score" id="baopo-modal-score">--</div>
+        </div>
+
+        <!-- 弹窗内容（JS 渲染） -->
+        <div class="modal-body" id="baopo-modal-body"></div>
+
+        <!-- 数据说明 -->
+        <div class="baopo-modal-footer">演示数据 · 规则版本 dm-bt-0.9.3</div>
+    </div>
+
     <!-- 战绩详情弹窗 -->
     <div class="match-detail-overlay" id="match-detail-overlay"></div>
     <div class="match-detail-modal" id="match-detail-modal">
@@ -5887,19 +6028,119 @@
             
             function initDesktopLoginSystem() {
                 const loginBtn = document.getElementById('desktop-login-btn');
+                const overlay = document.getElementById('desktop-login-overlay');
+                const closeBtn = document.getElementById('desktop-login-close');
+                const submitBtn = document.getElementById('desktop-submit-btn');
+                const socialBtns = document.querySelectorAll('.desktop-login-body .social-btn');
+                const passwordLink = document.querySelector('.desktop-password-link');
+                const getCodeBtn = document.querySelector('.desktop-get-code-btn');
                 const userInfoEl = document.getElementById('desktop-user-info');
                 const userDropdown = document.getElementById('desktop-user-dropdown');
                 const dropdownFeedback = document.getElementById('desktop-dropdown-feedback');
                 const dropdownLogout = document.getElementById('desktop-dropdown-logout');
                 
                 checkDesktopLoginState();
-                
+
+                // 登录方式选择弹窗
+                const loginMethodOverlay = document.getElementById('desktop-login-method-overlay');
+                const loginMethodClose = document.getElementById('desktop-login-method-close');
+                const loginMethodLI = document.getElementById('desktop-login-method-li');
+                const loginMethodGarena = document.getElementById('desktop-login-method-garena');
+
+                // 打开登录弹窗 → 先打开方式选择弹窗
                 if (loginBtn) {
                     loginBtn.addEventListener('click', () => {
-                        // my-data 没有登录弹窗，跳转到首页登录
-                        window.location.href = 'index.html';
+                        if (loginMethodOverlay) loginMethodOverlay.classList.add('active');
                     });
                 }
+
+                // 关闭方式选择弹窗
+                if (loginMethodClose) {
+                    loginMethodClose.addEventListener('click', () => {
+                        if (loginMethodOverlay) loginMethodOverlay.classList.remove('active');
+                    });
+                }
+                if (loginMethodOverlay) {
+                    loginMethodOverlay.addEventListener('click', (e) => {
+                        if (e.target === loginMethodOverlay) loginMethodOverlay.classList.remove('active');
+                    });
+                }
+
+                // 选择 Level Infinite → 关闭方式弹窗，打开原登录弹窗
+                if (loginMethodLI) {
+                    loginMethodLI.addEventListener('click', () => {
+                        if (loginMethodOverlay) loginMethodOverlay.classList.remove('active');
+                        if (overlay) overlay.classList.add('active');
+                    });
+                }
+
+                // 选择 Garena → 直接完成登录
+                if (loginMethodGarena) {
+                    loginMethodGarena.addEventListener('click', () => {
+                        if (loginMethodOverlay) loginMethodOverlay.classList.remove('active');
+                        desktopPerformLogin('player@garena.com', null, false, 'garena');
+                    });
+                }
+
+                // 关闭登录弹窗
+                if (closeBtn) {
+                    closeBtn.addEventListener('click', () => {
+                        if (overlay) overlay.classList.remove('active');
+                    });
+                }
+
+                // 点击遮罩关闭
+                if (overlay) {
+                    overlay.addEventListener('click', (e) => {
+                        if (e.target === overlay) overlay.classList.remove('active');
+                    });
+                }
+
+                // 邮箱+验证码登录（无头像）
+                if (submitBtn) {
+                    submitBtn.addEventListener('click', () => {
+                        const emailInput = document.getElementById('desktop-email-input');
+                        const email = emailInput ? emailInput.value.trim() : '';
+                        desktopPerformLogin(email || 'user@example.com', null, false, 'email');
+                    });
+                }
+
+                // 获取验证码 - 同上
+                if (getCodeBtn) {
+                    getCodeBtn.addEventListener('click', () => {
+                        const emailInput = document.getElementById('desktop-email-input');
+                        const email = emailInput ? emailInput.value.trim() : '';
+                        desktopPerformLogin(email || 'user@example.com', null, false, 'email');
+                    });
+                }
+
+                // 密码登录 - 无头像
+                if (passwordLink) {
+                    passwordLink.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const emailInput = document.getElementById('desktop-email-input');
+                        const email = emailInput ? emailInput.value.trim() : '';
+                        desktopPerformLogin(email || 'user@example.com', null, false, 'email');
+                    });
+                }
+
+                // 社交登录
+                socialBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const provider = btn.dataset.provider;
+                        if (provider === 'google') {
+                            desktopPerformLogin('player@gmail.com', 'https://lh3.googleusercontent.com/a/default-user=s96-c', true, provider);
+                        } else {
+                            const emails = {
+                                facebook: 'player@facebook.com',
+                                twitter: 'player@x.com',
+                                line: 'player@line.me',
+                                discord: 'player@discord.com'
+                            };
+                            desktopPerformLogin(emails[provider] || 'user@example.com', null, false, provider);
+                        }
+                    });
+                });
                 
                 // 用户下拉菜单
                 if (userInfoEl && userDropdown) {
@@ -5931,13 +6172,98 @@
                     dropdownLogout.addEventListener('click', () => {
                         if (userInfoEl) userInfoEl.classList.remove('dropdown-open');
                         if (userDropdown) userDropdown.classList.remove('active');
-                        localStorage.removeItem('df_login');
-                        const lBtn = document.getElementById('desktop-login-btn');
-                        const uInfo = document.getElementById('desktop-user-info');
-                        if (lBtn) lBtn.style.display = '';
-                        if (uInfo) uInfo.style.display = 'none';
+                        desktopPerformLogout();
                     });
                 }
+            }
+
+            function desktopPerformLogin(email, avatarUrl, hasAvatar, provider) {
+                // Facebook 登录必定无游戏账号（与首页一致），其他渠道正常登录
+                const hasGameAccount = (provider === 'facebook') ? false : true;
+                if (!hasGameAccount) {
+                    const overlay = document.getElementById('desktop-login-overlay');
+                    if (overlay) overlay.classList.remove('active');
+                    showDesktopNoAccountModal(email, avatarUrl, hasAvatar);
+                    return;
+                }
+                localStorage.setItem('df_login', JSON.stringify({
+                    email: email,
+                    avatar: avatarUrl,
+                    hasAvatar: hasAvatar,
+                    loggedIn: true
+                }));
+                updateDesktopLoginUI(email, avatarUrl, hasAvatar);
+                if (typeof updateGunCopyButtonsAuthState === 'function') updateGunCopyButtonsAuthState();
+                const overlay = document.getElementById('desktop-login-overlay');
+                if (overlay) overlay.classList.remove('active');
+            }
+
+            function showDesktopNoAccountModal(email, avatarUrl, hasAvatar) {
+                const overlay = document.getElementById('desktop-no-account-overlay');
+                if (!overlay) return;
+                overlay.classList.add('active');
+
+                function guestLogin() {
+                    overlay.classList.remove('active');
+                    localStorage.setItem('df_login', JSON.stringify({
+                        email: email,
+                        avatar: avatarUrl,
+                        hasAvatar: hasAvatar,
+                        loggedIn: true
+                    }));
+                    updateDesktopLoginUI(email, avatarUrl, hasAvatar);
+                    if (typeof updateGunCopyButtonsAuthState === 'function') updateGunCopyButtonsAuthState();
+                }
+
+                const closeBtn = document.getElementById('desktop-no-account-close');
+                if (closeBtn) closeBtn.onclick = function() { guestLogin(); };
+                overlay.onclick = function(e) { if (e.target === overlay) guestLogin(); };
+
+                const switchBtn = document.getElementById('desktop-no-account-switch');
+                if (switchBtn) {
+                    switchBtn.onclick = function(e) {
+                        e.preventDefault();
+                        overlay.classList.remove('active');
+                        localStorage.removeItem('df_login');
+                        const methodOverlay = document.getElementById('desktop-login-method-overlay');
+                        if (methodOverlay) methodOverlay.classList.add('active');
+                    };
+                }
+
+                const guestBtn = document.getElementById('desktop-no-account-guest');
+                if (guestBtn) {
+                    guestBtn.onclick = function(e) {
+                        e.preventDefault();
+                        guestLogin();
+                    };
+                }
+            }
+
+            function desktopPerformLogout() {
+                localStorage.removeItem('df_login');
+                const loginBtn = document.getElementById('desktop-login-btn');
+                const userInfo = document.getElementById('desktop-user-info');
+                if (loginBtn) loginBtn.style.display = '';
+                if (userInfo) userInfo.style.display = 'none';
+                if (typeof updateGunCopyButtonsAuthState === 'function') updateGunCopyButtonsAuthState();
+            }
+
+            function updateDesktopLoginUI(email, avatarUrl, hasAvatar) {
+                const loginBtn = document.getElementById('desktop-login-btn');
+                const userInfo = document.getElementById('desktop-user-info');
+                const avatarImg = document.getElementById('desktop-user-avatar');
+                const emailSpan = document.getElementById('desktop-user-email');
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (userInfo) userInfo.style.display = 'flex';
+                if (avatarImg) {
+                    if (hasAvatar && avatarUrl) {
+                        avatarImg.src = avatarUrl;
+                        avatarImg.style.display = '';
+                    } else {
+                        avatarImg.style.display = 'none';
+                    }
+                }
+                if (emailSpan) emailSpan.textContent = email || '';
             }
             
             function checkDesktopLoginState() {
@@ -6054,7 +6380,8 @@
         })();
     </script>
     <script src="../shared/demolition-mock.js?v=1"></script>
-    <script src="demolition-records.js?v=1"></script>
+    <script src="demolition-match.js?v=2"></script>
+    <script src="demolition-records.js?v=2"></script>
     <script src="bookmark-widget.js?v=4" defer></script>
 </body>
 </html>
