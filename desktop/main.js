@@ -810,24 +810,26 @@ function initGunModeTabs() {
     const modeTabs = document.querySelectorAll('.gun-mode-tab');
     const fenghuoContent = document.getElementById('fenghuo-content');
     const zhanchangContent = document.getElementById('zhanchang-content');
-    
+    const baopoContent = document.getElementById('baopo-content');
+
     if (!modeTabs.length) return;
-    
+
     // 初始化枪械列表
     initGunListData();
-    
+
     modeTabs.forEach(tab => {
         tab.addEventListener('click', () => {
             // 切换选中状态
             modeTabs.forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
-            
+
             const mode = tab.dataset.mode;
-            
+
+            if (fenghuoContent) fenghuoContent.style.display = mode === 'fenghuo' ? 'block' : 'none';
+            if (zhanchangContent) zhanchangContent.style.display = mode === 'zhanchang' ? 'block' : 'none';
+            if (baopoContent) baopoContent.style.display = mode === 'baopo' ? 'block' : 'none';
+
             if (mode === 'fenghuo') {
-                if (fenghuoContent) fenghuoContent.style.display = 'block';
-                if (zhanchangContent) zhanchangContent.style.display = 'none';
-                
                 // 重新初始化烽火内容
                 setTimeout(() => {
                     const firstTab = fenghuoContent?.querySelector('.gun-tab.active');
@@ -835,10 +837,7 @@ function initGunModeTabs() {
                     // 重新渲染枪械列表
                     renderGunList('fh');
                 }, 100);
-            } else {
-                if (fenghuoContent) fenghuoContent.style.display = 'none';
-                if (zhanchangContent) zhanchangContent.style.display = 'block';
-                
+            } else if (mode === 'zhanchang') {
                 // 重新初始化战场内容
                 setTimeout(() => {
                     const firstTab = zhanchangContent?.querySelector('.gun-tab.active');
@@ -846,9 +845,224 @@ function initGunModeTabs() {
                     // 重新渲染枪械列表
                     renderGunList('zc');
                 }, 100);
+            } else if (mode === 'baopo') {
+                // 初始化爆破背包方案（一次性）
+                initBaopoBackpacks();
             }
         });
     });
+
+    // 支持 ?mode=xxx 直达指定模式（如 ?mode=baopo）
+    const urlMode = new URLSearchParams(window.location.search).get('mode');
+    if (urlMode && urlMode !== 'fenghuo') {
+        const targetTab = document.querySelector(`.gun-mode-tab[data-mode="${urlMode}"]`);
+        if (targetTab) targetTab.click();
+    }
+}
+
+/* ============================================
+   爆破模式 - 背包码（出装预设）
+   口径见《爆破交互参考/爆破模式理解与网页端规划基线.md》第 10 节
+   ============================================ */
+const BP_TIER_ORDER = ['pistol', 'standard', 'elite', 'special'];
+const BP_TIER_NAMES = { pistol: '手枪', standard: '标准', elite: '精锐', special: '特种' };
+// 积分货币 icon（简洁 SVG，不用 emoji）
+const BP_POINTS_ICON_SVG = '<svg class="bp-points-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.4"/><path d="M8 4.6 L10.8 8 L8 11.4 L5.2 8 Z" fill="currentColor"/></svg>';
+
+let baopoInitialized = false;
+let baopoActivePackId = null;
+
+function initBaopoBackpacks() {
+    if (baopoInitialized) return;
+    const packs = window.demolitionBackpacks;
+    if (!packs || !packs.length) return;
+    baopoInitialized = true;
+
+    // 点赞走全局委托（与其他改枪方案同一套）
+    ensureSchemeStatsClickDelegate();
+
+    renderBpPackList(packs);
+
+    // 复制背包码（等价游戏内"应用方案"）
+    const copyPackBtn = document.getElementById('bp-copy-pack-btn');
+    if (copyPackBtn) {
+        copyPackBtn.addEventListener('click', () => {
+            if (!isUserLoggedIn()) return;
+            const pack = packs.find(p => p.id === baopoActivePackId);
+            if (!pack) return;
+            copyGunBuildCode(pack.code);
+            bumpSchemeCopyCount(bpPackStatMeta(pack));
+            const original = copyPackBtn.dataset.defaultCopyText || '复制背包码';
+            copyPackBtn.textContent = '已复制';
+            setTimeout(() => {
+                copyPackBtn.textContent = original;
+            }, 1500);
+        });
+    }
+
+    // 默认选中第一套背包
+    selectBaopoPack(packs[0].id);
+}
+
+// 主播平台 icon（音符占位，参考流派卡上的平台标识）
+const BP_PLATFORM_ICON_SVG = '<svg class="bp-platform-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 3c.4 2 1.9 3.6 4 3.9v3c-1.6 0-3-.5-4.1-1.3v6.6c0 3.5-2.6 6-6 6-3.3 0-5.8-2.4-5.8-5.6 0-3.3 2.7-5.7 6.1-5.5.3 0 .7 0 1 .1v3.1c-.3-.1-.6-.2-1-.2-1.7 0-3 1.2-3 2.9 0 1.6 1.2 2.8 2.8 2.8 1.8 0 3-1.4 3-3.5V3h3z"/></svg>';
+
+// 流派级统计 key（与其他改枪方案共用一套 stats 体系）
+function bpPackStatMeta(pack) {
+    return { gunId: 'bpack-' + pack.id, cost: 'balanced' };
+}
+
+// 单枪统计 key：与详情弹窗 meta 保持一致，卡片 / 弹窗的点赞复制数互通
+function bpGunSlug(name) {
+    const baseName = name.split('-')[0];
+    const slug = baseName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    return slug || baseName;
+}
+
+function bpGunStatMeta(slot) {
+    return { gunId: 'bp-' + bpGunSlug(slot.name), cost: BP_TIER_COST[slot.tier] || 'balanced' };
+}
+
+// 主播标识：平台 icon + 头像昵称（复用方案作者组件）
+function renderBpAuthor(author) {
+    if (!author || !author.name) return '';
+    return `<span class="bp-author">${BP_PLATFORM_ICON_SVG}${renderSchemeAuthor(author, { compact: true })}</span>`;
+}
+
+function renderBpPackList(packs) {
+    const listEl = document.getElementById('bp-pack-list');
+    if (!listEl) return;
+    listEl.innerHTML = packs.map(p => `
+        <div class="bp-pack-item" role="button" tabindex="0" data-pack-id="${p.id}">
+            <div class="bp-pack-item-head">
+                <span class="bp-pack-item-name">${p.name}</span>
+                ${renderBpAuthor(p.author)}
+            </div>
+            <div class="bp-pack-item-intro">${p.intro || ''}</div>
+        </div>
+    `).join('');
+    listEl.querySelectorAll('.bp-pack-item').forEach(item => {
+        item.addEventListener('click', () => selectBaopoPack(item.dataset.packId));
+        item.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selectBaopoPack(item.dataset.packId);
+            }
+        });
+    });
+}
+
+function selectBaopoPack(packId) {
+    const packs = window.demolitionBackpacks || [];
+    const pack = packs.find(p => p.id === packId);
+    if (!pack) return;
+    baopoActivePackId = packId;
+
+    document.querySelectorAll('.bp-pack-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.packId === packId);
+    });
+
+    // 标题区：流派名 + 主播头像昵称 + 一句话介绍
+    const nameEl = document.getElementById('bp-pack-name');
+    if (nameEl) nameEl.textContent = pack.name;
+    const authorEl = document.getElementById('bp-pack-author');
+    if (authorEl) authorEl.innerHTML = renderBpAuthor(pack.author);
+    const introEl = document.getElementById('bp-pack-intro');
+    if (introEl) introEl.textContent = pack.intro || '';
+
+    // 流派级点赞 / 复制数
+    const statsEl = document.getElementById('bp-pack-stats');
+    if (statsEl) statsEl.innerHTML = renderSchemeStats(bpPackStatMeta(pack));
+
+    renderBpGrid(pack);
+
+    // 同步登录态（未登录时复制按钮禁用并提示"登录以复制"）
+    const baopoContent = document.getElementById('baopo-content');
+    if (baopoContent) updateGunCopyButtonsAuthState(baopoContent);
+}
+
+function renderBpGrid(pack) {
+    const gridEl = document.getElementById('bp-grid');
+    if (!gridEl) return;
+
+    gridEl.innerHTML = BP_TIER_ORDER.map(tier => {
+        const slots = pack.slots.filter(s => s.tier === tier);
+        return `
+        <div class="bp-tier-col">
+            <div class="bp-tier-header"><span class="bp-tier-marker tier-${tier}"></span>${BP_TIER_NAMES[tier]}</div>
+            ${slots.map(slot => renderBpGunCard(slot)).join('')}
+        </div>`;
+    }).join('');
+
+    // DOM 顺序（级别 × 槽位）与 pack.slots 顺序一致，按下标绑定交互
+    gridEl.querySelectorAll('.bp-gun-card').forEach((card, idx) => {
+        const slot = pack.slots[idx];
+        if (!slot) return;
+
+        // 单枪复制改枪码
+        const copyBtn = card.querySelector('.bp-copy-btn');
+        if (copyBtn) {
+            copyBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (!isUserLoggedIn()) return;
+                copyGunBuildCode(slot.buildCode);
+                bumpSchemeCopyCount(bpGunStatMeta(slot));
+                const original = copyBtn.dataset.defaultCopyText || '复制';
+                copyBtn.textContent = '已复制';
+                setTimeout(() => {
+                    copyBtn.textContent = original;
+                }, 1500);
+            });
+        }
+
+        // 标配枪无改枪方案，不可点开详情
+        if (!slot.buildCode) return;
+        card.addEventListener('click', (e) => {
+            // 排除卡片内的交互元素（复制按钮、点赞、统计区）
+            if (e.target.closest('.bp-copy-btn, .scheme-stat, .scheme-stat-like, button, a')) return;
+            openBaopoGunDetail(slot);
+        });
+    });
+}
+
+// 级别 → 方案档位（驱动弹窗雷达图 / 配件造价档位，与其他模式口径一致）
+const BP_TIER_COST = { pistol: 'budget', standard: 'balanced', elite: 'highend', special: 'highend' };
+
+/**
+ * 打开爆破单枪详情弹窗（与其他模式完全同一套弹窗）
+ * gunId 统一加 bp- 前缀：避免命中烽火/战场方案库，
+ * 保证弹窗里展示的配件为通用占位、复制的码为背包内该枪的改枪码
+ */
+function openBaopoGunDetail(slot) {
+    const statMeta = bpGunStatMeta(slot);
+    openGunSchemeDetailModal({
+        gunId: statMeta.gunId,
+        gunName: slot.name.split('-')[0],
+        buildName: slot.name,
+        cost: statMeta.cost,
+        code: slot.buildCode,
+        tags: ['爆破模式', BP_TIER_NAMES[slot.tier]]
+    });
+}
+
+function renderBpGunCard(slot) {
+    // 标配手枪无改枪码：foot 只有积分，底部整行"标配"灰字（与统计行同位、同高，保证列对齐）
+    const footAction = slot.buildCode
+        ? `<button class="bp-copy-btn" type="button" data-build-code="${slot.buildCode}">复制</button>`
+        : '';
+    const bottomRow = slot.buildCode
+        ? renderSchemeStats(bpGunStatMeta(slot), { compact: true })
+        : '<div class="bp-stock-badge">标配</div>';
+    return `
+    <div class="bp-gun-card ${slot.buildCode ? 'is-clickable' : 'is-static'}" data-tier="${slot.tier}">
+        <div class="bp-gun-name" title="${slot.name}">${slot.name}</div>
+        <div class="bp-gun-image"></div>
+        <div class="bp-gun-foot">
+            <span class="bp-gun-points">${BP_POINTS_ICON_SVG}${slot.points}</span>
+            ${footAction}
+        </div>
+        ${bottomRow}
+    </div>`;
 }
 
 /**
@@ -1746,7 +1960,7 @@ function setGunCopyButtonAuthState(btn, loggedIn) {
 
 function updateGunCopyButtonsAuthState(root = document) {
     const loggedIn = isUserLoggedIn();
-    root.querySelectorAll('.copy-code-btn-float, .tier-copy-btn, .copy-scheme-btn').forEach(btn => {
+    root.querySelectorAll('.copy-code-btn-float, .tier-copy-btn, .copy-scheme-btn, .bp-copy-btn, .bp-copy-pack-btn').forEach(btn => {
         setGunCopyButtonAuthState(btn, loggedIn);
     });
 }

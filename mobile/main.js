@@ -625,6 +625,41 @@ document.querySelectorAll('.profile-mode-tab').forEach(tab => {
     });
 });
 
+// 首页日报 Tab 切换（烽火日报 / 战场日报 / 爆破日报）
+// 改枪推荐区随日报 Tab 联动（烽火/战场/爆破 三态）
+document.querySelectorAll('.report-tabs .report-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+        if (this.classList.contains('active')) return;
+        document.querySelectorAll('.report-tabs .report-tab').forEach(t => t.classList.remove('active'));
+        this.classList.add('active');
+        const mode = this.dataset.report || 'fh';
+
+        // 日报内容区显隐
+        const fhContent = document.getElementById('report-fh');
+        const zcContent = document.getElementById('report-zc');
+        const bpContent = document.getElementById('report-bp');
+        if (fhContent) fhContent.classList.toggle('active', mode === 'fh');
+        if (zcContent) zcContent.classList.toggle('active', mode === 'zc');
+        if (bpContent) bpContent.classList.toggle('active', mode === 'bp');
+
+        // 改枪推荐区联动（与日报模式同源）
+        const fhBuilds = document.getElementById('gun-builds-fenghuo-mobile');
+        const zcBuilds = document.getElementById('gun-builds-zhanchang-mobile');
+        const bpBuilds = document.getElementById('gun-builds-baopo-mobile');
+        if (fhBuilds) fhBuilds.style.display = mode === 'fh' ? '' : 'none';
+        if (zcBuilds) zcBuilds.style.display = mode === 'zc' ? '' : 'none';
+        if (bpBuilds) bpBuilds.style.display = mode === 'bp' ? '' : 'none';
+
+        // 首次进入爆破 tab 时渲染精选流派卡
+        if (mode === 'bp') {
+            const homePacks = document.getElementById('bp-home-packs');
+            if (homePacks && !homePacks.childElementCount) {
+                renderMobileBpPackList(homePacks, 2);
+            }
+        }
+    });
+});
+
 // 内容Tab切换 (战绩生涯/大红藏馆/资产)
 document.querySelectorAll('.profile-content-tab').forEach(tab => {
     tab.addEventListener('click', function() {
@@ -953,30 +988,72 @@ function initMobileCardCollectionPrototype() {
         card.addEventListener('click', () => {
             detail.querySelector('#mobile-card-detail-art').textContent = card.querySelector('span').textContent;
             detail.querySelector('#mobile-card-detail-name').textContent = card.dataset.mobileCardName;
-            detail.querySelector('#mobile-card-detail-number').textContent = card.dataset.mobileCardNumber;
             detail.querySelector('#mobile-card-detail-state').textContent = card.dataset.mobileCardState === 'owned' ? '已拥有' : '尚未解锁';
             detail.querySelector('#mobile-card-detail-color').textContent = card.dataset.mobileCardColor;
             detail.querySelector('#mobile-card-detail-tier').textContent = card.dataset.mobileCardTier;
             detail.querySelector('#mobile-card-detail-tier').className = `card-detail-tier tier-${card.dataset.mobileCardTier}`;
             detail.querySelector('#mobile-card-detail-quantity').textContent = card.dataset.mobileCardQuantity;
-            const shareButton = detail.querySelector('[data-mobile-card-share="card"]');
-            shareButton.dataset.cardName = card.dataset.mobileCardName;
-            shareButton.dataset.cardArt = card.querySelector('span').textContent;
-            shareButton.dataset.cardMeta = `${card.dataset.mobileCardColor} · ${card.dataset.mobileCardState === 'owned' ? '已拥有' : '尚未解锁'} · ×${card.dataset.mobileCardQuantity}`;
             detail.classList.add('active');
         });
     });
     const poster = document.getElementById('mobile-card-share-poster');
-    const openPoster = shareButton => {
-        poster.querySelector('#mobile-card-poster-progress').textContent = '13/55';
-        poster.querySelector('#mobile-card-poster-title').textContent = shareButton.dataset.cardName || '赛季扑克牌收藏册';
-        poster.querySelector('#mobile-card-poster-name').textContent = shareButton.dataset.cardName || '赛季扑克牌收藏册';
-        poster.querySelector('#mobile-card-poster-art').textContent = shareButton.dataset.cardArt || '♠';
-        poster.querySelector('#mobile-card-poster-meta').textContent = shareButton.dataset.cardMeta || '13 张已拥有 · 42 张未拥有';
+    const renderPosterProgress = () => {
+        const ownedCards = page.querySelectorAll('.mobile-prototype-card[data-mobile-card-state="owned"]');
+        const totalCards = page.querySelectorAll('.mobile-prototype-card').length;
+        const ownedQty = Array.from(ownedCards).reduce((sum, el) => sum + Number(el.dataset.mobileCardQuantity || 0), 0);
+        poster.querySelector('#mobile-card-poster-progress').textContent = `${ownedCards.length}/${totalCards}`;
+        poster.querySelector('#mobile-card-poster-ratio').textContent = `${Math.round(ownedCards.length / totalCards * 100)}%`;
+        const stats = poster.querySelectorAll('.mobile-card-share-poster-stats span b');
+        if (stats.length >= 4) {
+            stats[0].textContent = ownedCards.length;
+            stats[1].textContent = totalCards - ownedCards.length;
+            stats[2].textContent = '0';
+            stats[3].textContent = ownedQty;
+        }
+        const suitMap = new Map();
+        page.querySelectorAll('.mobile-card-group').forEach(group => {
+            const groupKey = group.dataset.mobileCardGroup;
+            const groupName = group.querySelector('header strong').textContent;
+            const total = group.querySelectorAll('.mobile-prototype-card').length;
+            const owned = group.querySelectorAll('.mobile-prototype-card[data-mobile-card-state="owned"]').length;
+            suitMap.set(groupKey, { name: groupName, total, owned });
+        });
+        const suitsList = poster.querySelector('#mobile-card-share-poster-suits');
+        suitsList.innerHTML = '';
+        const suitMeta = [
+            { key: 'box', mark: '▥' },
+            { key: 'joker', mark: '★' },
+            { key: 'spades', mark: '♠' },
+            { key: 'hearts', mark: '♥' },
+            { key: 'clubs', mark: '♣' },
+            { key: 'diamonds', mark: '♦' }
+        ];
+        suitMeta.forEach(meta => {
+            const data = suitMap.get(meta.key);
+            if (!data) return;
+            const ratio = data.total ? Math.round(data.owned / data.total * 100) : 0;
+            const li = document.createElement('li');
+            li.innerHTML = `<span class="mobile-card-share-poster-suit-mark">${meta.mark}</span><span class="mobile-card-share-poster-suit-name">${data.name}</span><span class="mobile-card-share-poster-suit-bar"><span style="width:${ratio}%"></span></span><span class="mobile-card-share-poster-suit-count">${data.owned}/${data.total}</span>`;
+            suitsList.appendChild(li);
+        });
+        const highCards = Array.from(ownedCards)
+            .filter(el => Number(el.dataset.mobileCardTier) >= 4)
+            .sort((a, b) => Number(b.dataset.mobileCardTier) - Number(a.dataset.mobileCardTier) || Number(b.dataset.mobileCardQuantity || 0) - Number(a.dataset.mobileCardQuantity || 0));
+        const highList = poster.querySelector('#mobile-card-share-poster-high-cards');
+        highList.innerHTML = '';
+        highCards.forEach(el => {
+            const li = document.createElement('li');
+            li.className = `mobile-card-share-poster-high-card tier-${el.dataset.mobileCardTier}`;
+            li.innerHTML = `<span>${el.querySelector('span').textContent}</span><b>${el.dataset.mobileCardName}</b><small>${el.dataset.mobileCardColor} · ×${el.dataset.mobileCardQuantity}</small>`;
+            highList.appendChild(li);
+        });
+        poster.querySelector('#mobile-card-share-poster-high-count').textContent = highCards.length;
+    };
+    const openPoster = () => {
+        renderPosterProgress();
         poster.classList.add('active');
     };
-    page.querySelector('[data-mobile-card-share="progress"]')?.addEventListener('click', event => openPoster(event.currentTarget));
-    detail.querySelector('[data-mobile-card-share="card"]')?.addEventListener('click', event => openPoster(event.currentTarget));
+    page.querySelector('[data-mobile-card-share="progress"]')?.addEventListener('click', openPoster);
     poster?.querySelector('.mobile-card-share-poster-close')?.addEventListener('click', () => poster.classList.remove('active'));
     poster?.addEventListener('click', event => { if (event.target === poster) poster.classList.remove('active'); });
     detail.querySelector('.mobile-card-detail-close')?.addEventListener('click', () => detail.classList.remove('active'));
@@ -1624,6 +1701,145 @@ function renderMobileGunSchemeList() {
     bindMobileSchemeListInteractions(list);
 }
 
+/* ============================================
+   移动端方案 作者 / 统计 / 登录态
+   - 与桌面端共用 shared/gun-detail-mock.js 的 stats 体系（localStorage）
+   - 补齐工具页「改枪全量方案」渲染链路此前缺失的依赖函数
+   ============================================ */
+const MOBILE_SCHEME_STAT_ICONS = {
+    heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',
+    heartFilled: '<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',
+    copy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>'
+};
+
+function isMobileUserLoggedIn() {
+    try {
+        const data = JSON.parse(localStorage.getItem('df_login') || '{}');
+        return !!data.loggedIn;
+    } catch (e) {
+        return false;
+    }
+}
+
+function renderMobileSchemeAuthor(author, opts = {}) {
+    if (!author || !author.name) return '';
+    const compactCls = opts.compact ? ' scheme-author--compact' : '';
+    const officialCls = author.official ? ' scheme-author--official' : '';
+    const initial = (author.name.replace(/^DF[\s·]*/i, '')[0] || author.name[0] || '?').toUpperCase();
+    const avatarText = author.official ? 'DF' : initial;
+    const avatar = author.avatar
+        ? `<img class="scheme-author-avatar" src="${author.avatar}" alt="${author.name}" />`
+        : `<span class="scheme-author-avatar scheme-author-avatar--text">${avatarText}</span>`;
+    return `
+        <div class="scheme-author${compactCls}${officialCls}">
+            ${avatar}
+            <span class="scheme-author-name">${author.name}</span>
+        </div>
+    `;
+}
+
+function renderMobileSchemeStats(meta, opts = {}) {
+    if (!meta || !meta.gunId) return '';
+    if (typeof window.getGunSchemeStats !== 'function') return '';
+    const stats = window.getGunSchemeStats(meta);
+    const variantCls = opts.footer
+        ? ' scheme-stats--footer'
+        : (opts.compact ? ' scheme-stats--compact' : '');
+    const likedCls = stats.likedByMe ? ' is-liked' : '';
+    const heartIcon = stats.likedByMe ? MOBILE_SCHEME_STAT_ICONS.heartFilled : MOBILE_SCHEME_STAT_ICONS.heart;
+    const fmt = window.formatStatNumber || (n => String(n));
+    return `
+        <div class="scheme-stats${variantCls}" data-scheme-gun="${(meta.gunId || '').toLowerCase()}" data-scheme-cost="${meta.cost || 'balanced'}">
+            <button class="scheme-stat scheme-stat-like${likedCls}" type="button" aria-pressed="${stats.likedByMe}" aria-label="点赞">
+                <span class="scheme-stat-icon">${heartIcon}</span>
+                <span class="scheme-stat-value">${fmt(stats.likes)}</span>
+            </button>
+            <span class="scheme-stat scheme-stat-copy" aria-label="复制次数">
+                <span class="scheme-stat-icon">${MOBILE_SCHEME_STAT_ICONS.copy}</span>
+                <span class="scheme-stat-value">${fmt(stats.copies)}</span>
+            </span>
+        </div>
+    `;
+}
+
+/** 刷新页面上指定方案 key 的所有 stats UI（卡片 / 详情页保持同步） */
+function refreshMobileSchemeStatsUI(meta) {
+    if (!meta || !meta.gunId || typeof window.getGunSchemeStats !== 'function') return;
+    const stats = window.getGunSchemeStats(meta);
+    const fmt = window.formatStatNumber || (n => String(n));
+    const sel = `.scheme-stats[data-scheme-gun="${(meta.gunId || '').toLowerCase()}"][data-scheme-cost="${meta.cost || 'balanced'}"]`;
+    document.querySelectorAll(sel).forEach(el => {
+        const likeBtn = el.querySelector('.scheme-stat-like');
+        const copyEl = el.querySelector('.scheme-stat-copy .scheme-stat-value');
+        if (likeBtn) {
+            likeBtn.classList.toggle('is-liked', stats.likedByMe);
+            likeBtn.setAttribute('aria-pressed', String(stats.likedByMe));
+            const iconWrap = likeBtn.querySelector('.scheme-stat-icon');
+            if (iconWrap) iconWrap.innerHTML = stats.likedByMe ? MOBILE_SCHEME_STAT_ICONS.heartFilled : MOBILE_SCHEME_STAT_ICONS.heart;
+            const valEl = likeBtn.querySelector('.scheme-stat-value');
+            if (valEl) valEl.textContent = fmt(stats.likes);
+        }
+        if (copyEl) copyEl.textContent = fmt(stats.copies);
+    });
+}
+
+/** 点赞按钮全局 click 委托（工具页列表 + 详情页多处共用） */
+function ensureMobileSchemeStatsClickDelegate() {
+    if (document.body.dataset.mobileSchemeStatsBound === '1') return;
+    document.body.dataset.mobileSchemeStatsBound = '1';
+    document.body.addEventListener('click', (e) => {
+        const likeBtn = e.target.closest('.scheme-stat-like');
+        if (!likeBtn) return;
+        const wrap = likeBtn.closest('.scheme-stats');
+        if (!wrap) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const meta = {
+            gunId: wrap.dataset.schemeGun,
+            cost: wrap.dataset.schemeCost
+        };
+        if (typeof window.toggleGunSchemeLike === 'function') {
+            window.toggleGunSchemeLike(meta);
+            refreshMobileSchemeStatsUI(meta);
+        }
+    });
+}
+
+function setMobileGunCopyButtonAuthState(btn, loggedIn) {
+    const labelEl = btn.querySelector('.gun-scheme-detail-copy-label');
+    const readText = () => (labelEl ? labelEl.textContent : btn.textContent).trim();
+    const writeText = (val) => {
+        if (labelEl) labelEl.textContent = val;
+        else btn.textContent = val;
+    };
+    if (!btn.dataset.defaultCopyText && readText() !== '登录以复制') {
+        btn.dataset.defaultCopyText = readText() || '复制';
+    }
+    if (loggedIn) {
+        btn.disabled = false;
+        writeText(btn.dataset.defaultCopyText || '复制');
+    } else {
+        btn.disabled = true;
+        writeText('登录以复制');
+        btn.style.background = '';
+        btn.style.color = '';
+    }
+}
+
+function updateMobileGunCopyButtonsAuthState(root = document) {
+    const loggedIn = isMobileUserLoggedIn();
+    root.querySelectorAll('.scheme-list-card-copy-btn, .gun-detail-copy-btn, .bpp-copy-pack-btn, .bpp-gun-copy-btn').forEach(btn => {
+        setMobileGunCopyButtonAuthState(btn, loggedIn);
+    });
+}
+
+function bumpMobileSchemeCopyCount(meta) {
+    if (!meta || !meta.gunId) return;
+    if (typeof window.incrementGunSchemeCopy !== 'function') return;
+    window.incrementGunSchemeCopy(meta);
+    refreshMobileSchemeStatsUI(meta);
+}
+
 function renderMobileSchemeListCard(scheme) {
     const meta = { gunId: scheme.gunId, cost: scheme.cost };
     const author = (typeof window.getGunSchemeAuthor === 'function')
@@ -1729,22 +1945,38 @@ function bindMobileGunSchemeModule() {
     const card = document.querySelector('.gun-scheme-card-mobile');
     if (!card) return;
 
-    // 烽火/战场 Tab
+    // 烽火/战场/爆破 Tab
     card.querySelectorAll('.gun-scheme-mode-tab-mobile').forEach(tab => {
         tab.addEventListener('click', function() {
             if (this.classList.contains('active')) return;
             card.querySelectorAll('.gun-scheme-mode-tab-mobile').forEach(t => t.classList.remove('active'));
             this.classList.add('active');
             mobileSchemeCurrentMode = this.dataset.mode || 'fh';
-            // 战场不展示价格筛选
-            const priceSel = card.querySelector('[data-filter="price"]');
-            if (priceSel) priceSel.style.display = mobileSchemeCurrentMode === 'fh' ? '' : 'none';
-            // 类型 / 名称重置并重渲染
-            const typeSel = card.querySelector('[data-filter="type"]');
-            if (typeSel) typeSel.value = 'all';
-            populateMobileSchemeNameOptions();
-            if (priceSel) priceSel.value = 'all';
-            renderMobileGunSchemeList();
+
+            // 爆破模式：隐藏筛选器与常规列表，显示流派卡列表
+            const isBp = mobileSchemeCurrentMode === 'bp';
+            const filtersEl = card.querySelector('.gun-scheme-filters-mobile');
+            const listEl = document.getElementById('gun-scheme-list-mobile');
+            const bpListEl = document.getElementById('gun-scheme-bp-list-mobile');
+            if (isBp) {
+                if (filtersEl) filtersEl.style.display = 'none';
+                if (listEl) listEl.style.display = 'none';
+                if (bpListEl) bpListEl.style.display = '';
+                renderMobileBpPackList(bpListEl);
+            } else {
+                if (filtersEl) filtersEl.style.display = '';
+                if (listEl) listEl.style.display = '';
+                if (bpListEl) bpListEl.style.display = 'none';
+                // 战场不展示价格筛选
+                const priceSel = card.querySelector('[data-filter="price"]');
+                if (priceSel) priceSel.style.display = mobileSchemeCurrentMode === 'fh' ? '' : 'none';
+                // 类型 / 名称重置并重渲染
+                const typeSel = card.querySelector('[data-filter="type"]');
+                if (typeSel) typeSel.value = 'all';
+                populateMobileSchemeNameOptions();
+                if (priceSel) priceSel.value = 'all';
+                renderMobileGunSchemeList();
+            }
         });
     });
 
@@ -1774,6 +2006,7 @@ document.addEventListener('DOMContentLoaded', function() {
     safeRun('bindAssetCalendarEvents', bindAssetCalendarEvents);
     safeRun('bindMobileBottomNav', bindMobileBottomNav);
     safeRun('bindMobileGunSchemeModule', bindMobileGunSchemeModule);
+    safeRun('bindMobileBpModule', bindMobileBpModule);
     safeRun('bindGunSchemeDetailEvents', bindGunSchemeDetailEvents);
     safeRun('bindHomeBuildCardDetailEvents', bindHomeBuildCardDetailEvents);
     safeRun('initLoginSystem', initLoginSystem);
@@ -2484,6 +2717,14 @@ function updatePosterByMode() {
         if (posterZcData) posterZcData.style.display = 'none';
         if (posterKeywordTag) posterKeywordTag.textContent = '大红扫荡者';
         if (posterKeywordDesc) posterKeywordDesc.textContent = '昨日带出5件以上红色品质物品';
+    } else if (mode === 'bp') {
+        // 爆破模式：海报暂无对应数据区，仅更新标签与关键词（数据区隐藏）
+        if (posterModeLabel) posterModeLabel.textContent = '爆破模式';
+        if (posterReportTitle) posterReportTitle.textContent = '爆破日报';
+        if (posterFhData) posterFhData.style.display = 'none';
+        if (posterZcData) posterZcData.style.display = 'none';
+        if (posterKeywordTag) posterKeywordTag.textContent = '包点艺术家';
+        if (posterKeywordDesc) posterKeywordDesc.textContent = '单日完成 3 次成功下包';
     } else {
         // 全面战场
         if (posterModeLabel) posterModeLabel.textContent = t('gameMode.zhanchang', '全面战场');
@@ -2714,3 +2955,268 @@ function copyShareLink() {
         closeFeedbackModal();
     }
 })();
+
+/* ============================================
+   爆破模式 · 背包码流派（移动端）
+   - 一级：流派卡列表（工具页全量 / 首页精选 2 张）
+   - 二级：流派详情子页（16 把枪，4 级别分组，单列）
+   - 统计/登录门槛与桌面共用 shared/gun-detail-mock.js 体系
+   ============================================ */
+const BP_M_TIER_ORDER = ['pistol', 'standard', 'elite', 'special'];
+const BP_M_TIER_NAMES = { pistol: '手枪', standard: '标准', elite: '精锐', special: '特种' };
+const BP_M_TIER_COST = { pistol: 'budget', standard: 'balanced', elite: 'highend', special: 'highend' };
+const BP_M_POINTS_ICON_SVG = '<svg class="bpp-points-icon" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.4"/><path d="M8 4.6 L10.8 8 L8 11.4 L5.2 8 Z" fill="currentColor"/></svg>';
+const BP_M_PLATFORM_ICON_SVG = '<svg class="bpp-platform-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 3c.4 2 1.9 3.6 4 3.9v3c-1.6 0-3-.5-4.1-1.3v6.6c0 3.5-2.6 6-6 6-3.3 0-5.8-2.4-5.8-5.6 0-3.3 2.7-5.7 6.1-5.5.3 0 .7 0 1 .1v3.1c-.3-.1-.6-.2-1-.2-1.7 0-3 1.2-3 2.9 0 1.6 1.2 2.8 2.8 2.8 1.8 0 3-1.4 3-3.5V3h3z"/></svg>';
+
+function getMobileBpPacks() {
+    return (window.demolitionBackpacks || []);
+}
+
+// 与桌面一致的统计 key（跨端共用 localStorage 口径）
+function bpMPackStatMeta(pack) {
+    return { gunId: 'bpack-' + pack.id, cost: 'balanced' };
+}
+
+function bpMGunSlug(name) {
+    const baseName = name.split('-')[0];
+    const slug = baseName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+    return slug || baseName;
+}
+
+function bpMGunStatMeta(slot) {
+    return { gunId: 'bp-' + bpMGunSlug(slot.name), cost: BP_M_TIER_COST[slot.tier] || 'balanced' };
+}
+
+function copyMobileBpCode(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(function () { fallbackCopyMobileBp(text); });
+    } else {
+        fallbackCopyMobileBp(text);
+    }
+}
+
+function fallbackCopyMobileBp(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(textarea);
+}
+
+// 按钮反馈：已复制 → 1.5s 恢复
+function flashMobileBpCopyBtn(btn) {
+    if (!btn) return;
+    const labelEl = btn.querySelector('.bpp-btn-label');
+    const original = btn.dataset.defaultCopyText || (labelEl ? labelEl.textContent : btn.textContent) || '复制';
+    if (labelEl) labelEl.textContent = '已复制 ✓';
+    else btn.textContent = '已复制 ✓';
+    btn.classList.add('copied');
+    setTimeout(() => {
+        if (labelEl) labelEl.textContent = original;
+        else btn.textContent = original;
+        btn.classList.remove('copied');
+    }, 1500);
+}
+
+/* ---- 流派卡（一级，工具页与首页共用） ---- */
+function renderMobileBpAuthorHtml(author) {
+    if (!author || !author.name) return '';
+    const initial = (author.name[0] || '?').toUpperCase();
+    return `
+        <span class="bpp-author">
+            ${BP_M_PLATFORM_ICON_SVG}
+            <span class="bpp-author-avatar">${initial}</span>
+            <span class="bpp-author-name">${author.name}</span>
+        </span>`;
+}
+
+function renderMobileBpPackCard(pack) {
+    return `
+        <div class="bpp-card" data-pack-id="${pack.id}">
+            <div class="bpp-card-head">
+                ${renderMobileBpAuthorHtml(pack.author)}
+                ${renderMobileSchemeStats(bpMPackStatMeta(pack), { compact: true })}
+            </div>
+            <div class="bpp-card-name">${pack.name}</div>
+            <div class="bpp-card-intro">${pack.intro || ''}</div>
+            <div class="bpp-card-btns">
+                <button class="bpp-copy-pack-btn" type="button" data-pack-id="${pack.id}"><span class="bpp-btn-label">复制背包码</span></button>
+                <button class="bpp-view-detail-btn" type="button" data-pack-id="${pack.id}">查看 16 把枪</button>
+            </div>
+        </div>`;
+}
+
+function renderMobileBpPackList(container, limit) {
+    if (!container) return;
+    const packs = getMobileBpPacks();
+    if (!packs.length) {
+        container.innerHTML = '<div class="gun-scheme-list-empty">暂无爆破流派</div>';
+        return;
+    }
+    const list = limit ? packs.slice(0, limit) : packs;
+    container.innerHTML = list.map(renderMobileBpPackCard).join('');
+    updateMobileGunCopyButtonsAuthState(container);
+}
+
+/* ---- 流派详情子页（二级） ---- */
+let bpMActivePackId = null;
+
+function openMobileBpPackDetail(packId) {
+    const packs = getMobileBpPacks();
+    const pack = packs.find(p => p.id === packId);
+    const page = document.getElementById('page-bp-pack-detail');
+    const body = document.getElementById('bp-pack-detail-body');
+    if (!pack || !page || !body) return;
+    bpMActivePackId = packId;
+
+    const titleEl = document.getElementById('bp-pack-detail-title');
+    if (titleEl) titleEl.textContent = pack.name + ' · 16 把枪';
+
+    body.innerHTML = `
+        <div class="bppd-lead">
+            <div class="bppd-lead-head">
+                ${renderMobileBpAuthorHtml(pack.author)}
+                ${renderMobileSchemeStats(bpMPackStatMeta(pack), { compact: true })}
+            </div>
+            <div class="bppd-lead-name">${pack.name}</div>
+            <div class="bppd-lead-intro">${pack.intro || ''}</div>
+        </div>
+        ${BP_M_TIER_ORDER.map(tier => `
+            <div class="bppd-group">
+                <div class="bppd-group-title"><span class="bpp-tier-marker bpp-tier-${tier}"></span>${BP_M_TIER_NAMES[tier]}</div>
+                ${pack.slots.filter(s => s.tier === tier).map(slot => renderMobileBpGunRow(slot)).join('')}
+            </div>`).join('')}
+        <div class="bppd-tip">积分为爆破模式局内货币；标配手枪无改枪码，其余枪械可复制改枪码。</div>
+    `;
+
+    const copyAllBtn = document.getElementById('bp-pack-copy-all');
+    if (copyAllBtn) {
+        copyAllBtn.dataset.packId = pack.id;
+        copyAllBtn.dataset.defaultCopyText = '复制背包码';
+    }
+    updateMobileGunCopyButtonsAuthState(page);
+
+    page.classList.add('active');
+    body.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMobileBpPackDetail() {
+    const page = document.getElementById('page-bp-pack-detail');
+    if (!page) return;
+    page.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function renderMobileBpGunRow(slot) {
+    const hasCode = !!slot.buildCode;
+    return `
+        <div class="bppd-gun ${hasCode ? 'is-clickable' : 'is-static'}" data-tier="${slot.tier}">
+            <div class="bppd-gun-img" aria-hidden="true"></div>
+            <div class="bppd-gun-info">
+                <div class="bppd-gun-name" title="${slot.name}">${slot.name}</div>
+                <div class="bppd-gun-meta">
+                    <span class="bppd-gun-points">${BP_M_POINTS_ICON_SVG}${slot.points}</span>
+                    ${hasCode ? renderMobileSchemeStats(bpMGunStatMeta(slot), { compact: true }) : '<span class="bppd-stock">标配</span>'}
+                </div>
+            </div>
+            ${hasCode ? `<button class="bpp-gun-copy-btn" type="button" data-build-code="${slot.buildCode}"><span class="bpp-btn-label">复制</span></button>` : ''}
+        </div>`;
+}
+
+/* ---- 单枪详情（复用现有配件详情子页） ---- */
+function openMobileBpGunDetail(slot) {
+    const meta = bpMGunStatMeta(slot);
+    openGunSchemeDetailPage({
+        gunId: meta.gunId,
+        gunName: slot.name.split('-')[0],
+        cost: meta.cost,
+        buildName: slot.name,
+        code: slot.buildCode,
+        tags: ['爆破模式', BP_M_TIER_NAMES[slot.tier]],
+        mode: 'bp'
+    });
+}
+
+/* ---- 模块绑定 ---- */
+function bindMobileBpModule() {
+    ensureMobileSchemeStatsClickDelegate();
+
+    // 一级卡 + 二级枪卡交互（事件委托，工具页 / 首页 / 详情子页共用）
+    document.addEventListener('click', function (e) {
+        // 复制背包码（一级卡按钮）
+        const copyPackBtn = e.target.closest('.bpp-copy-pack-btn');
+        if (copyPackBtn) {
+            e.stopPropagation();
+            if (!isMobileUserLoggedIn()) return;
+            const pack = getMobileBpPacks().find(p => p.id === copyPackBtn.dataset.packId);
+            if (!pack) return;
+            copyMobileBpCode(pack.code);
+            bumpMobileSchemeCopyCount(bpMPackStatMeta(pack));
+            flashMobileBpCopyBtn(copyPackBtn);
+            return;
+        }
+        // 查看 16 把枪 / 点一级卡其余区域 → 流派详情子页
+        const viewBtn = e.target.closest('.bpp-view-detail-btn');
+        const card = e.target.closest('.bpp-card');
+        if (viewBtn || (card && !e.target.closest('.scheme-stat, .scheme-stat-like, button'))) {
+            const packId = (viewBtn || card).dataset.packId;
+            if (packId) openMobileBpPackDetail(packId);
+            return;
+        }
+        // 单枪复制
+        const gunCopyBtn = e.target.closest('.bpp-gun-copy-btn');
+        if (gunCopyBtn) {
+            e.stopPropagation();
+            if (!isMobileUserLoggedIn()) return;
+            copyMobileBpCode(gunCopyBtn.dataset.buildCode);
+            const gunRow = gunCopyBtn.closest('.bppd-gun');
+            const pack = getMobileBpPacks().find(p => p.id === bpMActivePackId);
+            const slot = pack && gunRow ? pack.slots.find(s => s.name === gunRow.querySelector('.bppd-gun-name').textContent) : null;
+            if (slot) bumpMobileSchemeCopyCount(bpMGunStatMeta(slot));
+            flashMobileBpCopyBtn(gunCopyBtn);
+            return;
+        }
+        // 单枪卡其余区域 → 配件详情子页
+        const gunRow = e.target.closest('.bppd-gun.is-clickable');
+        if (gunRow && !e.target.closest('.bpp-gun-copy-btn, .scheme-stat, .scheme-stat-like, button')) {
+            const pack = getMobileBpPacks().find(p => p.id === bpMActivePackId);
+            const slot = pack ? pack.slots.find(s => s.name === gunRow.querySelector('.bppd-gun-name').textContent) : null;
+            if (slot) openMobileBpGunDetail(slot);
+        }
+    });
+
+    // 详情子页：返回 / 底部复制背包码
+    const backBtn = document.getElementById('bp-pack-detail-back');
+    if (backBtn) backBtn.addEventListener('click', closeMobileBpPackDetail);
+    const copyAllBtn = document.getElementById('bp-pack-copy-all');
+    if (copyAllBtn) {
+        copyAllBtn.addEventListener('click', function () {
+            if (!isMobileUserLoggedIn()) return;
+            const pack = getMobileBpPacks().find(p => p.id === bpMActivePackId);
+            if (!pack) return;
+            copyMobileBpCode(pack.code);
+            bumpMobileSchemeCopyCount(bpMPackStatMeta(pack));
+            flashMobileBpCopyBtn(copyAllBtn);
+        });
+    }
+
+    // 首页「查看全部爆破流派」→ 工具页 + 爆破 tab + 滚动定位
+    // （首页改枪推荐区由日报 Tab 联动驱动，见 report-tab handler）
+    const homeMore = document.getElementById('bp-home-more');
+    if (homeMore) {
+        homeMore.addEventListener('click', function () {
+            const toolsNav = document.querySelector('.nav-item[data-page="工具"]');
+            if (toolsNav) toolsNav.click();
+            setTimeout(() => {
+                const bpTab = document.querySelector('.gun-scheme-card-mobile .gun-scheme-mode-tab-mobile[data-mode="bp"]');
+                if (bpTab) bpTab.click();
+                const schemeCard = document.querySelector('.gun-scheme-card-mobile');
+                if (schemeCard) schemeCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        });
+    }
+}

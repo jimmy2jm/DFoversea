@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Delta Force - Mobile Prototype</title>
-    <link rel="stylesheet" href="main.css?v=30">
+    <link rel="stylesheet" href="main.css?v=31">
     <script src="i18n.js" defer></script>
 </head>
 <body>
@@ -438,6 +438,7 @@
         <div class="report-tabs">
             <button class="report-tab active" data-report="fh">🔥 <span data-i18n="gameMode.fenghuoDaily">烽火日报</span></button>
             <button class="report-tab" data-report="zc">⚔️ <span data-i18n="gameMode.zhanchangDaily">战场日报</span></button>
+            <button class="report-tab" data-report="bp">💣 <span>爆破日报</span></button>
             <button class="share-btn" id="share-daily-btn">
                 <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
@@ -594,6 +595,75 @@
             <!-- 操作按钮 -->
             <div class="action-buttons asset-calendar-actions-mobile">
                 <button class="action-btn secondary asset-calendar-entry-mobile" type="button">资产周历</button>
+                <button class="action-btn primary" style="flex: 1;" data-i18n="home.openGameViewMore">打开游戏查看更多</button>
+            </div>
+        </div>
+
+        <!-- ===== 爆破日报内容 ===== -->
+        <div class="report-content-bp" id="report-bp">
+            <!-- 头部：对局数 + 日期 -->
+            <div class="bpr-top">
+                <span class="bpr-matches">对局数：<b>3</b></span>
+                <span class="bpr-date">📅 08月18日</span>
+            </div>
+
+            <!-- 核心统计 -->
+            <div class="bpr-stats-grid">
+                <div class="bpr-stat-item">
+                    <div class="bpr-stat-label">胜率</div>
+                    <div class="bpr-stat-value">66.7<span class="bpr-stat-unit">%</span></div>
+                    <div class="bpr-stat-sub">2胜1负</div>
+                </div>
+                <div class="bpr-stat-item">
+                    <div class="bpr-stat-label">MVP</div>
+                    <div class="bpr-stat-value">2<span class="bpr-stat-unit">次</span></div>
+                    <div class="bpr-stat-sub">评分 S+</div>
+                </div>
+                <div class="bpr-stat-item">
+                    <div class="bpr-stat-label">击败数</div>
+                    <div class="bpr-stat-value">34</div>
+                    <div class="bpr-stat-sub">爆头率 35%</div>
+                </div>
+                <div class="bpr-stat-item">
+                    <div class="bpr-stat-label">KDA</div>
+                    <div class="bpr-stat-value">2.0</div>
+                    <div class="bpr-stat-sub">34 / 21 / 8</div>
+                </div>
+            </div>
+
+            <!-- 段位 + 多杀 -->
+            <div class="bpr-rank-multikill">
+                <div class="bpr-rank">
+                    <div class="bpr-rank-label">段位</div>
+                    <div class="bpr-rank-name">校官 Ⅲ <span class="bpr-rank-star">★</span></div>
+                    <div class="bpr-rank-score">512分 <span class="bpr-rank-up">↑</span></div>
+                </div>
+                <div class="bpr-multikill">
+                    <div class="bpr-mk-value">2</div>
+                    <div class="bpr-mk-label">三次击杀</div>
+                </div>
+            </div>
+
+            <!-- 当日最佳对局 -->
+            <div class="bpr-best">
+                <div class="bpr-best-label">
+                    <span class="bpr-best-text">当日最佳对局</span>
+                    <span class="bpr-best-sub">BEST OF DAY</span>
+                </div>
+                <div class="bpr-best-card">
+                    <div class="bpr-best-badge">MVP</div>
+                    <div class="bpr-best-info">
+                        <div class="bpr-best-result">胜利 · 下包 A 点</div>
+                        <div class="bpr-best-meta">爆破模式 | 运河 · 干员 乌鲁鲁</div>
+                        <div class="bpr-best-time">08-18 21:37 · KDA 22/21/8</div>
+                    </div>
+                    <div class="bpr-best-title">顶级外援</div>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="action-buttons">
+                <button class="action-btn secondary" type="button">查看更多数据</button>
                 <button class="action-btn primary" style="flex: 1;" data-i18n="home.openGameViewMore">打开游戏查看更多</button>
             </div>
         </div>
@@ -758,9 +828,9 @@
             <span class="section-title">🔧 <span data-i18n="gunBuilds.title">改枪推荐</span></span>
             <span class="section-more" id="gun-build-more-mobile">查看全部 ▸</span>
         </div>
-        
+
         <!-- 烽火地带改枪推荐 -->
-        <div id="gun-builds-fenguo-mobile">
+        <div id="gun-builds-fenghuo-mobile">
             <!-- 枪械选择器 - 烽火 -->
             <div class="gun-selector" id="gun-selector-fh-mobile">
                 <div class="gun-tab active" data-gun="mp5">
@@ -825,7 +895,7 @@
             </div>
         </div>
         
-        <!-- 全面战场改枪推荐（默认隐藏） -->
+        <!-- 全面战场改枪推荐（默认隐藏，由首页模式 Tab 控制） -->
         <div id="gun-builds-zhanchang-mobile" style="display: none;">
             <!-- 枪械选择器 - 战场 -->
             <div class="gun-selector" id="gun-selector-zc-mobile">
@@ -898,8 +968,14 @@
                 </div>
             </div>
         </div>
+
+        <!-- 爆破模式改枪推荐（默认隐藏，由首页模式 Tab 控制）：精选流派卡 -->
+        <div id="gun-builds-baopo-mobile" style="display: none;">
+            <div class="bpp-list-mobile bpp-list-home" id="bp-home-packs"></div>
+            <div class="bpp-home-more" id="bp-home-more">查看全部爆破流派 ▸</div>
+        </div>
     </section>
-    
+
     </div><!-- 首页内容结束 -->
     
     <!-- ============================================
@@ -952,10 +1028,11 @@
                 <div class="gun-scheme-header-mobile">
                     <span class="gun-scheme-title-mobile">🔫 改枪全量方案</span>
                 </div>
-                <!-- 烽火/战场 Tab -->
+                <!-- 烽火/战场/爆破 Tab -->
                 <div class="gun-scheme-mode-tabs-mobile">
                     <button class="gun-scheme-mode-tab-mobile active" data-mode="fh">🔥 烽火地带</button>
                     <button class="gun-scheme-mode-tab-mobile" data-mode="zc">⚔️ 全面战场</button>
+                    <button class="gun-scheme-mode-tab-mobile" data-mode="bp">💣 爆破模式</button>
                 </div>
                 <!-- 筛选器 -->
                 <div class="gun-scheme-filters-mobile" id="gun-scheme-filters-mobile">
@@ -981,6 +1058,8 @@
                 </div>
                 <!-- 方案列表（单列） -->
                 <div class="gun-scheme-list-mobile" id="gun-scheme-list-mobile"></div>
+                <!-- 爆破流派卡列表（默认隐藏，与筛选器/常规列表互斥） -->
+                <div class="bpp-list-mobile" id="gun-scheme-bp-list-mobile" style="display: none;"></div>
             </div>
 
             <!-- 交易物价模块 - V1.0 隐藏 -->
@@ -1536,14 +1615,21 @@
 
     <!-- 卡牌详情弹窗 -->
     <div class="mobile-card-detail-overlay" id="mobile-card-detail-overlay" aria-hidden="true">
-        <div class="mobile-card-detail" role="dialog" aria-modal="true"><button class="mobile-card-detail-close" type="button" aria-label="关闭">✕</button><span class="mobile-card-detail-art" id="mobile-card-detail-art">♠</span><h3 id="mobile-card-detail-name">黑桃 A</h3><p>编号：<b id="mobile-card-detail-number">A</b></p><p>解锁状态：<b id="mobile-card-detail-state">已拥有</b></p><p>牌色：<b id="mobile-card-detail-color">紫色</b><span class="card-detail-tier tier-4" id="mobile-card-detail-tier">4</span></p><p>拥有数量：<b id="mobile-card-detail-quantity">1</b></p><button class="mobile-card-share-button" type="button" data-mobile-card-share="card">生成这张卡的海报</button></div>
+        <div class="mobile-card-detail" role="dialog" aria-modal="true"><button class="mobile-card-detail-close" type="button" aria-label="关闭">✕</button><div class="mobile-card-detail-art" id="mobile-card-detail-art">♠</div><div class="mobile-card-detail-info"><h3 id="mobile-card-detail-name">黑桃 A</h3><p>品阶：<b id="mobile-card-detail-color">紫色</b><span class="card-detail-tier tier-4" id="mobile-card-detail-tier">4</span></p><p>解锁状态：<b id="mobile-card-detail-state">已拥有</b></p><p>拥有数量：<b id="mobile-card-detail-quantity">1</b></p></div></div>
     </div>
 
     <!-- 卡牌分享海报弹窗 -->
     <div class="mobile-card-share-poster-overlay" id="mobile-card-share-poster" aria-hidden="true">
         <div class="mobile-card-share-poster" role="dialog" aria-modal="true">
             <div class="mobile-card-share-poster-header"><strong>分享卡牌收藏</strong><button class="mobile-card-share-poster-close" type="button">✕</button></div>
-            <div class="mobile-card-share-poster-canvas"><span class="mobile-card-share-kicker">DELTA FORCE TOOL STATION</span><h2 id="mobile-card-poster-title">赛季扑克牌收藏册</h2><div class="mobile-card-share-progress"><strong id="mobile-card-poster-progress">13/55</strong><span>已收集卡牌</span></div><div class="mobile-card-share-card"><span id="mobile-card-poster-art">♠</span><strong id="mobile-card-poster-name">黑桃 A</strong><small id="mobile-card-poster-meta">紫色 · 已拥有 · ×1</small></div><div class="mobile-card-share-footer"><span>df-oversea.tools</span><span class="mobile-card-share-qr">QR</span></div></div><button class="mobile-card-share-poster-save" type="button">保存海报</button>
+            <div class="mobile-card-share-poster-canvas" id="mobile-card-share-poster-canvas">
+                <header class="mobile-card-share-poster-head"><span class="mobile-card-share-kicker">DELTA FORCE TOOL STATION</span><strong>赛季扑克牌收藏册</strong><small>SEASON CARD ALBUM</small></header>
+                <section class="mobile-card-share-poster-progress-section"><div class="mobile-card-share-poster-progress-main"><strong id="mobile-card-poster-progress">13/55</strong><small>整副完成度 <b id="mobile-card-poster-ratio">24%</b></small></div><div class="mobile-card-share-poster-progress-bar"><span style="width:24%"></span></div><div class="mobile-card-share-poster-stats"><span><b>13</b>已拥有</span><span><b>42</b>未拥有</span><span><b>0</b>集齐花色</span><span><b>20</b>拥有总数量</span></div></section>
+                <section class="mobile-card-share-poster-suit-section"><h3>各花色解锁进度</h3><ul class="mobile-card-share-poster-suits" id="mobile-card-share-poster-suits"></ul></section>
+                <section class="mobile-card-share-poster-high-section"><h3>已解锁高等级扑克牌 <b id="mobile-card-share-poster-high-count">3</b> 张</h3><ul class="mobile-card-share-poster-high-cards" id="mobile-card-share-poster-high-cards"></ul></section>
+                <footer class="mobile-card-share-poster-footer"><div><strong>扫码查看我的扑克典藏册</strong><small>三角洲行动小程序 · 赛季扑克典藏</small></div><span class="mobile-card-share-qr" aria-label="二维码">QR</span></footer>
+            </div>
+            <button class="mobile-card-share-poster-save" type="button">保存海报</button>
         </div>
     </div>
 
@@ -1624,6 +1710,21 @@
         </div>
         <footer class="gun-scheme-detail-footer" id="gun-scheme-detail-footer">
             <!-- JS 渲染：stats + 复制按钮 -->
+        </footer>
+    </div>
+
+    <!-- 爆破流派详情子页（16 把枪，4 级别分组） -->
+    <div class="subpage" id="page-bp-pack-detail">
+        <header class="subpage-header">
+            <span class="subpage-back" id="bp-pack-detail-back">‹</span>
+            <span class="subpage-title" id="bp-pack-detail-title">流派详情</span>
+            <span class="subpage-action"></span>
+        </header>
+        <div class="bppd-body" id="bp-pack-detail-body">
+            <!-- JS 渲染 -->
+        </div>
+        <footer class="bppd-footer" id="bp-pack-detail-footer">
+            <button class="bpp-copy-pack-btn bpp-copy-all-btn" id="bp-pack-copy-all" type="button">复制背包码</button>
         </footer>
     </div>
 
@@ -1868,7 +1969,8 @@
     
     <!-- 引入主JS文件 -->
     <script src="../shared/gun-detail-mock.js?v=1"></script>
-    <script src="main.js?v=17"></script>
+    <script src="../shared/demolition-backpack-mock.js?v=1"></script>
+    <script src="main.js?v=20"></script>
     <script src="bookmark-widget.js?v=4" defer></script>
 </body>
 </html>

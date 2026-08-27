@@ -6717,6 +6717,10 @@ body {
    ============================================ */
 #page-gun-scheme-detail {
     background: #031a1c;
+    /* 层级栈：从爆破流派详情(#page-bp-pack-detail)内打开时，
+       枪械详情需盖在其上（subpage 默认 z-index:200，同层按 DOM 顺序，
+       本页在 bp 详情页之前声明，必须显式抬高） */
+    z-index: 210;
 }
 
 .gun-scheme-detail-body {
@@ -7283,19 +7287,20 @@ body {
 .mobile-card-group[hidden], .mobile-prototype-card[hidden] { display: none; }
 .mobile-card-group header { display: flex; justify-content: space-between; padding: 9px 10px; color: rgba(255,255,255,0.86); background: rgba(92,112,114,0.42); font-weight: 800; }
 .mobile-card-group header span { color: #00d4aa; font: 700 11px 'Orbitron', monospace; }
-.mobile-card-grid { display: flex; gap: 8px; overflow-x: auto; padding: 10px; }
-.mobile-prototype-card { flex: 0 0 82px; aspect-ratio: 0.68; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 8px 5px; color: #f3d58a; background: linear-gradient(145deg, rgba(90,24,32,0.92), rgba(18,22,25,0.98)); border: 1px solid rgba(198,145,66,0.58); border-radius: 0; cursor: pointer; }
+.mobile-card-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; padding: 10px; }
+.mobile-prototype-card { width: 100%; aspect-ratio: 0.68; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 8px 5px; color: #f3d58a; background: linear-gradient(145deg, rgba(90,24,32,0.92), rgba(18,22,25,0.98)); border: 1px solid rgba(198,145,66,0.58); border-radius: 0; cursor: pointer; }
 .mobile-prototype-card.locked { color: rgba(255,255,255,0.32); background: linear-gradient(145deg, rgba(62,68,70,0.78), rgba(15,21,23,0.96)); border-color: rgba(84,112,118,0.55); }
 .mobile-prototype-card span { font-size: 28px; }
 .mobile-prototype-card b { font-size: 11px; }
 .mobile-prototype-card small { color: rgba(255,255,255,0.55); font: 700 9px 'Orbitron', monospace; }
 .mobile-card-detail-overlay { display: none; position: fixed; inset: 0 auto 0 50%; width: min(100vw, 414px); max-width: 414px; height: 100dvh; z-index: 1300; align-items: center; justify-content: center; padding: 20px; box-sizing: border-box; transform: translateX(-50%); background: rgba(0,0,0,0.84); }
 .mobile-card-detail-overlay.active { display: flex; }
-.mobile-card-detail { position: relative; width: 240px; padding: 24px; text-align: center; background: rgba(18,38,42,0.98); border: 1px solid rgba(0,212,170,0.45); }
-.mobile-card-detail-close { position: absolute; top: 10px; right: 10px; width: 28px; height: 28px; color: rgba(255,255,255,0.82); background: transparent; border: 1px solid rgba(0,212,170,0.45); border-radius: 0; }
-.mobile-card-detail-art { display: grid; place-items: center; width: 112px; height: 158px; margin: 10px auto 16px; color: #f3d58a; font-size: 54px; background: linear-gradient(145deg, #5b1d2a, #171b20); border: 1px solid rgba(243,213,138,0.7); }
-.mobile-card-detail h3 { margin: 0 0 16px; color: #00d4aa; }
-.mobile-card-detail p { margin: 8px 0; color: rgba(255,255,255,0.64); font-size: 11px; }
+.mobile-card-detail { position: relative; display: flex; gap: 14px; width: min(92vw, 360px); padding: 16px; text-align: left; background: rgba(18,38,42,0.98); border: 1px solid rgba(0,212,170,0.45); box-sizing: border-box; }
+.mobile-card-detail-close { position: absolute; top: 8px; right: 8px; width: 26px; height: 26px; color: rgba(255,255,255,0.82); background: transparent; border: 1px solid rgba(0,212,170,0.45); border-radius: 0; z-index: 1; }
+.mobile-card-detail-art { flex: 0 0 96px; width: 96px; height: 134px; display: grid; place-items: center; color: #f3d58a; font-size: 44px; background: linear-gradient(145deg, #5b1d2a, #171b20); border: 1px solid rgba(243,213,138,0.7); }
+.mobile-card-detail-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+.mobile-card-detail h3 { margin: 0 0 14px; color: #00d4aa; font-size: 15px; }
+.mobile-card-detail p { margin: 7px 0; color: rgba(255,255,255,0.64); font-size: 11px; }
 .mobile-card-detail p b { color: rgba(255,255,255,0.9); }
 .mobile-card-detail .card-detail-tier { vertical-align: middle; }
 .mobile-prototype-card { position: relative; height: 154px; aspect-ratio: auto; }
@@ -7307,26 +7312,47 @@ body {
 .tier-4 { background: #b06cff; color: #19062f; }
 .tier-5 { background: #f5c84b; color: #332100; }
 .tier-6 { background: #ef5361; color: #32080d; }
-.mobile-card-group { min-height: 190px; }
-.mobile-card-grid { min-height: 166px; align-items: start; }
+.mobile-card-group { min-height: auto; }
+.mobile-card-grid { min-height: auto; align-items: start; }
 .mobile-card-collection-summary { position: relative; }
 .mobile-card-share-button { width: 100%; margin-top: 12px; padding: 9px 10px; color: #031816; background: #00d4aa; border: 1px solid #00d4aa; border-radius: 0; font-size: 11px; font-weight: 800; }
 .mobile-card-detail .mobile-card-share-button { margin-top: 12px; }
 .mobile-card-share-poster-overlay { display: none; position: fixed; inset: 0 auto 0 50%; width: min(100vw, 414px); max-width: 414px; height: 100dvh; z-index: 1400; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box; transform: translateX(-50%); background: rgba(0,0,0,0.86); }
 .mobile-card-share-poster-overlay.active { display: flex; }
-.mobile-card-share-poster { width: min(100%, 340px); padding: 12px; background: #101e21; border: 1px solid rgba(0,212,170,0.5); }
+.mobile-card-share-poster { width: 100%; max-height: calc(100dvh - 32px); padding: 12px; background: #101e21; border: 1px solid rgba(0,212,170,0.5); overflow-y: auto; }
 .mobile-card-share-poster-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; color: #00d4aa; }
 .mobile-card-share-poster-close { color: rgba(255,255,255,0.8); background: transparent; border: 1px solid rgba(0,212,170,0.45); border-radius: 0; }
-.mobile-card-share-poster-canvas { height: 470px; padding: 24px 18px; display: flex; flex-direction: column; align-items: center; color: rgba(255,255,255,0.9); background: linear-gradient(145deg, #32151b, #102b2b 72%, #071516); border: 1px solid rgba(243,213,138,0.55); }
-.mobile-card-share-kicker { color: #00d4aa; font: 700 9px 'Orbitron', monospace; letter-spacing: 0.08em; }
-.mobile-card-share-poster-canvas h2 { margin: 14px 0 18px; color: #f3d58a; font-size: 18px; text-align: center; }
-.mobile-card-share-progress { display: flex; flex-direction: column; align-items: center; }
-.mobile-card-share-progress strong { color: #00d4aa; font: 800 36px 'Orbitron', monospace; }
-.mobile-card-share-progress span, .mobile-card-share-card small { color: rgba(255,255,255,0.62); font-size: 10px; }
-.mobile-card-share-card { width: 126px; height: 178px; margin: 18px 0; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 16px 8px; color: #f3d58a; background: linear-gradient(145deg, #5b1d2a, #171b20); border: 1px solid rgba(243,213,138,0.75); }
-.mobile-card-share-card span { font-size: 48px; }
-.mobile-card-share-card strong { font-size: 13px; }
-.mobile-card-share-footer { width: 100%; margin-top: auto; display: flex; justify-content: space-between; align-items: end; color: rgba(255,255,255,0.72); font: 700 9px 'Orbitron', monospace; }
+.mobile-card-share-poster-canvas { width: 100%; aspect-ratio: 1200 / 630; max-height: 380px; padding: 12px; display: grid; grid-template-columns: 0.8fr 1fr; grid-template-rows: auto 1fr auto; gap: 6px 8px; color: rgba(255,255,255,0.9); background: linear-gradient(145deg, #32151b, #102b2b 70%, #071516); border: 1px solid rgba(243,213,138,0.55); box-sizing: border-box; }
+.mobile-card-share-poster-head { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 1px; padding-bottom: 4px; border-bottom: 1px solid rgba(243,213,138,0.35); }
+.mobile-card-share-poster-head strong { color: #f3d58a; font-size: 11px; }
+.mobile-card-share-poster-head small { color: rgba(255,255,255,0.5); font: 700 7px 'Orbitron', monospace; letter-spacing: 0.12em; }
+.mobile-card-share-kicker { color: #00d4aa; font: 700 7px 'Orbitron', monospace; letter-spacing: 0.12em; }
+.mobile-card-share-poster-progress-section, .mobile-card-share-poster-suit-section { padding: 5px; background: rgba(6,18,20,0.55); border: 1px solid rgba(84,112,118,0.45); }
+.mobile-card-share-poster-progress-main strong { color: #f3d58a; font: 800 15px 'Orbitron', monospace; }
+.mobile-card-share-poster-progress-main small { color: rgba(255,255,255,0.6); font-size: 7px; }
+.mobile-card-share-poster-progress-main b { color: #00d4aa; }
+.mobile-card-share-poster-progress-bar { height: 3px; margin: 3px 0 4px; background: rgba(255,255,255,0.08); }
+.mobile-card-share-poster-progress-bar span { display: block; height: 100%; background: #00d4aa; }
+.mobile-card-share-poster-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+.mobile-card-share-poster-stats span { text-align: center; padding: 2px 1px; background: rgba(255,255,255,0.04); border: 1px solid rgba(84,112,118,0.32); color: rgba(255,255,255,0.55); font-size: 6px; }
+.mobile-card-share-poster-stats b { display: block; color: #00d4aa; font: 700 9px 'Orbitron', monospace; }
+.mobile-card-share-poster-suit-section h3, .mobile-card-share-poster-high-section h3 { margin: 0 0 3px; color: #f3d58a; font-size: 8px; font-weight: 800; }
+.mobile-card-share-poster-suits { list-style: none; padding: 0; margin: 0; display: grid; gap: 2px; }
+.mobile-card-share-poster-suits li { display: grid; grid-template-columns: 10px 30px 1fr 28px; align-items: center; gap: 3px; font-size: 7px; color: rgba(255,255,255,0.78); }
+.mobile-card-share-poster-suit-mark { color: #f3d58a; font-size: 8px; }
+.mobile-card-share-poster-suit-bar { height: 2px; background: rgba(255,255,255,0.08); }
+.mobile-card-share-poster-suit-bar span { display: block; height: 100%; background: #00d4aa; }
+.mobile-card-share-poster-suit-count { color: #00d4aa; font: 700 7px 'Orbitron', monospace; text-align: right; }
+.mobile-card-share-poster-high-section { grid-column: 2; grid-row: 2 / 4; display: flex; flex-direction: column; padding: 5px; background: rgba(6,18,20,0.55); border: 1px solid rgba(84,112,118,0.45); overflow: hidden; }
+.mobile-card-share-poster-high-cards { list-style: none; padding: 0; margin: 0; display: flex; gap: 4px; flex-wrap: wrap; align-content: flex-start; flex: 1; }
+.mobile-card-share-poster-high-card { width: 34px; height: 48px; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 3px 2px; color: #f3d58a; background: linear-gradient(145deg, rgba(90,24,32,0.92), rgba(18,22,25,0.98)); border: 1px solid rgba(198,145,66,0.6); font-size: 6px; }
+.mobile-card-share-poster-high-card span { font-size: 13px; }
+.mobile-card-share-poster-high-card small { color: rgba(255,255,255,0.55); font-size: 5px; }
+.mobile-card-share-poster-footer { grid-column: 1; display: flex; justify-content: space-between; align-items: center; padding-top: 4px; border-top: 1px solid rgba(243,213,138,0.32); color: rgba(255,255,255,0.7); font-size: 7px; }
+.mobile-card-share-poster-footer div { display: flex; flex-direction: column; }
+.mobile-card-share-poster-footer strong { color: #f3d58a; }
+.mobile-card-share-poster-footer small { color: rgba(255,255,255,0.5); }
+.mobile-card-share-qr { width: 36px; height: 36px; display: grid; place-items: center; color: #071516; background-color: #fff; background-image: linear-gradient(90deg, #071516 25%, transparent 25%, transparent 50%, #071516 50%, #071516 75%, transparent 75%), linear-gradient(#071516 25%, transparent 25%, transparent 50%, #071516 50%, #071516 75%, transparent 75%); background-size: 7px 7px; font: 700 6px Arial; }
 .mobile-card-share-poster-save { width: 100%; margin-top: 10px; padding: 10px; color: #031816; background: #00d4aa; border: 0; border-radius: 0; font-weight: 800; }
 
 /* ============================================
@@ -8096,4 +8122,658 @@ body {
     border: 1px solid rgba(42, 72, 78, 0.75);
     padding: 10px;
     font-size: 12px;
+}
+
+/* ============================================
+   爆破模式 · 背包码流派（移动端）
+   一级流派卡 / 二级流派详情子页 / 单列枪卡
+   ============================================ */
+
+/* ---- 一级：流派卡列表 ---- */
+.bpp-list-mobile {
+    padding: 10px 10px 2px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.bpp-list-home {
+    padding-bottom: 0;
+}
+
+.bpp-card {
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    padding: 12px 12px 12px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.bpp-card:hover {
+    border-color: var(--accent-cyan);
+}
+
+.bpp-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+/* 主播标识：平台 icon + 圆形文字头像 + 昵称 */
+.bpp-author {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-width: 0;
+}
+
+.bpp-platform-icon {
+    width: 13px;
+    height: 13px;
+    color: rgba(255, 255, 255, 0.5);
+    flex-shrink: 0;
+}
+
+.bpp-author-avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 800;
+    color: #031816;
+    background: var(--accent-cyan);
+}
+
+.bpp-author-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.72);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 卡片头部统计：轻量信息行（复制是核心动作） */
+.bpp-card-head .scheme-stats,
+.bppd-lead-head .scheme-stats {
+    margin: 0;
+    padding: 0;
+    border-top: none;
+    gap: 10px;
+    font-size: 11px;
+    flex-shrink: 0;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.bpp-card-head .scheme-stats .scheme-stat-icon,
+.bppd-lead-head .scheme-stats .scheme-stat-icon {
+    width: 12px;
+    height: 12px;
+}
+
+.bpp-card-head .scheme-stats .scheme-stat-like,
+.bppd-lead-head .scheme-stats .scheme-stat-like {
+    flex: none;
+    border: none;
+    background: transparent;
+    padding: 2px 0;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.bpp-card-head .scheme-stats .scheme-stat-like:hover,
+.bppd-lead-head .scheme-stats .scheme-stat-like:hover {
+    border-color: transparent;
+    color: #ff6e91;
+}
+
+.bpp-card-head .scheme-stats .scheme-stat-copy,
+.bppd-lead-head .scheme-stats .scheme-stat-copy {
+    flex: none;
+    padding: 2px 0;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.bpp-card-name {
+    font-size: 15px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 4px;
+}
+
+.bpp-card-intro {
+    font-size: 11.5px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 10px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.bpp-card-btns {
+    display: flex;
+    gap: 8px;
+}
+
+.bpp-copy-pack-btn {
+    flex: 1;
+    border: none;
+    background: var(--accent-cyan);
+    color: #031816;
+    font-size: 13px;
+    font-weight: 800;
+    padding: 9px 12px;
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+}
+
+.bpp-copy-pack-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.bpp-copy-pack-btn.copied {
+    opacity: 0.85;
+}
+
+.bpp-view-detail-btn {
+    flex: 0 0 108px;
+    border: 1px solid rgba(42, 72, 78, 0.9);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 12.5px;
+    font-weight: 700;
+    padding: 9px 10px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.bpp-view-detail-btn:hover {
+    border-color: var(--accent-cyan);
+    color: var(--accent-cyan);
+}
+
+.bpp-home-more {
+    margin: 10px 10px 4px;
+    padding: 10px;
+    text-align: center;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    border: 1px solid rgba(0, 212, 170, 0.3);
+    background: rgba(0, 212, 170, 0.06);
+    cursor: pointer;
+}
+
+/* ---- 二级：流派详情子页 ---- */
+#page-bp-pack-detail.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.bppd-body {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px 12px 16px;
+    background: #031a1c;
+}
+
+.bppd-lead {
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    padding: 12px;
+    margin-bottom: 14px;
+}
+
+.bppd-lead-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.bppd-lead-name {
+    font-size: 16px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 4px;
+}
+
+.bppd-lead-intro {
+    font-size: 12px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.bppd-group {
+    margin-bottom: 14px;
+}
+
+.bppd-group-title {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13.5px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.88);
+    padding-left: 8px;
+    border-left: 3px solid var(--accent-cyan);
+    margin-bottom: 8px;
+}
+
+/* 级别菱形色标（与桌面一致） */
+.bpp-tier-marker {
+    width: 8px;
+    height: 8px;
+    transform: rotate(45deg);
+    flex-shrink: 0;
+}
+
+.bpp-tier-pistol { background: rgba(255, 255, 255, 0.45); }
+.bpp-tier-standard { background: #5dade2; }
+.bpp-tier-elite { background: #a78bfa; }
+.bpp-tier-special { background: #f39c12; }
+
+/* 单列枪卡 */
+.bppd-gun {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    padding: 9px 10px;
+    margin-bottom: 8px;
+    transition: border-color 0.2s ease;
+}
+
+.bppd-gun.is-clickable {
+    cursor: pointer;
+}
+
+.bppd-gun.is-clickable:hover {
+    border-color: var(--accent-cyan);
+}
+
+.bppd-gun.is-static {
+    cursor: default;
+}
+
+.bppd-gun-img {
+    width: 76px;
+    height: 42px;
+    flex-shrink: 0;
+    background-image: url('../shared/images/PKM.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    background-color: rgba(18, 38, 42, 0.9);
+}
+
+.bppd-gun-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.bppd-gun-name {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.88);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 3px;
+}
+
+.bppd-gun-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 18px;
+}
+
+/* 积分（局内货币，SVG icon） */
+.bppd-gun-points {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--accent-cyan);
+    flex-shrink: 0;
+}
+
+.bpp-points-icon {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
+.bppd-gun-meta .scheme-stats {
+    margin: 0;
+    padding: 0;
+    border-top: none;
+    gap: 8px;
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.bppd-gun-meta .scheme-stats .scheme-stat-icon {
+    width: 11px;
+    height: 11px;
+}
+
+.bppd-gun-meta .scheme-stats .scheme-stat-like {
+    flex: none;
+    border: none;
+    background: transparent;
+    padding: 2px 0;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.bppd-gun-meta .scheme-stats .scheme-stat-like:hover {
+    border-color: transparent;
+    color: #ff6e91;
+}
+
+.bppd-gun-meta .scheme-stats .scheme-stat-copy {
+    flex: none;
+    padding: 2px 0;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* 标配占位（无改枪码） */
+.bppd-stock {
+    font-size: 10.5px;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.bpp-gun-copy-btn {
+    flex-shrink: 0;
+    border: 1px solid rgba(0, 212, 170, 0.35);
+    background: transparent;
+    color: var(--accent-cyan);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.bpp-gun-copy-btn:hover {
+    background: var(--accent-cyan);
+    border-color: var(--accent-cyan);
+    color: #031816;
+}
+
+.bpp-gun-copy-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.bppd-tip {
+    font-size: 11px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.42);
+    padding: 0 2px;
+}
+
+/* 子页底部：全宽复制背包码 */
+.bppd-footer {
+    padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+    background: rgba(4, 18, 20, 0.96);
+    border-top: 1px solid rgba(80, 108, 112, 0.45);
+}
+
+.bpp-copy-all-btn {
+    width: 100%;
+    border: none;
+    background: var(--accent-cyan);
+    color: #031816;
+    font-size: 14px;
+    font-weight: 800;
+    padding: 12px;
+    cursor: pointer;
+}
+
+.bpp-copy-all-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ============================================
+   爆破日报（移动端首页日报卡第三 Tab）
+   维度对齐 PC 端日报：对局数/胜率/MVP/段位/多杀/击败/爆头率/KDA/最佳对局
+   ============================================ */
+.report-content-bp {
+    display: none;
+    min-height: 220px;
+}
+
+.report-content-bp.active {
+    display: block;
+}
+
+.bpr-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 2px 10px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.55);
+}
+
+.bpr-top b {
+    color: var(--accent-cyan);
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+}
+
+.bpr-date {
+    font-size: 11.5px;
+}
+
+.bpr-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.bpr-stat-item {
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    padding: 9px 4px;
+    text-align: center;
+}
+
+.bpr-stat-label {
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 4px;
+}
+
+.bpr-stat-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    line-height: 1.2;
+}
+
+.bpr-stat-unit {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.45);
+    margin-left: 1px;
+}
+
+.bpr-stat-sub {
+    margin-top: 4px;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.42);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bpr-rank-multikill {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.bpr-rank {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    padding: 10px 12px;
+}
+
+.bpr-rank-label {
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 3px;
+}
+
+.bpr-rank-name {
+    font-size: 14px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.bpr-rank-star {
+    color: var(--accent-cyan);
+    font-size: 12px;
+}
+
+.bpr-rank-score {
+    font-family: 'Orbitron', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.8);
+    text-align: right;
+}
+
+.bpr-rank-up {
+    color: var(--accent-cyan);
+}
+
+.bpr-multikill {
+    flex: 0 0 88px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    padding: 10px 8px;
+}
+
+.bpr-mk-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    line-height: 1.2;
+}
+
+.bpr-mk-label {
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 3px;
+}
+
+.bpr-best {
+    margin-bottom: 12px;
+}
+
+.bpr-best-label {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.bpr-best-text {
+    font-size: 12px;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.bpr-best-sub {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: var(--accent-cyan);
+    opacity: 0.7;
+}
+
+.bpr-best-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    padding: 11px 12px;
+}
+
+.bpr-best-badge {
+    flex-shrink: 0;
+    font-family: 'Orbitron', monospace;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #031816;
+    background: var(--accent-cyan);
+    padding: 5px 7px;
+}
+
+.bpr-best-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.bpr-best-result {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--accent-cyan);
+    margin-bottom: 3px;
+}
+
+.bpr-best-meta {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.66);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bpr-best-time {
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.bpr-best-title {
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+    border: 1px solid rgba(0, 212, 170, 0.35);
+    padding: 3px 8px;
+    white-space: nowrap;
 }
