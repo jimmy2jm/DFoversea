@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "ae7419446f5b5a0f9e5c2585c480cbe2",
+    "buildCode": "K437 Assault Rifle-Operations-6I9EI2G0C3QRO2AQ0QTRG",
+    "weaponName": "K437 Assault Rifle",
+    "buildName": "ImMarksman Budget K437"
+  },
+  "thread": {
+    "name": "[K437 · 272840] ImMarksman Budget K437",
+    "id": "",
+    "tags": [
+      "operations",
+      "global",
+      "ar"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "OPERATIONS"
+        },
+        "title": "ImMarksman Budget K437",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**K437 ASSAULT RIFLE**\n**PRICE · 272840**\n`◆ 200k Low Spec` `▣ Stable & Standard` `◆ Great Value`\n\n**BUILD CODE**\n```\nK437 Assault Rifle-Operations-6I9EI2G0C3QRO2AQ0QTRG\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "K437 build: handling speed 40, stability 49, effective range 35, base damage 36, hip-fire accuracy 57, recoil control 55."
+        },
+        "footer": {
+          "text": "Build by ImMarksman"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/01-k437-ae741944/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

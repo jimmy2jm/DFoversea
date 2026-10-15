@@ -1,0 +1,50 @@
+{
+  "preparedAt": "2026-09-21T11:08:17.261Z",
+  "refreshedAt": "2026-09-21T11:07:51.797Z",
+  "destinationAlias": "delta-force-official",
+  "intervalSeconds": 0,
+  "outputs": [
+    {
+      "index": 1,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/01-ak-12-a2ce227b",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/01-ak-12-a2ce227b/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/01-ak-12-a2ce227b/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/01-ak-12-a2ce227b/gun-card.png",
+      "schemeId": "a2ce227b525ce9c92a5fc24535ed8075",
+      "title": "[AK-12 · 442753] The Pilgrimage",
+      "tags": [
+        "operations",
+        "global",
+        "ar"
+      ]
+    },
+    {
+      "index": 2,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/02-g3-392e1ef2",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/02-g3-392e1ef2/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/02-g3-392e1ef2/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/02-g3-392e1ef2/gun-card.png",
+      "schemeId": "392e1ef203bd73b35b0a9f694dfdfb9b",
+      "title": "[G3 · 366016] wa77en's G3",
+      "tags": [
+        "operations",
+        "global",
+        "br"
+      ]
+    },
+    {
+      "index": 3,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/03-vector-7745aedf",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/03-vector-7745aedf/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/03-vector-7745aedf/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/03-vector-7745aedf/gun-card.png",
+      "schemeId": "7745aedfaa86c5246814bb0b59b0b71f",
+      "title": "[Vector · WARFARE] Smile Op's Vector",
+      "tags": [
+        "warfare",
+        "global",
+        "smg"
+      ]
+    }
+  ]
+}

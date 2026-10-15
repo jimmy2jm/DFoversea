@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delta Force - 我的数据</title>
-    <link rel="stylesheet" href="main.css?v=52">
+    <link rel="stylesheet" href="main.css?v=53">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <script src="i18n.js" defer></script>
     <style>
@@ -437,6 +437,19 @@
         /* 综合数据卡内部三列撑满 */
         .overview-main .stats-card .stats-three-columns {
             flex: 1;
+        }
+
+        /* 三个模式（烽火 / 战场 / 爆破）的「综合数据」卡统一最小高度，
+           避免切换模式时卡片高度跳动；内容不足时由数据项等分撑满。
+           该值需 ≥ 三列四项模式的自然高度，如切换仍有跳动可调大此处 */
+        .overview-main .stats-card {
+            min-height: 468px;
+        }
+
+        /* 列内数据项在自身内容高度基础上等分剩余空间，保持 primary 项的层级差异 */
+        .overview-main .stats-card .stat-column-item {
+            flex: 1 0 auto;
+            justify-content: center;
         }
 
         /* 全宽最近对局区 */
@@ -966,6 +979,11 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 0;
+        }
+
+        /* 爆破模式 - 综合数据：当前接口仅提供 6 项指标，压缩为两列 */
+        .stats-three-columns.baopo-stats-two-columns {
+            grid-template-columns: repeat(2, 1fr);
         }
         
         .stats-column {
@@ -4984,28 +5002,25 @@
                                 <span class="stats-card-title">💣 爆破模式 · 综合数据</span>
                                 <span class="stats-card-meta" id="baopo-summary-meta">总计 -- 场对局</span>
                             </div>
-                            <div class="stats-three-columns">
-                                <!-- 第一列：胜率表现 -->
+                            <!-- 爆破模式当前接口仅提供 6 项累计指标，压缩为两列 -->
+                            <div class="stats-three-columns baopo-stats-two-columns">
+                                <!-- 第一列：战绩表现 -->
                                 <div class="stats-column economy">
                                     <div class="stats-column-header">
                                         <span class="column-icon">🏆</span>
-                                        <span class="column-title">胜率表现</span>
+                                        <span class="column-title">战绩表现</span>
                                     </div>
                                     <div class="stat-column-item primary">
                                         <div class="stat-column-value orange" id="baopo-sum-winrate">--</div>
                                         <div class="stat-column-label">综合胜率</div>
                                     </div>
                                     <div class="stat-column-item">
-                                        <div class="stat-column-value" id="baopo-sum-mvp">--</div>
-                                        <div class="stat-column-label">MVP场次</div>
+                                        <div class="stat-column-value" id="baopo-sum-matches">--</div>
+                                        <div class="stat-column-label">总场数</div>
                                     </div>
                                     <div class="stat-column-item">
-                                        <div class="stat-column-value" id="baopo-sum-mvp-likes">--</div>
-                                        <div class="stat-column-label">MVP点赞数</div>
-                                    </div>
-                                    <div class="stat-column-item">
-                                        <div class="stat-column-value" id="baopo-sum-avgscore">--</div>
-                                        <div class="stat-column-label">场均评分</div>
+                                        <div class="stat-column-value" id="baopo-sum-wins">--</div>
+                                        <div class="stat-column-label">胜场数</div>
                                     </div>
                                 </div>
 
@@ -5016,44 +5031,16 @@
                                         <span class="column-title">战斗数据</span>
                                     </div>
                                     <div class="stat-column-item primary">
-                                        <div class="stat-column-value cyan" id="baopo-sum-kd">--</div>
-                                        <div class="stat-column-label">战损比</div>
+                                        <div class="stat-column-value cyan" id="baopo-sum-kda">--</div>
+                                        <div class="stat-column-label">KDA</div>
                                     </div>
                                     <div class="stat-column-item">
-                                        <div class="stat-column-value" id="baopo-sum-kills">--</div>
-                                        <div class="stat-column-label">击败干员</div>
+                                        <div class="stat-column-value" id="baopo-sum-avg-kills">--</div>
+                                        <div class="stat-column-label">局均击败</div>
                                     </div>
                                     <div class="stat-column-item">
-                                        <div class="stat-column-value" id="baopo-sum-hitrate">--</div>
-                                        <div class="stat-column-label">命中率</div>
-                                    </div>
-                                    <div class="stat-column-item">
-                                        <div class="stat-column-value" id="baopo-sum-hs">--</div>
-                                        <div class="stat-column-label">精准击败率</div>
-                                    </div>
-                                </div>
-
-                                <!-- 第三列：爆破目标 -->
-                                <div class="stats-column team">
-                                    <div class="stats-column-header">
-                                        <span class="column-icon">💣</span>
-                                        <span class="column-title">爆破目标</span>
-                                    </div>
-                                    <div class="stat-column-item primary">
-                                        <div class="stat-column-value green" id="baopo-sum-plants">--</div>
-                                        <div class="stat-column-label">安装炸弹</div>
-                                    </div>
-                                    <div class="stat-column-item">
-                                        <div class="stat-column-value" id="baopo-sum-defuses">--</div>
-                                        <div class="stat-column-label">拆除炸弹</div>
-                                    </div>
-                                    <div class="stat-column-item">
-                                        <div class="stat-column-value" id="baopo-sum-guard">--</div>
-                                        <div class="stat-column-label">累计守护炸弹击杀</div>
-                                    </div>
-                                    <div class="stat-column-item">
-                                        <div class="stat-column-value" id="baopo-sum-deny">--</div>
-                                        <div class="stat-column-label">累计阻止安装击杀</div>
+                                        <div class="stat-column-value" id="baopo-sum-avg-assists">--</div>
+                                        <div class="stat-column-label">局均助攻</div>
                                     </div>
                                 </div>
                             </div>
@@ -6379,9 +6366,9 @@
             }
         })();
     </script>
-    <script src="../shared/demolition-mock.js?v=1"></script>
+    <script src="../shared/demolition-mock.js?v=2"></script>
     <script src="demolition-match.js?v=2"></script>
-    <script src="demolition-records.js?v=2"></script>
+    <script src="demolition-records.js?v=4"></script>
     <script src="bookmark-widget.js?v=4" defer></script>
 </body>
 </html>

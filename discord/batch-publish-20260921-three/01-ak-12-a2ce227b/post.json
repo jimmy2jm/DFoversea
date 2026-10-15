@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "a2ce227b525ce9c92a5fc24535ed8075",
+    "buildCode": "AK-12 Assault Rifle-Operations-6KSLJ1S07P0TLN3BOBQ4G",
+    "weaponName": "AK-12 Assault Rifle",
+    "buildName": "The Pilgrimage"
+  },
+  "thread": {
+    "name": "[AK-12 · 442753] The Pilgrimage",
+    "id": "",
+    "tags": [
+      "operations",
+      "global",
+      "ar"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "OPERATIONS"
+        },
+        "title": "The Pilgrimage",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**AK-12 ASSAULT RIFLE**\n**PRICE · 442753**\n`▣ High Stability` `◆ Supreme AP` `◆ Silent & Fire Rate`\n\n**BUILD CODE**\n```\nAK-12 Assault Rifle-Operations-6KSLJ1S07P0TLN3BOBQ4G\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "AK-12 build: handling speed 44, stability 64, effective range 59, base damage 30, hip-fire accuracy 38, recoil control 71."
+        },
+        "footer": {
+          "text": "Build by RLaw"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/01-ak-12-a2ce227b/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

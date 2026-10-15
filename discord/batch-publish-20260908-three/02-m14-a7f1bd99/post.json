@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "a7f1bd9938f1311d6499103f6c283038",
+    "buildCode": "M14 Marksman Rifle-Operations-6JUP4P40FV996DITL6AIU",
+    "weaponName": "M14 Marksman Rifle",
+    "buildName": "Leissik'M14"
+  },
+  "thread": {
+    "name": "[M14 · 858256] Leissik'M14",
+    "id": "",
+    "tags": [
+      "operations",
+      "global",
+      "mr"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "OPERATIONS"
+        },
+        "title": "Leissik'M14",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**M14 MARKSMAN RIFLE**\n**PRICE · 858256**\n`▣ Advanced Controls` `◆ Supreme Max Build` `◆ Onslaught Spec`\n\n**BUILD CODE**\n```\nM14 Marksman Rifle-Operations-6JUP4P40FV996DITL6AIU\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "M14 build: handling speed 54, stability 47, effective range 40, base damage 39, hip-fire accuracy 48, recoil control 52."
+        },
+        "footer": {
+          "text": "Build by Leissik"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/02-m14-a7f1bd99/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

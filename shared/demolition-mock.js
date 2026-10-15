@@ -486,6 +486,7 @@
             mvpCount: 0,
             kills: 0,
             deaths: 0,
+            assists: 0,
             totalCombatScore: 0,
             headHits: 0,
             totalHits: 0,
@@ -500,6 +501,7 @@
             if (self.mvp) summary.mvpCount += 1;
             summary.kills += self.kills;
             summary.deaths += self.deaths;
+            summary.assists += self.assists;
             summary.totalCombatScore += self.combatScore;
             summary.headHits += self.headHits;
             summary.totalHits += self.headHits + self.bodyHits + self.legHits;

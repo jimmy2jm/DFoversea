@@ -2,6 +2,13 @@
  * Delta Force Home - Lo-Fi Prototype Interactions
  */
 
+/**
+ * 对局详情入口开关
+ * 逐局明细接口未就绪前，先屏蔽「点击战绩查看详情」的跳转与弹窗；
+ * 接口接入后改回 true 即可恢复，无需改动其它代码。
+ */
+const MATCH_DETAIL_ENABLED = false;
+
 document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initReportTabs();
@@ -64,11 +71,11 @@ function initReportTabs() {
         baopo: document.getElementById('baopo-content')
     };
 
-    // 模式 -> Home 页改枪推荐区域（爆破模式暂无改枪推荐，置空隐藏）
+    // 模式 -> Home 页改枪推荐区域（爆破为流派 chips + 背包概览卡）
     const gunBuildsMap = {
         fenguo: document.getElementById('gun-builds-fenguo'),
         zhanchang: document.getElementById('gun-builds-zhanchang'),
-        baopo: null
+        baopo: document.getElementById('gun-builds-baopo')
     };
 
     const shareBtn = document.getElementById('daily-share-btn');
@@ -87,7 +94,7 @@ function initReportTabs() {
                 if (el) el.classList.toggle('hidden', key !== tabType);
             });
 
-            // 切换改枪推荐区域（爆破态全部隐藏，不错误复用战场内容）
+            // 切换改枪推荐区域（爆破为流派 chips + 背包概览卡）
             Object.keys(gunBuildsMap).forEach(key => {
                 const el = gunBuildsMap[key];
                 if (el) el.style.display = key === tabType ? 'block' : 'none';
@@ -97,6 +104,15 @@ function initReportTabs() {
                 // 初始化战场模式的雷达图（首次显示时）
                 initHomeZhanchangGunSelector();
             }
+
+            if (tabType === 'baopo') {
+                // 初始化爆破改枪推荐：流派 chips + 背包概览（首次显示时）
+                initHomeBaopoBackpacks();
+            }
+
+            // 「查看更多」按模式直达改枪页对应 Tab（爆破 -> ?mode=baopo）
+            const viewLink = document.querySelector('.gun-builds-section .view-link');
+            if (viewLink) viewLink.setAttribute('href', tabType === 'baopo' ? 'gun-plans.html?mode=baopo' : 'gun-plans.html');
 
             // 爆破日报暂不支持分享海报，给出明确禁用状态
             if (shareBtn) shareBtn.classList.toggle('share-disabled', tabType === 'baopo');
@@ -134,17 +150,24 @@ function renderBaopoDaily() {
         if (lowerRow) lowerRow.style.display = 'none';
         if (emptyState) emptyState.style.display = 'flex';
         if (mvpBadge) mvpBadge.style.display = 'none';
+        setText('baopo-daily-kills', '--');
+        setText('baopo-daily-matches', '--');
         setText('baopo-daily-winrate', '--');
-        setText('baopo-daily-record', '暂无对局');
+        setText('baopo-daily-precision', '--');
+        setText('baopo-daily-kd', '--');
         return;
     }
 
     if (lowerRow) lowerRow.style.display = '';
     if (emptyState) emptyState.style.display = 'none';
 
-    // 顶部摘要：胜率 + 对局总数，MVP 以徽章形式融合展示
+    // 关键数据：当日总击败数；下方为场次 / 胜率 / 精准击败率 / K/D
+    setText('baopo-daily-kills', DM.fmt.number(summary.kills));
+    setText('baopo-daily-matches', DM.fmt.number(summary.matchCount));
     setText('baopo-daily-winrate', DM.fmt.percent(summary.winRate));
-    setText('baopo-daily-record', `胜率 · 共 ${summary.matchCount} 场`);
+    setText('baopo-daily-precision', DM.fmt.percent(summary.headshotRate));
+    setText('baopo-daily-kd', String(summary.kd));
+
     if (mvpBadge) {
         if (summary.mvpCount > 0) {
             mvpBadge.textContent = `MVP ×${summary.mvpCount}`;
@@ -154,25 +177,13 @@ function renderBaopoDaily() {
         }
     }
 
-    // 爆破专项数据：多杀与基础数值（K/D、爆头率）二选一展示
-    // TEST: 测试期随机模拟「有多杀 / 无多杀」两种场景，接入真实数据后移除随机逻辑
-    const topMultiKill = formatTopMultiKill(summary);
-    const hasMultiKill = topMultiKill !== '--' && Math.random() >= 0.5;
-
-    const multiItem = document.querySelector('#baopo-content .baopo-special-item.multikill');
-    const baseItems = document.querySelectorAll('#baopo-content .baopo-special-item:not(.multikill)');
-
-    if (multiItem) {
-        multiItem.style.display = hasMultiKill ? '' : 'none';
-        if (hasMultiKill) setText('baopo-daily-multikill', topMultiKill);
-    }
-    baseItems.forEach(item => {
-        item.style.display = hasMultiKill ? 'none' : '';
+    // 多杀记录：当日三杀 / 四杀 / 五杀次数，未出现的档次弱化展示
+    [[3, summary.multiKill3], [4, summary.multiKill4], [5, summary.multiKill5]].forEach(([tier, count]) => {
+        const times = count || 0;
+        setText(`baopo-daily-mk${tier}`, String(times));
+        const item = root.querySelector(`.baopo-multikill-item[data-tier="${tier}"]`);
+        if (item) item.classList.toggle('is-empty', times === 0);
     });
-    if (!hasMultiKill) {
-        setText('baopo-daily-kd', String(summary.kd));
-        setText('baopo-daily-hs', DM.fmt.percent(summary.headshotRate));
-    }
 
     // 当日代表对局
     const best = summary.bestMatch;
@@ -189,29 +200,25 @@ function renderBaopoDaily() {
             statusEl.classList.toggle('fail', best.result !== 'victory');
         }
         const bestLink = document.getElementById('baopo-best-link');
-        if (bestLink) {
-            bestLink.onclick = () => {
-                window.location.href = `demolition-match.html?matchId=${encodeURIComponent(best.matchId)}`;
-            };
-        }
         const bestBody = document.getElementById('baopo-best-body');
-        if (bestBody) {
-            bestBody.style.cursor = 'pointer';
-            bestBody.onclick = () => {
-                window.location.href = `demolition-match.html?matchId=${encodeURIComponent(best.matchId)}`;
-            };
+        if (MATCH_DETAIL_ENABLED) {
+            if (bestLink) {
+                bestLink.onclick = () => {
+                    window.location.href = `demolition-match.html?matchId=${encodeURIComponent(best.matchId)}`;
+                };
+            }
+            if (bestBody) {
+                bestBody.style.cursor = 'pointer';
+                bestBody.onclick = () => {
+                    window.location.href = `demolition-match.html?matchId=${encodeURIComponent(best.matchId)}`;
+                };
+            }
+        } else {
+            // 详情未开放：隐藏入口链接，并去掉可点击的视觉提示
+            if (bestLink) bestLink.style.display = 'none';
+            if (bestBody) bestBody.style.cursor = 'default';
         }
     }
-}
-
-/**
- * 最高级多杀展示：只展示五杀/四杀/三杀中的最高档，如「四杀 ×1」
- */
-function formatTopMultiKill(summary) {
-    if (summary.multiKill5 > 0) return `五杀 ×${summary.multiKill5}`;
-    if (summary.multiKill4 > 0) return `四杀 ×${summary.multiKill4}`;
-    if (summary.multiKill3 > 0) return `三杀 ×${summary.multiKill3}`;
-    return '--';
 }
 
 /**
@@ -1063,6 +1070,101 @@ function renderBpGunCard(slot) {
         </div>
         ${bottomRow}
     </div>`;
+}
+
+/* ============================================
+   首页 - 爆破改枪推荐（紧凑版背包概览）
+   复用 demolitionBackpacks 数据与 bp-* 统计/详情弹窗链路
+   ============================================ */
+let homeBaopoInitialized = false;
+let homeBaopoActivePackId = null;
+
+function initHomeBaopoBackpacks() {
+    if (homeBaopoInitialized) return;
+    const packs = window.demolitionBackpacks;
+    const tabsEl = document.getElementById('bp-home-pack-tabs');
+    if (!packs || !packs.length || !tabsEl) return;
+    homeBaopoInitialized = true;
+
+    ensureSchemeStatsClickDelegate();
+
+    // 流派 chips（替代烽火/战场的枪械 Tab 位）
+    tabsEl.innerHTML = packs.map((p, i) => `
+        <div class="bp-home-pack-tab${i === 0 ? ' active' : ''}" role="button" tabindex="0" data-pack-id="${p.id}">${p.name}</div>
+    `).join('');
+    tabsEl.querySelectorAll('.bp-home-pack-tab').forEach(tab => {
+        tab.addEventListener('click', () => selectHomeBaopoPack(tab.dataset.packId));
+        tab.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                selectHomeBaopoPack(tab.dataset.packId);
+            }
+        });
+    });
+
+    // 复制背包码：与改枪页同一套登录态校验和统计口径（bpack-* key 跨页共享）
+    const copyBtn = document.getElementById('bp-home-copy-pack-btn');
+    if (copyBtn) {
+        copyBtn.addEventListener('click', () => {
+            if (!isUserLoggedIn()) return;
+            const pack = (window.demolitionBackpacks || []).find(p => p.id === homeBaopoActivePackId);
+            if (!pack) return;
+            copyGunBuildCode(pack.code);
+            bumpSchemeCopyCount(bpPackStatMeta(pack));
+            copyBtn.textContent = '已复制';
+            setTimeout(() => { copyBtn.textContent = copyBtn.dataset.defaultCopyText || '复制背包码'; }, 1500);
+        });
+    }
+
+    selectHomeBaopoPack(packs[0].id);
+}
+
+function selectHomeBaopoPack(packId) {
+    const pack = (window.demolitionBackpacks || []).find(p => p.id === packId);
+    if (!pack) return;
+    homeBaopoActivePackId = packId;
+
+    document.querySelectorAll('.bp-home-pack-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.packId === packId);
+    });
+
+    const nameEl = document.getElementById('bp-home-pack-name');
+    if (nameEl) nameEl.textContent = pack.name;
+    const authorEl = document.getElementById('bp-home-pack-author');
+    if (authorEl) authorEl.innerHTML = renderBpAuthor(pack.author);
+    const introEl = document.getElementById('bp-home-pack-intro');
+    if (introEl) introEl.textContent = pack.intro || '';
+    const statsEl = document.getElementById('bp-home-pack-stats');
+    if (statsEl) statsEl.innerHTML = renderSchemeStats(bpPackStatMeta(pack));
+
+    renderHomeBpGrid(pack);
+
+    // 同步登录态到复制按钮（未登录置灰为「登录以复制」）
+    const baopoSection = document.getElementById('gun-builds-baopo');
+    if (baopoSection) updateGunCopyButtonsAuthState(baopoSection);
+}
+
+function renderHomeBpGrid(pack) {
+    const gridEl = document.getElementById('bp-home-grid');
+    if (!gridEl) return;
+
+    // DOM 顺序与 pack.slots 一致（级别 × 槽位），按下标绑定详情弹窗
+    gridEl.innerHTML = BP_TIER_ORDER.map(tier => (
+        pack.slots.filter(s => s.tier === tier).map(slot => `
+            <div class="bp-home-row ${slot.buildCode ? 'is-clickable' : 'is-static'}" data-tier="${slot.tier}" title="${slot.name}${slot.buildCode ? '' : ' · 标配'}">
+                <span class="bp-tier-marker tier-${slot.tier}"></span>
+                <span class="bp-home-row-name">${slot.name}</span>
+                ${slot.buildCode ? '' : '<span class="bp-home-row-stocktag">标配</span>'}
+                <span class="bp-home-row-points">${BP_POINTS_ICON_SVG}${slot.points}</span>
+            </div>
+        `).join('')
+    )).join('');
+
+    gridEl.querySelectorAll('.bp-home-row').forEach((row, idx) => {
+        const slot = pack.slots[idx];
+        if (!slot || !slot.buildCode) return;
+        row.addEventListener('click', () => openBaopoGunDetail(slot));
+    });
 }
 
 /**

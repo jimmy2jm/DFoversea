@@ -1,0 +1,50 @@
+{
+  "preparedAt": "2026-09-08T07:49:07.790Z",
+  "refreshedAt": "2026-09-08T07:48:13.176Z",
+  "destinationAlias": "delta-force-official",
+  "intervalSeconds": 0,
+  "outputs": [
+    {
+      "index": 1,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/01-k437-ae741944",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/01-k437-ae741944/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/01-k437-ae741944/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/01-k437-ae741944/gun-card.png",
+      "schemeId": "ae7419446f5b5a0f9e5c2585c480cbe2",
+      "title": "[K437 · 272840] ImMarksman Budget K437",
+      "tags": [
+        "operations",
+        "global",
+        "ar"
+      ]
+    },
+    {
+      "index": 2,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/02-m14-a7f1bd99",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/02-m14-a7f1bd99/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/02-m14-a7f1bd99/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/02-m14-a7f1bd99/gun-card.png",
+      "schemeId": "a7f1bd9938f1311d6499103f6c283038",
+      "title": "[M14 · 858256] Leissik'M14",
+      "tags": [
+        "operations",
+        "global",
+        "mr"
+      ]
+    },
+    {
+      "index": 3,
+      "dir": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/03-mp5-12f56161",
+      "postPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/03-mp5-12f56161/post.json",
+      "receiptPath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/03-mp5-12f56161/receipt.json",
+      "imagePath": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/03-mp5-12f56161/gun-card.png",
+      "schemeId": "12f5616124cef6d595ccad4bd7183060",
+      "title": "[MP5 · WARFARE] The Smoothest MP5",
+      "tags": [
+        "warfare",
+        "global",
+        "smg"
+      ]
+    }
+  ]
+}

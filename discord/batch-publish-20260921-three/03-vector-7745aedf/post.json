@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "7745aedfaa86c5246814bb0b59b0b71f",
+    "buildCode": "Vector Submachine Gun-Warfare-6KT659800J3JVJBDQN5G1",
+    "weaponName": "Vector Submachine Gun",
+    "buildName": "Smile Op's Vector"
+  },
+  "thread": {
+    "name": "[Vector · WARFARE] Smile Op's Vector",
+    "id": "",
+    "tags": [
+      "warfare",
+      "global",
+      "smg"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "WARFARE"
+        },
+        "title": "Smile Op's Vector",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**VECTOR SUBMACHINE GUN**\n`↗ Close-Range Melt` `↗ Close-Mid Range` `↗ Stable & Agile`\n\n**BUILD CODE**\n```\nVector Submachine Gun-Warfare-6KT659800J3JVJBDQN5G1\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "Vector build: handling speed 44, stability 41, effective range 26, base damage 32, hip-fire accuracy 60, recoil control 68."
+        },
+        "footer": {
+          "text": "Build by Smile Op"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/03-vector-7745aedf/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

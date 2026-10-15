@@ -12,6 +12,12 @@
 
     const PAGE_SIZE = 5;
     const RECENT_LIMIT = 5;
+    /**
+     * 对局详情入口开关
+     * 逐局明细接口未就绪前，先屏蔽「点击战绩查看详情」的弹窗；
+     * 接口接入后改回 true 即可恢复，无需改动其它代码。
+     */
+    const MATCH_DETAIL_ENABLED = false;
 
     document.addEventListener('DOMContentLoaded', () => {
         initBaopoTabs();
@@ -104,12 +110,17 @@
             const self = DM.getSelfParticipant(match);
             const item = document.createElement('div');
             item.className = 'baopo-record-item';
-            item.setAttribute('role', 'button');
-            item.tabIndex = 0;
-            item.addEventListener('click', () => BaopoMatchModal.open(match.matchId));
-            item.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') BaopoMatchModal.open(match.matchId);
-            });
+            if (MATCH_DETAIL_ENABLED) {
+                item.setAttribute('role', 'button');
+                item.tabIndex = 0;
+                item.addEventListener('click', () => BaopoMatchModal.open(match.matchId));
+                item.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') BaopoMatchModal.open(match.matchId);
+                });
+            } else {
+                // 详情未开放：降级为静态行，去掉可点击/可聚焦语义
+                item.classList.add('baopo-record-static');
+            }
 
             // 结果
             item.appendChild(el('span', 'bri-status ' + (match.result === 'victory' ? 'victory' : 'fail'),
@@ -147,7 +158,7 @@
             }
             item.appendChild(rank);
 
-            item.appendChild(el('span', 'bri-arrow', '›'));
+            if (MATCH_DETAIL_ENABLED) item.appendChild(el('span', 'bri-arrow', '›'));
             return item;
         }
 
@@ -171,26 +182,26 @@
             targetEl.appendChild(fragment);
         }
 
-        // 总览页赛季综合数据（由共享数据层聚合）
+        // 总览页综合数据
+        // 当前接口仅提供 6 项累计指标：总场数 / 胜场数 / 胜率 / KDA / 局均击败 / 局均助攻
         function renderSeasonSummary() {
             const s = DM.getSeasonSummary();
             const setText = (id, text) => {
                 const node = document.getElementById(id);
                 if (node) node.textContent = text;
             };
+            const perMatch = (total) => s.matchCount > 0
+                ? (total / s.matchCount).toFixed(1)
+                : '0.0';
+
             setText('baopo-summary-meta', '总计 ' + s.matchCount + ' 场对局');
             setText('baopo-sum-winrate', DM.fmt.percent(s.winRate));
-            setText('baopo-sum-mvp', String(s.mvpCount));
-            setText('baopo-sum-mvp-likes', String(s.mvpLikes));
-            setText('baopo-sum-avgscore', String(s.avgScore));
-            setText('baopo-sum-kd', s.kd.toFixed(2));
-            setText('baopo-sum-kills', String(s.kills));
-            setText('baopo-sum-hitrate', DM.fmt.percent(s.hitRate));
-            setText('baopo-sum-hs', DM.fmt.percent(s.headshotRate));
-            setText('baopo-sum-plants', String(s.plants));
-            setText('baopo-sum-defuses', String(s.defuses));
-            setText('baopo-sum-guard', String(s.plantGuardKills));
-            setText('baopo-sum-deny', String(s.plantDenyKills));
+            setText('baopo-sum-matches', String(s.matchCount));
+            setText('baopo-sum-wins', String(s.wins));
+            setText('baopo-sum-kda',
+                DM.fmt.number(s.kills) + '/' + DM.fmt.number(s.deaths) + '/' + DM.fmt.number(s.assists));
+            setText('baopo-sum-avg-kills', perMatch(s.kills));
+            setText('baopo-sum-avg-assists', perMatch(s.assists));
         }
 
         // 总览页最近对局（与战绩页共用同一渲染，内容不受筛选影响）

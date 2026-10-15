@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "12f5616124cef6d595ccad4bd7183060",
+    "buildCode": "MP5 Submachine Gun-Warfare-6KK340O0BFAG46AS3J0KF",
+    "weaponName": "MP5 Submachine Gun",
+    "buildName": "The Smoothest MP5"
+  },
+  "thread": {
+    "name": "[MP5 · WARFARE] The Smoothest MP5",
+    "id": "",
+    "tags": [
+      "warfare",
+      "global",
+      "smg"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "WARFARE"
+        },
+        "title": "The Smoothest MP5",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**MP5 SUBMACHINE GUN**\n`↗ Close-Mid Range` `◆ Balanced` `▣ Suppressive Fire`\n\n**BUILD CODE**\n```\nMP5 Submachine Gun-Warfare-6KK340O0BFAG46AS3J0KF\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "MP5 build: handling speed 54, stability 45, effective range 25, base damage 30, hip-fire accuracy 60, recoil control 73."
+        },
+        "footer": {
+          "text": "Build by razor"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260908-three/03-mp5-12f56161/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

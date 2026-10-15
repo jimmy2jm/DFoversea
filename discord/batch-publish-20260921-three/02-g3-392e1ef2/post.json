@@ -1,0 +1,50 @@
+{
+  "channel": "delta-force-official",
+  "record": {
+    "sourceType": "hq-banner",
+    "schemeId": "392e1ef203bd73b35b0a9f694dfdfb9b",
+    "buildCode": "G3 Battle Rifle-Operations-6KTJ3UK00PNE3MPFR43H5",
+    "weaponName": "G3 Battle Rifle",
+    "buildName": "wa77en's G3"
+  },
+  "thread": {
+    "name": "[G3 · 366016] wa77en's G3",
+    "id": "",
+    "tags": [
+      "operations",
+      "global",
+      "br"
+    ]
+  },
+  "message": {
+    "content": "",
+    "embeds": [
+      {
+        "author": {
+          "name": "OPERATIONS"
+        },
+        "title": "wa77en's G3",
+        "url": "https://www.playdeltaforce.com/events/hq/",
+        "description": "**G3 BATTLE RIFLE**\n**PRICE · 366016**\n`▣ Recoil Stability` `▣ Stable Recoil` `◆ Balanced`\n\n**BUILD CODE**\n```\nG3 Battle Rifle-Operations-6KTJ3UK00PNE3MPFR43H5\n```\n\n**DELTA FORCE HQ**\nLooking for more loadouts? Explore more weapon builds and community recommendations on Delta Force HQ.\n[OPEN DELTA FORCE HQ](https://www.playdeltaforce.com/events/hq/)",
+        "color": 2421938,
+        "image": {
+          "url": "attachment://gun-card.png",
+          "description": "G3 build: handling speed 45, stability 56, effective range 72, base damage 39, hip-fire accuracy 33, recoil control 61."
+        },
+        "footer": {
+          "text": "Build by wa77en"
+        }
+      }
+    ]
+  },
+  "files": [
+    {
+      "path": "/Users/jimmmywang/Documents/DFoversea/discord/batch-publish-20260921-three/02-g3-392e1ef2/gun-card.png",
+      "name": "gun-card.png"
+    }
+  ],
+  "options": {
+    "silent": true,
+    "allowMentions": false
+  }
+}

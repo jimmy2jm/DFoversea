@@ -6452,6 +6452,212 @@ body {
     flex: 1;
 }
 
+/* ============================================
+   Report hero split - data column left, operator figure right
+   ============================================ */
+
+.report-content {
+    position: relative;
+}
+
+/* 右侧干员形象：右上角背板，不参与交互 */
+.report-hero-figure {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 43%;
+    height: 100%;
+    max-height: 320px;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    z-index: 0;
+}
+
+.report-hero-figure img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: right top;
+}
+
+/* 数据区抬到形象之上，避免被背板遮挡 */
+.report-content > .report-focus,
+.report-content > .report-lower-row,
+.report-content > .baopo-daily-empty,
+.report-content > .report-signature {
+    position: relative;
+    z-index: 1;
+}
+
+/* 核心数据左移：焦点块收窄到左侧，右侧让位给干员形象 */
+.report-focus {
+    width: 55%;
+    margin-left: 0;
+    margin-right: auto;
+    padding: 4px 14px 10px;
+    border-bottom: none;
+}
+
+.report-focus .focus-kicker {
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.report-focus .focus-link {
+    right: 14px;
+}
+
+.report-focus .focus-primary {
+    justify-content: center;
+    gap: 10px;
+    margin: 0 0 14px;
+}
+
+.report-focus .focus-value {
+    font-size: 2.9rem;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+/* 焦点下方数据条：深色底 + 等宽分格 */
+.report-focus .focus-stats {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    gap: 0;
+    padding: 9px 4px;
+    background: rgba(6, 18, 20, 0.62);
+    border: 1px solid rgba(42, 72, 78, 0.7);
+}
+
+.report-focus .focus-stats .stat-inline {
+    flex: 1 1 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 0 6px;
+    font-size: 0.68rem;
+    color: rgba(255, 255, 255, 0.56);
+    letter-spacing: 0.06em;
+}
+
+.report-focus .focus-stats .stat-inline + .stat-inline::before {
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+}
+
+.report-focus .focus-stats .stat-inline b {
+    font-size: 1.1rem;
+    line-height: 1.1;
+}
+
+/* 爆破日报：MVP 徽章与击败数同行居中 */
+.report-focus .baopo-mvp-badge {
+    align-self: center;
+    margin-top: 0;
+    margin-left: 4px;
+    font-size: 0.66rem;
+    padding: 3px 9px;
+}
+
+/* 爆破日报 - 当日代表对局：位于右下，加深底色保证文字可读 */
+.baopo-best-panel {
+    background: rgba(6, 18, 20, 0.55);
+}
+
+/* 爆破日报 - 多杀记录：三杀 / 四杀 / 五杀 徽章 + 当日次数 */
+.baopo-multikill-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    padding: 14px 12px 12px;
+    flex: 1;
+    align-content: center;
+}
+
+.baopo-multikill-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 12px 6px;
+    border-radius: 0;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    transition: border-color 0.2s ease, opacity 0.2s ease;
+}
+
+.baopo-multikill-item:hover {
+    border-color: rgba(36, 244, 178, 0.6);
+}
+
+/* 档次徽章：直角色块 + 深色字 */
+.baopo-multikill-badge {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.66rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    border-radius: 0;
+    white-space: nowrap;
+    color: #031816;
+    background: #4ade80;
+}
+
+.baopo-multikill-count {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+.baopo-multikill-count b {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: 1px;
+    color: #4ade80;
+    text-shadow: 0 0 12px rgba(74, 222, 128, 0.28);
+}
+
+.baopo-multikill-count i {
+    font-style: normal;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* 四杀：紫 */
+.baopo-multikill-item[data-tier="4"] .baopo-multikill-badge {
+    background: #a78bfa;
+}
+
+.baopo-multikill-item[data-tier="4"] .baopo-multikill-count b {
+    color: #a78bfa;
+    text-shadow: 0 0 12px rgba(167, 139, 250, 0.28);
+}
+
+/* 五杀：金 */
+.baopo-multikill-item[data-tier="5"] .baopo-multikill-badge {
+    background: #f2b84b;
+}
+
+.baopo-multikill-item[data-tier="5"] .baopo-multikill-count b {
+    color: #f2b84b;
+    text-shadow: 0 0 12px rgba(242, 184, 75, 0.3);
+}
+
+/* 当日未出现该档次时弱化 */
+.baopo-multikill-item.is-empty {
+    opacity: 0.35;
+}
+
 .gun-builds-section,
 .bottom-modules.bottom-modules-v1 .module-card {
     padding: 0;
@@ -9779,75 +9985,7 @@ body {
     cursor: not-allowed;
 }
 
-/* 爆破日报 - 专项数据网格：多杀全宽置顶，K/D 与爆头率双格在下 */
-.baopo-special-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 8px;
-    padding: 12px 14px 14px;
-    flex: 1;
-    align-content: center;
-}
-
-.baopo-special-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    padding: 10px 6px;
-    background: rgba(6, 18, 20, 0.66);
-    border: 1px solid rgba(42, 72, 78, 0.75);
-    border-radius: 0;
-    transition: border-color 0.2s ease;
-}
-
-.baopo-special-item:hover {
-    border-color: #24f4b2;
-}
-
-/* 最高多杀：全宽主数据位 */
-.baopo-special-item.multikill {
-    grid-column: 1 / -1;
-    flex-direction: row;
-    gap: 10px;
-    padding: 12px 10px;
-    border-color: rgba(242, 184, 75, 0.45);
-    background: linear-gradient(90deg, rgba(242, 184, 75, 0.1), rgba(242, 184, 75, 0.03));
-}
-
-.baopo-special-item.multikill:hover {
-    border-color: #f2b84b;
-}
-
-.baopo-special-item.multikill .baopo-special-value {
-    font-size: 1.15rem;
-    color: #f2b84b;
-    text-shadow: 0 0 12px rgba(242, 184, 75, 0.32);
-}
-
-.baopo-special-item.multikill .baopo-special-label {
-    color: rgba(242, 184, 75, 0.72);
-}
-
-.baopo-special-value {
-    font-family: 'Orbitron', monospace;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    color: #24f4b2;
-    text-shadow: 0 0 10px rgba(36, 244, 178, 0.24);
-    white-space: nowrap;
-}
-
-.baopo-special-label {
-    font-size: 0.68rem;
-    color: rgba(255, 255, 255, 0.56);
-    letter-spacing: 0.04em;
-    white-space: nowrap;
-}
-
-/* 爆破日报 - 顶部层级：MVP 徽章作胜率注脚，说明文字独立弱化一行 */
+/* 爆破日报 - 顶部层级：MVP 徽章与击败数同行展示 */
 .baopo-mvp-badge {
     align-self: flex-start;
     margin-top: 10px;
@@ -9860,13 +9998,6 @@ body {
     padding: 2px 7px;
     border-radius: 0;
     box-shadow: 0 0 12px rgba(242, 184, 75, 0.3);
-}
-
-.baopo-focus-sub {
-    margin-top: 4px;
-    font-size: 0.72rem;
-    color: rgba(255, 255, 255, 0.5);
-    letter-spacing: 0.08em;
 }
 
 /* 爆破日报 - 无对局空态 */
@@ -9928,6 +10059,16 @@ body {
 .baopo-record-item:hover {
     background: rgba(36, 244, 178, 0.06);
     border-bottom-color: rgba(36, 244, 178, 0.3);
+}
+
+/* 对局详情未开放时：战绩项降级为静态行，不给出可点击反馈 */
+.baopo-record-item.baopo-record-static {
+    cursor: default;
+}
+
+.baopo-record-item.baopo-record-static:hover {
+    background: transparent;
+    border-bottom-color: rgba(84, 112, 118, 0.22);
 }
 
 .bri-status {
@@ -11077,6 +11218,178 @@ body {
 
 .bp-gun-card.is-static {
     cursor: default;
+}
+
+/* ============================================
+   首页 - 爆破改枪推荐（紧凑版背包概览）
+   沿用首页「选择条 + 内容卡」范式：流派 chips + 左信息栏 / 右16枪宫格
+   ============================================ */
+.bp-home-packs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    scrollbar-width: none;
+}
+
+.bp-home-packs::-webkit-scrollbar {
+    display: none;
+}
+
+.bp-home-pack-tab {
+    flex: none;
+    padding: 8px 18px;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    user-select: none;
+}
+
+.bp-home-pack-tab:hover {
+    color: rgba(255, 255, 255, 0.85);
+    border-color: rgba(36, 244, 178, 0.35);
+}
+
+.bp-home-pack-tab.active {
+    background: rgba(36, 244, 178, 0.16);
+    border-color: rgba(36, 244, 178, 0.5);
+    color: #24f4b2;
+}
+
+.bp-home-card {
+    display: flex;
+    align-items: stretch;
+    gap: 14px;
+    padding: 14px;
+    background: rgba(18, 38, 42, 0.9);
+    border: 1px solid rgba(84, 112, 118, 0.52);
+}
+
+.bp-home-info {
+    flex: none;
+    width: 232px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-right: 14px;
+    border-right: 1px solid rgba(84, 112, 118, 0.22);
+}
+
+.bp-home-info-name {
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.bp-home-info-intro {
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.56);
+}
+
+.bp-home-copy-btn {
+    width: 100%;
+    margin-top: auto;
+}
+
+.bp-home-stats .scheme-stats {
+    justify-content: flex-start;
+    gap: 14px;
+}
+
+.bp-home-grid {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(8, auto);
+    grid-auto-flow: column;
+    gap: 6px;
+}
+
+.bp-home-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 7px 10px;
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    transition: all 0.2s ease;
+}
+
+.bp-home-row.is-clickable {
+    cursor: pointer;
+}
+
+.bp-home-row.is-clickable:hover {
+    border-color: #24f4b2;
+    background: rgba(36, 244, 178, 0.05);
+}
+
+.bp-home-row.is-static {
+    cursor: default;
+}
+
+.bp-home-row-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.86);
+}
+
+.bp-home-row-stocktag {
+    flex: none;
+    padding: 1px 4px;
+    border: 1px solid rgba(84, 112, 118, 0.4);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.bp-home-row-points {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.76rem;
+    color: #24f4b2;
+}
+
+.bp-home-row-points .bp-points-icon {
+    width: 11px;
+    height: 11px;
+}
+
+.bp-home-footnote {
+    margin-top: 10px;
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+@media (max-width: 768px) {
+    .bp-home-card {
+        flex-direction: column;
+    }
+
+    .bp-home-info {
+        width: auto;
+        padding-right: 0;
+        padding-bottom: 12px;
+        border-right: none;
+        border-bottom: 1px solid rgba(84, 112, 118, 0.22);
+    }
 }
 
 /* 单枪卡片内的统计行：弱化为轻量信息行（复制按钮是核心动作） */

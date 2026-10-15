@@ -57,9 +57,6 @@ a{color:inherit;text-decoration:none}
 
 .panel{border:1px solid var(--line);background:#0a1214}
 .panel.slim{padding:16px}
-.stat-ribbon{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
-.stat-pill{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 12px;background:rgba(255,255,255,.04);border:1px solid var(--line-soft);font-size:12px;color:rgba(255,255,255,.68)}
-.stat-pill b{color:var(--green);font-weight:800;font-family:ui-monospace,monospace}
 .filter-bar{display:flex;gap:8px;flex-wrap:wrap;padding:12px 16px;border-bottom:1px solid var(--line-soft);align-items:center}
 .control{height:28px;min-width:120px;padding:0 10px;background:#0b1517;border:1px solid #2b3d40;color:rgba(255,255,255,.74);font-size:12px;outline:none}
 .control:focus{border-color:rgba(0,240,168,.6)}
@@ -77,7 +74,7 @@ a{color:inherit;text-decoration:none}
 
 /* ---------- 表格 ---------- */
 .table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;min-width:1080px}
+table{width:100%;border-collapse:collapse;min-width:1020px}
 th{height:36px;padding:0 10px;border-bottom:1px solid var(--line);color:rgba(255,255,255,.42);font-size:12px;font-weight:800;text-align:left;white-space:nowrap}
 td{padding:12px 10px;border-bottom:1px solid var(--line-soft);color:rgba(255,255,255,.78);font-size:12px;vertical-align:middle}
 tr:last-child td{border-bottom:none}
@@ -88,44 +85,29 @@ tr.row{cursor:pointer}
 .col-flow{min-width:200px}
 .flow-name{font-weight:800;color:rgba(255,255,255,.9);font-size:13px}
 .flow-name:hover{color:var(--green)}
-.flow-intro{color:var(--muted);font-size:11px;margin-top:3px;max-width:260px;line-height:1.45;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .col-author{min-width:110px}
 .author-cell{display:flex;align-items:center;gap:7px}
 .author-ava{width:22px;height:22px;border-radius:50%;background:var(--green);color:#021512;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0}
 .author-name{font-size:12px;font-weight:700}
 .author-plat{font-size:10px;color:var(--muted)}
-.col-structure{min-width:120px}
-.struct-cell{display:flex;flex-direction:column;gap:4px}
-.struct-grid{display:grid;grid-template-columns:repeat(4,10px);gap:3px}
-.struct-dot{width:10px;height:10px;transform:rotate(45deg);border:1px solid rgba(255,255,255,.16)}
-.struct-dot.t-pistol{background:var(--t-pistol);border-color:transparent}
-.struct-dot.t-standard{background:var(--t-standard);border-color:transparent}
-.struct-dot.t-elite{background:var(--t-elite);border-color:transparent}
-.struct-dot.t-special{background:var(--t-special);border-color:transparent}
-.struct-dot.empty{background:transparent;border-color:rgba(255,107,107,.5)}
-.struct-count{font-size:11px;color:var(--muted)}
-.struct-count b{color:var(--green);font-family:ui-monospace,monospace}
-.col-guns{min-width:140px}
-.key-guns{display:flex;flex-direction:column;gap:2px}
-.key-gun{font-size:11px;color:rgba(255,255,255,.72)}
-.key-gun .kg-tier{display:inline-block;width:6px;height:6px;transform:rotate(45deg);margin-right:5px}
-.col-range{min-width:120px;white-space:nowrap}
-.range-cell{font-family:ui-monospace,monospace;font-size:12px;color:var(--green)}
-.range-sub{font-size:10px;color:var(--muted);margin-top:2px}
-.col-ver{min-width:70px}
-.ver-badge{display:inline-flex;align-items:center;height:20px;padding:0 8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);font-size:11px;font-weight:800;color:rgba(255,255,255,.6);font-family:ui-monospace,monospace}
-.col-stats{min-width:120px}
-.stat-cell{display:flex;flex-direction:column;gap:2px;font-size:11px}
-.stat-cell .s-copy{color:var(--green);font-family:ui-monospace,monospace;font-weight:700}
-.stat-cell .s-like{color:rgba(255,255,255,.62)}
+/* ---------- 渠道 / 流派码 / 优先级 ---------- */
+.col-channel{width:76px}
+.ch-badge{display:inline-flex;align-items:center;height:20px;padding:0 8px;font-size:11px;font-weight:800;border:1px solid transparent;white-space:nowrap}
+.ch-badge.li{background:rgba(0,240,168,.12);color:#7dffd8;border-color:rgba(0,240,168,.25)}
+.ch-badge.ga{background:rgba(93,173,226,.13);color:#a9d5f7;border-color:rgba(93,173,226,.35)}
+.col-code{min-width:190px}
+.code-cell{font-family:ui-monospace,monospace;font-size:11px;color:rgba(255,255,255,.66);letter-spacing:.02em;white-space:nowrap}
+.code-cell.unset{color:var(--faint)}
+.col-priority{text-align:right;width:64px}
+.prio-cell{font-family:ui-monospace,monospace;font-size:12px;font-weight:700;color:rgba(255,255,255,.82)}
 .col-editor{min-width:110px}
 .editor-cell{font-size:11px;color:rgba(255,255,255,.62)}
-.editor-cell .t{color:var(--muted);font-size:10px;margin-top:2px;white-space:nowrap}
+.col-time{white-space:nowrap;font-family:ui-monospace,monospace;font-size:11px;color:rgba(255,255,255,.62)}
 .tag{display:inline-flex;align-items:center;height:20px;padding:0 8px;background:rgba(255,255,255,.06);color:rgba(255,255,255,.56);font-size:11px;font-weight:800;border:1px solid rgba(255,255,255,.12);white-space:nowrap}
 .tag.pub{background:rgba(0,240,168,.12);color:#7dffd8;border-color:rgba(0,240,168,.25)}
 .tag.draft{background:rgba(240,164,80,.12);color:#ffc47d;border-color:rgba(240,164,80,.25)}
 .tag.off{background:rgba(255,255,255,.05);color:rgba(255,255,255,.42);border-color:rgba(255,255,255,.12)}
-.col-op{min-width:150px}
+.col-op{min-width:104px}
 .op-cell{display:flex;gap:6px;flex-wrap:wrap}
 .link-btn{background:none;border:none;color:var(--green);font-size:12px;font-weight:700;padding:0;cursor:pointer;white-space:nowrap}
 .link-btn:hover{text-decoration:underline}
@@ -143,7 +125,6 @@ tr.row{cursor:pointer}
 .sub-actions{display:flex;gap:8px;margin-left:auto}
 
 /* ---------- 编辑视图 ---------- */
-.edit-layout{display:grid;grid-template-columns:1fr 300px;gap:14px;align-items:start}
 .form-panel{padding:16px}
 .form-panel + .form-panel{margin-top:14px}
 .form-title{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;margin-bottom:14px;color:rgba(255,255,255,.88)}
@@ -167,6 +148,20 @@ tr.row{cursor:pointer}
 .tag-chip .x{cursor:pointer;opacity:.7}
 .tag-add{height:24px;min-width:80px;padding:0 8px;background:transparent;border:1px dashed #2b3d40;color:var(--muted);font-size:11px;cursor:pointer}
 .tag-add:hover{border-color:rgba(0,240,168,.5);color:var(--green)}
+
+/* ---------- 多语言字段（名称/介绍/枪械名称） ---------- */
+.opt-hint{color:var(--muted);font-weight:400;font-size:11px;margin-left:4px}
+.char-count{text-align:right;font-size:10px;color:var(--faint);margin-top:3px;font-family:ui-monospace,monospace}
+.i18n-add-row{display:flex;flex-wrap:wrap;gap:6px}
+.i18n-add{height:24px;padding:0 10px;background:transparent;border:1px dashed #2b3d40;color:var(--muted);font-size:11px;cursor:pointer}
+.i18n-add:hover{border-color:rgba(0,240,168,.5);color:var(--green)}
+.i18n-rows{display:flex;flex-direction:column;gap:6px}
+.i18n-rows:not(:empty){margin-top:8px}
+.i18n-row{display:flex;align-items:center;gap:8px}
+.i18n-tag{height:24px;display:inline-flex;align-items:center;padding:0 8px;background:rgba(0,240,168,.1);border:1px solid rgba(0,240,168,.25);color:#7dffd8;font-size:11px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.i18n-row .input{height:26px;flex:1}
+.i18n-del{width:22px;height:22px;flex-shrink:0;background:transparent;border:none;color:var(--muted);font-size:12px;cursor:pointer}
+.i18n-del:hover{color:#ff9a9a}
 
 /* ---------- 16 槽位结构化配置区 ---------- */
 .slot-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
@@ -194,26 +189,7 @@ tr.row{cursor:pointer}
 .slot-code{display:flex;align-items:center;margin-top:6px;padding-top:6px;border-top:1px solid var(--line-soft)}
 .slot-code .code{font-family:ui-monospace,monospace;font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.02em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .slot-code .stock-tag{font-size:10px;color:var(--muted)}
-.slot-desc{font-size:10px;color:rgba(255,255,255,.42);margin-top:5px;line-height:1.4;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
 .slot-hint{font-size:10px;color:var(--muted);margin-top:8px}
-
-/* ---------- 发布校验面板 ---------- */
-.valid-panel{position:sticky;top:12px}
-.valid-title{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);font-size:13px;font-weight:800}
-.valid-list{padding:12px 16px;display:flex;flex-direction:column;gap:9px}
-.valid-item{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.72)}
-.valid-item .v-ico{width:16px;height:16px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
-.valid-item.ok .v-ico{color:var(--green)}
-.valid-item.bad .v-ico{color:var(--danger)}
-.valid-item.bad{color:rgba(255,255,255,.5)}
-.valid-item .v-txt{flex:1}
-.valid-code{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(0,240,168,.04);border-top:1px solid var(--line-soft)}
-.valid-code .label{font-size:11px;color:var(--muted)}
-.valid-code .code{font-family:ui-monospace,monospace;font-size:11px;color:var(--green);max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.valid-ver{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;font-size:11px;color:var(--muted)}
-.valid-ver b{color:rgba(255,255,255,.8);font-family:ui-monospace,monospace}
-.valid-actions{display:flex;flex-direction:column;gap:8px;padding:14px 16px;border-top:1px solid var(--line)}
-.valid-actions .btn{height:34px;width:100%}
 
 /* ---------- 单枪配置模态（名称/描述/改枪码） ---------- */
 .gun-modal-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
@@ -221,6 +197,27 @@ tr.row{cursor:pointer}
 .field-err{font-size:11px;color:#ff9a9a;margin-top:4px;display:none}
 .field.invalid .field-err{display:block}
 .field.invalid .input{border-color:rgba(255,107,107,.55)}
+
+/* 改枪码：渠道 + 码 + 查询解析 */
+.control:disabled,.select:disabled{opacity:.45;cursor:not-allowed}
+.points-view{display:flex;align-items:center;height:30px;padding:0 10px;background:#081113;border:1px dashed #2b3d40;max-width:220px;font-family:ui-monospace,monospace;font-size:12px;font-weight:700;color:var(--green)}
+.code-query-row{display:flex;gap:8px;align-items:center}
+.code-query-row .select{width:76px;flex-shrink:0;height:30px}
+.code-query-row .input{flex:1;height:30px}
+.code-query-row .btn{height:30px;flex-shrink:0}
+.parse-result{margin-top:14px;border:1px solid var(--line-soft);background:#081113;padding:10px}
+.pr-gun{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line-soft);background:#0b1517}
+.pr-gun-ico{width:46px;height:26px;flex-shrink:0;background:linear-gradient(135deg,rgba(74,92,96,.8),rgba(18,38,42,.86));border:1px solid rgba(255,255,255,.06)}
+.pr-gun-info{min-width:0}
+.pr-gun-name{font-size:13px;font-weight:800;color:rgba(255,255,255,.9)}
+.pr-gun-sub{font-size:11px;color:var(--muted);margin-top:2px;font-family:ui-monospace,monospace}
+.pr-atts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.pr-att{display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid var(--line-soft);background:#0b1517}
+.pr-att .qty{width:20px;height:20px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;background:rgba(255,255,255,.07);color:rgba(255,255,255,.6);font-family:ui-monospace,monospace;font-size:10px;font-weight:700}
+.pr-att .a-info{flex:1;min-width:0}
+.pr-att .a-name{font-size:12px;font-weight:700;color:rgba(255,255,255,.86);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pr-att .a-sub{font-size:10px;color:var(--muted);margin-top:1px}
+.pr-att .a-id{font-family:ui-monospace,monospace;font-size:10px;color:rgba(255,255,255,.45);flex-shrink:0}
 
 /* ---------- 背包详情视图 ---------- */
 .detail-layout{display:grid;grid-template-columns:1fr 320px;gap:14px;align-items:start}
@@ -245,7 +242,6 @@ tr.row{cursor:pointer}
 .detail-gun .dg-name{font-size:12px;font-weight:700;color:rgba(255,255,255,.86)}
 .detail-gun .dg-points{display:flex;align-items:center;gap:4px;font-family:ui-monospace,monospace;font-size:12px;font-weight:700;color:var(--green);flex-shrink:0}
 .detail-gun .dg-code{font-family:ui-monospace,monospace;font-size:10px;color:rgba(255,255,255,.42);margin-bottom:4px}
-.detail-gun .dg-desc{font-size:10px;color:rgba(255,255,255,.5);line-height:1.5}
 .detail-gun .dg-stock{font-size:10px;color:var(--muted)}
 .detail-gun .dg-empty{font-size:11px;color:var(--faint)}
 .detail-side .panel{padding:16px}
@@ -312,6 +308,12 @@ tr.row{cursor:pointer}
 .diff-old{color:rgba(255,255,255,.5);text-decoration:line-through}
 .diff-new{color:var(--green);font-weight:700}
 
+/* 删除确认 */
+.confirm-text{font-size:12px;line-height:1.7;color:rgba(255,255,255,.74)}
+.confirm-text b{color:#ff9a9a;font-weight:800}
+.btn.danger.solid-danger{background:var(--danger);border-color:var(--danger);color:#2b0d0d}
+.btn.danger.solid-danger:hover{filter:brightness(1.08);color:#2b0d0d}
+
 .toast{position:fixed;right:24px;bottom:24px;display:none;padding:12px 14px;background:#0b1517;border:1px solid rgba(0,240,168,.5);color:var(--green);font-size:12px;font-weight:800;z-index:300}
 .toast.show{display:block}
 </style>
@@ -356,28 +358,20 @@ tr.row{cursor:pointer}
         <div class="head-row">
           <div>
             <div class="head-title">爆破背包流派管理</div>
-            <div class="head-sub">管理官方爆破背包流派：每套固定包含 手枪 / 标准 / 精锐 / 特种 共 16 把枪与 1 个背包码。单枪通过改枪码导入。</div>
+            <div class="head-sub">管理官方爆破背包流派：每套固定包含 手枪 / 标准 / 精锐 / 特种 共 16 把枪与 1 个流派码。单枪通过改枪码导入。</div>
           </div>
           <div class="head-actions">
-            <button class="btn ghost" id="btnExport">批量导出</button>
             <button class="btn primary" id="btnCreate">+ 新建背包流派</button>
           </div>
         </div>
 
-        <div class="stat-ribbon">
-          <span class="stat-pill">全部 <b id="statAll">42</b></span>
-          <span class="stat-pill">草稿 <b id="statDraft">3</b></span>
-          <span class="stat-pill">已发布 <b id="statPub">36</b></span>
-          <span class="stat-pill">已下线 <b id="statOff">3</b></span>
-        </div>
-
         <div class="panel slim">
           <div class="filter-bar">
-            <input class="control" id="fName" placeholder="搜索流派名 / 作者 / 包含枪械" style="min-width:220px">
-            <select class="control select" id="fStatus"><option value="">发布状态 · 全部</option><option>草稿</option><option>已发布</option><option>已下线</option></select>
-            <select class="control select" id="fAuthor"><option value="">作者 · 全部</option></select>
-            <select class="control select" id="fGun"><option value="">包含枪械 · 全部</option></select>
-            <select class="control select" id="fTime"><option value="">最近编辑时间 · 全部</option></select>
+            <input class="control" id="fName" placeholder="搜索流派名称" style="min-width:170px">
+            <input class="control" id="fId" placeholder="ID 精确搜索" style="min-width:136px">
+            <input class="control" id="fAuthor" placeholder="搜索作者" style="min-width:120px">
+            <input class="control" id="fGun" placeholder="包含枪械" style="min-width:130px">
+            <select class="control select" id="fChannel"><option value="">渠道 · 全部</option><option value="LI">LI · Level Infinite</option><option value="GA">GA · Garena</option></select>
             <button class="btn primary sm" id="btnFilter">查询</button>
             <button class="btn ghost sm" id="btnReset">重置</button>
           </div>
@@ -386,16 +380,15 @@ tr.row{cursor:pointer}
             <table>
               <thead>
                 <tr>
-                  <th style="width:90px">背包 ID</th>
-                  <th class="col-flow">流派信息</th>
-                  <th class="col-author">作者</th>
-                  <th class="col-structure">16 枪结构</th>
-                  <th class="col-guns">关键枪械</th>
-                  <th class="col-range">积分区间</th>
-                  <th class="col-ver">版本</th>
-                  <th class="col-stats">前台数据</th>
-                  <th class="col-editor">最近编辑</th>
-                  <th style="width:88px">状态</th>
+                  <th style="width:96px">流派 ID</th>
+                  <th class="col-flow">流派名称</th>
+                  <th class="col-channel">渠道</th>
+                  <th class="col-code">流派码</th>
+                  <th class="col-author">作者信息</th>
+                  <th class="col-priority" title="数值越大，C端展示越靠前（范围 1-9999）">优先级</th>
+                  <th class="col-editor">最后编辑</th>
+                  <th style="width:88px">发布状态</th>
+                  <th class="col-time">更新时间</th>
                   <th class="col-op">操作</th>
                 </tr>
               </thead>
@@ -433,6 +426,7 @@ tr.row{cursor:pointer}
           <div class="sub-actions">
             <button class="btn ghost" id="btnSaveDraft">保存草稿</button>
             <button class="btn ghost" id="btnPreview">预览前台</button>
+            <button class="btn ghost" id="btnViewDiff">版本差异</button>
             <button class="btn primary" id="btnPublish">直接发布</button>
           </div>
         </div>
@@ -442,8 +436,24 @@ tr.row{cursor:pointer}
             <div class="panel form-panel">
               <div class="form-title">基础信息</div>
               <div class="field">
-                <label>流派名称<span class="req">*</span></label>
-                <input class="input" id="fFlowName" value="道具压制流">
+                <label>名称（中文）<span class="req">*</span></label>
+                <input class="input" id="fFlowName" maxlength="50" placeholder="最多 50 个字符">
+                <div class="char-count" id="fFlowNameCount">0/50</div>
+              </div>
+              <div class="field">
+                <label>名称（英语）<span class="req">*</span></label>
+                <input class="input" id="fFlowNameEn" maxlength="50" placeholder="最多 50 个字符">
+                <div class="char-count" id="fFlowNameEnCount">0/50</div>
+              </div>
+              <div class="field">
+                <label>名称多语言<span class="opt-hint">已添加的语言均为必填</span></label>
+                <div class="i18n-add-row" id="nameI18nAdds"></div>
+                <div class="i18n-rows" id="nameI18nRows"></div>
+              </div>
+              <div class="field">
+                <label>背包码<span class="req">*</span></label>
+                <input class="input" id="fPackCode" placeholder="手动配置背包码" style="font-family:ui-monospace,monospace;letter-spacing:.03em">
+                <div class="field-hint">由运营手动配置，发布后前台复制即得此码</div>
               </div>
               <div class="field">
                 <label>关联作者<span class="req">*</span></label>
@@ -458,8 +468,13 @@ tr.row{cursor:pointer}
                 <div class="field-hint">从作者库选择，选中后仅展示关联信息，不在此页修改作者资料</div>
               </div>
               <div class="field">
-                <label>一句话介绍</label>
-                <textarea class="textarea" id="fIntro">道具开路，枪线收尾，节奏由你掌控。</textarea>
+                <label>介绍（中文）</label>
+                <textarea class="textarea" id="fIntro" placeholder="一句话介绍"></textarea>
+              </div>
+              <div class="field">
+                <label>介绍多语言<span class="opt-hint">非必填，已添加的语言建议填写</span></label>
+                <div class="i18n-add-row" id="introI18nAdds"></div>
+                <div class="i18n-rows" id="introI18nRows"></div>
               </div>
               <div class="field">
                 <label>流派标签</label>
@@ -474,25 +489,10 @@ tr.row{cursor:pointer}
             <div class="panel form-panel" style="margin-top:14px">
               <div class="form-title">16 把枪配置（手枪 / 标准 / 精锐 / 特种 × 各 4 把）</div>
               <div class="slot-grid" id="slotGrid"></div>
-              <div class="slot-hint">点击槽位配置单枪：填写名称、描述与游戏内导入的改枪码。手枪第 1 槽固定为标配（无改枪码）。</div>
+              <div class="slot-hint">点击槽位配置改枪码：选择渠道、粘贴码后点击「查询」，自动解析枪械与配件明细并回填名称。手枪第 1 槽固定为标配（无改枪码）。</div>
             </div>
           </div>
 
-          <div class="valid-panel">
-            <div class="panel">
-              <div class="valid-title">发布校验</div>
-              <div class="valid-list" id="validList"></div>
-              <div class="valid-code">
-                <span class="label">背包码</span>
-                <span class="code" id="validCode">发布后由服务端生成</span>
-              </div>
-              <div class="valid-ver">当前版本 <b id="validVer">v3</b></div>
-              <div class="valid-actions">
-                <button class="btn primary" id="btnPublish2">直接发布</button>
-                <button class="btn ghost" id="btnViewDiff">查看版本差异</button>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -503,31 +503,54 @@ tr.row{cursor:pointer}
 <div class="overlay" id="gunModal">
   <div class="modal">
     <div class="modal-head">
-      <span class="modal-title" id="gunModalTitle">配置单枪 · 特种 第 1 槽</span>
+      <span class="modal-title" id="gunModalTitle">改枪码配置 · 特种 第 1 槽</span>
       <button class="modal-close" data-close="gunModal">✕</button>
     </div>
     <div class="modal-body">
       <div class="gun-modal-row">
         <div class="field" id="fWrapName">
-          <label>枪械名称<span class="req">*</span></label>
-          <input class="input" id="gName" placeholder="如 K416-三高改枪">
-          <div class="field-err">枪械名称不能为空</div>
+          <label>名称（中文）<span class="req">*</span></label>
+          <input class="input" id="gName" placeholder="查询改枪码后自动回填">
+          <div class="field-hint">由改枪码解析回填，可手动微调</div>
+          <div class="field-err">名称（中文）不能为空</div>
         </div>
-        <div class="field" id="fWrapPoints">
-          <label>积分价格<span class="req">*</span></label>
-          <input class="input" id="gPoints" type="number" placeholder="100 - 10000">
-          <div class="field-err">积分需在 100 - 10000 区间</div>
+        <div class="field" id="fWrapNameEn">
+          <label>名称（英语）<span class="req">*</span></label>
+          <input class="input" id="gNameEn" placeholder="查询改枪码后自动回填">
+          <div class="field-err">名称（英语）不能为空</div>
         </div>
       </div>
-      <div class="field gun-modal-full" id="fWrapCode">
-        <label>改枪码<span id="codeReq" class="req">*</span></label>
-        <input class="input" id="gCode" placeholder="粘贴游戏内导出的改枪码">
-        <div class="field-hint">改枪码由游戏内导入，管理端不维护配件明细；手枪第 1 槽为标配，无需填写</div>
-        <div class="field-err">改枪码不能为空</div>
+      <div class="field gun-modal-full" id="fWrapPoints">
+        <label>积分价格<span class="req">*</span></label>
+        <div class="points-view" id="gPointsView">—</div>
+        <div class="field-hint">由改枪码解析结果自动计算，不可手动填写</div>
       </div>
       <div class="field gun-modal-full">
-        <label>枪械描述（可选）</label>
-        <textarea class="textarea" id="gDesc" placeholder="如：高爆发秒人，中近距离压制"></textarea>
+        <label>名称多语言<span class="opt-hint">非必填</span></label>
+        <div class="i18n-add-row" id="gunNameI18nAdds"></div>
+        <div class="i18n-rows" id="gunNameI18nRows"></div>
+      </div>
+
+      <div class="field gun-modal-full" id="fWrapCode">
+        <label>改枪码<span class="req">*</span></label>
+        <div class="code-query-row">
+          <select class="control select" id="gChannel" title="渠道（与背包一致，不可修改）" disabled><option value="LI">LI</option><option value="GA">GA</option></select>
+          <input class="input" id="gCode" placeholder="粘贴游戏内导出的改枪码">
+          <button class="btn" id="gQueryBtn" type="button"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>查询</button>
+        </div>
+        <div class="field-hint">渠道与所属背包保持一致，不可修改；粘贴改枪码后点击「查询」解析枪械与配件明细，码变更后需重新查询</div>
+        <div class="field-err">改枪码不能为空，且需查询解析通过后才能保存</div>
+      </div>
+
+      <div class="parse-result" id="parseResult" style="display:none">
+        <div class="pr-gun">
+          <div class="pr-gun-ico"></div>
+          <div class="pr-gun-info">
+            <div class="pr-gun-name" id="prGunName">-</div>
+            <div class="pr-gun-sub" id="prGunSub">-</div>
+          </div>
+        </div>
+        <div class="pr-atts" id="prAtts"></div>
       </div>
     </div>
     <div class="modal-foot">
@@ -596,6 +619,23 @@ tr.row{cursor:pointer}
   </div>
 </div>
 
+<!-- ===================== 删除确认模态 ===================== -->
+<div class="overlay" id="deleteModal">
+  <div class="modal sm">
+    <div class="modal-head">
+      <span class="modal-title">删除流派</span>
+      <button class="modal-close" data-close="deleteModal">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="confirm-text">确定要删除 <b id="delName"></b> 吗？删除后该流派及其全部枪位配置将不可恢复。</div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn ghost" data-close="deleteModal">取消</button>
+      <button class="btn danger solid-danger" id="btnDeleteConfirm">确认删除</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -623,9 +663,10 @@ const G17 = { tier:'pistol', name:'G17-标配', points:140, code:null, stock:tru
 
 let PACKS = [
   {
-    id:'BP-000128', name:'道具压制流', version:'v3', status:'published',
+    id:'BP-000128', name:'道具压制流', nameEn:'Utility Suppression', i18nNames:{ ja:'ユーティリティ制圧' }, version:'v3', status:'published', channel:'LI', priority:100,
     author:{ name:'老K', plat:'抖音' },
     intro:'道具开路，枪线收尾，节奏由你掌控。',
+    i18nIntros:{ en:'Utility opens the lane, gunlines close the round.' },
     tags:['道具压制','中近距离'],
     code:'DFBP-DAOJUYAZHI-16GUN-6OLMD',
     copies:12800, likes:3240,
@@ -643,9 +684,10 @@ let PACKS = [
     ]
   },
   {
-    id:'BP-000091', name:'中远架枪流', version:'v2', status:'draft',
+    id:'BP-000091', name:'中远架枪流', nameEn:'Long-Range Anchor', i18nNames:{}, version:'v2', status:'draft', channel:'LI', priority:80,
     author:{ name:'夜枭', plat:'抖音' },
     intro:'把每一道过点，都变成对手的鬼门关。',
+    i18nIntros:{},
     tags:['中远架枪','狙击'],
     code:'DFBP-ZYJQ-16GUN-9K2LA',
     copies:0, likes:0,
@@ -658,7 +700,7 @@ let PACKS = [
     ]
   },
   {
-    id:'BP-000075', name:'无名渗透流', version:'v1', status:'offline',
+    id:'BP-000075', name:'无名渗透流', nameEn:'Nameless Infiltration', i18nNames:{}, version:'v1', status:'offline', channel:'GA', priority:60,
     author:{ name:'安澜', plat:'抖音' },
     intro:'不拼枪法，专弈人心，此乃无名渗透流。',
     tags:['潜行','渗透'],
@@ -680,62 +722,98 @@ const STATUS_META = {
   offline:{ label:'已下线', cls:'off' }
 };
 
+/* ---------- 多语言字段 ---------- */
+const I18N_LANGS = {
+  en:'英语 (en)', de:'德语 (de)', fr:'法语 (fr)', ru:'俄语 (ru)', ja:'日语 (ja)', ko:'韩语 (ko)',
+  'zh-TW':'繁体中文 (zh-TW)', es:'西班牙语 (es)', pt:'葡萄牙语 (pt)', tr:'土耳其语 (tr)',
+  ar:'阿拉伯语 (ar)', vi:'越南语 (vi)', th:'泰语 (th)', id:'印尼语 (id)'
+};
+const NAME_I18N_POOL = ['de','fr','ru','ja','ko','zh-TW','es','pt','tr','ar','vi','th','id'];
+const INTRO_I18N_POOL = ['en','de','fr','ru','ja','ko','zh-TW','es','pt','tr','ar','vi','th','id'];
+
+/* 渲染一个多语言编辑器：pool 可添加语言，values 为即时写回的 {lang:text} 映射 */
+function renderI18nEditor(addId, rowsId, pool, values){
+  const adds = document.getElementById(addId);
+  const rows = document.getElementById(rowsId);
+  adds.innerHTML = pool.filter(l=>!(l in values)).map(l=>
+    `<button class="i18n-add" data-lang="${l}" type="button">+ ${I18N_LANGS[l]}</button>`).join('');
+  rows.innerHTML = pool.filter(l=>(l in values)).map(l=>
+    `<div class="i18n-row" data-lang="${l}"><span class="i18n-tag">${I18N_LANGS[l]}</span><input class="input i18n-input" maxlength="50" placeholder="最多 50 个字符" value="${(values[l]||'').replace(/"/g,'&quot;')}"><button class="i18n-del" type="button" title="移除该语言">✕</button></div>`).join('');
+  adds.querySelectorAll('.i18n-add').forEach(b=>b.addEventListener('click',()=>{
+    values[b.dataset.lang]='';
+    renderI18nEditor(addId, rowsId, pool, values);
+  }));
+  rows.querySelectorAll('.i18n-del').forEach(b=>b.addEventListener('click',()=>{
+    delete values[b.closest('.i18n-row').dataset.lang];
+    renderI18nEditor(addId, rowsId, pool, values);
+  }));
+  rows.querySelectorAll('.i18n-input').forEach(inp=>inp.addEventListener('input',()=>{
+    values[inp.closest('.i18n-row').dataset.lang] = inp.value.trim();
+  }));
+}
+
+function updateCharCounts(){
+  document.getElementById('fFlowNameCount').textContent = document.getElementById('fFlowName').value.length + '/50';
+  document.getElementById('fFlowNameEnCount').textContent = document.getElementById('fFlowNameEn').value.length + '/50';
+}
+
 /* ---------- 工具 ---------- */
 function filledSlots(pack){ return pack.slots.filter(s=>!s.empty && s.name); }
 function filledCount(pack){ return filledSlots(pack).length; }
-function tierFilled(pack, tier){ return pack.slots.filter(s=>s.tier===tier && !s.empty && s.name).length; }
 function packRange(pack){
   const filled = filledSlots(pack);
   if(!filled.length) return [0,0];
   return [Math.min(...filled.map(s=>s.points)), Math.max(...filled.map(s=>s.points))];
-}
-function keyGuns(slots){
-  const pick = (tier)=>{ const a=slots.filter(s=>s.tier===tier && !s.empty && s.name); return a.sort((x,y)=>y.points-x.points)[0]; };
-  return [pick('special'), pick('elite'), pick('standard')].filter(Boolean).slice(0,3);
 }
 function fmt(n){ return n>=10000 ? (n/10000).toFixed(1)+'w' : n>=1000 ? (n/1000).toFixed(1)+'k' : String(n); }
 
 /* ============================================================
    列表视图
    ============================================================ */
+/* ---------- 列表筛选：名称/作者/枪械模糊，ID 精确，渠道精确 ---------- */
+function getFilteredPacks(){
+  const kwName = document.getElementById('fName').value.trim().toLowerCase();
+  const kwId = document.getElementById('fId').value.trim().toUpperCase();
+  const kwAuthor = document.getElementById('fAuthor').value.trim().toLowerCase();
+  const kwGun = document.getElementById('fGun').value.trim().toLowerCase();
+  const channel = document.getElementById('fChannel').value;
+  return PACKS.filter(p=>{
+    if(kwName && !p.name.toLowerCase().includes(kwName)) return false;
+    if(kwId && p.id.toUpperCase() !== kwId) return false;
+    if(kwAuthor && !(p.author.name||'').toLowerCase().includes(kwAuthor)) return false;
+    if(kwGun && !p.slots.some(s=>(s.name||'').toLowerCase().includes(kwGun))) return false;
+    if(channel && (p.channel||'LI') !== channel) return false;
+    return true;
+  });
+}
+
 function renderList(){
   const body = document.getElementById('listBody');
-  body.innerHTML = PACKS.map(p=>{
+  const filtered = getFilteredPacks();
+  if(!filtered.length){
+    body.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:28px;color:var(--muted);font-size:12px">没有符合筛选条件的流派</td></tr>';
+  } else {
+  body.innerHTML = filtered.map(p=>{
     const st = STATUS_META[p.status];
-    const [rMin,rMax] = packRange(p);
-    const full = filledCount(p);
-    const structure = TIER_ORDER.map(t=>{
-      const n = tierFilled(p,t);
-      return `<div class="struct-dot ${TIER_COLOR[t]} ${n===4?'':'empty'}"></div>`;
-    }).join('');
-    const guns = keyGuns(p.slots).map(g=>`<div class="key-gun"><span class="kg-tier" style="background:var(--t-${g.tier})"></span>${g.name}</div>`).join('');
     return `
     <tr class="row" data-id="${p.id}">
       <td class="col-id">${p.id}</td>
-      <td class="col-flow"><div class="flow-name" data-act="detail">${p.name}</div><div class="flow-intro">${p.intro||'（未填写介绍）'}</div></td>
+      <td class="col-flow"><div class="flow-name" data-act="detail">${p.name}</div></td>
+      <td class="col-channel"><span class="ch-badge ${(p.channel||'LI').toLowerCase()==='ga'?'ga':'li'}" title="${p.channel==='GA'?'Garena':'Level Infinite'}">${p.channel||'LI'}</span></td>
+      <td class="col-code"><span class="code-cell ${p.code?'':'unset'}">${p.code||'—'}</span></td>
       <td class="col-author"><div class="author-cell"><span class="author-ava">${p.author.name ? p.author.name[0] : '?'}</span><div><div class="author-name">${p.author.name||'未关联'}</div><div class="author-plat">${p.author.plat||'-'}</div></div></div></td>
-      <td class="col-structure"><div class="struct-cell"><div class="struct-grid">${structure}</div><div class="struct-count"><b>${full}/16</b> ${full===16?'完整':'待补'}</div></div></td>
-      <td class="col-guns"><div class="key-guns">${guns}</div></td>
-      <td class="col-range"><div class="range-cell">${rMin} – ${rMax}</div><div class="range-sub">积分</div></td>
-      <td class="col-ver"><span class="ver-badge">${p.version}</span></td>
-      <td class="col-stats"><div class="stat-cell"><span class="s-copy">复制 ${fmt(p.copies)}</span><span class="s-like">点赞 ${fmt(p.likes)}</span></div></td>
-      <td class="col-editor"><div class="editor-cell">${p.editor}<div class="t">${p.updatedAt}</div></div></td>
+      <td class="col-priority"><span class="prio-cell">${typeof p.priority==='number'?p.priority:'—'}</span></td>
+      <td class="col-editor"><div class="editor-cell">${p.editor||'—'}</div></td>
       <td><span class="tag ${st.cls}">${st.label}</span></td>
+      <td class="col-time">${p.updatedAt||'—'}</td>
       <td class="col-op"><div class="op-cell">
-        <button class="link-btn" data-act="detail">查看</button>
         <button class="link-btn" data-act="edit">编辑</button>
-        <button class="link-btn" data-act="copy">复制背包码</button>
-        ${p.status==='published'?'<button class="link-btn danger" data-act="offline">下线</button>':p.status==='offline'?'<button class="link-btn" data-act="repub">重新发布</button>':''}
+        <button class="link-btn danger" data-act="delete">删除</button>
       </div></td>
     </tr>`;
   }).join('');
-  document.getElementById('totalNum').textContent = PACKS.length;
-  const counts = { all:PACKS.length, draft:0, published:0, offline:0 };
-  PACKS.forEach(p=>counts[p.status]++);
-  document.getElementById('statAll').textContent = counts.all;
-  document.getElementById('statDraft').textContent = counts.draft;
-  document.getElementById('statPub').textContent = counts.published;
-  document.getElementById('statOff').textContent = counts.offline;
+  }
+  document.getElementById('totalNum').textContent = filtered.length;
 }
 
 /* ============================================================
@@ -760,7 +838,6 @@ function renderDetail(id){
       return `<div class="detail-gun ${s.stock?'is-stock-gun':''}" data-tier="${tier}" data-idx="${i}" title="${s.stock?'标配手枪，无需配置':'点击配置该枪位'}">
         <div class="dg-top"><span class="dg-name">${s.name}</span><span class="dg-points">${PTS_ICON}${s.points}</span></div>
         <div class="dg-code">${s.stock ? '<span class="dg-stock">标配 · 无改枪码</span>' : s.code}</div>
-        ${s.desc ? `<div class="dg-desc">${s.desc}</div>` : ''}
       </div>`;
     }).join('');
     return `<div class="detail-group"><div class="detail-group-title"><span class="marker" style="background:var(--t-${tier})"></span>${TIER_CN[tier]} · ${cnt}/4</div><div class="detail-gun-list">${guns}</div></div>`;
@@ -786,7 +863,7 @@ function renderDetail(id){
     <div class="panel">
       <div class="form-title">背包信息</div>
       <div class="ds-row"><span class="k">背包 ID</span><span class="v">${p.id}</span></div>
-      <div class="ds-row"><span class="k">背包码</span><span class="v" style="color:var(--green);font-family:ui-monospace,monospace;font-size:11px">${p.status==='draft'?'未生成':p.code}</span></div>
+      <div class="ds-row"><span class="k">背包码</span><span class="v" style="color:var(--green);font-family:ui-monospace,monospace;font-size:11px">${p.code||'—'}</span></div>
       <div class="ds-row"><span class="k">版本</span><span class="v">${p.version}</span></div>
       <div class="ds-row"><span class="k">状态</span><span class="v">${st.label}</span></div>
       <div class="ds-row"><span class="k">前台复制</span><span class="v">${fmt(p.copies)}</span></div>
@@ -830,18 +907,22 @@ function openEdit(id, from){
   editingFrom = from || 'list';
   const p = currentPack();
   if(!p) return;
+  if(!p.i18nNames) p.i18nNames = {};
+  if(!p.i18nIntros) p.i18nIntros = {};
   document.getElementById('editTitle').textContent = p.name;
   document.getElementById('fFlowName').value = p.name;
+  document.getElementById('fFlowNameEn').value = p.nameEn || '';
+  document.getElementById('fPackCode').value = p.code || '';
   document.getElementById('fIntro').value = p.intro;
+  renderI18nEditor('nameI18nAdds','nameI18nRows', NAME_I18N_POOL, p.i18nNames);
+  renderI18nEditor('introI18nAdds','introI18nRows', INTRO_I18N_POOL, p.i18nIntros);
+  updateCharCounts();
   renderAuthorPicker(p.author);
   const st = STATUS_META[p.status];
   const tag = document.getElementById('editStatusTag');
   tag.className = 'tag '+st.cls+' sub-status';
   tag.textContent = st.label;
-  document.getElementById('validCode').textContent = p.status==='draft' ? '发布后由服务端生成' : p.code;
-  document.getElementById('validVer').textContent = p.version;
   renderSlots(p);
-  renderValid(p);
 }
 
 function renderSlots(pack){
@@ -859,8 +940,7 @@ function renderSlots(pack){
           <div class="slot-idx"><span>${TIER_CN[tier]} 第 ${i+1} 槽${s.stock?' · 标配':''}</span>${s.stock?'':'<span class="slot-edit-tag">✎ 编辑</span>'}</div>
           <div class="slot-name">${s.name}</div>
           <div class="slot-points">${PTS_ICON}${s.points}</div>
-          <div class="slot-code">${s.stock?'<span class="stock-tag">标配 · 无改枪码</span>':`<span class="code">${s.code}</span>`}</div>
-          ${s.desc?`<div class="slot-desc">${s.desc}</div>`:''}
+          <div class="slot-code">${s.stock?'<span class="stock-tag">标配 · 无改枪码</span>':`<span class="code">${s.channel ? s.channel+' · ' : ''}${s.code}</span>`}</div>
         </div>`;
       }).join('')}
     </div>`;
@@ -874,33 +954,6 @@ function renderSlots(pack){
   });
 }
 
-function renderValid(pack){
-  const list = document.getElementById('validList');
-  const counts = TIER_ORDER.map(t=>tierFilled(pack,t));
-  const allFull = counts.every(c=>c===4);
-  const hasName = !!document.getElementById('fFlowName').value.trim();
-  const hasAuthor = !!(pack.author && pack.author.name);
-  const filled = filledSlots(pack);
-  const nonStock = filled.filter(s=>!s.stock);
-  const codesOk = nonStock.every(s=>s.code);
-  const pointsOk = filled.every(s=>s.points>=100 && s.points<=10000);
-  const items = [
-    ['流派名称已填写', hasName],
-    ['已关联作者', hasAuthor],
-    ['手枪：'+counts[0]+' / 4', counts[0]===4],
-    ['标准：'+counts[1]+' / 4', counts[1]===4],
-    ['精锐：'+counts[2]+' / 4', counts[2]===4],
-    ['特种：'+counts[3]+' / 4', counts[3]===4],
-    ['15 个单枪改枪码有效', codesOk && nonStock.length===15],
-    ['全部积分在 100 - 10000 区间', pointsOk]
-  ];
-  list.innerHTML = items.map(([txt,ok])=>`<div class="valid-item ${ok?'ok':'bad'}"><span class="v-ico">${ok?'✓':'✕'}</span><span class="v-txt">${txt}</span></div>`).join('');
-  const ok = hasName && hasAuthor && allFull && codesOk && pointsOk;
-  document.getElementById('btnPublish').disabled = !ok;
-  document.getElementById('btnPublish2').disabled = !ok;
-  return ok;
-}
-
 function renderAuthorPicker(author){
   document.getElementById('apAva').textContent = author && author.name ? author.name[0] : '?';
   document.getElementById('apName').textContent = author && author.name ? author.name : '未选择作者';
@@ -908,33 +961,135 @@ function renderAuthorPicker(author){
 }
 
 /* ============================================================
-   单枪配置模态（名称 / 描述 / 积分 / 改枪码）
+   改枪码查询解析（mock）
+   正式环境由服务端按 渠道+码 解析枪械与配件；原型按码哈希选取 mock 池
    ============================================================ */
-let editingTier = null, editingIdx = null;
+const GUN_PARSE_MOCK = [
+  {
+    name:'KC17突击步枪', nameEn:'KC17 Assault Rifle', type:'步枪', gameId:'18010000042', points:3500,
+    atts:[
+      {qty:2,name:'KC17长剑枪管',slot:'枪管',cat:'枪管',id:'13020000552'},
+      {qty:6,name:'沙暴垂直补偿器',slot:'枪口',cat:'枪口',id:'13130000168'},
+      {qty:11,name:'MEO微型瞄准器增高架',slot:'瞄准镜',cat:'瞄具',id:'13210000014'},
+      {qty:11,name:'VMX无框瞄准器',slot:'瞄准镜',cat:'瞄具',id:'13110000102'},
+      {qty:17,name:'KC猎犬护木片',slot:'上导轨',cat:'功能性配件',id:'13320000005'},
+      {qty:19,name:'耀斑战术手电筒',slot:'右导轨',cat:'功能性配件',id:'13160000007'},
+      {qty:20,name:'PEQ-2红色镭射指示器',slot:'右导轨',cat:'功能性配件',id:'13160000005'},
+      {qty:34,name:'KC猎犬护木片',slot:'左贴片',cat:'功能性配件',id:'13320000005'},
+      {qty:35,name:'KC猎犬护木片',slot:'右贴片',cat:'功能性配件',id:'13320000005'},
+      {qty:8,name:'RK-0前握把',slot:'前握把',cat:'前握把',id:'13140000029'},
+      {qty:1,name:'幻影后握把',slot:'后握把',cat:'后握把',id:'13030000111'},
+      {qty:5,name:'AK12 30发聚合物弹匣',slot:'弹匣',cat:'弹匣',id:'13120000246'},
+      {qty:44,name:'蜜獾小口径快拔套（黑）',slot:'弹匣座',cat:'功能性配件',id:'13340000001'},
+      {qty:3,name:'骨架粗攀枪托',slot:'枪托',cat:'枪托',id:'13040000185'}
+    ]
+  },
+  {
+    name:'AK-12突击步枪', nameEn:'AK-12 Assault Rifle', type:'步枪', gameId:'18010000012', points:1740,
+    atts:[
+      {qty:1,name:'AK12重型枪管',slot:'枪管',cat:'枪管',id:'13020000012'},
+      {qty:2,name:'AK74制退器',slot:'枪口',cat:'枪口',id:'13130000074'},
+      {qty:3,name:'PK-AS红点瞄具',slot:'瞄准镜',cat:'瞄具',id:'13210000087'},
+      {qty:1,name:'PMAG 40发弹匣',slot:'弹匣',cat:'弹匣',id:'13120000040'},
+      {qty:2,name:'B-10M战术护木',slot:'上导轨',cat:'功能性配件',id:'13320000010'},
+      {qty:1,name:'RK-3前握把',slot:'前握把',cat:'前握把',id:'13140000003'},
+      {qty:1,name:'DLP-3R激光',slot:'右导轨',cat:'功能性配件',id:'13160000003'},
+      {qty:1,name:'Bulgarian折叠枪托',slot:'枪托',cat:'枪托',id:'13040000021'}
+    ]
+  },
+  {
+    name:'M700狙击步枪', nameEn:'M700 Sniper Rifle', type:'狙击枪', gameId:'18030000007', points:2800,
+    atts:[
+      {qty:1,name:'M700重型比赛枪管',slot:'枪管',cat:'枪管',id:'13020000071'},
+      {qty:1,name:'M700消音器',slot:'枪口',cat:'枪口',id:'13130000071'},
+      {qty:1,name:'8x光学瞄准镜',slot:'瞄准镜',cat:'瞄具',id:'13210000008'},
+      {qty:2,name:'两脚架接口',slot:'下导轨',cat:'功能性配件',id:'13320000077'},
+      {qty:1,name:'RS铅座前握把',slot:'前握把',cat:'前握把',id:'13140000077'},
+      {qty:1,name:'PRS战术枪托',slot:'枪托',cat:'枪托',id:'13040000077'},
+      {qty:1,name:'7.62比赛弹匣',slot:'弹匣',cat:'弹匣',id:'13120000077'}
+    ]
+  },
+  {
+    name:'MP5A3冲锋枪', nameEn:'MP5A3 SMG', type:'冲锋枪', gameId:'18020000021', points:1400,
+    atts:[
+      {qty:1,name:'MP5一体消音管',slot:'枪管',cat:'枪管',id:'13020000052'},
+      {qty:1,name:'B&T Rotex消音器',slot:'枪口',cat:'枪口',id:'13130000052'},
+      {qty:1,name:'EOTech XPS3全息',slot:'瞄准镜',cat:'瞄具',id:'13210000052'},
+      {qty:1,name:'MP5伸缩枪托',slot:'枪托',cat:'枪托',id:'13040000052'},
+      {qty:1,name:'Streamlight TLR-8',slot:'右导轨',cat:'功能性配件',id:'13160000052'},
+      {qty:1,name:'MP5垂直握把',slot:'前握把',cat:'前握把',id:'13140000052'},
+      {qty:2,name:'MP5 40发弹匣',slot:'弹匣',cat:'弹匣',id:'13120000052'}
+    ]
+  }
+];
+function hashStr(str){ let h=0; for(let i=0;i<str.length;i++){ h=((h<<5)-h+str.charCodeAt(i))|0; } return Math.abs(h); }
+function parseGunCode(code){
+  if(!code) return null;
+  const hit = GUN_PARSE_MOCK[hashStr(code.toUpperCase()) % GUN_PARSE_MOCK.length];
+  return JSON.parse(JSON.stringify(hit));
+}
+
+/* ============================================================
+   单枪配置模态（名称 / 积分 / 渠道 + 改枪码查询解析 / 描述）
+   ============================================================ */
+let editingTier = null, editingIdx = null, lastParsed = null;
+
+function queryGunCode(){
+  const code = document.getElementById('gCode').value.trim();
+  if(!code){ toast('请先粘贴改枪码'); return; }
+  const res = parseGunCode(code);
+  if(!res){ toast('改枪码解析失败，请检查码是否正确'); return; }
+  const p = currentPack();
+  lastParsed = { ...res, code, channel: (p && p.channel) || 'LI' };
+  document.getElementById('prGunName').textContent = res.name;
+  document.getElementById('prGunSub').textContent = res.type + ' · ' + res.gameId;
+  document.getElementById('prAtts').innerHTML = res.atts.map(a=>`
+    <div class="pr-att">
+      <span class="qty">${a.qty}</span>
+      <div class="a-info"><div class="a-name">${a.name}</div><div class="a-sub">${a.slot} · ${a.cat}</div></div>
+      <span class="a-id">${a.id}</span>
+    </div>`).join('');
+  document.getElementById('parseResult').style.display = '';
+  document.getElementById('fWrapCode').classList.remove('invalid');
+  // 解析成功后回填枪械中英文名称（可手动微调）与自动计算的积分
+  document.getElementById('gName').value = res.name;
+  document.getElementById('gNameEn').value = res.nameEn || '';
+  document.getElementById('gPointsView').textContent = res.points;
+}
 function openGunModal(tier, idx){
   editingTier = tier; editingIdx = idx;
   const p = currentPack();
   const s = p.slots.filter(x=>x.tier===tier)[idx];
-  document.getElementById('gunModalTitle').textContent = `配置单枪 · ${TIER_CN[tier]} 第 ${idx+1} 槽`;
+  document.getElementById('gunModalTitle').textContent = `改枪码配置 · ${TIER_CN[tier]} 第 ${idx+1} 槽`;
   document.getElementById('gName').value = s.name || '';
-  document.getElementById('gPoints').value = s.points || '';
+  document.getElementById('gNameEn').value = s.nameEn || '';
+  document.getElementById('gPointsView').textContent = s.points || '—';
   document.getElementById('gCode').value = s.code || '';
-  document.getElementById('gDesc').value = s.desc || '';
+  // 渠道复用所属背包渠道，只读展示
+  document.getElementById('gChannel').value = p.channel || 'LI';
+  document.getElementById('gChannel').disabled = true;
+  if(!s.i18nNames) s.i18nNames = {};
+  renderI18nEditor('gunNameI18nAdds','gunNameI18nRows', NAME_I18N_POOL, s.i18nNames);
+  lastParsed = null;
+  document.getElementById('parseResult').style.display = 'none';
   // 空槽位允许改；已配槽位也允许编辑
-  ['fWrapName','fWrapPoints','fWrapCode'].forEach(id=>document.getElementById(id).classList.remove('invalid'));
+  ['fWrapName','fWrapCode'].forEach(id=>document.getElementById(id).classList.remove('invalid'));
   document.getElementById('gunModal').classList.add('active');
 }
 
 function validateGunModal(){
   let ok = true;
   const name = document.getElementById('gName').value.trim();
-  const points = +document.getElementById('gPoints').value;
+  const nameEn = document.getElementById('gNameEn').value.trim();
   const code = document.getElementById('gCode').value.trim();
+  const p = currentPack();
+  // 码必须经查询解析且未被改动；渠道复用背包渠道不可改
+  const parsedOk = !!(lastParsed && lastParsed.code === code && (!p || lastParsed.channel === (p.channel||'LI')));
   if(!name){ document.getElementById('fWrapName').classList.add('invalid'); ok = false; }
   else document.getElementById('fWrapName').classList.remove('invalid');
-  if(!(points>=100 && points<=10000)){ document.getElementById('fWrapPoints').classList.add('invalid'); ok = false; }
-  else document.getElementById('fWrapPoints').classList.remove('invalid');
-  if(!code){ document.getElementById('fWrapCode').classList.add('invalid'); ok = false; }
+  if(!nameEn){ document.getElementById('fWrapNameEn').classList.add('invalid'); ok = false; }
+  else document.getElementById('fWrapNameEn').classList.remove('invalid');
+  if(!code || !parsedOk){ document.getElementById('fWrapCode').classList.add('invalid'); ok = false; }
   else document.getElementById('fWrapCode').classList.remove('invalid');
   return ok;
 }
@@ -944,14 +1099,15 @@ function saveGunModal(){
   const p = currentPack();
   const s = p.slots.filter(x=>x.tier===editingTier)[editingIdx];
   s.name = document.getElementById('gName').value.trim();
-  s.points = +document.getElementById('gPoints').value;
+  s.nameEn = document.getElementById('gNameEn').value.trim();
+  s.points = lastParsed.points; // 积分由改枪码解析自动计算
   s.code = document.getElementById('gCode').value.trim();
-  s.desc = document.getElementById('gDesc').value.trim();
+  s.channel = p.channel || 'LI';
+  s.parsed = true;
   s.stock = false;
   s.empty = false;
   document.getElementById('gunModal').classList.remove('active');
   renderSlots(p);
-  renderValid(p);
   toast('槽位已保存（草稿）');
 }
 
@@ -965,7 +1121,6 @@ function clearGunModal(){
   });
   document.getElementById('gunModal').classList.remove('active');
   renderSlots(p);
-  renderValid(p);
   toast('槽位已清空');
 }
 
@@ -976,10 +1131,11 @@ let packSeq = 1000;
 function createPack(){
   const id = 'BP-' + String(packSeq++).padStart(6,'0');
   const pack = {
-    id, name:'未命名流派', version:'v1', status:'draft',
+    id, name:'未命名流派', nameEn:'', i18nNames:{}, version:'v1', status:'draft',
+    channel:'LI', priority:1,
     author:{ name:'', plat:'' },
-    intro:'', tags:[],
-    code:null, copies:0, likes:0,
+    intro:'', i18nIntros:{}, tags:[],
+    code:'', copies:0, likes:0,
     editor:'jimmmywang', updatedAt:'2026-08-20 11:30',
     slots:[
       { ...G17 },
@@ -991,9 +1147,9 @@ function createPack(){
   };
   PACKS.unshift(pack);
   renderList();
-  editingId = id;
-  editingFrom = 'list';
   toast('已创建空白背包草稿，请配置 16 把枪');
+  // 必须先 openEdit 渲染编辑区（表单 + 16 槽位 + 校验面板），再切入 edit 视图
+  openEdit(id, 'list');
   go('edit');
 }
 
@@ -1088,24 +1244,31 @@ function copyText(txt){
   else { const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select(); try{document.execCommand('copy');}catch(e){} ta.remove(); }
 }
 function copyPackCode(p){
-  if(!p.code){ toast('草稿背包码尚未生成'); return; }
+  if(!p.code){ toast('背包码尚未填写'); return; }
   copyText(p.code);
   toast('背包码已复制：'+p.code);
-}
-function genPackCode(p){
-  const prefix = (p.name || 'NEW').toUpperCase().replace(/[^A-Z0-9]/g,'') || 'NEW';
-  return 'DFBP-' + prefix + '-16GUN-' + Math.random().toString(36).slice(2,7).toUpperCase();
 }
 
 /* ============================================================
    事件绑定
    ============================================================ */
 document.getElementById('btnCreate').addEventListener('click', createPack);
-document.getElementById('btnExport').addEventListener('click', ()=>toast('已导出当前筛选结果（示意）'));
-document.getElementById('btnFilter').addEventListener('click', ()=>toast('筛选条件已应用（示意）'));
+
+// 列表筛选：查询按钮 / 输入框回车触发；重置清空后重新渲染
+function applyListFilter(){ renderList(); }
+document.getElementById('btnFilter').addEventListener('click', applyListFilter);
+['fName','fId','fAuthor','fGun','fChannel'].forEach(id=>{
+  document.getElementById(id).addEventListener('keydown', e=>{
+    if(e.key==='Enter') applyListFilter();
+  });
+});
 document.getElementById('btnReset').addEventListener('click', ()=>{
   document.getElementById('fName').value='';
-  ['fStatus','fAuthor','fGun','fTime'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fId').value='';
+  document.getElementById('fAuthor').value='';
+  document.getElementById('fGun').value='';
+  document.getElementById('fChannel').value='';
+  applyListFilter();
   toast('已重置筛选');
 });
 document.getElementById('btnTags').addEventListener('click', ()=>toast('标签编辑（示意，非本期范围）'));
@@ -1130,24 +1293,33 @@ document.getElementById('btnSaveDraft').addEventListener('click', ()=>{
   const p = currentPack();
   syncFormToPack(p);
   toast('草稿已保存');
-  renderValid(p);
 });
 document.getElementById('btnPublish').addEventListener('click', publish);
-document.getElementById('btnPublish2').addEventListener('click', publish);
 function syncFormToPack(p){
   p.name = document.getElementById('fFlowName').value.trim() || p.name;
+  p.nameEn = document.getElementById('fFlowNameEn').value.trim();
+  p.code = document.getElementById('fPackCode').value.trim();
   p.intro = document.getElementById('fIntro').value;
   if(selectedAuthor) p.author = selectedAuthor;
 }
 function publish(){
   const p = currentPack();
   syncFormToPack(p);
-  const ok = renderValid(p);
-  if(!ok){ toast('发布校验未通过，无法发布'); return; }
+  // 只校验必填项：中英文名、背包码、作者、名称多语言已添加项、16 枪位及改枪码
+  const missing = [];
+  if(!p.name) missing.push('名称（中文）');
+  if(!p.nameEn) missing.push('名称（英语）');
+  if(!p.code) missing.push('背包码');
+  if(!(p.author && p.author.name)) missing.push('关联作者');
+  const i18nBad = Object.entries(p.i18nNames||{}).filter(([,v])=>!(v&&v.trim())).map(([l])=>I18N_LANGS[l]);
+  if(i18nBad.length) missing.push('名称多语言：'+i18nBad.join('、'));
+  const unfilled = 16 - filledCount(p);
+  if(unfilled>0) missing.push(unfilled+' 个枪位未配置');
+  const noCodes = filledSlots(p).filter(s=>!s.stock && !s.code).length;
+  if(noCodes>0) missing.push(noCodes+' 个改枪码未填写');
+  if(missing.length){ toast('无法发布，缺少：'+missing.join('、')); return; }
   p.status = 'published';
-  if(!p.code){ p.code = genPackCode(p); }
-  document.getElementById('validCode').textContent = p.code;
-  toast('已发布：背包码已生成，前台即时生效');
+  toast('已发布：前台即时生效');
   renderList();
 }
 
@@ -1158,10 +1330,9 @@ document.getElementById('btnPreview').addEventListener('click', ()=>{
   renderPreview('desk');
 });
 
-// 流派名称变化实时更新校验
-document.getElementById('fFlowName').addEventListener('input', ()=>{
-  const p = currentPack();
-  if(p) renderValid(p);
+// 名称（中/英）输入实时更新字数统计
+['fFlowName','fFlowNameEn'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', updateCharCounts);
 });
 
 // 作者选择器
@@ -1170,13 +1341,15 @@ document.getElementById('authorSearch').addEventListener('input', e=>renderAutho
 document.getElementById('authorConfirm').addEventListener('click', ()=>{
   if(!selectedAuthor){ toast('请选择作者'); return; }
   const p = currentPack();
-  if(p){ p.author = selectedAuthor; renderAuthorPicker(p.author); renderValid(p); }
+  if(p){ p.author = selectedAuthor; renderAuthorPicker(p.author); }
   document.getElementById('authorModal').classList.remove('active');
 });
 
 // 单枪配置模态
 document.getElementById('gunSave').addEventListener('click', saveGunModal);
 document.getElementById('gunClear').addEventListener('click', clearGunModal);
+document.getElementById('gQueryBtn').addEventListener('click', queryGunCode);
+document.getElementById('gCode').addEventListener('keydown', e=>{ if(e.key==='Enter') queryGunCode(); });
 
 // 列表操作（事件委托）
 let detailPackId = null;
@@ -1197,13 +1370,27 @@ document.getElementById('listBody').addEventListener('click', (e)=>{
     detailPackId = id;
     openEdit(id, 'list');
     go('edit');
-  } else if(act==='copy'){
-    copyPackCode(p);
-  } else if(act==='offline'){
-    p.status='offline'; toast('已下线：'+p.name); renderList();
-  } else if(act==='repub'){
-    p.status='published'; toast('已重新发布：'+p.name); renderList();
+  } else if(act==='delete'){
+    openDeleteModal(p);
   }
+});
+
+// 删除确认
+let deletingId = null;
+function openDeleteModal(p){
+  deletingId = p.id;
+  document.getElementById('delName').textContent = p.name + '（' + p.id + '）';
+  document.getElementById('deleteModal').classList.add('active');
+}
+document.getElementById('btnDeleteConfirm').addEventListener('click', ()=>{
+  const idx = PACKS.findIndex(x=>x.id===deletingId);
+  if(idx>-1){
+    const delName = PACKS[idx].name;
+    PACKS.splice(idx,1);
+    toast('已删除：'+delName);
+    renderList();
+  }
+  document.getElementById('deleteModal').classList.remove('active');
 });
 
 // 预览切换
