@@ -32,20 +32,17 @@
         const loadMoreBtn = document.getElementById('baopo-load-more');
         const clearFilterBtn = document.getElementById('baopo-clear-filter');
         const mapFilter = document.getElementById('baopo-map-filter');
-        const resultFilter = document.getElementById('baopo-result-filter');
         const recentListEl = document.getElementById('baopo-recent-list');
         const viewAllLink = document.getElementById('baopo-view-all-link');
 
         const state = {
             map: 'all',
-            result: 'all',
             shown: PAGE_SIZE
         };
 
-        // 从 URL 恢复筛选状态（?mode=baopo&map=..&result=..）
+        // 从 URL 恢复筛选状态（?mode=baopo&map=..）
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('map')) state.map = urlParams.get('map');
-        if (urlParams.get('result')) state.result = urlParams.get('result');
 
         // 地图筛选项由数据字典生成，避免多处维护
         DM.maps.forEach(map => {
@@ -55,13 +52,12 @@
             mapFilter.appendChild(option);
         });
         mapFilter.value = state.map;
-        resultFilter.value = state.result;
 
         function syncUrl() {
             const params = new URLSearchParams(window.location.search);
             params.set('mode', 'baopo');
             params.set('map', state.map);
-            params.set('result', state.result);
+            params.delete('result');
             const query = params.toString();
             window.history.replaceState(null, '', window.location.pathname + '?' + query);
         }
@@ -141,22 +137,8 @@
             if (self.mvp) operator.appendChild(el('i', 'bri-mvp-tag', 'MVP'));
             item.appendChild(operator);
 
-            // K/D/A、ACS、下包/拆包
+            // K/D/A（ACS、下包/拆包、段位分本期不展示）
             item.appendChild(createStatCell(self.kills + '/' + self.deaths + '/' + self.assists, 'K/D/A'));
-            item.appendChild(createStatCell(String(self.acs), 'ACS'));
-            item.appendChild(createStatCell(self.plants + '/' + self.defuses, '下包/拆包'));
-
-            // 段位分变化
-            const rank = el('span', 'bri-rank');
-            if (match.rankScoreChange === null) {
-                rank.textContent = '--';
-                rank.classList.add('neutral');
-            } else {
-                const positive = match.rankScoreChange > 0;
-                rank.textContent = (positive ? '+' : '') + match.rankScoreChange;
-                rank.classList.add(positive ? 'positive' : 'negative');
-            }
-            item.appendChild(rank);
 
             if (MATCH_DETAIL_ENABLED) item.appendChild(el('span', 'bri-arrow', '›'));
             return item;
@@ -214,7 +196,6 @@
         function render() {
             const query = DM.queryMatches({
                 mapId: state.map,
-                result: state.result,
                 offset: 0,
                 limit: state.shown
             });
@@ -235,13 +216,6 @@
             render();
         });
 
-        resultFilter.addEventListener('change', () => {
-            state.result = resultFilter.value;
-            state.shown = PAGE_SIZE;
-            syncUrl();
-            render();
-        });
-
         loadMoreBtn.addEventListener('click', () => {
             state.shown += PAGE_SIZE;
             render();
@@ -249,10 +223,8 @@
 
         clearFilterBtn.addEventListener('click', () => {
             state.map = 'all';
-            state.result = 'all';
             state.shown = PAGE_SIZE;
             mapFilter.value = 'all';
-            resultFilter.value = 'all';
             syncUrl();
             render();
         });

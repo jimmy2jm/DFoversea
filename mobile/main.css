@@ -4174,14 +4174,18 @@ body {
     border-color: var(--accent-cyan);
 }
 
+/* 战绩筛选：地图 / 结果并排，净收益开关放不下时自动换行 */
 .battle-filter-row {
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
+    gap: 8px;
     margin-bottom: 10px;
 }
 
 .battle-filter-select {
+    flex: 1 1 0;
+    min-width: 0;
     padding: 6px 24px 6px 10px;
     background: var(--bg-card);
     border: 1px solid var(--border-color);
@@ -4196,7 +4200,17 @@ body {
 }
 
 .battle-profit-label {
+    flex: 0 0 auto;
+    margin-left: auto;
     font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* 筛选无命中 */
+.battle-record-empty {
+    padding: 24px 0;
+    text-align: center;
+    font-size: 12px;
     color: var(--text-secondary);
 }
 

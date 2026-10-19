@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delta Force - 我的数据</title>
-    <link rel="stylesheet" href="main.css?v=71">
+    <link rel="stylesheet" href="main.css?v=73">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <script src="i18n.js" defer></script>
     <style>
@@ -3282,14 +3282,9 @@
                 margin-bottom: 10px;
             }
 
-            .filter-left,
-            .baopo-filter-right {
+            .filter-left {
                 width: 100%;
                 gap: 8px;
-            }
-
-            .baopo-filter-right {
-                justify-content: space-between;
             }
 
             .filter-label {
@@ -3333,8 +3328,9 @@
             }
 
             .baopo-record-item .bri-stat {
-                flex: 1 1 56px;
+                flex: 0 0 auto;
                 min-width: 0;
+                margin-left: auto;
             }
 
             .baopo-record-item .bri-stat b {
@@ -3343,12 +3339,6 @@
 
             .baopo-record-item .bri-stat i {
                 font-size: 0.62rem;
-            }
-
-            .baopo-record-item .bri-rank {
-                flex: none;
-                min-width: 42px;
-                font-size: 0.78rem;
             }
 
             .baopo-record-item .bri-arrow {
@@ -5180,14 +5170,6 @@
                             <option value="all">全部地图</option>
                         </select>
                     </div>
-                    <div class="filter-right baopo-filter-right">
-                        <span class="filter-label">🎯 结果筛选</span>
-                        <select class="filter-select" id="baopo-result-filter">
-                            <option value="all">全部结果</option>
-                            <option value="victory">胜利</option>
-                            <option value="defeat">失败</option>
-                        </select>
-                    </div>
                 </div>
 
                 <!-- 战绩列表（按日聚合） -->
@@ -6480,7 +6462,7 @@
     </script>
     <script src="../shared/demolition-mock.js?v=2"></script>
     <script src="demolition-match.js?v=2"></script>
-    <script src="demolition-records.js?v=4"></script>
+    <script src="demolition-records.js?v=6"></script>
     <script src="bookmark-widget.js?v=4" defer></script>
 </body>
 </html>

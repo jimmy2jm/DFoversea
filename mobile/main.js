@@ -561,23 +561,24 @@ function renderMobileBaopoStats() {
     const DM = window.DemolitionMock;
     if (!statsGrid || !DM) return;
     const s = DM.getSeasonSummary();
-    const avgKills = s.matchCount ? (s.kills / s.matchCount).toFixed(1) : '0.0';
+    // KDA =（击败 + 助攻）/ 死亡，死亡为 0 时回退为击败数
+    const kda = s.deaths > 0 ? ((s.kills + s.assists) / s.deaths).toFixed(2) : String(s.kills);
     statsGrid.innerHTML = `
+        <div class="profile-stat-item">
+            <div class="profile-stat-value">${s.wins}</div>
+            <div class="profile-stat-label">胜场数</div>
+        </div>
         <div class="profile-stat-item">
             <div class="profile-stat-value">${s.winRate}%</div>
             <div class="profile-stat-label">胜率</div>
         </div>
         <div class="profile-stat-item">
-            <div class="profile-stat-value">${s.matchCount}</div>
-            <div class="profile-stat-label">总场数</div>
+            <div class="profile-stat-value">${kda}</div>
+            <div class="profile-stat-label">KDA</div>
         </div>
         <div class="profile-stat-item">
-            <div class="profile-stat-value">${avgKills}</div>
-            <div class="profile-stat-label">场均击败</div>
-        </div>
-        <div class="profile-stat-item">
-            <div class="profile-stat-value">${s.kd}</div>
-            <div class="profile-stat-label">K/D</div>
+            <div class="profile-stat-value">${s.kills}</div>
+            <div class="profile-stat-label">击败数</div>
         </div>
     `;
 }
@@ -586,12 +587,14 @@ function renderMobileBaopoStats() {
 function renderMobileBaopoRecords() {
     const listEl = document.getElementById('battle-baopo-list');
     const DM = window.DemolitionMock;
-    if (!listEl || !DM || listEl.dataset.rendered === '1') return;
+    if (!listEl || !DM) return;
 
-    const matches = DM.getAllMatches().slice(0, 8);
+    let matches = DM.getAllMatches();
+    if (battleFilters.map !== 'all') matches = matches.filter(m => m.mapId === battleFilters.map);
+    matches = matches.slice(0, 8);
+
     if (!matches.length) {
-        listEl.innerHTML = '<div class="bmr-empty">暂无爆破模式对局</div>';
-        listEl.dataset.rendered = '1';
+        listEl.innerHTML = '<div class="bmr-empty">没有符合筛选条件的对局</div>';
         return;
     }
 
@@ -613,7 +616,98 @@ function renderMobileBaopoRecords() {
             </div>
         `;
     }).join('');
-    listEl.dataset.rendered = '1';
+}
+
+/* ---------- 战绩筛选（三模式通用：地图） ---------- */
+let battleFilters = { map: 'all' };
+
+// 地图选项：爆破取 mock 的地图字典，烽火/战场从当前记录去重
+function getBattleMapOptions() {
+    if (currentBattleMode === 'baopo') {
+        const DM = window.DemolitionMock;
+        return DM ? DM.maps.map(m => ({ value: m.id, label: m.name })) : [];
+    }
+    const data = currentBattleMode === 'fenghuodiDai' ? fenghuoData : zhancahngData;
+    const seen = new Map();
+    (data.records || []).forEach(r => {
+        if (r.mapKey && !seen.has(r.mapKey)) seen.set(r.mapKey, t(r.mapKey));
+    });
+    return Array.from(seen, ([value, label]) => ({ value, label }));
+}
+
+function populateBattleMapFilter() {
+    const sel = document.getElementById('battle-map-filter');
+    if (!sel) return;
+    const opts = getBattleMapOptions();
+    sel.innerHTML = ['<option value="all">全部地图</option>']
+        .concat(opts.map(o => `<option value="${o.value}">${o.label}</option>`)).join('');
+    sel.value = 'all';
+    battleFilters.map = 'all';
+}
+
+function resetBattleFilters() {
+    battleFilters = { map: 'all' };
+    const cb = document.getElementById('battle-profit-checkbox');
+    if (cb) cb.checked = false;
+}
+
+function refreshBattleList() {
+    if (currentBattleMode === 'baopo') renderMobileBaopoRecords();
+    else renderBattleRecordList();
+}
+
+// 烽火 / 战场战绩列表（含地图 + 结果筛选）
+function renderBattleRecordList() {
+    const recordList = document.querySelector('#tab-battle .battle-record-list');
+    if (!recordList) return;
+    const data = currentBattleMode === 'fenghuodiDai' ? fenghuoData : zhancahngData;
+    let records = data.records || [];
+    if (battleFilters.map !== 'all') records = records.filter(r => r.mapKey === battleFilters.map);
+
+    if (!records.length) {
+        recordList.innerHTML = '<div class="battle-record-empty">没有符合筛选条件的对局</div>';
+        return;
+    }
+
+    if (currentBattleMode === 'fenghuodiDai') {
+        recordList.innerHTML = records.map(record => `
+            <div class="battle-record-item">
+                <div class="battle-record-avatar">${record.avatar}</div>
+                <div class="battle-record-info">
+                    <div class="battle-record-status">
+                        <span class="battle-status-tag ${record.status}">${t(record.statusKey)}</span>
+                        <span class="battle-operator-name">${t(record.operatorKey)}</span>
+                    </div>
+                    <div class="battle-record-map">${t(record.modeKey)} | ${t(record.mapKey)}-${t(record.subMapKey)}</div>
+                    <div class="battle-record-time">${record.time}</div>
+                </div>
+                <div class="battle-record-result">
+                    <div class="battle-result-profit">💰 ${record.profit}</div>
+                    <div class="battle-result-kills">💀 ${record.kills}</div>
+                </div>
+                <span class="battle-record-arrow">›</span>
+            </div>
+        `).join('');
+    } else {
+        recordList.innerHTML = records.map(record => `
+            <div class="battle-record-item">
+                <div class="battle-record-avatar">${record.avatar}</div>
+                <div class="battle-record-info">
+                    <div class="battle-record-status">
+                        <span class="battle-status-tag ${record.status}">${t(record.statusKey)}</span>
+                        <span class="battle-operator-name">${t(record.operatorKey)}</span>
+                    </div>
+                    <div class="battle-record-map">${t(record.modeKey)} | ${t(record.mapKey)}</div>
+                    <div class="battle-record-time">${record.time}</div>
+                </div>
+                <div class="battle-record-result">
+                    <div class="battle-result-score">🏅 ${record.score}</div>
+                    <div class="battle-result-kills">💀 ${record.kills}</div>
+                </div>
+                <span class="battle-record-arrow">›</span>
+            </div>
+        `).join('');
+    }
 }
 
 function updateBattleModeData(mode) {
@@ -623,21 +717,29 @@ function updateBattleModeData(mode) {
     const baopoPanel = document.getElementById('battle-baopo-panel');
     const battleFilterRow = document.querySelector('#tab-battle .battle-filter-row');
     const recordListEl = document.querySelector('#tab-battle .battle-record-list');
+    const profitToggle = document.getElementById('battle-profit-toggle');
+
+    // 三种模式共用筛选器；净收益开关仅烽火有对应数据
+    if (battleFilterRow) battleFilterRow.style.display = '';
+    if (profitToggle) profitToggle.style.display = mode === 'fenghuodiDai' ? '' : 'none';
+
+    // 切模式后重置筛选条件，并按当前模式重建地图选项
+    resetBattleFilters();
+    populateBattleMapFilter();
+
     if (mode === 'baopo') {
         if (baopoPanel) baopoPanel.style.display = 'block';
         if (recordListEl) recordListEl.style.display = 'none';
-        if (battleFilterRow) battleFilterRow.style.display = 'none';
         renderMobileBaopoStats();
         renderMobileBaopoRecords();
         return;
     }
+
     if (baopoPanel) baopoPanel.style.display = 'none';
     if (recordListEl) recordListEl.style.display = '';
-    if (battleFilterRow) battleFilterRow.style.display = 'flex';
 
     const data = mode === 'fenghuodiDai' ? fenghuoData : zhancahngData;
     const statsGrid = document.getElementById('stats-grid');
-    const recordList = recordListEl;
     
     // 更新统计数据
     if (statsGrid) {
@@ -649,48 +751,8 @@ function updateBattleModeData(mode) {
         `).join('');
     }
     
-    // 更新对局记录
-    if (recordList) {
-        if (mode === 'fenghuodiDai') {
-            recordList.innerHTML = data.records.map(record => `
-                <div class="battle-record-item">
-                    <div class="battle-record-avatar">${record.avatar}</div>
-                    <div class="battle-record-info">
-                        <div class="battle-record-status">
-                            <span class="battle-status-tag ${record.status}">${t(record.statusKey)}</span>
-                            <span class="battle-operator-name">${t(record.operatorKey)}</span>
-                        </div>
-                        <div class="battle-record-map">${t(record.modeKey)} | ${t(record.mapKey)}-${t(record.subMapKey)}</div>
-                        <div class="battle-record-time">${record.time}</div>
-                    </div>
-                    <div class="battle-record-result">
-                        <div class="battle-result-profit">💰 ${record.profit}</div>
-                        <div class="battle-result-kills">💀 ${record.kills}</div>
-                    </div>
-                    <span class="battle-record-arrow">›</span>
-                </div>
-            `).join('');
-        } else {
-            recordList.innerHTML = data.records.map(record => `
-                <div class="battle-record-item">
-                    <div class="battle-record-avatar">${record.avatar}</div>
-                    <div class="battle-record-info">
-                        <div class="battle-record-status">
-                            <span class="battle-status-tag ${record.status}">${t(record.statusKey)}</span>
-                            <span class="battle-operator-name">${t(record.operatorKey)}</span>
-                        </div>
-                        <div class="battle-record-map">${t(record.modeKey)} | ${t(record.mapKey)}</div>
-                        <div class="battle-record-time">${record.time}</div>
-                    </div>
-                    <div class="battle-record-result">
-                        <div class="battle-result-score">🏅 ${record.score}</div>
-                        <div class="battle-result-kills">💀 ${record.kills}</div>
-                    </div>
-                    <span class="battle-record-arrow">›</span>
-                </div>
-            `).join('');
-        }
-    }
+    // 更新对局记录（含地图 / 结果筛选）
+    renderBattleRecordList();
 }
 
 // 模式切换 (烽火地带/全面战场)
@@ -700,6 +762,14 @@ document.querySelectorAll('.profile-mode-tab').forEach(tab => {
         this.classList.add('active');
         const mode = this.dataset.mode;
         updateBattleModeData(mode);
+    });
+});
+
+// 战绩筛选：地图（三模式通用，位置与各模式一致）
+document.querySelectorAll('#battle-map-filter').forEach(sel => {
+    sel.addEventListener('change', function() {
+        battleFilters.map = this.value;
+        refreshBattleList();
     });
 });
 

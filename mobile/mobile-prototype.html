@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Delta Force - Mobile Prototype</title>
-    <link rel="stylesheet" href="main.css?v=35">
+    <link rel="stylesheet" href="main.css?v=37">
     <script src="i18n.js" defer></script>
 </head>
 <body>
@@ -1377,13 +1377,15 @@
                         <button class="battle-sub-tab" data-battle-sub="operational" data-i18n="tabs.operationalData">作战数据</button>
                     </div>
                     
+                    <!-- 战绩筛选：地图（三模式通用），净收益开关仅烽火展示 -->
                     <div class="battle-filter-row">
-                        <select class="battle-filter-select">
-                            <option data-i18n="common.all">全部</option>
-                            <option data-i18n="gameMode.fenghuo">烽火地带</option>
-                            <option data-i18n="gameMode.zhanchang">全面战场</option>
+                        <select class="battle-filter-select" id="battle-map-filter">
+                            <option value="all">全部地图</option>
                         </select>
-                        <span class="battle-profit-label"><span data-i18n="battle.netProfit">净收益</span>: <input type="checkbox" style="vertical-align: middle;"></span>
+                        <label class="battle-profit-label" id="battle-profit-toggle">
+                            <span data-i18n="battle.netProfit">净收益</span>
+                            <input type="checkbox" id="battle-profit-checkbox">
+                        </label>
                     </div>
                     
                     <div class="battle-record-list" id="battle-recent-panel">
@@ -2054,7 +2056,7 @@
     <script src="../shared/gun-detail-mock.js?v=1"></script>
     <script src="../shared/demolition-mock.js?v=1"></script>
     <script src="../shared/demolition-backpack-mock.js?v=1"></script>
-    <script src="main.js?v=24"></script>
+    <script src="main.js?v=27"></script>
     <script src="bookmark-widget.js?v=4" defer></script>
 </body>
 </html>

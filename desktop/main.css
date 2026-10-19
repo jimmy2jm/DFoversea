@@ -10242,17 +10242,11 @@ body {
     box-shadow: 0 4px 15px rgba(36, 244, 178, 0.35);
 }
 
-/* 结果筛选（置于标准 matches-filter-bar 右侧） */
-.baopo-filter-right {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
 /* 战绩列表项（置于 .date-group 内，与烽火/战场行格式一致） */
 .baopo-record-item {
     display: grid;
-    grid-template-columns: 52px minmax(140px, 1.3fr) 76px minmax(86px, 0.7fr) 96px 62px 88px 60px 18px;
+    /* 本期不展示 ACS / 下包拆包 / 段位分，仅保留 结果 / 地图 / 比分 / 干员 / K-D-A / 详情箭头 */
+    grid-template-columns: 52px minmax(140px, 1.3fr) 76px minmax(86px, 0.7fr) 96px 18px;
     align-items: center;
     gap: 10px;
     padding: 0.7rem 1rem;
@@ -10463,17 +10457,8 @@ body {
 }
 
 @media (max-width: 768px) {
-    .baopo-record-item {
-        grid-template-columns: 46px minmax(0, 1fr) 60px 18px;
-        grid-row-gap: 6px;
-    }
-
-    .bri-operator,
-    .bri-stat,
-    .bri-rank {
-        display: none;
-    }
-
+    /* 移动端战绩行改为两行流式布局（见 my-data.html 内联样式），
+       此处仅保留比分右对齐，不再隐藏干员与 K/D/A */
     .bri-score {
         text-align: right;
     }
