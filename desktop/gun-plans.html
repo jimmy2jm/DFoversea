@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delta Force - 改枪方案</title>
-    <link rel="stylesheet" href="main.css?v=59">
+    <link rel="stylesheet" href="main.css?v=71">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -280,6 +280,7 @@
             <section class="gun-list-section gun-scheme-section">
                 <div class="section-header">
                     <span class="section-title">🔫 枪械列表</span>
+                    <span class="section-count" id="scheme-count-fh">共 -- 条</span>
                 </div>
                 
                 <div class="gun-filter-bar scheme-filter-bar">
@@ -301,15 +302,32 @@
                             <option value="all">全部枪械</option>
                         </select>
                     </div>
-                    <div class="gun-filter-group">
-                        <label class="filter-label">价格</label>
-                        <select class="gun-filter-select" id="scheme-price-filter-fh">
-                            <option value="all">全部价格</option>
-                            <option value="lt80">8w 以下</option>
-                            <option value="80to120">8w - 12w</option>
-                            <option value="120to160">12w - 16w</option>
-                            <option value="gt160">16w 以上</option>
-                        </select>
+                </div>
+
+                <!-- 价格区间 + 推荐场景标签：各自单选，两类组合（AND）生效 -->
+                <div class="filter-rows">
+                    <div class="filter-row">
+                        <span class="filter-row-label">价格</span>
+                        <div class="filter-btn-group" id="scheme-price-filter-fh">
+                            <button type="button" class="filter-btn is-active" data-value="all">全部</button>
+                            <button type="button" class="filter-btn" data-value="0-150000">0～15万</button>
+                            <button type="button" class="filter-btn" data-value="150000-300000">15万～30万</button>
+                            <button type="button" class="filter-btn" data-value="300000-600000">30万～60万</button>
+                            <button type="button" class="filter-btn" data-value="600000+">60万以上</button>
+                        </div>
+                    </div>
+                    <div class="filter-row">
+                        <span class="filter-row-label">推荐场景</span>
+                        <div class="filter-btn-group filter-tag-group" id="scheme-scene-filter-fh">
+                            <button type="button" class="filter-btn is-active" data-value="all">全部</button>
+                            <button type="button" class="filter-btn" data-value="新手推荐">新手推荐</button>
+                            <button type="button" class="filter-btn" data-value="新武器">新武器</button>
+                            <button type="button" class="filter-btn" data-value="中近距离">中近距离</button>
+                            <button type="button" class="filter-btn" data-value="远程作战">远程作战</button>
+                            <button type="button" class="filter-btn" data-value="以小博大">以小博大</button>
+                            <button type="button" class="filter-btn" data-value="猛攻专用">猛攻专用</button>
+                            <button type="button" class="filter-btn" data-value="后坐力稳">后坐力稳</button>
+                        </div>
                     </div>
                 </div>
                 
@@ -507,7 +525,7 @@
 
     <script src="../shared/gun-detail-mock.js?v=1"></script>
     <script src="../shared/demolition-backpack-mock.js?v=1"></script>
-    <script src="main.js?v=31"></script>
+    <script src="main.js?v=41"></script>
     <script src="bookmark-widget.js?v=4" defer></script>
 </body>
 </html>

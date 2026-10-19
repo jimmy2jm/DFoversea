@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delta Force - 我的数据</title>
-    <link rel="stylesheet" href="main.css?v=53">
+    <link rel="stylesheet" href="main.css?v=71">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <script src="i18n.js" defer></script>
     <style>
@@ -3244,6 +3244,118 @@
             border-color: transparent !important;
             border-bottom-color: rgba(36, 244, 178, 0.3) !important;
         }
+        /* ============================================
+           移动端适配 - 爆破战绩（≤768px）
+           总览 / 战绩筛选 / 战绩行 三段式重排
+           ============================================ */
+        @media (max-width: 768px) {
+            /* 总览：段位卡 + 综合数据卡 由左右分栏改上下堆叠 */
+            .overview-layout {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            /* 取消桌面端等高占位，避免卡片内大段空白 */
+            .overview-main .stats-card {
+                min-height: 0;
+            }
+
+            .stats-three-columns.baopo-stats-two-columns {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .stats-column {
+                gap: 0.35rem;
+                padding: 0.75rem;
+            }
+
+            .stat-column-item {
+                padding: 0.35rem 0;
+            }
+
+            /* 战绩筛选栏：左右两组改上下两行，选择器撑满 */
+            .matches-filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+                padding: 10px 12px;
+                margin-bottom: 10px;
+            }
+
+            .filter-left,
+            .baopo-filter-right {
+                width: 100%;
+                gap: 8px;
+            }
+
+            .baopo-filter-right {
+                justify-content: space-between;
+            }
+
+            .filter-label {
+                flex: 0 0 auto;
+                font-size: 0.78rem;
+            }
+
+            .filter-select {
+                flex: 1;
+                min-width: 0;
+                padding: 7px 10px;
+                font-size: 0.78rem;
+            }
+
+            /* 战绩行：桌面 9 列压成两行流式排布 */
+            .baopo-record-item {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 6px 8px;
+                padding: 10px;
+            }
+
+            .baopo-record-item .bri-status {
+                flex: none;
+                min-width: 46px;
+            }
+
+            .baopo-record-item .bri-main {
+                flex: 1 1 140px;
+                min-width: 0;
+            }
+
+            .baopo-record-item .bri-score {
+                flex: none;
+            }
+
+            .baopo-record-item .bri-operator {
+                flex: 0 0 auto;
+                font-size: 0.76rem;
+            }
+
+            .baopo-record-item .bri-stat {
+                flex: 1 1 56px;
+                min-width: 0;
+            }
+
+            .baopo-record-item .bri-stat b {
+                font-size: 0.8rem;
+            }
+
+            .baopo-record-item .bri-stat i {
+                font-size: 0.62rem;
+            }
+
+            .baopo-record-item .bri-rank {
+                flex: none;
+                min-width: 42px;
+                font-size: 0.78rem;
+            }
+
+            .baopo-record-item .bri-arrow {
+                display: none;
+            }
+        }
+
     </style>
 </head>
 <body>

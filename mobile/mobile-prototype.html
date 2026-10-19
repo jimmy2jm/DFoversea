@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Delta Force - Mobile Prototype</title>
-    <link rel="stylesheet" href="main.css?v=31">
+    <link rel="stylesheet" href="main.css?v=35">
     <script src="i18n.js" defer></script>
 </head>
 <body>
@@ -390,7 +390,73 @@
                             </div>
                         </div>
                     </div>
-                    
+
+                    <!-- ===== 爆破模式海报内容 ===== -->
+                    <div class="poster-mode-content" id="poster-bp-data" style="display: none;">
+                        <!-- 近日战况 -->
+                        <div class="poster-stats-section">
+                            <div class="poster-section-header">
+                                <span class="poster-section-title">近日战况</span>
+                            </div>
+                            <div class="poster-primary-stat">
+                                <span class="poster-primary-label">总击败</span>
+                                <span class="poster-primary-value" id="poster-bp-kills">34</span>
+                                <span class="poster-primary-unit">人</span>
+                            </div>
+                            <div class="poster-secondary-stats">
+                                <div class="poster-stat-item">
+                                    <span class="poster-stat-number" id="poster-bp-matches">3</span>
+                                    <span class="poster-stat-name">场数</span>
+                                </div>
+                                <div class="poster-stat-item">
+                                    <span class="poster-stat-number" id="poster-bp-winrate">66.7%</span>
+                                    <span class="poster-stat-name">胜率</span>
+                                </div>
+                                <div class="poster-stat-item">
+                                    <span class="poster-stat-number" id="poster-bp-precision">35%</span>
+                                    <span class="poster-stat-name">精准击败率</span>
+                                </div>
+                                <div class="poster-stat-item">
+                                    <span class="poster-stat-number" id="poster-bp-kd">2.0</span>
+                                    <span class="poster-stat-name">K/D</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 多杀记录 -->
+                        <div class="poster-multikill-section">
+                            <div class="poster-section-header">
+                                <span class="poster-section-title">多杀记录</span>
+                            </div>
+                            <div class="poster-multikill-row">
+                                <div class="poster-multikill-item" data-tier="3">
+                                    <span class="poster-mk-value" id="poster-bp-mk3">2</span>
+                                    <span class="poster-mk-name">三杀</span>
+                                </div>
+                                <div class="poster-multikill-item" data-tier="4">
+                                    <span class="poster-mk-value" id="poster-bp-mk4">1</span>
+                                    <span class="poster-mk-name">四杀</span>
+                                </div>
+                                <div class="poster-multikill-item" data-tier="5">
+                                    <span class="poster-mk-value" id="poster-bp-mk5">0</span>
+                                    <span class="poster-mk-name">五杀</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 当日代表对局 -->
+                        <div class="poster-best-section">
+                            <div class="poster-section-header">
+                                <span class="poster-section-title">当日代表对局</span>
+                            </div>
+                            <div class="poster-best-row">
+                                <span class="poster-best-map" id="poster-bp-best-map">运河 · 胜利</span>
+                                <span class="poster-best-score" id="poster-bp-best-score">13:9</span>
+                                <span class="poster-best-kda" id="poster-bp-best-kda">22/21/8</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- 海报底部 -->
                     <div class="poster-foot">
                     </div>
@@ -601,71 +667,62 @@
 
         <!-- ===== 爆破日报内容 ===== -->
         <div class="report-content-bp" id="report-bp">
-            <!-- 头部：对局数 + 日期 -->
-            <div class="bpr-top">
-                <span class="bpr-matches">对局数：<b>3</b></span>
-                <span class="bpr-date">📅 08月18日</span>
-            </div>
-
-            <!-- 核心统计 -->
-            <div class="bpr-stats-grid">
-                <div class="bpr-stat-item">
-                    <div class="bpr-stat-label">胜率</div>
-                    <div class="bpr-stat-value">66.7<span class="bpr-stat-unit">%</span></div>
-                    <div class="bpr-stat-sub">2胜1负</div>
+            <!-- 近日战况：左侧四项数据 + 右侧最高多杀（横版排版对齐战场日报） -->
+            <div class="battlefield-section bpr-section">
+                <div class="battlefield-left">
+                    <div class="battlefield-label">
+                        <span class="battlefield-label-text">近日战况</span>
+                        <span class="battlefield-label-sub">HISTORY</span>
+                        <span class="battlefield-date">📅 08/18 · 3 场</span>
+                    </div>
+                    <div class="battlefield-stats-grid">
+                        <div class="battlefield-stat-item">
+                            <div class="battlefield-stat-label">胜率</div>
+                            <div class="battlefield-stat-value">66.7<span class="battlefield-stat-unit">%</span></div>
+                        </div>
+                        <div class="battlefield-stat-item">
+                            <div class="battlefield-stat-label">MVP</div>
+                            <div class="battlefield-stat-value">2<span class="battlefield-stat-unit">次</span></div>
+                        </div>
+                        <div class="battlefield-stat-item">
+                            <div class="battlefield-stat-label">击败数</div>
+                            <div class="battlefield-stat-value">34</div>
+                        </div>
+                        <div class="battlefield-stat-item">
+                            <div class="battlefield-stat-label">KDA</div>
+                            <div class="battlefield-stat-value">2.0</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="bpr-stat-item">
-                    <div class="bpr-stat-label">MVP</div>
-                    <div class="bpr-stat-value">2<span class="bpr-stat-unit">次</span></div>
-                    <div class="bpr-stat-sub">评分 S+</div>
-                </div>
-                <div class="bpr-stat-item">
-                    <div class="bpr-stat-label">击败数</div>
-                    <div class="bpr-stat-value">34</div>
-                    <div class="bpr-stat-sub">爆头率 35%</div>
-                </div>
-                <div class="bpr-stat-item">
-                    <div class="bpr-stat-label">KDA</div>
-                    <div class="bpr-stat-value">2.0</div>
-                    <div class="bpr-stat-sub">34 / 21 / 8</div>
-                </div>
-            </div>
-
-            <!-- 段位 + 多杀 -->
-            <div class="bpr-rank-multikill">
-                <div class="bpr-rank">
-                    <div class="bpr-rank-label">段位</div>
-                    <div class="bpr-rank-name">校官 Ⅲ <span class="bpr-rank-star">★</span></div>
-                    <div class="bpr-rank-score">512分 <span class="bpr-rank-up">↑</span></div>
-                </div>
-                <div class="bpr-multikill">
-                    <div class="bpr-mk-value">2</div>
-                    <div class="bpr-mk-label">三次击杀</div>
+                <!-- 右侧：只展示当日最高多杀次数（对应战场日报「常用干员」的位置） -->
+                <div class="battlefield-right bpr-kill-block">
+                    <div class="bpr-kill-value">5</div>
+                    <div class="bpr-kill-label">最高连杀</div>
                 </div>
             </div>
 
-            <!-- 当日最佳对局 -->
+            <!-- 当日最佳对局：MVP 徽章独立于卡片流，非 MVP 时隐藏也不影响排版 -->
             <div class="bpr-best">
                 <div class="bpr-best-label">
                     <span class="bpr-best-text">当日最佳对局</span>
                     <span class="bpr-best-sub">BEST OF DAY</span>
+                    <span class="bpr-best-mvp">MVP</span>
                 </div>
                 <div class="bpr-best-card">
-                    <div class="bpr-best-badge">MVP</div>
                     <div class="bpr-best-info">
-                        <div class="bpr-best-result">胜利 · 下包 A 点</div>
-                        <div class="bpr-best-meta">爆破模式 | 运河 · 干员 乌鲁鲁</div>
-                        <div class="bpr-best-time">08-18 21:37 · KDA 22/21/8</div>
+                        <div class="bpr-best-head">
+                            <span class="bpr-best-result">胜利</span>
+                            <span class="bpr-best-map">运河 · 乌鲁鲁</span>
+                        </div>
+                        <div class="bpr-best-time">08-18 21:37</div>
                     </div>
-                    <div class="bpr-best-title">顶级外援</div>
+                    <div class="bpr-best-kda">
+                        <span class="bpr-kda-value">22/21/8</span>
+                        <span class="bpr-kda-label">KDA</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- 操作按钮 -->
-            <div class="action-buttons">
-                <button class="action-btn secondary" type="button">查看更多数据</button>
-                <button class="action-btn primary" style="flex: 1;" data-i18n="home.openGameViewMore">打开游戏查看更多</button>
-            </div>
         </div>
     </section>
 
@@ -1034,27 +1091,47 @@
                     <button class="gun-scheme-mode-tab-mobile" data-mode="zc">⚔️ 全面战场</button>
                     <button class="gun-scheme-mode-tab-mobile" data-mode="bp">💣 爆破模式</button>
                 </div>
-                <!-- 筛选器 -->
+                <!-- 筛选器：类型/枪械下拉 + 价格/场景快筛（与 PC 档位、标签一致） -->
                 <div class="gun-scheme-filters-mobile" id="gun-scheme-filters-mobile">
-                    <select class="gun-scheme-filter-select" data-filter="type">
-                        <option value="all">全部类型</option>
-                        <option value="ar">突击步枪</option>
-                        <option value="smg">冲锋枪</option>
-                        <option value="sr">狙击步枪</option>
-                        <option value="lmg">轻机枪</option>
-                        <option value="sg">霰弹枪</option>
-                        <option value="pistol">手枪</option>
-                    </select>
-                    <select class="gun-scheme-filter-select" data-filter="name">
-                        <option value="all">全部枪械</option>
-                    </select>
-                    <select class="gun-scheme-filter-select" data-filter="price">
-                        <option value="all">全部价格</option>
-                        <option value="lt80">8w 以下</option>
-                        <option value="80to120">8w - 12w</option>
-                        <option value="120to160">12w - 16w</option>
-                        <option value="gt160">16w 以上</option>
-                    </select>
+                    <div class="gun-scheme-select-row">
+                        <select class="gun-scheme-filter-select" data-filter="type">
+                            <option value="all">全部类型</option>
+                            <option value="ar">突击步枪</option>
+                            <option value="smg">冲锋枪</option>
+                            <option value="sr">狙击步枪</option>
+                            <option value="lmg">轻机枪</option>
+                            <option value="sg">霰弹枪</option>
+                            <option value="pistol">手枪</option>
+                        </select>
+                        <select class="gun-scheme-filter-select" data-filter="name">
+                            <option value="all">全部枪械</option>
+                        </select>
+                    </div>
+
+                    <div class="gun-scheme-quick-row" id="gun-price-row-mobile">
+                        <span class="gun-scheme-quick-label">价格</span>
+                        <div class="gun-scheme-chip-group" id="gun-price-chips-mobile">
+                            <button class="gun-scheme-chip is-active" type="button" data-value="all">全部</button>
+                            <button class="gun-scheme-chip" type="button" data-value="0-150000">0-15w</button>
+                            <button class="gun-scheme-chip" type="button" data-value="150000-300000">15-30w</button>
+                            <button class="gun-scheme-chip" type="button" data-value="300000-600000">30-60w</button>
+                            <button class="gun-scheme-chip" type="button" data-value="600000+">60w+</button>
+                        </div>
+                    </div>
+
+                    <div class="gun-scheme-quick-row">
+                        <span class="gun-scheme-quick-label">推荐场景</span>
+                        <div class="gun-scheme-chip-group" id="gun-tag-chips-mobile">
+                            <button class="gun-scheme-chip is-active" type="button" data-value="all">全部</button>
+                            <button class="gun-scheme-chip" type="button" data-value="新手推荐">新手推荐</button>
+                            <button class="gun-scheme-chip" type="button" data-value="新武器">新武器</button>
+                            <button class="gun-scheme-chip" type="button" data-value="中近距离">中近距离</button>
+                            <button class="gun-scheme-chip" type="button" data-value="远程作战">远程作战</button>
+                            <button class="gun-scheme-chip" type="button" data-value="以小博大">以小博大</button>
+                            <button class="gun-scheme-chip" type="button" data-value="猛攻专用">猛攻专用</button>
+                            <button class="gun-scheme-chip" type="button" data-value="后坐力稳">后坐力稳</button>
+                        </div>
+                    </div>
                 </div>
                 <!-- 方案列表（单列） -->
                 <div class="gun-scheme-list-mobile" id="gun-scheme-list-mobile"></div>
@@ -1256,6 +1333,7 @@
                 <div class="profile-mode-tabs" id="profile-mode-tabs">
                     <div class="profile-mode-tab active" data-mode="fenghuodiDai">🔥 <span data-i18n="gameMode.fenghuo">烽火地带</span></div>
                     <div class="profile-mode-tab" data-mode="quanmianzhanchang">⚔️ <span data-i18n="gameMode.zhanchang">全面战场</span></div>
+                    <div class="profile-mode-tab" data-mode="baopo">💣 <span>爆破模式</span></div>
                 </div>
                 <div class="profile-stats-header">
                     <span class="profile-stats-title" id="stats-title" style="display: none;" data-i18n="profile.statsData">战绩数据</span>
@@ -1359,6 +1437,11 @@
                             </div>
                             <span class="battle-record-arrow">›</span>
                         </div>
+                    </div>
+
+                    <!-- 爆破模式战绩列表（数据来自 shared/demolition-mock.js） -->
+                    <div class="battle-baopo-panel" id="battle-baopo-panel" style="display: none;">
+                        <div class="battle-baopo-list" id="battle-baopo-list"></div>
                     </div>
 
                     <div class="battle-operational-panel" id="battle-operational-panel" style="display: none;">
@@ -1969,8 +2052,9 @@
     
     <!-- 引入主JS文件 -->
     <script src="../shared/gun-detail-mock.js?v=1"></script>
+    <script src="../shared/demolition-mock.js?v=1"></script>
     <script src="../shared/demolition-backpack-mock.js?v=1"></script>
-    <script src="main.js?v=20"></script>
+    <script src="main.js?v=24"></script>
     <script src="bookmark-widget.js?v=4" defer></script>
 </body>
 </html>

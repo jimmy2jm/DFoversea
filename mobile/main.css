@@ -858,6 +858,103 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
+/* 爆破模式 - 多杀记录（三杀 / 四杀 / 五杀） */
+.poster-multikill-section {
+    flex: 1;
+    min-height: 0;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.poster-multikill-row {
+    display: flex;
+    gap: 6px;
+}
+
+.poster-multikill-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 6px 2px;
+    background: rgba(0, 212, 170, 0.04);
+    border-radius: 6px;
+}
+
+.poster-mk-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--accent-cyan);
+}
+
+.poster-mk-name {
+    font-size: 9px;
+    color: var(--text-muted);
+}
+
+/* 与日报 / 首页多杀色阶保持一致 */
+.poster-multikill-item[data-tier="3"] .poster-mk-value,
+.poster-multikill-item[data-tier="3"] .poster-mk-name {
+    color: #4ade80;
+}
+
+.poster-multikill-item[data-tier="4"] .poster-mk-value,
+.poster-multikill-item[data-tier="4"] .poster-mk-name {
+    color: #a78bfa;
+}
+
+.poster-multikill-item[data-tier="5"] .poster-mk-value,
+.poster-multikill-item[data-tier="5"] .poster-mk-name {
+    color: #f2b84b;
+}
+
+/* 爆破模式 - 当日代表对局 */
+.poster-best-section {
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.poster-best-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.poster-best-map {
+    flex: 1;
+    min-width: 0;
+    font-size: 10px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.poster-best-score {
+    flex-shrink: 0;
+    font-family: 'Orbitron', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--accent-cyan);
+}
+
+.poster-best-kda {
+    flex-shrink: 0;
+    font-family: 'Orbitron', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.8);
+}
+
 .poster-items-grid {
     display: flex;
     gap: 8px;
@@ -7449,9 +7546,54 @@ body {
 /* 筛选器（直角下拉框） */
 .gun-scheme-filters-mobile {
     display: flex;
-    gap: 6px;
+    flex-direction: column;
+    gap: 10px;
     margin: 10px 10px 0;
+}
+
+/* 类型 / 枪械：两个下拉并排等分 */
+.gun-scheme-select-row {
+    display: flex;
+    gap: 6px;
+}
+
+/* 价格 / 推荐场景：标题 + 快筛 chips */
+.gun-scheme-quick-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.gun-scheme-quick-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+}
+
+.gun-scheme-chip-group {
+    display: flex;
     flex-wrap: wrap;
+    gap: 6px;
+}
+
+.gun-scheme-chip {
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.66);
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    border-radius: 0;
+    cursor: pointer;
+    transition: border-color 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.gun-scheme-chip.is-active {
+    color: var(--accent-cyan);
+    background: rgba(0, 212, 170, 0.16);
+    border-color: rgba(0, 212, 170, 0.5);
 }
 
 .gun-scheme-filter-select {
@@ -8672,8 +8814,15 @@ body {
     color: var(--accent-cyan);
 }
 
+/* 多杀记录：三杀 / 四杀 / 五杀 三列等分 */
+.bpr-multikill-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
 .bpr-multikill {
-    flex: 0 0 88px;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -8681,6 +8830,22 @@ body {
     background: rgba(6, 18, 20, 0.66);
     border: 1px solid rgba(42, 72, 78, 0.75);
     padding: 10px 8px;
+}
+
+/* 与桌面日报多杀色阶一致：三杀绿 / 四杀紫 / 五杀金 */
+.bpr-multikill[data-tier="3"] .bpr-mk-value,
+.bpr-multikill[data-tier="3"] .bpr-mk-label {
+    color: #4ade80;
+}
+
+.bpr-multikill[data-tier="4"] .bpr-mk-value,
+.bpr-multikill[data-tier="4"] .bpr-mk-label {
+    color: #a78bfa;
+}
+
+.bpr-multikill[data-tier="5"] .bpr-mk-value,
+.bpr-multikill[data-tier="5"] .bpr-mk-label {
+    color: #f2b84b;
 }
 
 .bpr-mk-value {
@@ -8768,12 +8933,212 @@ body {
     color: rgba(255, 255, 255, 0.45);
 }
 
-.bpr-best-title {
+/* MVP 徽章：落在标题行右侧，非 MVP 时移除该节点，卡片内排版完全不受影响 */
+.bpr-best-mvp {
+    margin-left: auto;
     flex-shrink: 0;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--accent-cyan);
-    border: 1px solid rgba(0, 212, 170, 0.35);
-    padding: 3px 8px;
+    padding: 2px 8px;
+    font-family: 'Orbitron', monospace;
+    font-size: 9.5px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    color: #031816;
+    background: #f2b84b;
     white-space: nowrap;
+}
+
+/* 结果 + 地图合并为一行，替代原「胜利 · 下包 A 点」「爆破模式 | 运河 · 干员 乌鲁鲁」两行冗长文案 */
+.bpr-best-head {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 3px;
+    min-width: 0;
+}
+
+.bpr-best-head .bpr-best-result {
+    margin-bottom: 0;
+}
+
+.bpr-best-map {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.62);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* KDA 独立成块并放大，替代原时间行里的小号「KDA 22/21/8」 */
+.bpr-best-kda {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1px;
+    padding-left: 10px;
+}
+
+.bpr-kda-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--accent-cyan);
+    text-shadow: 0 0 10px rgba(0, 212, 170, 0.24);
+}
+
+.bpr-kda-label {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+/* 爆破日报：数据区改为横版（复用战场日报布局，仅覆盖差异项） */
+.report-content-bp .battlefield-section {
+    margin: 0 0 10px;
+}
+
+.report-content-bp .battlefield-label-text {
+    color: var(--accent-cyan);
+}
+
+/* 右侧只放一个最高多杀次数，替代战场日报的「常用干员」位 */
+.bpr-kill-block {
+    gap: 4px;
+}
+
+.bpr-kill-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1;
+    color: #f2b84b;
+    text-shadow: 0 0 10px rgba(242, 184, 75, 0.3);
+}
+
+.bpr-kill-label {
+    font-size: 8px;
+    line-height: 1.2;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+/* ============================================
+   爆破模式战绩列表（我的 · 战绩页）
+   与桌面 my-data 爆破战绩同源：shared/demolition-mock.js
+   ============================================ */
+.battle-baopo-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.bmr-item {
+    background: rgba(6, 18, 20, 0.66);
+    border: 1px solid rgba(42, 72, 78, 0.75);
+    padding: 13px 14px;
+}
+
+.bmr-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 9px;
+}
+
+.bmr-status {
+    flex-shrink: 0;
+    padding: 2px 7px;
+    font-size: 10.5px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+}
+
+.bmr-status.victory {
+    color: var(--accent-cyan);
+    background: rgba(0, 212, 170, 0.12);
+    border: 1px solid rgba(0, 212, 170, 0.35);
+}
+
+.bmr-status.fail {
+    color: #ef5b63;
+    background: rgba(239, 91, 99, 0.12);
+    border: 1px solid rgba(239, 91, 99, 0.35);
+}
+
+.bmr-map {
+    flex: 1;
+    min-width: 0;
+    font-size: 12px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.86);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.bmr-score {
+    flex-shrink: 0;
+    font-family: 'Orbitron', monospace;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.bmr-score.victory {
+    color: var(--accent-cyan);
+}
+
+.bmr-score.fail {
+    color: #ef5b63;
+}
+
+.bmr-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.45);
+}
+
+.bmr-time {
+    flex-shrink: 0;
+}
+
+.bmr-operator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: rgba(255, 255, 255, 0.66);
+}
+
+.bmr-mvp {
+    font-style: normal;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: #031816;
+    background: #f2b84b;
+    padding: 1px 4px;
+}
+
+.bmr-kda {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+}
+
+/* 段位分不再展示，KDA 占据原右侧位置并放大一档 */
+.bmr-kda b {
+    font-family: 'Orbitron', monospace;
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--accent-cyan);
+}
+
+.bmr-empty {
+    padding: 24px 0;
+    text-align: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.45);
 }

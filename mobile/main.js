@@ -555,11 +555,89 @@ function t(key) {
 }
 
 // 更新战绩数据显示
+// 爆破战绩 · 顶部四项汇总（与桌面版同源：DemolitionMock 赛季汇总）
+function renderMobileBaopoStats() {
+    const statsGrid = document.getElementById('stats-grid');
+    const DM = window.DemolitionMock;
+    if (!statsGrid || !DM) return;
+    const s = DM.getSeasonSummary();
+    const avgKills = s.matchCount ? (s.kills / s.matchCount).toFixed(1) : '0.0';
+    statsGrid.innerHTML = `
+        <div class="profile-stat-item">
+            <div class="profile-stat-value">${s.winRate}%</div>
+            <div class="profile-stat-label">胜率</div>
+        </div>
+        <div class="profile-stat-item">
+            <div class="profile-stat-value">${s.matchCount}</div>
+            <div class="profile-stat-label">总场数</div>
+        </div>
+        <div class="profile-stat-item">
+            <div class="profile-stat-value">${avgKills}</div>
+            <div class="profile-stat-label">场均击败</div>
+        </div>
+        <div class="profile-stat-item">
+            <div class="profile-stat-value">${s.kd}</div>
+            <div class="profile-stat-label">K/D</div>
+        </div>
+    `;
+}
+
+// 爆破战绩 · 列表（首次进入爆破模式时渲染一次）
+function renderMobileBaopoRecords() {
+    const listEl = document.getElementById('battle-baopo-list');
+    const DM = window.DemolitionMock;
+    if (!listEl || !DM || listEl.dataset.rendered === '1') return;
+
+    const matches = DM.getAllMatches().slice(0, 8);
+    if (!matches.length) {
+        listEl.innerHTML = '<div class="bmr-empty">暂无爆破模式对局</div>';
+        listEl.dataset.rendered = '1';
+        return;
+    }
+
+    listEl.innerHTML = matches.map(match => {
+        const self = DM.getSelfParticipant(match);
+        const win = match.result === 'victory';
+        return `
+            <div class="bmr-item">
+                <div class="bmr-head">
+                    <span class="bmr-status ${win ? 'victory' : 'fail'}">${win ? '胜利' : '失败'}</span>
+                    <span class="bmr-map">${match.mapName} · ${match.queueLabel}</span>
+                    <span class="bmr-score ${win ? 'victory' : 'fail'}">${match.score.self}:${match.score.enemy}</span>
+                </div>
+                <div class="bmr-body">
+                    <span class="bmr-time">${DM.fmt.dateLabel(match.date)} ${match.time}</span>
+                    <span class="bmr-operator">${self.operator}${self.mvp ? '<i class="bmr-mvp">MVP</i>' : ''}</span>
+                    <span class="bmr-kda"><b>${self.kills}/${self.deaths}/${self.assists}</b>KDA</span>
+                </div>
+            </div>
+        `;
+    }).join('');
+    listEl.dataset.rendered = '1';
+}
+
 function updateBattleModeData(mode) {
     currentBattleMode = mode;
+
+    // 爆破模式数据结构与其它模式不同，走独立面板；其余模式共用原列表容器
+    const baopoPanel = document.getElementById('battle-baopo-panel');
+    const battleFilterRow = document.querySelector('#tab-battle .battle-filter-row');
+    const recordListEl = document.querySelector('#tab-battle .battle-record-list');
+    if (mode === 'baopo') {
+        if (baopoPanel) baopoPanel.style.display = 'block';
+        if (recordListEl) recordListEl.style.display = 'none';
+        if (battleFilterRow) battleFilterRow.style.display = 'none';
+        renderMobileBaopoStats();
+        renderMobileBaopoRecords();
+        return;
+    }
+    if (baopoPanel) baopoPanel.style.display = 'none';
+    if (recordListEl) recordListEl.style.display = '';
+    if (battleFilterRow) battleFilterRow.style.display = 'flex';
+
     const data = mode === 'fenghuodiDai' ? fenghuoData : zhancahngData;
     const statsGrid = document.getElementById('stats-grid');
-    const recordList = document.querySelector('.battle-record-list');
+    const recordList = recordListEl;
     
     // 更新统计数据
     if (statsGrid) {
@@ -770,6 +848,14 @@ document.querySelectorAll('.battle-sub-tab').forEach(tab => {
         const recentPanel = document.getElementById('battle-recent-panel') || document.querySelector('#tab-battle .battle-record-list');
         const operationalPanel = document.getElementById('battle-operational-panel');
         const showRecent = subTab === 'recent';
+
+        // 爆破模式走独立面板，不被「最近对局 / 作战数据」子 Tab 覆盖
+        if (currentBattleMode === 'baopo') {
+            if (filterRow) filterRow.style.display = 'none';
+            if (recentPanel) recentPanel.style.display = 'none';
+            if (operationalPanel) operationalPanel.style.display = 'none';
+            return;
+        }
 
         if (filterRow) filterRow.style.display = showRecent ? 'flex' : 'none';
         if (recentPanel) recentPanel.style.display = showRecent ? 'flex' : 'none';
@@ -1578,34 +1664,34 @@ const MOBILE_TYPE_NAMES = {
 
 // 枪械元数据（mode → 枪 id → {name, type, price?}）
 const MOBILE_GUNS_FH = [
-    { id: 'akm', name: 'AKM', type: 'ar', price: 125000 },
-    { id: 'tenglong', name: '腾龙', type: 'ar', price: 98000 },
-    { id: 'ak74', name: 'AK-74M', type: 'ar', price: 115000 },
-    { id: 'm4a1', name: 'M4A1', type: 'ar', price: 105000 },
-    { id: 'scar', name: 'SCAR-H', type: 'ar', price: 145000 },
-    { id: 'hk416', name: 'HK416', type: 'ar', price: 135000 },
-    { id: 'mp5', name: 'MP5', type: 'smg', price: 72000 },
-    { id: 'vector', name: 'Vector', type: 'smg', price: 88000 },
-    { id: 'mp7', name: 'MP7', type: 'smg', price: 78000 },
-    { id: 'awm', name: 'AWM', type: 'sr', price: 285000 },
-    { id: 'svd', name: 'SVD', type: 'sr', price: 165000 },
-    { id: 'vss', name: 'VSS', type: 'sr', price: 92000 },
-    { id: 'pkm', name: 'PKM', type: 'lmg', price: 158000 },
-    { id: 's12k', name: 'S12K', type: 'sg', price: 65000 },
-    { id: 'g18', name: 'Glock-18', type: 'pistol', price: 22000 }
+    { id: 'akm', name: 'AKM', type: 'ar', price: 125000, tags: ['猛攻专用', '远程作战'] },
+    { id: 'tenglong', name: '腾龙', type: 'ar', price: 98000, tags: ['中近距离', '后坐力稳', '新手推荐'] },
+    { id: 'ak74', name: 'AK-74M', type: 'ar', price: 115000, tags: ['中近距离', '后坐力稳', '新手推荐'] },
+    { id: 'm4a1', name: 'M4A1', type: 'ar', price: 105000, tags: ['中近距离', '后坐力稳', '新手推荐'] },
+    { id: 'scar', name: 'SCAR-H', type: 'ar', price: 145000, tags: ['远程作战', '猛攻专用'] },
+    { id: 'hk416', name: 'HK416', type: 'ar', price: 135000, tags: ['中近距离', '后坐力稳'] },
+    { id: 'mp5', name: 'MP5', type: 'smg', price: 72000, tags: ['以小博大', '后坐力稳', '新手推荐'] },
+    { id: 'vector', name: 'Vector', type: 'smg', price: 88000, tags: ['中近距离', '猛攻专用'] },
+    { id: 'mp7', name: 'MP7', type: 'smg', price: 78000, tags: ['中近距离', '后坐力稳', '新手推荐'] },
+    { id: 'awm', name: 'AWM', type: 'sr', price: 285000, tags: ['远程作战', '新武器'] },
+    { id: 'svd', name: 'SVD', type: 'sr', price: 165000, tags: ['远程作战'] },
+    { id: 'vss', name: 'VSS', type: 'sr', price: 92000, tags: ['中近距离', '新武器', '后坐力稳'] },
+    { id: 'pkm', name: 'PKM', type: 'lmg', price: 158000, tags: ['猛攻专用'] },
+    { id: 's12k', name: 'S12K', type: 'sg', price: 65000, tags: ['中近距离', '以小博大', '新手推荐'] },
+    { id: 'g18', name: 'Glock-18', type: 'pistol', price: 22000, tags: ['以小博大'] }
 ];
 
 const MOBILE_GUNS_ZC = [
-    { id: 'm4a1', name: 'M4A1', type: 'ar' },
-    { id: 'ak74', name: 'AK-74M', type: 'ar' },
-    { id: 'hk416', name: 'HK416', type: 'ar' },
-    { id: 'aug', name: 'AUG', type: 'ar' },
-    { id: 'scar', name: 'SCAR-H', type: 'ar' },
-    { id: 'mp5', name: 'MP5', type: 'smg' },
-    { id: 'vector', name: 'Vector', type: 'smg' },
-    { id: 'awm', name: 'AWM', type: 'sr' },
-    { id: 'svd', name: 'SVD', type: 'sr' },
-    { id: 'vss', name: 'VSS', type: 'sr' }
+    { id: 'm4a1', name: 'M4A1', type: 'ar', tags: ['中近距离', '后坐力稳', '新手推荐'] },
+    { id: 'ak74', name: 'AK-74M', type: 'ar', tags: ['中近距离', '后坐力稳', '新手推荐'] },
+    { id: 'hk416', name: 'HK416', type: 'ar', tags: ['中近距离', '后坐力稳'] },
+    { id: 'aug', name: 'AUG', type: 'ar', tags: ['远程作战', '后坐力稳'] },
+    { id: 'scar', name: 'SCAR-H', type: 'ar', tags: ['远程作战', '猛攻专用'] },
+    { id: 'mp5', name: 'MP5', type: 'smg', tags: ['以小博大', '后坐力稳', '新手推荐'] },
+    { id: 'vector', name: 'Vector', type: 'smg', tags: ['中近距离', '猛攻专用'] },
+    { id: 'awm', name: 'AWM', type: 'sr', tags: ['远程作战', '新武器'] },
+    { id: 'svd', name: 'SVD', type: 'sr', tags: ['远程作战'] },
+    { id: 'vss', name: 'VSS', type: 'sr', tags: ['中近距离', '新武器', '后坐力稳'] }
 ];
 
 const MOBILE_FH_SCHEMES_BY_GUN = {
@@ -1631,7 +1717,9 @@ function getMobileSchemesForGun(mode, gun) {
         gunId: gun.id,
         gunName: gun.name,
         gunType: gun.type,
-        gunPrice: gun.price
+        gunPrice: gun.price,
+        // 标签统一取枪械维度的推荐场景，与 PC 端 7 类标签完全一致
+        tags: gun.tags || s.tags || []
     }));
 }
 
@@ -1642,26 +1730,68 @@ function getMobileFlatSchemes(mode) {
     return out;
 }
 
+// 读取快筛 chip 组的当前选中值
+function getMobileChipValue(groupId) {
+    const group = document.getElementById(groupId);
+    const active = group ? group.querySelector('.gun-scheme-chip.is-active') : null;
+    return active ? (active.dataset.value || 'all') : 'all';
+}
+
 function getMobileSchemeFilters() {
     const root = document.getElementById('gun-scheme-filters-mobile');
-    if (!root) return { type: 'all', name: 'all', price: 'all' };
+    if (!root) return { type: 'all', name: 'all', price: 'all', scene: 'all' };
     return {
         type: root.querySelector('[data-filter="type"]')?.value || 'all',
         name: root.querySelector('[data-filter="name"]')?.value || 'all',
-        price: root.querySelector('[data-filter="price"]')?.value || 'all'
+        price: getMobileChipValue('gun-price-chips-mobile'),
+        scene: getMobileChipValue('gun-tag-chips-mobile')
     };
 }
 
+/**
+ * 价格档位与 PC 端一致：0-15w / 15-30w / 30-60w / 60w+
+ */
 function matchMobilePriceBucket(price, bucket) {
-    if (!price && bucket !== 'all') return false;
-    switch (bucket) {
-        case 'lt80': return price < 80000;
-        case '80to120': return price >= 80000 && price < 120000;
-        case '120to160': return price >= 120000 && price < 160000;
-        case 'gt160': return price >= 160000;
-        case 'all':
-        default: return true;
+    if (bucket === 'all') return true;
+    if (!price) return false;
+    const m = /^(\d+)(?:-(\d+))?\+?$/.exec(bucket);
+    if (!m) return true;
+    if (m[2]) {
+        const min = Number(m[1]);
+        const max = Number(m[2]);
+        return price >= min && price < max;
     }
+    return price >= Number(m[1]);
+}
+
+/**
+ * 快筛 chip 组：单选，再次点击已选中项则回到「全部」（与 PC 交互一致）
+ */
+function initMobileFilterChips(groupId, onChange) {
+    const group = document.getElementById(groupId);
+    if (!group || group.dataset.bound === '1') return;
+    group.dataset.bound = '1';
+    group.querySelectorAll('.gun-scheme-chip').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const value = btn.dataset.value || 'all';
+            const wasActive = btn.classList.contains('is-active');
+            const next = wasActive ? 'all' : value;
+            group.querySelectorAll('.gun-scheme-chip').forEach(b => {
+                b.classList.toggle('is-active', (b.dataset.value || 'all') === next);
+            });
+            onChange();
+        });
+    });
+}
+
+function resetMobileFilterChips() {
+    ['gun-price-chips-mobile', 'gun-tag-chips-mobile'].forEach(id => {
+        const group = document.getElementById(id);
+        if (!group) return;
+        group.querySelectorAll('.gun-scheme-chip').forEach(b => {
+            b.classList.toggle('is-active', (b.dataset.value || 'all') === 'all');
+        });
+    });
 }
 
 /**
@@ -1689,8 +1819,11 @@ function renderMobileGunSchemeList() {
     const rows = getMobileFlatSchemes(mobileSchemeCurrentMode).filter(s => {
         if (filters.type !== 'all' && s.gunType !== filters.type) return false;
         if (filters.name !== 'all' && s.gunId !== filters.name) return false;
+        // 价格维度仅烽火有数据
         if (mobileSchemeCurrentMode === 'fh' && filters.price !== 'all'
             && !matchMobilePriceBucket(s.gunPrice, filters.price)) return false;
+        // 推荐场景标签：与价格、类型、枪械同时生效（AND）
+        if (filters.scene !== 'all' && !(s.tags || []).includes(filters.scene)) return false;
         return true;
     });
     if (!rows.length) {
@@ -1967,20 +2100,20 @@ function bindMobileGunSchemeModule() {
                 if (filtersEl) filtersEl.style.display = '';
                 if (listEl) listEl.style.display = '';
                 if (bpListEl) bpListEl.style.display = 'none';
-                // 战场不展示价格筛选
-                const priceSel = card.querySelector('[data-filter="price"]');
-                if (priceSel) priceSel.style.display = mobileSchemeCurrentMode === 'fh' ? '' : 'none';
-                // 类型 / 名称重置并重渲染
+                // 价格维度仅烽火模式可用（战场/爆破无价格数据）
+                const priceRow = document.getElementById('gun-price-row-mobile');
+                if (priceRow) priceRow.style.display = mobileSchemeCurrentMode === 'fh' ? '' : 'none';
+                // 切换模式后重置筛选条件
                 const typeSel = card.querySelector('[data-filter="type"]');
                 if (typeSel) typeSel.value = 'all';
                 populateMobileSchemeNameOptions();
-                if (priceSel) priceSel.value = 'all';
+                resetMobileFilterChips();
                 renderMobileGunSchemeList();
             }
         });
     });
 
-    // 筛选器
+    // 筛选器（下拉）
     card.querySelectorAll('.gun-scheme-filter-select').forEach(sel => {
         sel.addEventListener('change', function() {
             if (this.dataset.filter === 'type') {
@@ -1990,7 +2123,13 @@ function bindMobileGunSchemeModule() {
         });
     });
 
-    // 首屏渲染
+    // 价格 / 推荐场景快筛（交互与 PC 一致：单选、再点取消）
+    initMobileFilterChips('gun-price-chips-mobile', renderMobileGunSchemeList);
+    initMobileFilterChips('gun-tag-chips-mobile', renderMobileGunSchemeList);
+
+    // 首屏渲染：默认烽火模式，价格快筛可见
+    const priceRowEl = document.getElementById('gun-price-row-mobile');
+    if (priceRowEl) priceRowEl.style.display = mobileSchemeCurrentMode === 'fh' ? '' : 'none';
     populateMobileSchemeNameOptions();
     renderMobileGunSchemeList();
 }
@@ -2688,6 +2827,46 @@ function showShareOptions() {
     showCustomShareModal();
 }
 
+// 爆破海报：填入当日真实数据（与页内爆破日报、战绩列表同源）
+function renderPosterBaopoData() {
+    const DM = window.DemolitionMock;
+    if (!DM) return;
+    const s = DM.getDailySummary(DM.dailyDate);
+    const setText = (id, text) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = text;
+    };
+
+    if (!s.matchCount) {
+        setText('poster-bp-kills', '--');
+        setText('poster-bp-matches', '--');
+        setText('poster-bp-winrate', '--');
+        setText('poster-bp-precision', '--');
+        setText('poster-bp-kd', '--');
+        [3, 4, 5].forEach(tier => setText(`poster-bp-mk${tier}`, '0'));
+        setText('poster-bp-best-map', '暂无对局');
+        setText('poster-bp-best-score', '--');
+        setText('poster-bp-best-kda', '--');
+        return;
+    }
+
+    setText('poster-bp-kills', DM.fmt.number(s.kills));
+    setText('poster-bp-matches', DM.fmt.number(s.matchCount));
+    setText('poster-bp-winrate', DM.fmt.percent(s.winRate));
+    setText('poster-bp-precision', DM.fmt.percent(s.headshotRate));
+    setText('poster-bp-kd', String(s.kd));
+    setText('poster-bp-mk3', String(s.multiKill3 || 0));
+    setText('poster-bp-mk4', String(s.multiKill4 || 0));
+    setText('poster-bp-mk5', String(s.multiKill5 || 0));
+
+    const best = s.bestMatch;
+    if (!best) return;
+    const self = DM.getSelfParticipant(best);
+    setText('poster-bp-best-map', `${best.mapName} · ${best.result === 'victory' ? '胜利' : '失败'}`);
+    setText('poster-bp-best-score', `${best.score.self}:${best.score.enemy}`);
+    setText('poster-bp-best-kda', `${self.kills}/${self.deaths}/${self.assists}`);
+}
+
 // 根据当前日报模式更新海报内容
 function updatePosterByMode() {
     const activeTab = document.querySelector('.report-tab.active');
@@ -2697,6 +2876,7 @@ function updatePosterByMode() {
     const posterReportTitle = document.getElementById('poster-report-title');
     const posterFhData = document.getElementById('poster-fh-data');
     const posterZcData = document.getElementById('poster-zc-data');
+    const posterBpData = document.getElementById('poster-bp-data');
     const posterKeywordTag = document.getElementById('poster-keyword-tag');
     const posterKeywordDesc = document.getElementById('poster-keyword-desc');
 
@@ -2715,22 +2895,26 @@ function updatePosterByMode() {
         if (posterReportTitle) posterReportTitle.textContent = t('gameMode.fenghuoDaily', '烽火日报');
         if (posterFhData) posterFhData.style.display = '';
         if (posterZcData) posterZcData.style.display = 'none';
+        if (posterBpData) posterBpData.style.display = 'none';
         if (posterKeywordTag) posterKeywordTag.textContent = '大红扫荡者';
         if (posterKeywordDesc) posterKeywordDesc.textContent = '昨日带出5件以上红色品质物品';
     } else if (mode === 'bp') {
-        // 爆破模式：海报暂无对应数据区，仅更新标签与关键词（数据区隐藏）
+        // 爆破模式：数据区替换为爆破维度，并填入当日真实数据
         if (posterModeLabel) posterModeLabel.textContent = '爆破模式';
         if (posterReportTitle) posterReportTitle.textContent = '爆破日报';
         if (posterFhData) posterFhData.style.display = 'none';
         if (posterZcData) posterZcData.style.display = 'none';
+        if (posterBpData) posterBpData.style.display = '';
         if (posterKeywordTag) posterKeywordTag.textContent = '包点艺术家';
         if (posterKeywordDesc) posterKeywordDesc.textContent = '单日完成 3 次成功下包';
+        renderPosterBaopoData();
     } else {
         // 全面战场
         if (posterModeLabel) posterModeLabel.textContent = t('gameMode.zhanchang', '全面战场');
         if (posterReportTitle) posterReportTitle.textContent = t('gameMode.zhanchangDaily', '战场日报');
         if (posterFhData) posterFhData.style.display = 'none';
-        if (posterZcData) posterZcData.style.display = '';
+        if (posterZcData) posterZcData.style.display = 'none';
+        if (posterBpData) posterBpData.style.display = 'none';
         if (posterKeywordTag) posterKeywordTag.textContent = '战场霸主';
         if (posterKeywordDesc) posterKeywordDesc.textContent = '单场最高得分超过30,000分';
     }

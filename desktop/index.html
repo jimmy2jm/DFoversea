@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delta Force - Home</title>
-    <link rel="stylesheet" href="main.css?v=61">
+    <link rel="stylesheet" href="main.css?v=71">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <script src="i18n.js" defer></script>
 </head>
@@ -972,18 +972,27 @@
                 </div>
             </div>
 
-            <!-- 爆破模式改枪推荐（默认隐藏，切到爆破日报 Tab 时显示）：流派选择条 + 背包概览卡 -->
+            <!-- 爆破模式改枪推荐（默认隐藏，切到爆破日报 Tab 时显示）：流派选择条 + 流派详情 -->
             <div id="gun-builds-baopo" style="display: none;">
                 <div class="gun-selector bp-home-packs" id="bp-home-pack-tabs"></div>
                 <div class="bp-home-card">
-                    <div class="bp-home-info">
-                        <div class="bp-home-info-name" id="bp-home-pack-name"></div>
-                        <div class="bp-home-info-author" id="bp-home-pack-author"></div>
-                        <div class="bp-home-info-intro" id="bp-home-pack-intro"></div>
-                        <button class="bp-copy-pack-btn bp-home-copy-btn" id="bp-home-copy-pack-btn" type="button">复制背包码</button>
-                        <div class="bp-home-stats" id="bp-home-pack-stats"></div>
+                    <!-- 顶部：左=流派名 → 简介 → KOL 头像昵称；右=查看详情 → 统计 + 复制 -->
+                    <div class="bp-home-head">
+                        <div class="bp-home-head-main">
+                            <div class="bp-home-info-name" id="bp-home-pack-name"></div>
+                            <div class="bp-home-info-intro" id="bp-home-pack-intro"></div>
+                            <div class="bp-home-info-author" id="bp-home-pack-author"></div>
+                        </div>
+                        <div class="bp-home-head-actions">
+                            <a class="bp-home-detail-link" id="bp-home-detail-link" href="gun-plans.html?mode=baopo">查看详情</a>
+                            <div class="bp-home-head-btns">
+                                <div class="bp-home-stats" id="bp-home-pack-stats"></div>
+                                <button class="bp-copy-pack-btn bp-home-copy-btn" id="bp-home-copy-pack-btn" type="button">复制背包码</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="bp-home-grid" id="bp-home-grid"></div>
+                    <!-- 下方：按级别分区的枪械列表 -->
+                    <div class="bp-home-tier-groups" id="bp-home-grid"></div>
                 </div>
                 <div class="bp-home-footnote">积分为爆破局内货币 · 点击枪械查看详情并复制改枪码</div>
             </div>
@@ -2145,6 +2154,74 @@
                                         </div>
                                     </div>
                                 </div>
+                                <!-- ===== 爆破模式内容 ===== -->
+                                <div class="poster-mode-content" id="poster-baopo-data" style="display: none;">
+                                    <!-- 近日战况 -->
+                                    <div class="daily-poster-stats-section">
+                                        <div class="daily-poster-section-header">
+                                            <span class="section-title">近日战况</span>
+                                            <span class="section-date" id="poster-baopo-date">--</span>
+                                        </div>
+                                        <div class="daily-poster-primary-stat">
+                                            <span class="stat-label">总击败</span>
+                                            <span class="stat-value" id="poster-baopo-kills">--</span>
+                                            <span class="stat-unit">人</span>
+                                        </div>
+                                        <div class="daily-poster-secondary-stats">
+                                            <div class="poster-stat-item">
+                                                <span class="poster-stat-number" id="poster-baopo-matches">--</span>
+                                                <span class="poster-stat-name">场数</span>
+                                            </div>
+                                            <div class="poster-stat-item">
+                                                <span class="poster-stat-number" id="poster-baopo-winrate">--</span>
+                                                <span class="poster-stat-name">胜率</span>
+                                            </div>
+                                            <div class="poster-stat-item">
+                                                <span class="poster-stat-number" id="poster-baopo-precision">--</span>
+                                                <span class="poster-stat-name">精准击败率</span>
+                                            </div>
+                                            <div class="poster-stat-item">
+                                                <span class="poster-stat-number" id="poster-baopo-kd">--</span>
+                                                <span class="poster-stat-name">K/D</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 爆破专属区域：多杀记录 + 当日代表对局 -->
+                                    <div class="daily-poster-bottom-row">
+                                        <div class="daily-poster-multikill-section">
+                                            <div class="daily-poster-section-header">
+                                                <span class="section-title">多杀记录</span>
+                                            </div>
+                                            <div class="poster-multikill-grid">
+                                                <div class="poster-multikill-item" data-tier="3">
+                                                    <span class="poster-multikill-badge">三杀</span>
+                                                    <span class="poster-multikill-count"><em id="poster-baopo-mk3">0</em> 次</span>
+                                                </div>
+                                                <div class="poster-multikill-item" data-tier="4">
+                                                    <span class="poster-multikill-badge">四杀</span>
+                                                    <span class="poster-multikill-count"><em id="poster-baopo-mk4">0</em> 次</span>
+                                                </div>
+                                                <div class="poster-multikill-item" data-tier="5">
+                                                    <span class="poster-multikill-badge">五杀</span>
+                                                    <span class="poster-multikill-count"><em id="poster-baopo-mk5">0</em> 次</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="daily-poster-best-section">
+                                            <div class="daily-poster-section-header">
+                                                <span class="section-title">当日代表对局</span>
+                                                <span class="section-date" id="poster-baopo-best-result">--</span>
+                                            </div>
+                                            <div class="poster-best-list">
+                                                <div class="poster-best-item">
+                                                    <span class="poster-best-name" id="poster-baopo-best-map">--</span>
+                                                    <span class="poster-best-stat">比分 <em id="poster-baopo-best-score">--</em></span>
+                                                    <span class="poster-best-stat">K/D/A <em id="poster-baopo-best-kda">--</em></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         
@@ -2290,7 +2367,7 @@
 
     <script src="../shared/gun-detail-mock.js?v=1"></script>
     <script src="../shared/demolition-mock.js?v=2"></script>
-    <script src="main.js?v=35"></script>
+    <script src="main.js?v=41"></script>
     <script src="bookmark-widget.js?v=4" defer></script>
 </body>
 </html>
