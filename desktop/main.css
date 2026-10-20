@@ -4327,6 +4327,19 @@ body {
     margin-bottom: 0.5rem;
 }
 
+/* 爆破海报：击败数旁的 MVP 次数徽章（与日报 MVP 徽章同色） */
+.daily-poster-mvp-badge {
+    align-self: center;
+    margin-left: 0.15rem;
+    padding: 1px 6px;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #031816;
+    background: #f2b84b;
+    white-space: nowrap;
+}
+
 .daily-poster-primary-stat .stat-label {
     font-size: 0.75rem;
     color: var(--text-muted);

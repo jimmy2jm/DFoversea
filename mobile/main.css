@@ -799,6 +799,19 @@ body {
     margin-bottom: 10px;
 }
 
+/* 爆破海报：击败数旁的 MVP 次数徽章 */
+.poster-mvp-badge {
+    align-self: center;
+    margin-left: 2px;
+    padding: 1px 6px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    color: #031816;
+    background: #f2b84b;
+    white-space: nowrap;
+}
+
 .poster-primary-label {
     font-size: 11px;
     color: var(--text-secondary);
@@ -9035,6 +9048,19 @@ body {
     line-height: 1.2;
     color: var(--text-secondary);
     text-align: center;
+}
+
+/* 爆破日报：MVP 次数徽章（落在标题行右侧，与海报、PC 日报同色） */
+.bpr-mvp-badge {
+    margin-left: auto;
+    padding: 1px 7px;
+    font-family: 'Orbitron', monospace;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: #031816;
+    background: #f2b84b;
+    white-space: nowrap;
 }
 
 /* ============================================

@@ -4142,6 +4142,7 @@ function syncPosterBaopoData() {
     if (!summary.matchCount) {
         ['kills', 'matches', 'winrate', 'precision', 'kd'].forEach(key => setText(`poster-baopo-${key}`, '--'));
         [3, 4, 5].forEach(tier => setText(`poster-baopo-mk${tier}`, '0'));
+        setText('poster-baopo-mvp', 'MVP ×0');
         setText('poster-baopo-best-map', '暂无对局记录');
         setText('poster-baopo-best-result', '--');
         setText('poster-baopo-best-score', '--');
@@ -4150,6 +4151,7 @@ function syncPosterBaopoData() {
     }
 
     setText('poster-baopo-kills', DM.fmt.number(summary.kills));
+    setText('poster-baopo-mvp', 'MVP ×' + (summary.mvpCount || 0));
     setText('poster-baopo-matches', DM.fmt.number(summary.matchCount));
     setText('poster-baopo-winrate', DM.fmt.percent(summary.winRate));
     setText('poster-baopo-precision', DM.fmt.percent(summary.headshotRate));

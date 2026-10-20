@@ -2913,6 +2913,7 @@ function renderPosterBaopoData() {
         setText('poster-bp-winrate', '--');
         setText('poster-bp-precision', '--');
         setText('poster-bp-kd', '--');
+        setText('poster-bp-mvp', 'MVP ×0');
         [3, 4, 5].forEach(tier => setText(`poster-bp-mk${tier}`, '0'));
         setText('poster-bp-best-map', '暂无对局');
         setText('poster-bp-best-score', '--');
@@ -2921,6 +2922,7 @@ function renderPosterBaopoData() {
     }
 
     setText('poster-bp-kills', DM.fmt.number(s.kills));
+    setText('poster-bp-mvp', 'MVP ×' + (s.mvpCount || 0));
     setText('poster-bp-matches', DM.fmt.number(s.matchCount));
     setText('poster-bp-winrate', DM.fmt.percent(s.winRate));
     setText('poster-bp-precision', DM.fmt.percent(s.headshotRate));
