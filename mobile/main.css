@@ -888,6 +888,7 @@ body {
 
 .poster-multikill-item {
     flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -895,6 +896,11 @@ body {
     padding: 6px 2px;
     background: rgba(0, 212, 170, 0.04);
     border-radius: 6px;
+}
+
+/* 当日未出现该档次：整卡隐藏，剩余卡片自动均分宽度 */
+.poster-multikill-item.is-hidden {
+    display: none;
 }
 
 .poster-mk-value {

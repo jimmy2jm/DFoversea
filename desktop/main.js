@@ -172,12 +172,12 @@ function renderBaopoDaily() {
         }
     }
 
-    // 多杀记录：当日三杀 / 四杀 / 五杀次数，未出现的档次弱化展示
+    // 多杀记录：当日三杀 / 四杀 / 五杀次数，未出现的档次直接隐藏（不展示「0 次」）
     [[3, summary.multiKill3], [4, summary.multiKill4], [5, summary.multiKill5]].forEach(([tier, count]) => {
         const times = count || 0;
         setText(`baopo-daily-mk${tier}`, String(times));
         const item = root.querySelector(`.baopo-multikill-item[data-tier="${tier}"]`);
-        if (item) item.classList.toggle('is-empty', times === 0);
+        if (item) item.classList.toggle('is-hidden', times === 0);
     });
 
     // 当日代表对局
@@ -4141,7 +4141,10 @@ function syncPosterBaopoData() {
 
     if (!summary.matchCount) {
         ['kills', 'matches', 'winrate', 'precision', 'kd'].forEach(key => setText(`poster-baopo-${key}`, '--'));
-        [3, 4, 5].forEach(tier => setText(`poster-baopo-mk${tier}`, '0'));
+        [3, 4, 5].forEach(tier => {
+            setText(`poster-baopo-mk${tier}`, '0');
+            document.querySelector(`.poster-multikill-item[data-tier="${tier}"]`)?.classList.add('is-hidden');
+        });
         setText('poster-baopo-mvp', 'MVP ×0');
         setText('poster-baopo-best-map', '暂无对局记录');
         setText('poster-baopo-best-result', '--');
@@ -4156,9 +4159,12 @@ function syncPosterBaopoData() {
     setText('poster-baopo-winrate', DM.fmt.percent(summary.winRate));
     setText('poster-baopo-precision', DM.fmt.percent(summary.headshotRate));
     setText('poster-baopo-kd', String(summary.kd));
-    setText('poster-baopo-mk3', String(summary.multiKill3 || 0));
-    setText('poster-baopo-mk4', String(summary.multiKill4 || 0));
-    setText('poster-baopo-mk5', String(summary.multiKill5 || 0));
+    [[3, summary.multiKill3], [4, summary.multiKill4], [5, summary.multiKill5]].forEach(([tier, count]) => {
+        const times = count || 0;
+        setText(`poster-baopo-mk${tier}`, String(times));
+        document.querySelector(`.poster-multikill-item[data-tier="${tier}"]`)
+            ?.classList.toggle('is-hidden', times === 0);
+    });
 
     const best = summary.bestMatch;
     if (!best) return;

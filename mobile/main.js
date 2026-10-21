@@ -2914,7 +2914,10 @@ function renderPosterBaopoData() {
         setText('poster-bp-precision', '--');
         setText('poster-bp-kd', '--');
         setText('poster-bp-mvp', 'MVP ×0');
-        [3, 4, 5].forEach(tier => setText(`poster-bp-mk${tier}`, '0'));
+        [3, 4, 5].forEach(tier => {
+            setText(`poster-bp-mk${tier}`, '0');
+            document.querySelector(`.poster-multikill-item[data-tier="${tier}"]`)?.classList.add('is-hidden');
+        });
         setText('poster-bp-best-map', '暂无对局');
         setText('poster-bp-best-score', '--');
         setText('poster-bp-best-kda', '--');
@@ -2927,9 +2930,12 @@ function renderPosterBaopoData() {
     setText('poster-bp-winrate', DM.fmt.percent(s.winRate));
     setText('poster-bp-precision', DM.fmt.percent(s.headshotRate));
     setText('poster-bp-kd', String(s.kd));
-    setText('poster-bp-mk3', String(s.multiKill3 || 0));
-    setText('poster-bp-mk4', String(s.multiKill4 || 0));
-    setText('poster-bp-mk5', String(s.multiKill5 || 0));
+    [[3, s.multiKill3], [4, s.multiKill4], [5, s.multiKill5]].forEach(([tier, count]) => {
+        const times = count || 0;
+        setText(`poster-bp-mk${tier}`, String(times));
+        document.querySelector(`.poster-multikill-item[data-tier="${tier}"]`)
+            ?.classList.toggle('is-hidden', times === 0);
+    });
 
     const best = s.bestMatch;
     if (!best) return;

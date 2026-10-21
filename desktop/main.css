@@ -4480,6 +4480,7 @@ body {
 
 .poster-multikill-item {
     flex: 1;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -4488,6 +4489,11 @@ body {
     border-radius: 6px;
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* 当日未出现该档次：整卡隐藏，剩余卡片自动均分宽度 */
+.poster-multikill-item.is-hidden {
+    display: none;
 }
 
 .poster-multikill-badge {
@@ -6694,17 +6700,19 @@ body {
     background: rgba(6, 18, 20, 0.55);
 }
 
-/* 爆破日报 - 多杀记录：三杀 / 四杀 / 五杀 徽章 + 当日次数 */
+/* 爆破日报 - 多杀记录：三杀 / 四杀 / 五杀 徽章 + 当日次数
+   用 flex 而非 grid：未出现的档次隐藏后，剩余卡片自动均分宽度 */
 .baopo-multikill-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    display: flex;
+    align-items: stretch;
     gap: 8px;
     padding: 14px 12px 12px;
     flex: 1;
-    align-content: center;
 }
 
 .baopo-multikill-item {
+    flex: 1 1 0;
+    min-width: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6714,7 +6722,12 @@ body {
     border-radius: 0;
     background: rgba(6, 18, 20, 0.66);
     border: 1px solid rgba(42, 72, 78, 0.75);
-    transition: border-color 0.2s ease, opacity 0.2s ease;
+    transition: border-color 0.2s ease;
+}
+
+/* 当日未出现该档次：整卡隐藏，不占位 */
+.baopo-multikill-item.is-hidden {
+    display: none;
 }
 
 .baopo-multikill-item:hover {
@@ -6777,10 +6790,7 @@ body {
     text-shadow: 0 0 12px rgba(242, 184, 75, 0.3);
 }
 
-/* 当日未出现该档次时弱化 */
-.baopo-multikill-item.is-empty {
-    opacity: 0.35;
-}
+
 
 .gun-builds-section,
 .bottom-modules.bottom-modules-v1 .module-card {
